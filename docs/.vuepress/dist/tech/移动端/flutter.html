@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Flutter移动开发（一） | Kun&#39;s Wiki</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="meta的描述内容">
+    
+    <link rel="preload" href="/assets/css/0.styles.35bcedcf.css" as="style"><link rel="preload" href="/assets/js/app.528f3631.js" as="script"><link rel="preload" href="/assets/js/2.619c82a8.js" as="script"><link rel="preload" href="/assets/js/43.67a7ad8b.js" as="script"><link rel="prefetch" href="/assets/js/10.ac7a4de3.js"><link rel="prefetch" href="/assets/js/11.22193742.js"><link rel="prefetch" href="/assets/js/12.6b0d96a8.js"><link rel="prefetch" href="/assets/js/13.bb592c98.js"><link rel="prefetch" href="/assets/js/14.5aadcb22.js"><link rel="prefetch" href="/assets/js/15.78a91f28.js"><link rel="prefetch" href="/assets/js/16.0463299b.js"><link rel="prefetch" href="/assets/js/17.5ade6be6.js"><link rel="prefetch" href="/assets/js/18.ae21993d.js"><link rel="prefetch" href="/assets/js/19.381fa6fe.js"><link rel="prefetch" href="/assets/js/20.5ccce5c5.js"><link rel="prefetch" href="/assets/js/21.cbe0d8e0.js"><link rel="prefetch" href="/assets/js/22.dec488e3.js"><link rel="prefetch" href="/assets/js/23.bd6e325e.js"><link rel="prefetch" href="/assets/js/24.7f63c0c1.js"><link rel="prefetch" href="/assets/js/25.e9d2ca3d.js"><link rel="prefetch" href="/assets/js/26.2ca2fcb2.js"><link rel="prefetch" href="/assets/js/27.9bbd6fb4.js"><link rel="prefetch" href="/assets/js/28.d07f52f0.js"><link rel="prefetch" href="/assets/js/29.69fc0484.js"><link rel="prefetch" href="/assets/js/3.983c5940.js"><link rel="prefetch" href="/assets/js/30.95ebca2d.js"><link rel="prefetch" href="/assets/js/31.0119a78d.js"><link rel="prefetch" href="/assets/js/32.1be9fafc.js"><link rel="prefetch" href="/assets/js/33.463bffa3.js"><link rel="prefetch" href="/assets/js/34.e343d136.js"><link rel="prefetch" href="/assets/js/35.7484c5cf.js"><link rel="prefetch" href="/assets/js/36.5aff1e2a.js"><link rel="prefetch" href="/assets/js/37.d06aba3d.js"><link rel="prefetch" href="/assets/js/38.bf208dc8.js"><link rel="prefetch" href="/assets/js/39.30052380.js"><link rel="prefetch" href="/assets/js/4.2fb93bc2.js"><link rel="prefetch" href="/assets/js/40.08ee34f0.js"><link rel="prefetch" href="/assets/js/41.dcd825b5.js"><link rel="prefetch" href="/assets/js/42.487f0aa8.js"><link rel="prefetch" href="/assets/js/44.357ba709.js"><link rel="prefetch" href="/assets/js/45.a590454b.js"><link rel="prefetch" href="/assets/js/46.e7870e58.js"><link rel="prefetch" href="/assets/js/47.abdb75cf.js"><link rel="prefetch" href="/assets/js/48.0a5ab934.js"><link rel="prefetch" href="/assets/js/49.663acd27.js"><link rel="prefetch" href="/assets/js/5.1474cf9c.js"><link rel="prefetch" href="/assets/js/50.96ef16fe.js"><link rel="prefetch" href="/assets/js/51.e0b76e5e.js"><link rel="prefetch" href="/assets/js/52.a909ae03.js"><link rel="prefetch" href="/assets/js/53.b3e7bb38.js"><link rel="prefetch" href="/assets/js/54.d2a5e7cf.js"><link rel="prefetch" href="/assets/js/55.41bdb3fe.js"><link rel="prefetch" href="/assets/js/56.58b21e41.js"><link rel="prefetch" href="/assets/js/57.c3d18e9a.js"><link rel="prefetch" href="/assets/js/58.dc3e0326.js"><link rel="prefetch" href="/assets/js/59.e2e30a9a.js"><link rel="prefetch" href="/assets/js/6.2958d7f8.js"><link rel="prefetch" href="/assets/js/60.8f5cef73.js"><link rel="prefetch" href="/assets/js/61.cf6b261c.js"><link rel="prefetch" href="/assets/js/62.54bae72d.js"><link rel="prefetch" href="/assets/js/63.8ef19855.js"><link rel="prefetch" href="/assets/js/64.4b33c41d.js"><link rel="prefetch" href="/assets/js/65.24a33653.js"><link rel="prefetch" href="/assets/js/7.4f3f4813.js"><link rel="prefetch" href="/assets/js/8.af6b4dfd.js"><link rel="prefetch" href="/assets/js/9.0ac2d280.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.35bcedcf.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Kun's Wiki</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/about/" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="/tech/" class="nav-link router-link-active">
+  技术
+</a></div><div class="nav-item"><a href="/research/" class="nav-link">
+  科研
+</a></div><div class="nav-item"><a href="/shoot/" class="nav-link">
+  摄影
+</a></div><div class="nav-item"><a href="https://www.github.com/kun8018" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/about/" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="/tech/" class="nav-link router-link-active">
+  技术
+</a></div><div class="nav-item"><a href="/research/" class="nav-link">
+  科研
+</a></div><div class="nav-item"><a href="/shoot/" class="nav-link">
+  摄影
+</a></div><div class="nav-item"><a href="https://www.github.com/kun8018" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Tech</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/tech/" aria-current="page" class="sidebar-link">Blogging Like a Hacker</a></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>Javascript</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>React</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>Vue</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>周边开发技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>数据库相关</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>服务器技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>桌面端开发</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading open"><span>移动端</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/tech/移动端/flutter.html" class="active sidebar-link">Flutter移动开发（一）</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#概述" class="sidebar-link">概述</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#安装" class="sidebar-link">安装</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#windows" class="sidebar-link">Windows</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#修改gradle" class="sidebar-link">修改gradle</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#虚拟机" class="sidebar-link">虚拟机</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#去掉debug标记" class="sidebar-link">去掉debug标记</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#快速生成" class="sidebar-link">快速生成</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#mac-os" class="sidebar-link">mac os</a></li></ul></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#scaffold页面" class="sidebar-link">Scaffold页面</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#顶部appbar" class="sidebar-link">顶部Appbar</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#顶部、中部tab标签页" class="sidebar-link">顶部、中部tab标签页</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#底部tab栏与小图标" class="sidebar-link">底部Tab栏与小图标</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#小拓展-浮动底部导航栏" class="sidebar-link">小拓展：浮动底部导航栏</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#小红点" class="sidebar-link">小红点</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#侧边抽屉栏" class="sidebar-link">侧边抽屉栏</a></li></ul></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#上下抽屉栏" class="sidebar-link">上下抽屉栏</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#轮播图" class="sidebar-link">轮播图</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#网络请求dio库" class="sidebar-link">网络请求dio库</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#可扩展伸缩页头" class="sidebar-link">可扩展伸缩页头</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#手势检测gesturedetector" class="sidebar-link">手势检测GestureDetector</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#弹出框组件" class="sidebar-link">弹出框组件</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#底部弹出栏" class="sidebar-link">底部弹出栏</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#弹出按钮、下拉按钮" class="sidebar-link">弹出按钮、下拉按钮</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#对话框dialog" class="sidebar-link">对话框dialog</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#toast" class="sidebar-link">toast</a></li></ul></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#调用图库及摄像头" class="sidebar-link">调用图库及摄像头</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#发送通知栏" class="sidebar-link">发送通知栏</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#图片与视频" class="sidebar-link">图片与视频</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#读取二维码" class="sidebar-link">读取二维码</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#生成二维码" class="sidebar-link">生成二维码</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#组件" class="sidebar-link">组件</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#各种边框-矩形框、圆角框" class="sidebar-link">各种边框（矩形框、圆角框）</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#列表条" class="sidebar-link">列表条</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#进度条" class="sidebar-link">进度条</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#左右滑动带出按钮" class="sidebar-link">左右滑动带出按钮</a></li></ul></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#常用图标icon" class="sidebar-link">常用图标Icon</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#一键变灰" class="sidebar-link">一键变灰</a></li><li class="sidebar-sub-header"><a href="/tech/移动端/flutter.html#设置app图片和名称-打包发布" class="sidebar-link">设置APP图片和名称 打包发布</a></li></ul></li><li><a href="/tech/移动端/flutter2.html" class="sidebar-link">flutter移动开发（二）</a></li><li><a href="/tech/移动端/flutter3.html" class="sidebar-link">flutter移动开发（三）</a></li><li><a href="/tech/移动端/flutter4.html" class="sidebar-link">flutter移动开发（四）</a></li><li><a href="/tech/移动端/h5.html" class="sidebar-link">微信小程序、H5App开发</a></li><li><a href="/tech/移动端/h52.html" class="sidebar-link">微信小程序、H5App开发</a></li><li><a href="/tech/移动端/swift.html" class="sidebar-link">swift开发</a></li></ul></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>算法</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>静态语言</span> <span class="arrow right"></span></p> <!----></section></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>业余研究</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>关于</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>科学研究</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="概述"><a href="#概述" class="header-anchor">#</a> 概述</h2> <p>跨平台移动开发工具。</p> <p>​       入门安装、模块使用</p> <h3 id="安装"><a href="#安装" class="header-anchor">#</a> 安装</h3> <p>windows和macos都必须先安装java和android studio才能跑flutter 的安卓，macos安装xcode可以写ios程序。</p> <h3 id="windows"><a href="#windows" class="header-anchor">#</a> Windows</h3> <p>​       如果你开发过ReactNative或者Androidstudio，那么恭喜你，你不用在安装Java JDK 和android Studio的配置，虽然Flutter的配置也不简单（Google的东西总是被墙）</p> <div class="language-ndoe line-numbers-mode"><pre class="language-text"><code>set PUB_HOSTED_URL=https://pub.flutter-io.cn //国内用户需要设置
+set FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn //国内用户需要设置
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-node line-numbers-mode"><pre class="language-text"><code>git clone -b beta https://github.com/flutter/flutter.git
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>如果gitclone太慢，可以换成码云上的源，具体方法百度以下</p> <p>配置环境变量</p> <p>手动把flutter/bin目录添加到path变量中。</p> <p>运行</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>flutter doctor
+flutter run
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>或者</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>flutter create [项目名]
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="修改gradle"><a href="#修改gradle" class="header-anchor">#</a> 修改gradle</h3> <p>flutter项目运行时卡在initializing gradle...</p> <p>原因：Gradle编译失败。因为项目的gradle依赖maven仓库在国外，修改依赖源</p> <p>修改项目中<code>android/build.gradle</code>文件：</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>buildscript {
+    repositories {
+        //修改的地方
+        //google()
+        //jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
+}
+
+allprojects {
+    repositories {
+        //修改的地方
+        //google()
+        //jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>修改Flutter的配置文件，该文件在Flutter安装目录下<code>/packages/flutter_tools/gradle/flutter.gradle</code>,</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>buildscript {
+    repositories {
+        //修改的地方
+        //google()
+        //jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>gradle task assembledebug failed with exit code</p> <p>flutter clean</p> <p>Vs Code插件</p> <p>flutter</p> <p>dart</p> <h3 id="虚拟机"><a href="#虚拟机" class="header-anchor">#</a> 虚拟机</h3> <p>安装Android Studio后可以单独在vs code内单独运行</p> <p>热更新</p> <p>默认需要在终端中输入r到代表reload，可以直接在</p> <p>绿色条纹：有属性未加</p> <h3 id="去掉debug标记"><a href="#去掉debug标记" class="header-anchor">#</a> 去掉debug标记</h3> <div class="language-node line-numbers-mode"><pre class="language-text"><code>      debugShowCheckedModeBanner: false,
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="快速生成"><a href="#快速生成" class="header-anchor">#</a> 快速生成</h3> <div class="language-node line-numbers-mode"><pre class="language-text"><code>stlss 	tab
+stful   tab
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><h3 id="mac-os"><a href="#mac-os" class="header-anchor">#</a> mac os</h3> <p>设置环境变量</p> <p>打开模拟器</p> <div class="language-mac line-numbers-mode"><pre class="language-text"><code>open -a Simulator
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>在ios真机上运行</p> <p>使用brew安装工具</p> <div class="language-mac line-numbers-mode"><pre class="language-text"><code>brew install --HEAD usbmuxd
+brew link usbmuxd
+brew install --HEAD libimobiledevice
+brew install ideviceinstaller ios-deploy cocoapods
+pod setup
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>设置xcode</p> <p>即使不使用xcode编辑，ios项目仍然需要通过xcode编译和运行，在xcode上登录apple id</p> <p>xcode签名时，</p> <p>如果遇到自动签名错误：</p> <div class="language-xcode line-numbers-mode"><pre class="language-text"><code>Failed to create provisioning profile
+No profile for '' were found
+Xcode couldn't find any IOS APP Development
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>在xcode-runner-General下修改Bundle Identifier为</p> <div class="language-xcode line-numbers-mode"><pre class="language-text"><code>com.szyh.movieApp
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h2 id="scaffold页面"><a href="#scaffold页面" class="header-anchor">#</a> Scaffold页面</h2> <p>Scaffold是一个页面的骨架，提供顶部Appbar，一个抽屉菜单、一个底部导航等</p> <h3 id="顶部appbar"><a href="#顶部appbar" class="header-anchor">#</a> 顶部Appbar</h3> <p>Appbar有以下属性：</p> <ul><li><p>leading → Widget - 在标题前面显示的一个控件，在首页通常显示应用的 logo；在其他界面通常显示为返回按钮。</p></li> <li><p>title → Widget - Toolbar 中主要内容，通常显示为当前界面的标题文字。</p></li> <li><p>actions → List - 一个 Widget 列表，代表 Toolbar 中所显示的菜单，对于常用的菜单，通常使用 IconButton 来表示；对于不常用的菜单通常使用 PopupMenuButton 来显示为三个点，点击后弹出二级菜单。</p></li> <li><p>bottom → PreferredSizeWidget - 一个 AppBarBottomWidget 对象，通常是 TabBar。用来在 Toolbar 标题下面显示一个 Tab 导航栏。</p></li> <li><p>elevation → double - 控件的 z 坐标顺序，默认值为 4，对于可滚动的 SliverAppBar，当 SliverAppBar 和内容同级的时候，该值为 0， 当内容滚动 SliverAppBar 变为 Toolbar 的时候，修改 elevation 的值。</p></li> <li><p>flexibleSpace → Widget - 一个显示在 AppBar 下方的控件，高度和 AppBar 高度一样，可以实现一些特殊的效果，该属性通常在 SliverAppBar 中使用。</p></li> <li><p>backgroundColor → Color - Appbar 的颜色，默认值为 ThemeData.primaryColor。改值通常和下面的三个属性一起使用。</p></li> <li><p>brightness → Brightness - Appbar 的亮度，有白色和黑色两种主题，默认值为 ThemeData.primaryColorBrightness。</p></li> <li><p>iconTheme → IconThemeData - Appbar 上图标的颜色、透明度、和尺寸信息。默认值为 ThemeData.primaryIconTheme。</p></li> <li><p>textTheme → TextTheme - Appbar 上的文字样式。</p></li> <li><p>centerTitle → bool - 标题是否居中显示，默认值根据不同的操作系统，显示方式不一样。</p></li> <li><p>toolbarOpacity → double</p></li></ul> <div class="language-node line-numbers-mode"><pre class="language-text"><code>appBar: AppBar(
+        title: Text('电影列表'),
+        centerTitle: true,
+        actions: &lt;Widget&gt;[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: (){},
+            )
+        ],
+      ) ,
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>https://www.jianshu.com/p/77f8b7ee8460</p> <p>右侧堆叠菜单设置</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>SelectView(IconData icon, String text, String id) {
+    return new PopupMenuItem&lt;String&gt;(
+        value: id,
+        child: new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: &lt;Widget&gt;[
+                new Icon(icon, color: Colors.blue),
+                new Text(text),
+            ],
+        )
+    );
+}.
+action: &lt;Widget&gt;{
+new PopupMenuButton&lt;String&gt;(
+            itemBuilder: (BuildContext context) =&gt; &lt;PopupMenuItem&lt;String&gt;&gt;[
+                this.SelectView(Icons.message, '发起群聊', 'A'),
+                this.SelectView(Icons.group_add, '添加服务', 'B'),
+                this.SelectView(Icons.cast_connected, '扫一扫码', 'C'),
+            ],
+            onSelected: (String action) {
+                // 点击选项的时候
+                switch (action) {
+                    case 'A': break;
+                    case 'B': break;
+                    case 'C': break;
+                }
+            },)
+         }
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><p>左侧leading图标设置</p> <p>自定义左侧leading图标、大小并连接侧边抽屉</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>leading<span class="token punctuation">:</span> <span class="token function">Builder</span><span class="token punctuation">(</span>
+          builder<span class="token punctuation">:</span> <span class="token punctuation">(</span>BuildContext context<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">IconButton</span><span class="token punctuation">(</span>
+                icon<span class="token punctuation">:</span> <span class="token function">Container</span><span class="token punctuation">(</span>
+                  padding<span class="token punctuation">:</span> EdgeInsets<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token number">3.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                  child<span class="token punctuation">:</span> <span class="token function">CircleAvatar</span><span class="token punctuation">(</span>
+                      radius<span class="token punctuation">:</span> <span class="token number">30.0</span><span class="token punctuation">,</span>
+                      backgroundImage<span class="token punctuation">:</span> <span class="token function">NetworkImage</span><span class="token punctuation">(</span>
+                       <span class="token string">'https://images.gitee.com/uploads/91/465191_vsdeveloper.png?1530762316'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token punctuation">)</span><span class="token punctuation">,</span>
+              onPressed<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+                 Scaffold<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openDrawer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">//_scaffoldKey.currentState.openDrawer();</span>
+               <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+          <span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+leading<span class="token punctuation">:</span> <span class="token function">IconButton</span><span class="token punctuation">(</span>
+                icon<span class="token punctuation">:</span> <span class="token function">Container</span><span class="token punctuation">(</span>
+                  padding<span class="token punctuation">:</span> EdgeInsets<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token number">3.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                  child<span class="token punctuation">:</span> <span class="token function">CircleAvatar</span><span class="token punctuation">(</span>
+                      radius<span class="token punctuation">:</span> <span class="token number">30.0</span><span class="token punctuation">,</span>
+                      backgroundImage<span class="token punctuation">:</span> <span class="token function">NetworkImage</span><span class="token punctuation">(</span>
+                       <span class="token string">'https://images.gitee.com/uploads/91/465191_vsdeveloper.png?1530762316'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                
+              onPressed<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+                <span class="token comment">// Scaffold.of(context).openDrawer();</span>
+                _scaffoldKey<span class="token punctuation">.</span>currentState<span class="token punctuation">.</span><span class="token function">openDrawer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+               <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br></div></div><p>中间title设置搜索框</p> <p>默认是文本，可以自定义为搜索框</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>Widget <span class="token function">buildTextField</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">TextField</span><span class="token punctuation">(</span>
+      decoration<span class="token punctuation">:</span> <span class="token function">InputDecoration</span><span class="token punctuation">(</span>
+          
+          prefixIcon<span class="token punctuation">:</span><span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>search<span class="token punctuation">)</span><span class="token punctuation">,</span>
+          contentPadding<span class="token punctuation">:</span> EdgeInsets<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token number">10.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          border<span class="token punctuation">:</span> <span class="token function">OutlineInputBorder</span><span class="token punctuation">(</span>
+            borderRadius<span class="token punctuation">:</span> BorderRadius<span class="token punctuation">.</span><span class="token function">circular</span><span class="token punctuation">(</span><span class="token number">15.0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token comment">//            borderSide: BorderSide(color: Colors.red, width: 3.0, style: BorderStyle.solid)//没什么卵效果</span>
+          <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+title<span class="token punctuation">:</span> <span class="token function">Container</span><span class="token punctuation">(</span>
+          height<span class="token punctuation">:</span><span class="token number">30</span><span class="token punctuation">,</span>
+          width<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+          child<span class="token punctuation">:</span><span class="token function">buildTextField</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><h3 id="顶部、中部tab标签页"><a href="#顶部、中部tab标签页" class="header-anchor">#</a> 顶部、中部tab标签页</h3> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">class</span> <span class="token class-name">_ScaffoldRouteState</span> <span class="token keyword">extends</span> <span class="token class-name">State</span><span class="token operator">&lt;</span>ScaffoldRoute<span class="token operator">&gt;</span>
+    <span class="token keyword">with</span> SingleTickerProviderStateMixin <span class="token punctuation">{</span>
+  
+  TabController _tabController<span class="token punctuation">;</span> <span class="token comment">//定义一个Controller</span>
+  List tabs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">&quot;新闻&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;历史&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;图片&quot;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token comment">// 在初始化状态中创建Controller  </span>
+  <span class="token metadata symbol">@override</span>
+  <span class="token keyword">void</span> <span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    _tabController <span class="token operator">=</span> <span class="token function">TabController</span><span class="token punctuation">(</span>length<span class="token punctuation">:</span> tabs<span class="token punctuation">.</span>length<span class="token punctuation">,</span> vsync<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token metadata symbol">@override</span>
+  Widget <span class="token function">build</span><span class="token punctuation">(</span>BuildContext context<span class="token punctuation">)</span><span class="token punctuation">{</span>
+     <span class="token keyword">return</span> <span class="token function">Scaffold</span><span class="token punctuation">(</span>
+       appBar<span class="token punctuation">:</span> <span class="token function">AppBar</span><span class="token punctuation">(</span>
+         bottom<span class="token punctuation">:</span> <span class="token function">TabBar</span><span class="token punctuation">(</span>
+            controller<span class="token punctuation">:</span> _tabController<span class="token punctuation">,</span>
+           tabs<span class="token punctuation">:</span> tabs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token function">Tab</span><span class="token punctuation">(</span>text<span class="token punctuation">.</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+       <span class="token punctuation">)</span>
+     <span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><p>提供tabcontroller监听tab栏切换，再使用tabview与tab栏对应</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>_tabController<span class="token punctuation">.</span><span class="token function">addListener</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">switch</span><span class="token punctuation">(</span>_tabController<span class="token punctuation">.</span>index<span class="token punctuation">)</span><span class="token punctuation">{</span>
+      <span class="token keyword">case</span> <span class="token number">1</span><span class="token punctuation">:</span> <span class="token punctuation">;</span>
+      <span class="token keyword">case</span> <span class="token number">2</span><span class="token punctuation">:</span> <span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+  
+<span class="token function">Scaffold</span><span class="token punctuation">(</span>
+   appBar<span class="token punctuation">:</span> <span class="token function">AppBar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+   drawer<span class="token punctuation">:</span> <span class="token function">Drawer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+   body<span class="token punctuation">:</span> <span class="token function">TabBarView</span><span class="token punctuation">(</span>
+    controller<span class="token punctuation">:</span> _tabController<span class="token punctuation">,</span>
+    children<span class="token punctuation">:</span> tabs<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+   <span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h3 id="底部tab栏与小图标"><a href="#底部tab栏与小图标" class="header-anchor">#</a> 底部Tab栏与小图标</h3> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>bottomNavigationBar<span class="token punctuation">:</span> <span class="token function">Container</span><span class="token punctuation">(</span>
+        decoration<span class="token punctuation">:</span> <span class="token function">BoxDecoration</span><span class="token punctuation">(</span>
+          color<span class="token punctuation">:</span>Colors<span class="token punctuation">.</span>black
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        height<span class="token punctuation">:</span> <span class="token number">55</span><span class="token punctuation">,</span>
+        child<span class="token punctuation">:</span> <span class="token function">TabBar</span><span class="token punctuation">(</span>
+          labelStyle<span class="token punctuation">:</span> <span class="token function">TextStyle</span><span class="token punctuation">(</span>height<span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">,</span>fontSize<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          tabs<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+            <span class="token function">Tab</span><span class="token punctuation">(</span>
+              icon<span class="token punctuation">:</span> <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>movie_filter<span class="token punctuation">)</span><span class="token punctuation">,</span>
+              text<span class="token punctuation">:</span> <span class="token string">'热映'</span><span class="token punctuation">,</span>
+              <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token function">Tab</span><span class="token punctuation">(</span>
+            icon<span class="token punctuation">:</span> <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>movie_creation<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            text<span class="token punctuation">:</span> <span class="token string">'即将上映'</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token function">Tab</span><span class="token punctuation">(</span>
+            icon<span class="token punctuation">:</span> <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>local_movies<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            text<span class="token punctuation">:</span> <span class="token string">'前排'</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+          <span class="token punctuation">]</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><h3 id="小拓展-浮动底部导航栏"><a href="#小拓展-浮动底部导航栏" class="header-anchor">#</a> 小拓展：浮动底部导航栏</h3> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+  curved_navigation_bar<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">0.3</span><span class="token number">.1</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:curved_navigation_bar/curved_navigation_bar.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><div class="language-dart line-numbers-mode"><pre class="language-dart"><code>bottomNavigationBar<span class="token punctuation">:</span> <span class="token function">CurvedNavigationBar</span><span class="token punctuation">(</span>
+    backgroundColor<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>blueAccent<span class="token punctuation">,</span>
+    items<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+      <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>add<span class="token punctuation">,</span> size<span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>list<span class="token punctuation">,</span> size<span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>compare_arrows<span class="token punctuation">,</span> size<span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    onTap<span class="token punctuation">:</span> <span class="token punctuation">(</span>index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//Handle button tap</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">,</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>https://juejin.im/post/5dc0c52df265da4d5609129e</p> <h3 id="小红点"><a href="#小红点" class="header-anchor">#</a> 小红点</h3> <div class="language-flutter line-numbers-mode"><pre class="language-text"><code>dependencies:
+  badges: ^1.1.1
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-flutter line-numbers-mode"><pre class="language-text"><code>import 'package:badges/badges.dart';
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><div class="language-flutter line-numbers-mode"><pre class="language-text"><code>Badge(
+    badgeContent: Text('3'),
+    child: Icon(Icons.settings),
+)
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>https://pub.dev/packages/badges</p> <h3 id="侧边抽屉栏"><a href="#侧边抽屉栏" class="header-anchor">#</a> 侧边抽屉栏</h3> <p>drawer是左抽屉栏，endDrawer是右抽屉栏</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>drawer<span class="token punctuation">:</span> <span class="token function">Drawer</span><span class="token punctuation">(</span>
+        child<span class="token punctuation">:</span> <span class="token function">ListView</span><span class="token punctuation">(</span>
+          padding<span class="token punctuation">:</span> EdgeInsets<span class="token punctuation">.</span><span class="token function">all</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          children<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+            <span class="token function">UserAccountsDrawerHeader</span><span class="token punctuation">(</span>
+              accountEmail<span class="token punctuation">:</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'1027690173@qq.com'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              accountName<span class="token punctuation">:</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'张三'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+              currentAccountPicture<span class="token punctuation">:</span> <span class="token function">CircleAvatar</span><span class="token punctuation">(</span>
+                backgroundImage<span class="token punctuation">:</span><span class="token function">NetworkImage</span><span class="token punctuation">(</span>
+                <span class="token string">'https://images.gitee.com/uploads/91/465191_vsdeveloper.png?1530762316'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//头像</span>
+              <span class="token punctuation">)</span><span class="token punctuation">,</span>
+              decoration<span class="token punctuation">:</span><span class="token function">BoxDecoration</span><span class="token punctuation">(</span>
+                image<span class="token punctuation">:</span> <span class="token function">DecorationImage</span><span class="token punctuation">(</span>
+                  fit<span class="token punctuation">:</span>BoxFit<span class="token punctuation">.</span>cover<span class="token punctuation">,</span>
+                  image<span class="token punctuation">:</span><span class="token function">NetworkImage</span><span class="token punctuation">(</span>
+                <span class="token string">'http://www.liulongbin.top:3005/images/bg1.jpg'</span> <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              <span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//背景图片</span>
+              <span class="token function">ListTile</span><span class="token punctuation">(</span>title<span class="token punctuation">:</span><span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'用户反馈'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>trailing<span class="token punctuation">:</span> <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>feedback<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              <span class="token function">ListTile</span><span class="token punctuation">(</span>title<span class="token punctuation">:</span><span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'系统设置'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>trailing<span class="token punctuation">:</span> <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>settings<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              <span class="token function">ListTile</span><span class="token punctuation">(</span>title<span class="token punctuation">:</span><span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'我要发布'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>trailing<span class="token punctuation">:</span> <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>send<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+              <span class="token function">ListTile</span><span class="token punctuation">(</span>title<span class="token punctuation">:</span><span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'注销'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>trailing<span class="token punctuation">:</span> <span class="token function">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>exit_to_app<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
+
+          <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><h2 id="上下抽屉栏"><a href="#上下抽屉栏" class="header-anchor">#</a> 上下抽屉栏</h2> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+  sliding_up_panel<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">1.0</span><span class="token number">.1</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:sliding_up_panel/sliding_up_panel.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>基本使用</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>body<span class="token punctuation">:</span><span class="token function">SlidingUpPanel</span><span class="token punctuation">(</span>
+        panel<span class="token punctuation">:</span> <span class="token function">Center</span><span class="token punctuation">(</span>
+          child<span class="token punctuation">:</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">&quot;这里是抽屉区&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        body<span class="token punctuation">:</span> <span class="token function">Center</span><span class="token punctuation">(</span>
+          child<span class="token punctuation">:</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">&quot;这么是页面区&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>更多属性</p> <table><thead><tr><th><code>panel</code></th> <th style="text-align:left;">(必需）滑入视图的小部件。当panel折叠且如果collapsed为null时，将显示此Widget的顶部；否则，collapsed将显示在此小部件的顶部。</th></tr></thead> <tbody><tr><td><code>minHeight</code></td> <td style="text-align:left;">完全折叠时滑动面板的高度。</td></tr> <tr><td><code>maxHeight</code></td> <td style="text-align:left;">完全打开时滑动面板的高度。</td></tr> <tr><td><code>panelSnapping</code></td> <td style="text-align:left;">设置为false可禁用面板快速打开或关闭。</td></tr> <tr><td></td> <td style="text-align:left;"></td></tr> <tr><td></td> <td style="text-align:left;"></td></tr></tbody></table> <h2 id="轮播图"><a href="#轮播图" class="header-anchor">#</a> 轮播图</h2> <p>安装包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+  flutter_swiper<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">1.1</span><span class="token number">.6</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>引入包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:flutter_swiper/flutter_swiper.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>示例</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> imgs<span class="token operator">=</span><span class="token punctuation">[</span>
+    <span class="token string">'http://www.liulongbin.top:3005/images/bg1.jpg'</span><span class="token punctuation">,</span>
+    <span class="token string">'http://www.liulongbin.top:3005/images/bg1.jpg'</span><span class="token punctuation">,</span>
+    <span class="token string">'http://www.liulongbin.top:3005/images/bg1.jpg'</span><span class="token punctuation">,</span>
+    <span class="token string">'http://www.liulongbin.top:3005/images/bg1.jpg'</span>
+     <span class="token punctuation">]</span><span class="token punctuation">;</span>
+     
+ <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+  <span class="token function">Container</span><span class="token punctuation">(</span>
+      height<span class="token punctuation">:</span><span class="token number">250</span><span class="token punctuation">,</span>
+      child<span class="token punctuation">:</span><span class="token keyword">new</span> <span class="token class-name">Swiper</span><span class="token punctuation">(</span>
+          itemBuilder<span class="token punctuation">:</span> <span class="token punctuation">(</span>BuildContext context<span class="token punctuation">,</span>int index<span class="token punctuation">)</span><span class="token punctuation">{</span>
+          <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Image<span class="token punctuation">.</span>network</span><span class="token punctuation">(</span>imgs<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">,</span>fit<span class="token punctuation">:</span> BoxFit<span class="token punctuation">.</span>cover<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      itemCount<span class="token punctuation">:</span> imgs<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
+      pagination<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">SwiperPagination</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//如果不填则不显示指示点</span>
+      control<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">SwiperControl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//如果不填则不显示左右按钮</span>
+      loop<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      autoplay<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+ <span class="token punctuation">]</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><p>https://pub.dev/packages/carousel_slider</p> <h2 id="网络请求dio库"><a href="#网络请求dio库" class="header-anchor">#</a> 网络请求dio库</h2> <p>使用前确保手机或者虚拟机可以访问网络、并且程序具有访问网络的权限</p> <p>引入第三方包dio</p> <p>在GitHub上找到最新的版本，在<code>pubspec.yaml</code>中引入</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+  flutter<span class="token punctuation">:</span>
+    
+  dio<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">3.0</span><span class="token number">.9</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>在文件中引入</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:dio/dio.dart'</span><span class="token punctuation">;</span>
+
+<span class="token comment">//get方法</span>
+<span class="token function">getMovieList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+
+    int offset <span class="token operator">=</span> <span class="token punctuation">(</span>page<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span> pagesize <span class="token punctuation">;</span>
+
+    <span class="token keyword">var</span> response <span class="token operator">=</span> <span class="token keyword">await</span> dio<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'http://www.liulongbin.top:3005/api/v2/movie/${widget.mt}?start=$offset&amp;count=$pagesize'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">var</span> result<span class="token operator">=</span> response<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+
+    <span class="token comment">// print(result);</span>
+    
+    <span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      mlist <span class="token operator">=</span> result<span class="token punctuation">[</span><span class="token string">'subjects'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      total <span class="token operator">=</span> result<span class="token punctuation">[</span><span class="token string">'total'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>json序列化</p> <p>在 Flutter 中，json 序列化是有些特殊的。不同与 JS ，比如使用上述 Dio 网络请求返回，如果配置了返回数据格式为 <strong>json</strong> ，实际上的到会是一个Map。而 Map 的 key-value 使用，在开发过程中并不是很方便，所以你需要对Map 再进行一次转化，转为实际的 Model 实体。</p> <p>引入插件</p> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">dependencies</span><span class="token punctuation">:</span>
+  <span class="token comment"># Your other regular dependencies here</span>
+  <span class="token key atrule">json_annotation</span><span class="token punctuation">:</span> ^0.2.2
+
+<span class="token key atrule">dev_dependencies</span><span class="token punctuation">:</span>
+  <span class="token comment"># Your other dev_dependencies here</span>
+  <span class="token key atrule">build_runner</span><span class="token punctuation">:</span> ^0.7.6
+  <span class="token key atrule">json_serializable</span><span class="token punctuation">:</span> ^0.3.2
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="可扩展伸缩页头"><a href="#可扩展伸缩页头" class="header-anchor">#</a> 可扩展伸缩页头</h2> <h2 id="手势检测gesturedetector"><a href="#手势检测gesturedetector" class="header-anchor">#</a> 手势检测GestureDetector</h2> <p>基本手势定义</p> <p>点击（一次）：</p> <ul><li>onTapDown ：点击屏幕立即触发此方法。</li> <li>onTapUp ：手指离开屏幕。</li> <li>onTap ：点击屏幕。</li> <li>onTapCancel：此次点击事件结束，onTapDown不会在产生点击事件。</li></ul> <p>双击：</p> <ul><li>onDoubleTap ：用户快速连续两次在同一位置点击屏幕。</li></ul> <p>长按：</p> <ul><li>onLongPress ：长时间保持与相同位置的屏幕接触</li></ul> <p>垂直拖动：</p> <ul><li>onVerticalDragStart： 与接触屏幕，可能会开始垂直移动。</li> <li>onVerticalDragUpdate：与屏幕接触并垂直移动的指针在垂直方向上移动</li> <li>onVerticalDragEnd ：之前与屏幕接触并垂直移动的指针不再与屏幕接触，并且在停止接触屏幕时以特定速度移动</li></ul> <p>水平拖动：</p> <ul><li>onHorizontalDragStart ：与接触屏幕，可能开始水平移动</li> <li>onVerticalDragUpdate：与屏幕接触并水平移动的指针在水平方向上移动</li> <li>onVerticalDragEnd ：先前与屏幕接触并且水平移动的指针不再与屏幕接触，并且当它停止接触屏幕时以特定速度移动</li></ul> <p>https://www.jianshu.com/p/90c82f764d01
+使用方法：</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code> Widget build(BuildContext context) {
+    return new GestureDetector(
+    )
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><h2 id="弹出框组件"><a href="#弹出框组件" class="header-anchor">#</a> 弹出框组件</h2> <p>弹出栏属于弹出组件的一种，主流的app反馈形式有三种，toast、snackbar和dialog。toast弹出一段时间就会消失，提示用户一些不太重要的信息，flutter内部有几种弹出组件</p> <h3 id="底部弹出栏"><a href="#底部弹出栏" class="header-anchor">#</a> 底部弹出栏</h3> <p>从底部弹出，<code>BottomSheet</code> - 为全屏弹出弹窗，showModalBottomSheet为半屏弹出窗口</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>onPressed<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                  <span class="token function">showModalBottomSheet</span><span class="token punctuation">(</span>
+                        context<span class="token punctuation">:</span> context<span class="token punctuation">,</span>
+                        builder<span class="token punctuation">:</span> <span class="token punctuation">(</span>BuildContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                          <span class="token keyword">return</span> <span class="token function">Column</span><span class="token punctuation">(</span>
+                            mainAxisSize<span class="token punctuation">:</span> MainAxisSize<span class="token punctuation">.</span>min<span class="token punctuation">,</span> <span class="token comment">// 设置最小的弹出</span>
+                            children<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+                              <span class="token keyword">new</span> <span class="token class-name">ListTile</span><span class="token punctuation">(</span>
+                                leading<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>photo_camera<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                title<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">&quot;Camera&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                onTap<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+                                 <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                                 <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                              <span class="token keyword">new</span> <span class="token class-name">ListTile</span><span class="token punctuation">(</span>
+                                leading<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>photo_library<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                title<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">&quot;Gallery&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                                onTap<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+                                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+                              <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+                          <span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">}</span>
+                      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br></div></div><h3 id="弹出按钮、下拉按钮"><a href="#弹出按钮、下拉按钮" class="header-anchor">#</a> 弹出按钮、下拉按钮</h3> <p><code>DropdownButton</code> - 下拉菜单按钮</p> <p><code>PopupMenuButton</code> - pop 按钮</p> <h3 id="对话框dialog"><a href="#对话框dialog" class="header-anchor">#</a> 对话框dialog</h3> <p>flutter要求开发者通过showDialog(context,child)来唤起不同类型的dialog显示，context为上下文参数，child为要显示的对话框，alterdialog、Simpledialog、aboutdialog、bottomSheetdialog等都需要借助showDialog唤起，</p> <p>Simpledialog只需要传入title和child就可以使用，child为任意widget</p> <p>Alertdialog是对Simpledialog的封装，新加了action操作，aboutdialog同理</p> <p>方法：</p> <p>showDialog：弹出material风格对话框</p> <p>showCupertinoDialog：弹出IOS风格对话框</p> <p>showGeneralDialog：弹出自定义对话框</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token function">showDialog</span><span class="token punctuation">(</span>
+context<span class="token punctuation">:</span>context<span class="token punctuation">,</span>
+    builder<span class="token punctuation">:</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">&gt;</span>AlertDialog<span class="token punctuation">{</span>
+        title<span class="token punctuation">:</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'dialog'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        content<span class="token punctuation">:</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">'Dialog content..'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        action<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+            <span class="token keyword">new</span> <span class="token class-name">FlatButton</span><span class="token punctuation">(</span>
+              child<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">'取消'</span><span class="token punctuation">)</span>，
+              onPressed<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                  Navigator<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">new</span> <span class="token class-name">FlatButton</span><span class="token punctuation">(</span>
+              child<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">'取消'</span><span class="token punctuation">)</span>，
+              onPressed<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                  Navigator<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br></div></div><h3 id="toast"><a href="#toast" class="header-anchor">#</a> toast</h3> <p>Flutter 没有内置 Toast，所有的 Toast 方案都是以外置插件的方式导进来使用的，这里多介绍几个</p> <p><code>OKToast</code> - 最好的 Toast 插件，功能非常完善，推荐使用</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+    oktoast<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">2.2</span><span class="token number">.0</span> 
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>引入</p> <p><code>fluttertoast</code></p> <p>安装</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>fluttertoast<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">4.0</span><span class="token number">.1</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>引入</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:fluttertoast/fluttertoast'</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>实例：</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>Fluttertoast<span class="token punctuation">.</span><span class="token function">showToast</span><span class="token punctuation">(</span>
+          msg<span class="token punctuation">:</span><span class="token string">&quot;好看&quot;</span><span class="token punctuation">;</span>
+          toastlength<span class="token punctuation">:</span>
+          timeInSecForIosWeb<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">;</span>
+          backgroundColor<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>black45<span class="token punctuation">,</span>
+          textColor<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>white<span class="token punctuation">,</span>
+          fontSize<span class="token punctuation">:</span> <span class="token number">16.0</span>
+             <span class="token punctuation">)</span><span class="token punctuation">;</span>
+Fluttertoast<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//主动取消提示框</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>https://juejin.im/post/5dc3c22e5188252b10380818#heading-2</p> <h2 id="调用图库及摄像头"><a href="#调用图库及摄像头" class="header-anchor">#</a> 调用图库及摄像头</h2> <p>安装包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>image_picker<span class="token punctuation">:</span> <span class="token number">0.6</span><span class="token number">.4</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>导入</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:image_picker/image_picker.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>实例</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">void</span> <span class="token function">choosePic</span><span class="token punctuation">(</span>source<span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 得到选取的照片</span>
+  <span class="token keyword">var</span> image <span class="token operator">=</span> <span class="token keyword">await</span> ImagePicker<span class="token punctuation">.</span><span class="token function">pickImage</span><span class="token punctuation">(</span>source<span class="token punctuation">:</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 如果选取的照片为空，则不执行后续人脸检测的业务逻辑</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>image <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+onPressed<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">choosePic</span><span class="token punctuation">(</span>ImageSource<span class="token punctuation">.</span>camera<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+onPressed<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">choosePic</span><span class="token punctuation">(</span>ImageSource<span class="token punctuation">.</span>gallery<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div><h2 id="发送通知栏"><a href="#发送通知栏" class="header-anchor">#</a> 发送通知栏</h2> <p>安装插件</p> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">dependencies</span><span class="token punctuation">:</span>
+  <span class="token key atrule">flutter_local_notifications</span><span class="token punctuation">:</span> ^0.4.4+2
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>导入包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:flutter_local_notifications/flutter_local_notifications.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h2 id="图片与视频"><a href="#图片与视频" class="header-anchor">#</a> 图片与视频</h2> <p>与node包类似，flutter也有类似的包管理工具，官网地址是https://pub.dev/flutter/packages，可以根据功能在上面搜索需要的包</p> <p>chewie</p> <p>video-player</p> <p>video-player实现对视频播放的底层访问，chewie对video-player进行封装，提供友好的控制UI</p> <p>安装包</p> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">dependencies</span><span class="token punctuation">:</span>
+        <span class="token key atrule">chewie</span><span class="token punctuation">:</span> ^0.9.8+1
+        <span class="token key atrule">video-player</span><span class="token punctuation">:</span> ^0.10.2+5
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>引入包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>实例</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">class</span> <span class="token class-name">_ChewiewVideoWideget</span> <span class="token keyword">extends</span> <span class="token class-name">State</span><span class="token operator">&lt;</span>ChewieVideoWidget<span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+    VideoPlayerController _videoPlayerController<span class="token punctuation">;</span>
+    ChewieController _chewieController<span class="token punctuation">;</span>
+    <span class="token keyword">final</span> String playUrl<span class="token punctuation">;</span>
+  
+    <span class="token comment">//初始化</span>
+    <span class="token metadata symbol">@override</span>
+    <span class="token keyword">void</span> <span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">initState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _videoPlayerController <span class="token operator">=</span> VideoPlayerController<span class="token punctuation">.</span><span class="token function">network</span><span class="token punctuation">(</span>widget<span class="token punctuation">.</span>playUrl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _chewieController <span class="token operator">=</span> <span class="token function">ChewieController</span><span class="token punctuation">(</span>
+            videoPlayerController<span class="token punctuation">:</span> _videoPlayerController<span class="token punctuation">,</span>
+            autoPlay<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+          <span class="token comment">//aspectRatio: 3 / 2.0,</span>
+          <span class="token comment">//customControls: CustomControls(),</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token metadata symbol">@override</span>
+    <span class="token keyword">void</span> <span class="token function">dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      _videoPlayerController<span class="token punctuation">.</span><span class="token function">dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      _chewieController<span class="token punctuation">.</span><span class="token function">dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token metadata symbol">@override</span>
+    Widget <span class="token function">build</span><span class="token punctuation">(</span>BuildContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">Container</span><span class="token punctuation">(</span>
+        child<span class="token punctuation">:</span> <span class="token function">Chewie</span><span class="token punctuation">(</span>controller<span class="token punctuation">:</span> _chewieController<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br></div></div><p>如果不能播放，需要在AndroidManifest.xml中配置</p> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>application</span>
+        <span class="token attr-name"><span class="token namespace">android:</span>name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>io.flutter.app.FlutterApplication<span class="token punctuation">&quot;</span></span>
+        <span class="token attr-name"><span class="token namespace">android:</span>label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>flutter_sample<span class="token punctuation">&quot;</span></span>
+        <span class="token attr-name"><span class="token namespace">android:</span>usesCleartextTraffic</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span>
+        <span class="token attr-name"><span class="token namespace">tools:</span>targetApi</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>m<span class="token punctuation">&quot;</span></span>
+        <span class="token attr-name"><span class="token namespace">android:</span>icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>@mipmap/ic<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h2 id="读取二维码"><a href="#读取二维码" class="header-anchor">#</a> 读取二维码</h2> <p>bancode</p> <p>安装包</p> <div class="language-flutter line-numbers-mode"><pre class="language-text"><code>dependencies:
+  qrcode_reader: ^0.4.4
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>引入包</p> <div class="language-flutter line-numbers-mode"><pre class="language-text"><code>import 'package:qrcode_reader/qrcode_reader.dart';
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>实例</p> <div class="language-flutter line-numbers-mode"><pre class="language-text"><code>Future&lt;String&gt; futureString = new QRCodeReader()
+               .setAutoFocusIntervalInMs(200) // default 5000
+               .setForceAutoFocus(true) // default false
+               .setTorchEnabled(true) // default false
+               .setHandlePermissions(true) // default true
+               .setExecuteAfterPermissionGranted(true) // default true
+               .scan();
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><h2 id="生成二维码"><a href="#生成二维码" class="header-anchor">#</a> 生成二维码</h2> <p>生成带图片的二维码</p> <p>安装包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+     qr_flutter<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">3.0</span><span class="token number">.1</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>引入包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:qr_flutter/qr_flutter.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>实例</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token function">Center</span><span class="token punctuation">(</span>
+    child<span class="token punctuation">:</span> <span class="token function">QrImage</span><span class="token punctuation">(</span>
+       data<span class="token punctuation">:</span><span class="token string">'这是二维码的内容'</span>
+        size<span class="token punctuation">:</span><span class="token number">200</span><span class="token punctuation">,</span>
+        embeddedImage<span class="token punctuation">:</span> <span class="token function">NetworkImage</span><span class="token punctuation">(</span><span class="token string">'https:'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        embeddedImageStyle<span class="token punctuation">:</span> <span class="token function">QrEmbeddedImageStyle</span><span class="token punctuation">(</span>
+          size<span class="token punctuation">:</span> <span class="token function">Size</span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">,</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">,</span>    
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h2 id="组件"><a href="#组件" class="header-anchor">#</a> 组件</h2> <h3 id="各种边框-矩形框、圆角框"><a href="#各种边框-矩形框、圆角框" class="header-anchor">#</a> 各种边框（矩形框、圆角框）</h3> <p>https://blog.csdn.net/zl18603543572/article/details/95641481</p> <h3 id="列表条"><a href="#列表条" class="header-anchor">#</a> 列表条</h3> <p>ListTile</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token function">ListTile</span><span class="token punctuation">(</span>
+    leading<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>cake<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//内侧左侧图标</span>
+    title<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">'标题'</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//标题栏</span>
+    subtitle<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Row</span><span class="token punctuation">(</span>
+        children<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">'副标题'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token keyword">new</span> <span class="token class-name">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>person<span class="token punctuation">)</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//副标题栏</span>
+    trailing<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>save<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//内侧尾部图标</span>
+    onTap<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//点击事件</span>
+<span class="token punctuation">)</span><span class="token punctuation">,</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h3 id="进度条"><a href="#进度条" class="header-anchor">#</a> 进度条</h3> <p>安装包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+  percent_indicator<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">2.1</span><span class="token number">.1</span><span class="token operator">+</span><span class="token number">1</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>引入包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:percent_indicator/percent_indicator.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>引用比较简单，不在这里放例程了，官方地址：https://pub.dev/packages/percent_indicator</p> <h3 id="左右滑动带出按钮"><a href="#左右滑动带出按钮" class="header-anchor">#</a> 左右滑动带出按钮</h3> <p>安装包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>dependencies<span class="token punctuation">:</span>
+  flutter_slidable<span class="token punctuation">:</span> <span class="token operator">^</span><span class="token number">0.5</span><span class="token number">.4</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>引入包</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token keyword">import</span> <span class="token string">'package:flutter_slidable/flutter_slidable.dart'</span><span class="token punctuation">;</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>实例</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token function">ListView</span><span class="token punctuation">(</span>
+    children<span class="token punctuation">:</span><span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span>
+        <span class="token function">Slidable</span><span class="token punctuation">(</span>
+            actionPane<span class="token punctuation">:</span> <span class="token function">SlidableScrollActionPane</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token comment">//滑出选项的面板 动画</span>
+            actionExtentRatio<span class="token punctuation">:</span> <span class="token number">0.25</span><span class="token punctuation">,</span>
+            child<span class="token punctuation">:</span> <span class="token function">ListTile</span><span class="token punctuation">(</span>
+                leading<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>cake<span class="token punctuation">)</span><span class="token punctuation">,</span>
+                title<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Text</span><span class="token punctuation">(</span><span class="token string">'标题'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                subtitle<span class="token punctuation">:</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'data'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                trailing<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Icon</span><span class="token punctuation">(</span>Icons<span class="token punctuation">.</span>save<span class="token punctuation">)</span><span class="token punctuation">,</span>
+             <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            actions<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span><span class="token comment">//左侧按钮列表</span>
+                <span class="token function">IconSlideAction</span><span class="token punctuation">(</span>
+                    caption<span class="token punctuation">:</span> <span class="token string">'Archive'</span><span class="token punctuation">,</span>
+                    color<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>blue<span class="token punctuation">,</span>
+                    icon<span class="token punctuation">:</span> Icons<span class="token punctuation">.</span>archive<span class="token punctuation">,</span>
+                    onTap<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token function">IconSlideAction</span><span class="token punctuation">(</span>
+                    caption<span class="token punctuation">:</span> <span class="token string">'Share'</span><span class="token punctuation">,</span>
+                    color<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>indigo<span class="token punctuation">,</span>
+                    icon<span class="token punctuation">:</span> Icons<span class="token punctuation">.</span>share<span class="token punctuation">,</span>
+                    onTap<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+            secondaryActions<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">&gt;</span><span class="token punctuation">[</span><span class="token comment">//右侧按钮列表</span>
+                <span class="token function">IconSlideAction</span><span class="token punctuation">(</span>
+                    caption<span class="token punctuation">:</span> <span class="token string">'更多'</span><span class="token punctuation">,</span>
+                    color<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>black45<span class="token punctuation">,</span>
+                    icon<span class="token punctuation">:</span> Icons<span class="token punctuation">.</span>more_horiz<span class="token punctuation">,</span>
+                    onTap<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token function">IconSlideAction</span><span class="token punctuation">(</span>
+                    caption<span class="token punctuation">:</span> <span class="token string">'删除'</span><span class="token punctuation">,</span>
+                    color<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>red<span class="token punctuation">,</span>
+                    icon<span class="token punctuation">:</span> Icons<span class="token punctuation">.</span>delete<span class="token punctuation">,</span>
+                    closeOnTap<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+                    <span class="token comment">// onTap: (){_showSnackBar('Delete');},</span>
+                    onTap<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+                <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br></div></div><h2 id="常用图标icon"><a href="#常用图标icon" class="header-anchor">#</a> 常用图标Icon</h2> <div class="language-node line-numbers-mode"><pre class="language-text"><code>actions: &lt;Widget&gt;[ 
+Icon(Icons.cancel)//取消--叉号
+Icon(Icons.save),//保存
+icon: Icons.more_horiz,//更多--横向三个点
+icon: Icons.archive,//下载、存档
+Icon(Icons.share)//分享
+Icon(Icons.photo_camera)//照相机
+Icon(Icons.photo_library)//图库
+icon: Icon(Icons.mail_outline),//邮箱
+onPressed: _onClickNotification,
+Icon(Icons.menu),//
+icon-addr//地址
+Icon(Icons.home),//首页
+Icons.message, '发起群聊',
+Icons.group_add, '添加服务',
+Icons.cast_connected, '扫一扫码',
+Icon(Icons.feedback)//评论、反馈
+Icon(Icons.send)//发送信息
+Icon(Icons.exit_to_app)//退出
+Icon(Icons.menu)//三条杠--菜单
+icon: Icons.delete,//删除
+//购物车
+  IconButton(
+    icon: Icon(Icons.shopping_cart),
+    tooltip: 'Open shopping cart',
+    onPressed: () {       
+      // handle the press   
+      },    
+  ),   
+//设置
+  IconButton(      
+    icon: Icon(Icons.settings),      
+    
+    tooltip: 'Open settings',      
+    onPressed: () {     
+          // handle the press   
+    },    
+  ), 
+//搜索
+  IconButton(
+    icon: Icon(Icons.search),
+    onPressed: (){
+    },
+  ),
+//
+],
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br></div></div><div class="language-dart line-numbers-mode"><pre class="language-dart"><code><span class="token comment">//Icon属性</span>
+<span class="token function">Icon</span><span class="token punctuation">(</span>
+      Icons<span class="token punctuation">.</span>access_alarm<span class="token punctuation">,</span><span class="token comment">//设置使用哪种图标</span>
+      size<span class="token punctuation">:</span> <span class="token number">300</span><span class="token punctuation">,</span><span class="token comment">//设置图标大小</span>
+      color<span class="token punctuation">:</span> Colors<span class="token punctuation">.</span>yellow<span class="token punctuation">,</span><span class="token comment">//设置图标颜色</span>
+      textDirection<span class="token punctuation">:</span>TextDirection<span class="token punctuation">.</span>rtl <span class="token punctuation">,</span><span class="token comment">//设置用于渲染图标的文本方向</span>
+      semanticLabel<span class="token punctuation">:</span> <span class="token string">&quot;语义标签&quot;</span><span class="token punctuation">,</span><span class="token comment">//设置用于渲染图标的文本方向</span>
+    <span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><h2 id="一键变灰"><a href="#一键变灰" class="header-anchor">#</a> 一键变灰</h2> <p>在main.dart里添加</p> <div class="language-dart line-numbers-mode"><pre class="language-dart"><code>  <span class="token function">runApp</span><span class="token punctuation">(</span>
+    <span class="token function">ColorFiltered</span><span class="token punctuation">(</span>
+        colorFilter<span class="token punctuation">:</span> ColorFilter<span class="token punctuation">.</span><span class="token function">mode</span><span class="token punctuation">(</span>Colors<span class="token punctuation">.</span>white<span class="token punctuation">,</span> BlendMode<span class="token punctuation">.</span>color<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        child<span class="token punctuation">:</span> <span class="token function">FlutterApp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>启动或取消一键变灰需要重启进程</p> <h2 id="设置app图片和名称-打包发布"><a href="#设置app图片和名称-打包发布" class="header-anchor">#</a> 设置APP图片和名称 打包发布</h2> <p>修改名称和图标logo</p> <p>flutter默认会以项目名为app名，flutter图标为app图标，可以修改成自定义。</p> <p>安卓端</p> <p>在<code>/android/app/src/main</code>目录中的<code>AndroidManifest.xml</code> 文件中指定logo文件位置，</p> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code>&lt;appication
+      android:label=&quot;ac_flutter&quot;//应用名
+			android:icon=&quot;@mipmap/icon_logo&quot;&gt;//logo文件
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appication</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>安卓端logo默认文件在<code>/res/mipmap-hdpi</code>中</p> <p>iOS端</p> <p>在<code>/ios/Runner/Info.plist</code>文件中修改名字</p> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>key</span><span class="token punctuation">&gt;</span></span>CFBundleName<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>key</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>string</span><span class="token punctuation">&gt;</span></span>flutter_01<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>string</span><span class="token punctuation">&gt;</span></span>//名字
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>在content.json中配置logo</p> <p>logo文件默认位置是<code>/ios/Runner/Assets.xcassets/AppIcon.appiconset</code></p> <p>对APK进行签名（React Native和Android Studio开发都会有此步骤）</p> <div class="language-Android line-numbers-mode"><pre class="language-text"><code>keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>在<code>/android</code>目录下创建<code>key.properties</code>的文件，插入代码</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>storePassword=&lt;password from previous step&gt;
+keyPassword=&lt;password from previous step&gt;
+keyAlias=key
+storeFile=&lt;location of the key store file, e.g. /Users/&lt;user name&gt;/key.jks&gt;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>在Gradle中配置签名</p> <p><code>/android/app/build.gradle</code>修改</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>android {
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>替换为</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>def keystorePropertiesFile = rootProject.file(&quot;key.properties&quot;)
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><div class="language-node line-numbers-mode"><pre class="language-text"><code>buildTypes {
+    release {
+        // TODO: Add your own signing config for the release build.
+        // Signing with the debug keys for now, so `flutter run --release` works.
+        signingConfig signingConfigs.debug
+    }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>为</p> <div class="language-node line-numbers-mode"><pre class="language-text"><code>signingConfigs {
+    release {
+        keyAlias keystoreProperties['keyAlias']
+        keyPassword keystoreProperties['keyPassword']
+        storeFile file(keystoreProperties['storeFile'])
+        storePassword keystoreProperties['storePassword']
+        }
+}
+buildTypes {
+    release {
+        signingConfig signingConfigs.release
+    }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>在项目目录下终端运行打包命令</p> <div class="language-flutter line-numbers-mode"><pre class="language-text"><code>flutter build apk
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>打包好的apk路径为<code>/build/app/outputs/apk/app-release.apk</code></p> <p>可以直接将apk安装到手机上，运行命令：</p> <div class="language-flutter line-numbers-mode"><pre class="language-text"><code>flutter install
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/tech/桌面端开发/Electron2.html" class="prev">
+        Electron开发(二)
+      </a></span> <span class="next"><a href="/tech/移动端/flutter2.html">
+        flutter移动开发（二）
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.528f3631.js" defer></script><script src="/assets/js/2.619c82a8.js" defer></script><script src="/assets/js/43.67a7ad8b.js" defer></script>
+  </body>
+</html>

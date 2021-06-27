@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>React（二） | Kun&#39;s Wiki</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="meta的描述内容">
+    
+    <link rel="preload" href="/assets/css/0.styles.35bcedcf.css" as="style"><link rel="preload" href="/assets/js/app.528f3631.js" as="script"><link rel="preload" href="/assets/js/2.619c82a8.js" as="script"><link rel="preload" href="/assets/js/20.5ccce5c5.js" as="script"><link rel="prefetch" href="/assets/js/10.ac7a4de3.js"><link rel="prefetch" href="/assets/js/11.22193742.js"><link rel="prefetch" href="/assets/js/12.6b0d96a8.js"><link rel="prefetch" href="/assets/js/13.bb592c98.js"><link rel="prefetch" href="/assets/js/14.5aadcb22.js"><link rel="prefetch" href="/assets/js/15.78a91f28.js"><link rel="prefetch" href="/assets/js/16.0463299b.js"><link rel="prefetch" href="/assets/js/17.5ade6be6.js"><link rel="prefetch" href="/assets/js/18.ae21993d.js"><link rel="prefetch" href="/assets/js/19.381fa6fe.js"><link rel="prefetch" href="/assets/js/21.cbe0d8e0.js"><link rel="prefetch" href="/assets/js/22.dec488e3.js"><link rel="prefetch" href="/assets/js/23.bd6e325e.js"><link rel="prefetch" href="/assets/js/24.7f63c0c1.js"><link rel="prefetch" href="/assets/js/25.e9d2ca3d.js"><link rel="prefetch" href="/assets/js/26.2ca2fcb2.js"><link rel="prefetch" href="/assets/js/27.9bbd6fb4.js"><link rel="prefetch" href="/assets/js/28.d07f52f0.js"><link rel="prefetch" href="/assets/js/29.69fc0484.js"><link rel="prefetch" href="/assets/js/3.983c5940.js"><link rel="prefetch" href="/assets/js/30.95ebca2d.js"><link rel="prefetch" href="/assets/js/31.0119a78d.js"><link rel="prefetch" href="/assets/js/32.1be9fafc.js"><link rel="prefetch" href="/assets/js/33.463bffa3.js"><link rel="prefetch" href="/assets/js/34.e343d136.js"><link rel="prefetch" href="/assets/js/35.7484c5cf.js"><link rel="prefetch" href="/assets/js/36.5aff1e2a.js"><link rel="prefetch" href="/assets/js/37.d06aba3d.js"><link rel="prefetch" href="/assets/js/38.bf208dc8.js"><link rel="prefetch" href="/assets/js/39.30052380.js"><link rel="prefetch" href="/assets/js/4.2fb93bc2.js"><link rel="prefetch" href="/assets/js/40.08ee34f0.js"><link rel="prefetch" href="/assets/js/41.dcd825b5.js"><link rel="prefetch" href="/assets/js/42.487f0aa8.js"><link rel="prefetch" href="/assets/js/43.67a7ad8b.js"><link rel="prefetch" href="/assets/js/44.357ba709.js"><link rel="prefetch" href="/assets/js/45.a590454b.js"><link rel="prefetch" href="/assets/js/46.e7870e58.js"><link rel="prefetch" href="/assets/js/47.abdb75cf.js"><link rel="prefetch" href="/assets/js/48.0a5ab934.js"><link rel="prefetch" href="/assets/js/49.663acd27.js"><link rel="prefetch" href="/assets/js/5.1474cf9c.js"><link rel="prefetch" href="/assets/js/50.96ef16fe.js"><link rel="prefetch" href="/assets/js/51.e0b76e5e.js"><link rel="prefetch" href="/assets/js/52.a909ae03.js"><link rel="prefetch" href="/assets/js/53.b3e7bb38.js"><link rel="prefetch" href="/assets/js/54.d2a5e7cf.js"><link rel="prefetch" href="/assets/js/55.41bdb3fe.js"><link rel="prefetch" href="/assets/js/56.58b21e41.js"><link rel="prefetch" href="/assets/js/57.c3d18e9a.js"><link rel="prefetch" href="/assets/js/58.dc3e0326.js"><link rel="prefetch" href="/assets/js/59.e2e30a9a.js"><link rel="prefetch" href="/assets/js/6.2958d7f8.js"><link rel="prefetch" href="/assets/js/60.8f5cef73.js"><link rel="prefetch" href="/assets/js/61.cf6b261c.js"><link rel="prefetch" href="/assets/js/62.54bae72d.js"><link rel="prefetch" href="/assets/js/63.8ef19855.js"><link rel="prefetch" href="/assets/js/64.4b33c41d.js"><link rel="prefetch" href="/assets/js/65.24a33653.js"><link rel="prefetch" href="/assets/js/7.4f3f4813.js"><link rel="prefetch" href="/assets/js/8.af6b4dfd.js"><link rel="prefetch" href="/assets/js/9.0ac2d280.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.35bcedcf.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Kun's Wiki</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/about/" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="/tech/" class="nav-link router-link-active">
+  技术
+</a></div><div class="nav-item"><a href="/research/" class="nav-link">
+  科研
+</a></div><div class="nav-item"><a href="/shoot/" class="nav-link">
+  摄影
+</a></div><div class="nav-item"><a href="https://www.github.com/kun8018" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/about/" class="nav-link">
+  关于
+</a></div><div class="nav-item"><a href="/tech/" class="nav-link router-link-active">
+  技术
+</a></div><div class="nav-item"><a href="/research/" class="nav-link">
+  科研
+</a></div><div class="nav-item"><a href="/shoot/" class="nav-link">
+  摄影
+</a></div><div class="nav-item"><a href="https://www.github.com/kun8018" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Tech</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/tech/" aria-current="page" class="sidebar-link">Blogging Like a Hacker</a></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>Javascript</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading open"><span>React</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/tech/react/react.html" class="sidebar-link">React</a></li><li><a href="/tech/react/react2.html" aria-current="page" class="active sidebar-link">React（二）</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/react/react2.html#react-memo-和purecomponent" class="sidebar-link">React.memo 和purecomponent</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#hook" class="sidebar-link">Hook</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/react/react2.html#hook出现的原因以及解决的问题" class="sidebar-link">hook出现的原因以及解决的问题</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#usestate" class="sidebar-link">useState</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#useeffect和uselayouteffect" class="sidebar-link">useEffect和useLayoutEffect</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#usereducer" class="sidebar-link">useReducer</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#usecontext" class="sidebar-link">useContext</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#usecallback与usememo" class="sidebar-link">usecallback与useMemo</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#useref" class="sidebar-link">useRef</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#自定义hook混用" class="sidebar-link">自定义hook混用</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#hook的使用规则" class="sidebar-link">hook的使用规则</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#hook的闭包陷阱-过期闭包" class="sidebar-link">Hook的闭包陷阱(过期闭包)</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#使用react-hooks如何让下面的子组件只render一次" class="sidebar-link">使用react hooks如何让下面的子组件只render一次</a></li></ul></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#fiber架构" class="sidebar-link">Fiber架构</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/tech/react/react2.html#fiber架构中的基本概念" class="sidebar-link">fiber架构中的基本概念</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#render阶段" class="sidebar-link">Render阶段</a></li><li class="sidebar-sub-header"><a href="/tech/react/react2.html#commit阶段" class="sidebar-link">Commit阶段</a></li></ul></li></ul></li><li><a href="/tech/react/react3.html" class="sidebar-link">React（三）</a></li><li><a href="/tech/react/react4.html" class="sidebar-link">React（四）</a></li><li><a href="/tech/react/reactnative.html" class="sidebar-link">React Native入门</a></li></ul></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>Vue</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>周边开发技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>数据库相关</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>服务器技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>桌面端开发</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>移动端</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>算法</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable is-sub-group depth-1"><p class="sidebar-heading"><span>静态语言</span> <span class="arrow right"></span></p> <!----></section></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>业余研究</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>关于</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>科学研究</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><p>​      前端框架，快速开发页面，函数式编程，与后端api快速搭建</p> <h2 id="react-memo-和purecomponent"><a href="#react-memo-和purecomponent" class="header-anchor">#</a> React.memo 和purecomponent</h2> <p>reacr.memo控制函数组件的重新渲染，reacr.purecomponent控制类组件的重新渲染</p> <p>使用时将函数组件传递给react.memo函数就可以</p> <p>实例</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const Funcomponent = () =&gt;{
+  return (
+     &lt;div&gt;
+     hiya!i am a functional component!
+     &lt;/div&gt;
+  )
+}
+const MemoFuncComponent = React.memo(Funcomponent)
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>React.memo返回英国纯组件MemoFuncComponent，jsx中将标记次组件，每当组件的props和state发生变化时，react会检查上一个props和state与下一个pros和state是否相等，不相等重新渲染，相等则不会重新渲染</p> <p>类组件中即成purecomponent实现</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>import React from 'react'
+class TestC extends React.PureComponent{
+   constructor(props){
+     super(props);
+     this.state = {
+       conut: 0
+     }
+   }
+  
+  render(){
+    return(
+      &lt;div&gt;
+        {this.state.count}
+        &lt;button onClick={()=&gt;this.setState({count:1})}&gt;
+          click me
+        &lt;/button&gt;
+      &lt;/div&gt;
+    )
+  }
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><h2 id="hook"><a href="#hook" class="header-anchor">#</a> Hook</h2> <p>Https://juejin.cn/post/6844903985338400782</p> <p>Hook是react16.8新增的特性，可以在不编写class 的情况下使用state和其他react特性，reactnative从0.59版本开始支持hook。</p> <h3 id="hook出现的原因以及解决的问题"><a href="#hook出现的原因以及解决的问题" class="header-anchor">#</a> hook出现的原因以及解决的问题</h3> <p>Class component 劣势</p> <ol><li>状态逻辑难复用：在组件之间复用状态逻辑很难，可能要用到 render props （渲染属性）或者 HOC（高阶组件），但无论是渲染属性，还是高阶组件，都会在原先的组件外包裹一层父容器（一般都是 div 元素），导致层级冗余 趋向复杂难以维护：</li> <li>在生命周期函数中混杂不相干的逻辑（如：在 componentDidMount 中注册事件以及其他的逻辑，在 componentWillUnmount 中卸载事件，这样分散不集中的写法，很容易写出 bug ） 类组件中到处都是对状态的访问和处理，导致组件难以拆分成更小的组件</li> <li>this 指向问题：父组件给子组件传递函数时，必须绑定 this</li></ol> <p>Hook不能在class中使用，只能在函数组件中，为函数组件勾入react state及生命周期等函数</p> <p>react内置的hook有以下</p> <p>基础hook：useState、useEffect、useContext</p> <p>额外的hook：useReducer、useCallback、useMemo、useRef、useLayoutEffect、useDebugValue、useImperativeHandle</p> <h3 id="usestate"><a href="#usestate" class="header-anchor">#</a> useState</h3> <p>实例</p> <div class="language-jsx line-numbers-mode"><pre class="language-jsx"><code><span class="token keyword">import</span> React<span class="token punctuation">,</span><span class="token punctuation">{</span>useState<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">Example</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span>setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">you click </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token plain-text"> times</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+        click    
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+     </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>上述useState方法定义了一个state变量count，并给他初始化的值0。通过setCount方法更新当前count的值。</p> <p>调用count时不需要绑定this直接调用，更新count时也直接调用setCount方法</p> <p>usestate定义state时返回一个有两个值的数组，第一个是当前state，第二个是更新state的函数，</p> <p>count与setCount与class中的this.state.count和this.setstate类似，唯一的区别是需要成对地获取他们。</p> <p>如果初始化state时需要复杂计算，可以调用函数，此函数只在初次渲染时被调用</p> <div class="language-jsx line-numbers-mode"><pre class="language-jsx"><code><span class="token keyword">const</span> <span class="token punctuation">[</span>state<span class="token punctuation">,</span>setState<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> initialState<span class="token operator">=</span> <span class="token function">someExpensiveComputation</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> initialState<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>count与setCount与class中的this.state.count和this.setstate类似，唯一的区别是需要成对地获取他们。</p> <p>可以同时声明多个state变量</p> <div class="language-jsx line-numbers-mode"><pre class="language-jsx"><code><span class="token keyword">function</span> <span class="token function">ExamplewithManyStates</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>age<span class="token punctuation">,</span>setAge<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">usestate</span><span class="token punctuation">(</span><span class="token number">42</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>fruit<span class="token punctuation">,</span>setFruit<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">usestate</span><span class="token punctuation">(</span><span class="token string">'banana'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>todos<span class="token punctuation">,</span>setTodos<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">usestate</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">{</span>text<span class="token operator">:</span><span class="token string">'学习'</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>Hook只能在函数最外层调用，不要在循环、条件判断或者子函数中调用</p> <p>对于class中的生命周期函数，为了能在函数组件中使用类似功能，使用useEffect方法，它相当于componentDidMount、componentDidupdate、componentWillUnmount三个函数的组合</p> <div class="language-jsx line-numbers-mode"><pre class="language-jsx"><code>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><h3 id="useeffect和uselayouteffect"><a href="#useeffect和uselayouteffect" class="header-anchor">#</a> useEffect和useLayoutEffect</h3> <p>useEffect默认情况下会在第一次渲染之后和每次更新之后都会执行。</p> <p>useEffect在全部渲染完毕后才会执行，而useLayoutEffect会在浏览器layout之后，painting之前执行</p> <p>为了用户体验，一般先使用useEffect</p> <p>使用步骤：</p> <ol><li>作为 componentDidMount 使用，第二个参数为空数组 <code>[]</code></li> <li>作为 componentDidUpdate 使用，第二个参数为指定依赖</li> <li>作为 componentWillUnmount 使用，通过 return</li></ol> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const BlinkyRender = () =&gt; {
+  const [value, setValue] = useState(0);
+
+  useEffect(() =&gt; {
+    document.querySelector('#x').innerText = `value: 1000`
+  }, [value]);
+
+  return (
+    &lt;div id=&quot;x&quot; onClick={() =&gt; setValue(0)}&gt;value: {value}&lt;/div&gt;
+  );
+};
+
+ReactDOM.render(
+  &lt;BlinkyRender /&gt;,
+  document.querySelector(&quot;#root&quot;)
+);
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><h3 id="usereducer"><a href="#usereducer" class="header-anchor">#</a> useReducer</h3> <p>useState内部就是靠useReducer实现的。</p> <p>useReducer可以理解为是用来代替 Redux 的，或者说，是一个加强版的 <code>useState</code>。</p> <p>使用步骤：</p> <p>1.创建初始值initialState</p> <p>2.创建所有操作reduce(state,action)</p> <p>3.传给useReducer，得到读和写api</p> <p>4.调用，写({type: '操作类型'})</p> <div class="language-js line-numbers-mode"><pre class="language-js"><code><span class="token keyword">const</span> initial <span class="token operator">=</span> <span class="token punctuation">{</span>
+  n<span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">reducer</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">state<span class="token punctuation">,</span> action</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">&quot;add&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> n<span class="token operator">:</span> state<span class="token punctuation">.</span>n <span class="token operator">+</span> action<span class="token punctuation">.</span>number <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">&quot;multi&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> n<span class="token operator">:</span> state<span class="token punctuation">.</span>n <span class="token operator">*</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">&quot;unknown type&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>state<span class="token punctuation">,</span> dispatch<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useReducer</span><span class="token punctuation">(</span>reducer<span class="token punctuation">,</span> initial<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> n <span class="token punctuation">}</span> <span class="token operator">=</span> state<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token function-variable function">onClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">&quot;add&quot;</span><span class="token punctuation">,</span> number<span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token function-variable function">onClick2</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token operator">:</span> <span class="token string">&quot;add&quot;</span><span class="token punctuation">,</span> number<span class="token operator">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;App&quot;</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>h1<span class="token operator">&gt;</span>n<span class="token operator">:</span> <span class="token punctuation">{</span>n<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">&gt;</span>
+
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>onClick<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token operator">+</span><span class="token number">1</span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>onClick2<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token operator">+</span><span class="token number">2</span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br></div></div><h3 id="usecontext"><a href="#usecontext" class="header-anchor">#</a> useContext</h3> <p>接受一个context对象，并返回该context的当前值，用于在函数组件之间共享状态</p> <p>使用方法：</p> <p>1.使用C=createContext(initial)创建上下文</p> <p>2.使用&lt;C.provider&gt;圈定作用域</p> <p>3.在作用域内使用 <code>useContext(C)</code> 来使用上下文</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const C = createContext(null);
+
+function App() {
+  console.log(&quot;App 执行了&quot;);
+  const [n, setN] = useState(0);
+  return (
+    &lt;C.Provider value={{ n, setN }}&gt;
+      &lt;div className=&quot;App&quot;&gt;
+        &lt;Baba /&gt;
+      &lt;/div&gt;
+    &lt;/C.Provider&gt;
+  );
+}
+
+function Baba() {
+  const { n, setN } = useContext(C);
+  return (
+    &lt;div&gt;
+      我是爸爸 n: {n} &lt;Child /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Child() {
+  const { n, setN } = useContext(C);
+  const onClick = () =&gt; {
+    setN(i =&gt; i + 1);
+  };
+  return (
+    &lt;div&gt;
+      我是儿子 我得到的 n: {n}
+      &lt;button onClick={onClick}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br></div></div><h3 id="usecallback与usememo"><a href="#usecallback与usememo" class="header-anchor">#</a> usecallback与useMemo</h3> <p>useMemo时一种缓存机制提速，当他的依赖未发生改变时就不会触发重新计算，与vue中computed类似</p> <p>useMemo</p> <p>使用语法：useMemo(()=&gt; fn,deps)</p> <p>把创建函数和依赖项数组作为参数传入useMemo，它只会在某个依赖项改变时才重新计算memo</p> <p>useMemo与usecallback的区别：<code>useMemo</code>可以缓存所有对象，<code>useCallback</code>只能缓存函数。</p> <p><code>useCallback(x =&gt; log(x), [m])</code> 等价于 <code>useMemo(() =&gt; x =&gt; log(x), [m])</code></p> <h3 id="useref"><a href="#useref" class="header-anchor">#</a> useRef</h3> <p>主要作用是创建一个数据的引用，并让这个数据在 render 过程中始终<strong>保持不变</strong>。</p> <p>基本语法： <code>const count = useRef(0)</code>，读取用 <code>count.current</code></p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>export function ReactEcharts(props) {
+  const {option, loading} = props
+  const container = useRef(null)
+  const chart = useRef(null)
+
+  useEffect(() =&gt; {
+    const width = document.documentElement.clientWidth
+    const c = container.current
+    console.log(c)
+    c.style.width = `${width - 20}px`
+    c.style.height = `${(width - 20) * 1.2}px`
+    chart.current = echarts.init(c, 'dark')
+
+  }, []) // [] - mounted on first time
+
+  useEffect(() =&gt; {
+    chart.current.setOption(option)
+  }, [option]) // when option change 类似 vue 的 watch
+
+  useEffect(() =&gt; {
+    if (loading) chart.current.showLoading()
+    else chart.current.hideLoading()
+  }, [loading])
+  return (
+    &lt;div ref={container}/&gt;
+  )
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br></div></div><h3 id="自定义hook混用"><a href="#自定义hook混用" class="header-anchor">#</a> 自定义hook混用</h3> <p>可以把不同的hook按照实际的需求混合起来，封装成一个新的函数使用</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const useList = () =&gt; {
+  const [list, setList] = useState(null);
+  useEffect(() =&gt; {
+    ajax(&quot;/list&quot;).then(list =&gt; {
+      setList(list);
+    });
+  }, []); // [] 确保只在第一次运行
+  return {
+    list: list,
+    setList: setList
+  };
+};
+export default useList;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><h3 id="hook的使用规则"><a href="#hook的使用规则" class="header-anchor">#</a> hook的使用规则</h3> <p>hook有以下使用规则：</p> <ol><li>不要在循环，条件或嵌套函数中调用 Hook</li> <li>确保总是在你的 React 函数的最顶层调用他们。</li> <li>顺序调用。遵守这条规则，你就能确保 Hook 在每一次渲染中都按照同样的顺序被调用。这让 React 能够在多次的 useState 和 useEffect 调用之间保持 hook 状态的正确。</li></ol> <p>在单个组件中可以使用多个 State Hook 或 Effect Hook，但是React 怎么知道哪个 state 对应哪个 <code>useState</code>？答案是 React 靠的是 Hook 调用的顺序。因为我们的示例中，Hook 的调用顺序在每次渲染中都是相同的，所以它能够正常工作。只要 Hook 的调用顺序在多次渲染之间保持一致，React 就能正确地将内部 state 和对应的 Hook 进行关联。</p> <p>如果在语句中使用hook</p> <div class="language-javascript line-numbers-mode"><pre class="language-javascript"><code> <span class="token comment">// 🔴 在条件语句中使用 Hook 违反第一条规则</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>name <span class="token operator">!==</span> <span class="token string">''</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">persistForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'formData'</span><span class="token punctuation">,</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>在第一次渲染中 <code>name !== ''</code> 这个条件值为 <code>true</code>，所以我们会执行这个 Hook。但是下一次渲染时我们可能清空了表单，表达式值变为 <code>false</code>。此时的渲染会跳过该 Hook，Hook 的调用顺序发生了改变：</p> <div class="language-javascript line-numbers-mode"><pre class="language-javascript"><code><span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">'Mary'</span><span class="token punctuation">)</span>           <span class="token comment">// 1. 读取变量名为 name 的 state（参数被忽略）</span>
+<span class="token comment">// useEffect(persistForm)  // 🔴 此 Hook 被忽略！</span>
+<span class="token function">useState</span><span class="token punctuation">(</span><span class="token string">'Poppins'</span><span class="token punctuation">)</span>        <span class="token comment">// 🔴 2 （之前为 3）。读取变量名为 surname 的 state 失败</span>
+<span class="token function">useEffect</span><span class="token punctuation">(</span>updateTitle<span class="token punctuation">)</span>     <span class="token comment">// 🔴 3 （之前为 4）。替换更新标题的 effect 失败</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>React 不知道第二个 <code>useState</code> 的 Hook 应该返回什么。React 会以为在该组件中第二个 Hook 的调用像上次的渲染一样，对应的是 <code>persistForm</code> 的 effect，但并非如此。从这里开始，后面的 Hook 调用都被提前执行，导致 bug 的产生。</p> <h3 id="hook的闭包陷阱-过期闭包"><a href="#hook的闭包陷阱-过期闭包" class="header-anchor">#</a> Hook的闭包陷阱(过期闭包)</h3> <p>闭包陷阱就是在React Hook进行开发时，通过useState定义的值拿到的都不是最新的值</p> <p>上代码</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const App = () =&gt;{
+   const [count,setCount] = useState(0)
+   useEffect(()=&gt;{
+     const timeId = setInterval(()=&gt;{
+        setCount(count+1)
+     },1000)
+     return ()=&gt;{clearInterval(timeId)}
+   },[])
+   return (
+      &lt;span&gt;{count}&lt;/span&gt;
+   )
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>上面的代码中，count并不会和理想中一样每过一秒自动+1并更新DOM，而是从0变成1后，console打印出的count一直是设立的默认值0</p> <p>因为useEffect的依赖数组是空数组，那setInterval里面的count是通过闭包取得的值，他读取到的第一次的count，并且useEffect并没有更新，因为每次都是0</p> <p>如果去掉useEffect的依赖数组可以解决这个问题，然而会造成每次App组件渲染都会运行useEffect里面的函数，就会造成不必要的浪费和隐藏的bug</p> <h4 id="解决方案"><a href="#解决方案" class="header-anchor">#</a> 解决方案</h4> <p><strong>使用setstate回调</strong></p> <p>把setCount(count+1)改成setCount(count=&gt;count+1)，函数式更新</p> <p>它允许我们指定state如何改变而不引用当前的state，因为回调函数中的参数是最新的count值</p> <p><strong>使用useReducer代替</strong></p> <p>把setCount改成useReducer的dispatch，因为useReducer的dispatch的身份永远是稳定的。即使reducer函数是定义在函数内部且依赖props</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const setCountReducer = (state,action)=&gt;{
+   switch(action.type){
+     case 'add':
+       return state+action.value 
+     case 'minus':
+       return state-action.value
+     default: 
+       return state
+   }
+}
+
+const App = () =&gt;{
+  const [count,dispatch] = useReducer(setCountReducer,0)
+  useEffect(()=&gt;{
+    const timeId = setInterval(()=&gt;{
+      dispatch({type:'add',value:1})
+    },1000)
+    return ()=&gt; clearInterval(timeId)
+  },[])
+  return (
+     &lt;span&gt;{count}&lt;/span&gt;
+  )
+} 
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br></div></div><p><strong>使用useRef存储变量</strong></p> <p>通过useRef生成的对象默认都是{current:{}},每次组件重新渲染时，他也是同一个对象的引用，不会因为组件的重新渲染导致取得闭包的对象引用，因此它不仅可以绑定DOM，也可以绑定任意我们想绑定的数据</p> <p>改造代码如下</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const App = () =&gt;{
+  const [count,setCount] = useState(0)
+  const countRef = useRef()
+  countRef.current = count
+  useEffect(()=&gt;{
+    const timeId = setInterval(()=&gt;{
+      setCount(countRef.current+1)
+    },1000)
+    return ()=&gt; clearInterval(timeId)
+  },[])
+  return (
+     &lt;span&gt;{countRef.current}&lt;/span&gt;
+  )
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><h4 id="其他会导致闭包陷阱的情况"><a href="#其他会导致闭包陷阱的情况" class="header-anchor">#</a> 其他会导致闭包陷阱的情况</h4> <p>异步函数</p> <p>使用setInterval和setTimeout函数时，内部的变量读取的是异步函数在运行时组件处在闭包情况下的当前值，因为在异步函数内部的数据并不会在dom更新之后更新为新的值，他们的变量引用已经不是同一个了</p> <p>上代码</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const App = ()=&gt;{
+  const [count,setCount] = useState(0)
+  const consoleCount = ()=&gt;{
+    const timeId = setTimeout(()=&gt;{
+       console.log(count)
+    },2000)
+    return ()=&gt; clearTimeout(timeId)
+  }
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{count}&lt;/span&gt;
+      &lt;button onClick={()=&gt;setCount(count+1)}&gt;按我加1&lt;/button&gt;
+      &lt;button onClick={consoleCount}&gt;输出count&lt;/button&gt;
+    &lt;/div&gt;
+  )
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><p>先点击三次加1按钮，把count变成3，然后点击输出按钮，此时再点击加1按钮，可以看到输出的count还是3，即输出的count是旧值</p> <p>dom监听函数事件中的匿名函数</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>const App = () =&gt;{
+    const [count,setCount] = useState(0)
+    const consoleCount = ()=&gt;{
+      console.log(count)
+    }
+    useEffect(()=&gt;{
+      window.addEventListener('scroll',consoleCount)
+      return ()=&gt;{
+         window.removeEventListener('scroll',consoleCount)
+      }
+    },[])
+  
+    return (
+       &lt;div style={{height:'400vh'}}&gt;
+         &lt;span&gt;{count}&lt;/span&gt;
+        &lt;button onClick={()=&gt;setCount(count+1)}&gt;按我加1&lt;/button&gt;
+      &lt;button onClick={consoleCount}&gt;输出count&lt;/button&gt;
+      &lt;/div&gt;
+    )
+}
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>可以看到不管页面怎么滚动，输出的count永远是0。因为addEventListener只在useEffect初始化的时候进行了绑定，执行函数的时候，count读取的是绑定函数时的旧值</p> <p>使用useRef()存储实例变量也能解决这两个问题，也是react官方推荐的方法。</p> <h3 id="使用react-hooks如何让下面的子组件只render一次"><a href="#使用react-hooks如何让下面的子组件只render一次" class="header-anchor">#</a> 使用react hooks如何让下面的子组件只render一次</h3> <p>使用useRef保存子组件状态，当父组件更新时，直接更新ref值，当子组件click时，在更新ref值后，再调用一次update触发子组件渲染</p> <div class="language-react line-numbers-mode"><pre class="language-text"><code>import React,{useEffect,useMemo,useState,useRef} from 'react'
+function A(){
+   const [count,setCount] = useState(0);
+   
+   return (
+      &lt;div&gt;
+        &lt;p&gt;我是父组件&lt;/p&gt;
+        &lt;p&gt;父组件的count是{count}&lt;/p&gt;
+        &lt;button&gt;click&lt;/button&gt;
+        &lt;B count={count}/&gt;
+      &lt;/div&gt;
+   );
+}
+
+const B = React.memo(({count:}{count:number})=&gt;{
+  const numberRef = useRef(0);
+  const [,update] = useState({});
+  const updateNumber = () =&gt;{
+    numberRef.current++;
+    update({});
+  };
+  
+  useMemo(()=&gt;{
+    numberRef.current = count;
+  },[count])
+  
+  console.log('子组件Render')
+  
+  return(
+     &lt;div&gt;
+       &lt;p&gt;我是子组件&lt;/p&gt;
+       &lt;p&gt;子组件的number是{numberRef.current}&lt;/p&gt;
+       &lt;button onClick={updateNumber}&gt;click&lt;/button&gt;
+     &lt;/div&gt;
+  )
+})
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br></div></div><h2 id="fiber架构"><a href="#fiber架构" class="header-anchor">#</a> Fiber架构</h2> <p>react16相比于react15，经过重构后Reconciliation和Rendering被分为两个不同的阶段。</p> <h3 id="fiber架构中的基本概念"><a href="#fiber架构中的基本概念" class="header-anchor">#</a> fiber架构中的基本概念</h3> <p>Fiber 的架构有两个主要阶段：协调/渲染 和 提交。</p> <p><strong>reconciler协调阶段</strong>：当组件次初始化和其后的状态更新中，React会创建两颗不相同的虚拟树，React 需要基于这两棵树之间的差别来判断如何有效率的更新 UI 以保证当前 UI 与最新的树保持同步，计算树哪些部分需要更新。<strong>react diff算法就发生在这个阶段</strong></p> <p><strong>renderer阶段</strong>：渲染器负责将拿到的虚拟组件树信息，根据其对应环境真实地更新渲染到应用中。有兴趣的朋友可以看一下dan自己的博客中的文章=》<a href="https://overreacted.io/react-as-a-ui-runtime/#renderers" target="_blank" rel="noopener noreferrer">运行时的react=》渲染器<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>，介绍了react的Renderer渲染器如react-dom和react native等，其可以根据不同的主环境来生成不同的实例。</p> <p>协调阶段的工作：</p> <p>协调阶段通常被称为“渲染阶段”。这是React遍历组件树的阶段，并且：</p> <ul><li>更新状态和属性</li> <li>调用生命周期钩子</li> <li>获取组件的<code>children</code></li> <li>将它们与之前的<code>children</code>进行对比</li> <li>并计算出需要执行的DOM更新</li></ul> <p><strong>fiber对象</strong></p> <p>一个fiber对象是表征work的一个基本单元。</p> <p>每一个React元素对应一个fiber对象，fibers是一个基于child, sibling 和 return属性构成的链表。 fiber对象核心的属性和含义如下所示：</p> <p><strong>child、silbing、return</strong></p> <p>fiber对象的属性，这些属性指向其他fiber，表征当前工作单元的下一个工作单元，用于描述fiber的递归树结构。</p> <p>child： 对应于父fiber节点的子fiber silbing： 对应于fiber节点的同类兄弟节点 return： 对应于fiber节点的父节点</p> <p>相对于React v16之前的版本，正是得益于fiber对象的child、sibing和return属性构成的单链表结构以及fiber对象中存储的上下文信息，才使得scheduler可以达到暂停、中止、重新开始等并发模式的新特性。</p> <p><strong>work</strong></p> <p>在React reconciliation过程中出现的各种比如state update，props update 或 refs update等必须执行计算的活动，这些活动我们在Fiber架构体系里面统一称之为 “work”。</p> <p><strong>worktag</strong></p> <p>workTag 类型，用于描述一个React元素的类型，即为上述fiber对象的 fiber.tag</p> <p><strong>stateNode</strong></p> <p>一个组件、一个DOM节点或其他跟fiber节点相关联的React元素的实例的引用。通常，我们可以说这个属性是用于保存与一个fiber相关联的本地状态。即上述fiber对象的 fiber.stateNode。</p> <p><strong>current树和workInProgress树</strong></p> <p>首次渲染后，React生成一个用于渲染UI并能映射应用状态的fiber树，我们通常称之为current树。当React遍历current树，它为每一个存在的fiber节点创建一个alternate属性的替代节点，该节点构成workInProgress树。</p> <p>所有发生update的work都在workInProgress树中执行，如果alternate属性还未创建，React将在处理update之前在createWorkInProgress函数中创建一个current树的副本，即形成workInProgress树，用于映射新的状态并在commit阶段刷新到屏幕。</p> <p><strong>所有这些活动都被称为Fiber内部的工作。</strong> 需要完成的工作类型取决于React Element的类型。 例如，对于 <code>Class Component</code> React需要实例化一个类，然而对于<code>Functional Component</code>却不需要。</p> <p>在浏览器中GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。</p> <p><strong>Stack Reconciler 和 fiber reconciliation</strong></p> <p>React16 推出Fiber之前协调算法是Stack Reconciler，即递归遍历所有的 Virtual DOM 节点执行Diff算法，一旦开始便无法中断，直到整颗虚拟dom树构建完成后才会释放主线程，因其JavaScript单线程的特点，若当下组件具有复杂的嵌套和逻辑处理，diff便会堵塞UI进程，使动画和交互等优先级相对较高的任务无法立即得到处理，造成页面卡顿掉帧，影响用户体验。在<code>React15</code>及之前，<code>React</code>会递归比对<code>VirtualDOM</code>树，找出需要变动的节点，然后同步更新它们。这个过程<code>React</code>称为<code>Reconciliation(协调)</code>。</p> <p>在<code>Reconciliation</code>期间，<code>React</code>会一直占用着浏览器资源，一则会导致用户触发的事件得不到响应, 二则会导致掉帧，用户可能会感觉到卡顿。</p> <p>针对上述痛点，我们期望将**”找出有增删改的节点“，”然后同步更新他们“<strong>这个过程分解成两个独立的部分，或者通过某种方式能让整个过程</strong>可中断可恢复的执行**，类似于多任务操作系统的单处理器调度。</p> <p>fiber的核心目标：</p> <ul><li>把可中断的工作拆分成多个小任务</li> <li>为不同类型的更新分配任务优先级</li> <li>更新时能够暂停，终止，复用渲染任务</li></ul> <p>这是一种<strong>合作式调度</strong>，需要程序和浏览器互相信任。浏览器作为领导者，会分配执行时间片（即requestIdleCallback）给程序去选择调用，程序需要按照约定在这个时间内执行完毕，并将控制权交还浏览器。</p> <p>Fiber是一个执行单元，每次执行完一个执行单元，React就会检查现在还剩多少时间，如果没有时间就将控制权交还浏览器；然后继续进行下一帧的渲染。</p> <p>从根节点开始遍历</p> <p>如果没有长子，则标识当前节点遍历完成。<code>completeUnitOfWork</code>中收集</p> <p>如果没有相邻兄弟，则返回父节点标识父节点遍历完成。<code>completeUnitOfWork</code>中收集</p> <p>如果没有父节点，标识所有遍历完成。<code>over</code></p> <p>如果有长子，则遍历；<code>beginWork</code>中收集；收集完后返回其长子，回到<code>第2步</code>循环遍历</p> <p>如果有相邻兄弟，则遍历；<code>beginWork</code>中收集；收集完后返回其长子，回到<code>第2步</code>循环遍历</p> <h3 id="render阶段"><a href="#render阶段" class="header-anchor">#</a> Render阶段</h3> <p><strong>enqueueSetState</strong></p> <p>以类组件为例，ReactDOM中的updater对象是一个classComponentUpdater，用于获取fiber实例、update队列和调度 work</p> <p>fiber.updateQueue是一个具有updates优先级的链表（UpdateQueue is a linked list of prioritized updates）</p> <p>跟Fiber一样，update 队列也是成对出现：一个代表屏幕可见状态的 current 队列，一个在commit阶段之前可被异步计算和处理的work-in-progress 队列。如果一个work-in-progress队列在完成之前被丢弃，则将会通过克隆一个curent队列来创建一个新的work-in-progress队列。</p> <p>函数调用栈：performUnitOfWork --&gt; beginWork --&gt; updateClassComponent --&gt; finishedComponent --&gt; completeUnitOfWork</p> <p><strong>completeUnitOfWork</strong></p> <p>React在completeUnitOfWork函数中构建effect-list</p> <p>是深度优先搜索算法一部分，获取workInProgress.alternate、父节点workInProgress.return和workInProgress.sibling，如果存在兄弟节点则返回。否则，返回父节点。</p> <h3 id="commit阶段"><a href="#commit阶段" class="header-anchor">#</a> Commit阶段</h3> <p>类似于<code>Git</code>的分支功能，从旧树里面fork一份，在新分支中进行<strong>添加、删除、更新</strong>操作，然后再进行提交。</p> <p>fiber大量使用链表。由于数组的大小是固定的，从数组的起点或者中间插入或移除项的成本很高。链表相对于传统的数组的优势在于添加或移除元素的时候不需要移动其他元素，<strong>需要添加和移除很多元素时，最好的选择是链表，而非数组。</strong> 链表在React的Fiber架构和Hooks实现发挥很大的作用。</p> <p>commit阶段被分为几个子阶段。每个子阶段都单独进行effect list传递。所有的mutation effects都会在所有的layout effects之前执行。</p> <p>被分为如下三个子阶段：</p> <ul><li>before mutation：React使用此阶段读取 host tree的state状态。 这是调用getSnapshotBeforeUpdate生命周期的地方。</li> <li>mutation phase：在这个阶段，React 会改变host tree。 当该阶段执行结束时，work-in-progress树会变成current树，这必须发生在“mutation phase”阶段之后，以便于在componentWillUnmount生命周期内，仍然是之前的current树。但是，也要发生在“layout phase”阶段之前，以便于在componentDidMount / Update生命周期间，current树是已完成的work操作的。</li> <li>layout phase：在这个阶段host tree已经被更改并调用 effects。componentDidMount / Update等生命周期在这个阶段被执行。</li></ul></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/tech/react/react.html" class="prev">
+        React
+      </a></span> <span class="next"><a href="/tech/react/react3.html">
+        React（三）
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.528f3631.js" defer></script><script src="/assets/js/2.619c82a8.js" defer></script><script src="/assets/js/20.5ccce5c5.js" defer></script>
+  </body>
+</html>
