@@ -11,6 +11,326 @@ thumbnail:
 
 <!--more-->
 
+## Redux
+
+Facebook 有一个 Flux 的实现，但是我们会使用 Redux 库。 它使用相同的原理，但是更简单一些。 Facebook 现在也使用 Redux 而不是原来的 Flux
+
+### 基本概念
+
+redux中概念：
+
+Store:储存state的地方，通过createStore方法创建store
+
+Action:应用中的各种操作或动作，不同的操作会改变相应的state状态
+
+Reducer:按照action更新state
+
+Store.getState():获取整个状态数据对象
+
+store.dispatch():分发Action
+
+store.subscribe():设置监听函数，一旦state变化就会自动执行
+
+以图书馆举例，react component就是一个要借书的用户，当你向图书馆借书时跟图书管理员说要什么书，这个语境就是Action Creators，图书馆的管理员就是store，负责数据状态的管理，图书馆收到请求后向图书系统中查询，这个系统就是Reducers。
+
+安装
+
+```js
+yarn add redux
+```
+
+新建reducer.js
+
+```js
+
+```
+
+新建store.js
+
+```js
+import { } from 'redux'
+
+```
+
+action.js
+
+```javascript
+const action = {
+   type:'ADD_TODO',
+   payload:'Learn Redux'
+}
+```
+
+监听
+
+```javascript
+import {createStore} from 'redux'
+const store = createStore(reducer);
+
+store.subscribe(listener)
+```
+
+action发出后reducer立即执行即为同步，一段时间后执行为异步
+
+对于异步，
+
+
+
+### React-redux
+
+react-redux提供connet方法，用于从UI组件生成容器组件，
+
+```javascript
+import {connet} from 'react-redux'
+
+const VisibleTodoList = connect(
+   mapStateToProps,
+   mapDispatchToProps
+)(TodoList)
+```
+
+connet生成容器之后，需要让容器组件拿到state对象，react-redux提供Provider组件让容器拿到state
+
+```javascript
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+
+render(
+ <Provider store= {store}>
+  <App />
+  </Provider>
+)
+```
+
+### 中间件
+
+redux-saga
+
+功能类似redux-thunk，用于异步action，原理是通过generator函数，相比于thunk更复杂一些，集中处理了action，支持dispatch后的回调。
+
+
+
+redux-thunk
+
+用于异步action，允许你的action可以返回函数, 带有dispatch和getState两个参数, 在这个action函数里, 异步的dispatch action;
+
+
+
+redux-logger
+
+在控制台打印redux过程，类似的也可以按redux文档示范的中间件，但是感觉logger的颜色更好看
+
+
+
+redux-persist
+
+实现数据持久化，自动存入localStorage，配置略麻烦
+
+### 文档
+
+Https://cn.redux.js.org
+
+
+
+## mobx
+
+mobx与redux相比：
+
+- 函数式 VS 面向对象
+- redux 需要 connect，也需要 Immutable Data，reducer，action，文件、代码量较多，概念也多。 mobx 直接引用对象组织，修改数据。
+- redux 数据流动很自然，任何 dispatch 都会导致广播，需要依据对象引用是否变化来控制更新粒度。mobx 数据流流动不自然，只有用到的数据才会引发绑定，局部精确更新，但免去了粒度控制烦恼。
+- redux 有时间回溯，每个 action 都被记录下来，可预测性，定位错误的优势。mobx 只有一份数据引用，不会有历史记录。
+- redux 引入中间件去解决异步操作，以及很多复杂的工作。mobx 没有中间件，数据改了就是改了，没有让你增加中间件的入口。
+
+为什么用mobx
+
+- 简单，概念，代码少
+- class 去定义、组织 store，数据、computed、action 定义到一块，结构更清晰，面向对象的思维更适合快速的业务开发
+- 某个 store 的引用不一定非在组件中才能取到，因为是对象，可以直接引用。比如在 constant.js 文件中可以定义一些来自 store 的变量。
+- 据说效率更高。mobx 会建立虚拟推导图 (virtual derivation graph)，保证最少的推导依赖
+
+### 基本概念
+
+Observable state
+
+给数据对象添加可观测的功能，支持任何数据结构。
+
+Computed values
+
+某个 state 发生变化时，需要自动计算的值。比如说单价变化，总价的计算
+
+Reactions
+
+Reactions 和 Computed 类似，都是 state 变化后触发。但它不是去计算值，而是会产生副作用，比如 console、网络请求、react dom 更新等。mobx 提供了三个函数用于自定义 reactions。
+
+Actions
+
+
+
+### mobx与redux的不同
+
+
+
+https://github.com/sunyongjian/blog/issues/28
+
+## Recoil
+
+`Recoil` 本身就是为了解决 `React` 全局数据流管理的问题，采用分散管理原子状态的设计模式。
+
+`Recoil` 提出了一个新的状态管理单位 `Atom`，它是可更新和可订阅的，当一个 `Atom` 被更新时，每个被订阅的组件都会用新的值来重新渲染。如果从多个组件中使用同一个 `Atom` ，所有这些组件都会共享它们的状态。
+
+可以把`Atom` 想象为为一组 `state` 的集合，改变一个 `Atom` 只会渲染特定的子组件，并不会让整个父组件重新渲染。
+
+使用 `Redux、Mobx` 当然可以，并没有什么问题，主要原因是它们本身并不是 `React` 库，我们是借助这些库的能力来实现状态管理。像 `Redux` 它本身虽然提供了强大的状态管理能力，但是使用的成本非常高，你还需要编写大量冗长的代码，另外像异步处理或缓存计算也不是这些库本身的能力，甚至需要借助其他的外部库。
+
+并且，它们并不能访问 `React` 内部的调度程序，而 `Recoil` 在后台使用 `React` 本身的状态，在未来还能提供并发模式这样的能力。
+
+使用实例
+
+初始化
+
+```react
+import React from 'react';
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState
+} from 'recoil';
+
+function App() {
+  return (
+    <RecoilRoot>
+      <CharacterCounter />
+    </RecoilRoot>
+  );
+}
+```
+
+定义状态
+
+`Atom` 是一种新的状态，但是和传统的 `state` 不同，它可以被任何组件订阅，当一个 `Atom` 被更新时，每个被订阅的组件都会用新的值来重新渲染。
+
+定义atom
+
+```react
+export const nameState = atom({
+  key: 'nameState',
+  default: 'ConardLi'
+});
+```
+
+这种方式意味着你不需要像 `Redux` 那样集中定义状态，可以像 `Mobx` 一样将数据分散定义在任何地方。
+
+要创建一个 `Atom` ，必须要提供一个 `key` ，其必须在 `RecoilRoot` 作用域中是唯一的，并且要提供一个默认值，默认值可以是一个静态值、函数甚至可以是一个异步函数。
+
+订阅和更新状态
+
+`Recoil` 采用 `Hooks` 方式订阅和更新状态，常用的是下面三个 API：
+
+`useRecoilState`：类似 useState 的一个 `Hook`，可以取到 `atom` 的值以及 `setter` 函
+
+`useSetRecoilState`：只获取 `setter` 函数，如果只使用了这个函数，状态变化不会导致组件重新渲染
+
+`useRecoilValue`：只获取状态
+
+```react
+import { nameState } from './store'
+// useRecoilState
+const NameInput = () => {
+  const [name, setName] = useRecoilState(nameState);
+  const onChange = (event) => {
+   setName(event.target.value);
+  };
+  return <>
+   <input type="text" value={name} onChange={onChange} />
+   <div>Name: {name}</div>
+  </>;
+}
+
+// useRecoilValue
+const SomeOtherComponentWithName = () => {
+  const name = useRecoilValue(nameState);
+  return <div>{name}</div>;
+}
+
+// useSetRecoilState  
+const SomeOtherComponentThatSetsName = () => {
+  const setName = useSetRecoilState(nameState);
+  return <button onClick={() => setName('Jon Doe')}>Set Name</button>;
+}
+```
+
+派生状态
+
+`selector` 表示一段派生状态，它使我们能够建立依赖于其他 `atom` 的状态。它有一个强制性的 `get` 函数，其作用与 `redux` 的 `reselect` 或 `MobX` 的 `@computed` 类似。
+
+```react
+const lengthState = selector({
+  key: 'lengthState', 
+  get: ({get}) => {
+    const text = get(nameState);
+    return text.length;
+  },
+});
+
+function NameLength() {
+  const length = useRecoilValue(charLengthState);
+  return <>Name Length: {length}</>;
+}
+```
+
+selector 是一个纯函数：对于给定的一组输入，它们应始终产生相同的结果（至少在应用程序的生命周期内）。这一点很重要，因为选择器可能会执行一次或多次，可能会重新启动并可能会被缓存。
+
+异步状态
+
+`Recoil` 提供了通过数据流图将状态和派生状态映射到 `React` 组件的方法。真正强大的功能是图中的函数也可以是异步的。这使得我们可以在异步 `React` 组件渲染函数中轻松使用异步函数。使用 `Recoil` ，你可以在选择器的数据流图中无缝地混合同步和异步功能。只需从选择器 `get` 回调中返回 `Promise` ，而不是返回值本身。
+
+```react
+const userNameQuery = selector({
+  key: 'userName',
+  get: async ({get}) => {
+    const response = await myDBQuery({
+      userID: get(currentUserIDState),
+    });
+    return response.name;
+  },
+});
+
+function CurrentUserInfo() {
+  const userName = useRecoilValue(userNameQuery);
+  return <div>{userName}</div>;
+}
+```
+
+`Recoil` 推荐使用 `Suspense`，`Suspense` 将会捕获所有异步状态，另外配合 `ErrorBoundary` 来进行错误捕获：
+
+```react
+function MyApp() {
+  return (
+    <RecoilRoot>
+      <ErrorBoundary>
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <CurrentUserInfo />
+        </React.Suspense>
+      </ErrorBoundary>
+    </RecoilRoot>
+  );
+}
+```
+
+`Recoil` 推崇的是分散式的状态管理，这个模式很类似于 `Mobx`，使用起来也感觉有点像 `observable + computed` 的模式，但是其 API 以及核心思想设计的又没有  `Mobx` 一样简洁易懂，反而有点复杂，对于新手上手起来会有一定成本。
+
+在使用方式上完全拥抱了函数式的 `Hooks` 使用方式，并没有提供 `Componnent` 的使用方式，目前使用原生的 `Hooks API` 我们也能实现状态管理，我们也可以使用 `useMemo` 创造出派生状态，`Recoil` 的 `useRecoilState` 以及 `selector` 也比较像是对 `useContext、useMemo` 的封装。
+
+但是毕竟是 `Facebook` 官方推出的状态管理框架，其主打的是高性能以及可以利用 `React` 内部的调度机制，包括其承诺即将会支持的并发模式，这一点还是非常值得期待的。
+
+另外，其本身的分散管理原子状态的模式、读写分离、按需渲染、派生缓存等思想还是非常值得一学的
+
+https://juejin.cn/post/6881493149261250568#heading-2
+
 ## Rematch
 
 rematch是基于redux的状态管理框架，但是比redux简便很多。
@@ -127,507 +447,587 @@ connect(mapStateToProps,{countUpBy})(Component)
 
 
 
-demo地址：https://Xrr2016.github.io/rematch-todos
+demo地址：https://Xrr2016.github.io/rematch-todoså
 
 ### 其他插件
 
-## immutablejs
+## ES-lint
 
-Immutable数据就是一旦创建，就不能更改的数据。每当对Immutable对象进行修改的时候，就会返回一个新的Immutable对象，以此来保证数据的不可变
-
-有人说 Immutable 可以给 React 应用带来数十倍的提升，也有人说 Immutable 的引入是近期 JavaScript 中伟大的发明，因为同期 React 太火，它的光芒被掩盖了。这些至少说明 Immutable 是很有价值的。
-
-JavaScript 中的对象一般是可变的（Mutable），因为使用了引用赋值，新的对象简单的引用了原始对象，改变新的对象将影响到原始对象，比如
-
-```javascript
-var obj = {
- a: 1,
- b: 2
-};var obj1 = obj;obj1.a = 999;
-obj.a //999
-```
-
-改变了obj1.a的值，同时也会更改到obj.a的值。
-
-一般的解法就是使用「深拷贝」(deep copy)而非浅拷贝(shallow copy)，来避免被修改,但是这样造成了 CPU和内存的浪费.
-
-immutable可以很好地解决这些问题
-
-Immutable Data 就是一旦创建，就不能再被更改的数据。对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象。Immutable 实现的原理是 Persistent Data Structure（持久化数据结构），也就是使用旧数据创建新数据时，要保证旧数据同时可用且不变。同时为了避免 deepCopy 把所有节点都复制一遍带来的性能损耗，Immutable 使用了 Structural Sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其它节点则进行共享。
-
-Immutable 的几种数据类型：
-
-- List: 有序索引集，类似JavaScript中的Array。
-- Map: 无序索引集，类似JavaScript中的Object。
-- OrderedMap: 有序的Map，根据数据的set()进行排序。
-- Set: 没有重复值的集合。
-- OrderedSet: 有序的Set，根据数据的add进行排序。
-- Stack: 有序集合，支持使用unshift（）和shift（）添加和删除。
-- Range(): 返回一个Seq.Indexed类型的集合，这个方法有三个参数，start表示开始值，默认值为0，end表示结束值，默认为无穷大，step代表每次增大的数值，默认为1.如果start = end,则返回空集合。
-- Repeat(): 返回一个vSeq.Indexe类型的集合，这个方法有两个参数，value代表需要重复的值，times代表要重复的次数，默认为无穷大。
-- Record: 一个用于生成Record实例的类。类似于JavaScript的Object，但是只接收特定字符串为key，具有默认值。
-- Seq: 序列，但是可能不能由具体的数据结构支持。
-- Collection: 是构建所有数据结构的基类，不可以直接构建。
-
-方法：
-
-fromJS()：
-
-`作用` : 将一个js数据转换为Immutable类型的数据 `用法` : `fromJS(value, converter)` `简介` : value是要转变的数据，converter是要做的操作。第二个参数可不填，默认情况会将数组准换为List类型，将对象转换为Map类型，其余不做操作。
-
-is()
-
-`作用` : 对两个对象进行比较 `用法` : `is(map1,map2)` `简介` : 和js中对象的比较不同，在js中比较两个对象比较的是地址，但是在Immutable中比较的是这个对象hashCode和valueOf，只要两个对象的hashCode相等，值就是相同的，避免了深度遍历，提高了性能
-
-
-
-## rxjs
-
-rxjs是一个库，它通过使用observable序列来编写异步和基于事件的程序。它提供了核心类型Observable，附属类型(observer、schedulers、subjects)和类似于数组的操作符(map、filter、reduce、every)等，这些操作符可以把异步事件作为集合来处理
-
-可以把rxjs当作用来处理事件的lodash
-
-rxjs中的基本概念：
-
-Observable(是一个可观察对象)：表示一个概念，这个概念是一个可调用的未来值或事件的集合
-
-Observer(观察者)：一个回调函数的集合，它指定如何监听由Observable提供的值
-
-Subscription(订阅)：表示Observable的执行，它主要用于取消Obervable的执行
-
-Operator(操作符)：
-
-Subject(主体)：
-
-Scheduler(调度器)：
-
-### 安装
-
-通过npm安装
+react的代码规范库
 
 ```shell
-npm install rxjs
+yarn add eslint eslint-plugin-react
 ```
 
-通过es6或者commonjs导入
+如果是typescript项目按照ts相关插件
 
-```javascript
-var Rx = require('rxjs/Rx')
-import Rx from 'rxjs/Rx'
-
-Rx.observable.of(1,2,3)//等等
+```shell
+yarn add @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
-按需导入函数(可以减少打包体积)
+使用yarn eslint --lint向导来完成配置，或者手动创建eslintrc。json填入如下配置
 
-```javascript
-import { Observable } from 'rxjs/observable'
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map'
-
-var Observable = require('rxjs/Observable').Observable
-require('rxjs/add/observable/of')
-require('rxjs/add/operator/map')
-
-Observable.of(1,2,3).map(x => x+ '!!!');//等等
+```json
+{
+  "extends": ["eslint:recommended","plugin:react/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react","@typescript-eslint"],
+  "rules": {
+    "react/self-closing-comp": ["error"] //组件无内容时自闭合
+  }
+}
 ```
 
-### 注册事件
+在vscode中配置
 
-常规写法
-
-```javascript
-var button = document.querySelector('button')
-button.addEventListener('click',()=> console.log('click'))
+```json
+"eslint.validate": [
+  "javascript",
+  "javascriptreact",
+  "typescript",
+  "typescriptreact"
+]
 ```
 
-rxjs写法
+## react的Ts写法
 
-```javascript
-var button = document.querySelector('button')
-Rx.observable.fromEvent(button,'click')
-  .subscribe(()=> console.log('click'))
-```
-
-### 操作变量
-
-常规写法是非纯函数，状态管理较乱
-
-```javascript
-var count = 0;
-var button = document.querySelector('button')
-button.addEventListener('click',()=> console.log(`click ${{++count}}`))
-```
-
-Rxjs将应用状态隔离起来
-
-```javascript
-var button = document.querySelector('button')
-Rx.observable.fromEvent(button,'click')
-  .scan(count => count +1,0)
-  .subscribe(count => console.log(`click ${count}`))
-```
-
-其他对变量的操作函数
-
-```javascript
-//获取输入框
-var input = Rx.Observable.fromEvent(document.querySelector('input'),'input')
-
-//传递一个新值
-
-//传递两个新值
-input.plunk('target','value').pairwise()
-    .subsribe(value => console.log(value))
-
-//只通过唯一的值
-input.plunk('data').distinct()
-    .subsribe(value => console.log(value))
-
-//不传递重复值
-input.plunk('data').
-```
+### 泛型组件
 
 
-
-### react使用
-
-在react中，在componentDidMount生命周期中订阅observable，在componentWillUnmount中取消订阅
 
 ```react
-import messages from './someObservable'
+//泛型ts组件
+function Foo<T>(props: Props<T>){
+  return <div>{props.content}</div>
+}
 
-class Mycomponent extends ObservableComponent{
-  constructor(props){
-    super(props);
-    this.state = {message:[]};
-  }
-  componentDidMount(){
-    this.messages = messages
-       .scan(messages,messages) => [messages].concat(messages,[])
-       .subscribe(messages => this.setState({messages:messages}))
-  }
-  componentWillUnmount(){
-    this.messages.unsubscribe();
-  }
-  render() {
-    return (
-      <div>
-        <ul>
-           {this.state.messages.map(message => <li>{message.text}</li>)}
-        </ul>
+const App = () => {
+  return (
+  	<div className="App">
+      <Foo content={42}></Foo>
+      <Foo<string> content={"hello"}></Foo>
+    </div>
+  )
+}
+        
+//普通ts组件
+interface Props {
+	content: string;          
+}
+        
+function Foo(props: Props) {
+	return <div>{props.content}</div>          
+}
+        
+const App = () => {
+  return (
+  	<div className="App">
+      // Type number not assignable to type string
+      <Foo content={42}></Foo>
+      <Foo<string> content={"hello"}></Foo>
+    </div>
+  )
+}
+```
+
+
+
+
+
+## react库
+
+### react-helmet
+
+React Helmet是一个HTML文档head管理工具，管理对文档头的所有修改。React Helmet采用纯HTML标记并输出纯HTML标记，非常简单，对react初学者友好
+
+特点：
+
+支持所有有效的head标签，title、base、meta、link、script、noscript和style
+
+支持body、html和title的属性
+
+支持服务端渲染
+
+嵌套组件覆盖重复的head标签修改
+
+同一组件中定义时将保留重复的head标签修改(比如“apple-touch-icon”)
+
+支持跟踪DOM更改的回调
+
+安装
+
+```shell
+npm i react-helmet
+```
+
+使用
+
+```react
+import {Helmet} from "react-helmet"
+
+class Application extends React.Component {
+  render(){
+   return(
+      <div className="application">
+        <Helmet>
+          <meta charSet="utf-8"/>
+          <title>My title</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
+        <Child>
+       			<Helmet>
+                <title>new Title</title>
+            </Helmet>
+       </Child>
       </div>
-    );
+   )
   }
 }
- 
-export default MyComponent;
+```
+
+上面代码中，后面的helmet会覆盖前面的helmet
+
+服务端渲染时，需要在ReactDOMServer.renderToString或ReadDOMServer.renderToStaticMarkup后调用Helmet.renderStatic()来获得你预渲染的head数据
+
+```react
+ReactDOMServer.renderToString(<Handler />);
+const helmet = Helmet.renderStatic();
+```
+
+### 使用antd
+
+Ant-Design是蚂蚁金服开发的面向React和Vue的类似于bootstrap的框架，官网链接为：https://ant.design/index-cn
+
+安装包
+
+```node
+npm install antd --save
+cnpm i antd -S
 ```
 
 
 
-https://www.jianshu.com/p/273e7ab02fa1
+在App.css文件中导入样式
 
-## cyclejs
-
-
-
-
-
-## 测试框架
-
-
-
-## Nextjs
-
-Https://juejin.cn/post/6844904017487724557
-
-`Next.js`是一个基于`React`的一个服务端渲染简约框架。它使用`React`语法，可以很好的实现代码的模块化，有利于代码的开发和维护
-
-Next的优点：
-
-- 默认服务端渲染模式，以文件系统为基础的客户端路由
-- 代码自动分隔使页面加载更快
-- 以页面为基础的简洁的客户端路由
-- 以`webpack`的热替换为基础的开发环境
-- 使用`React`的`JSX`和`ES6`的`module`，模块化和维护更方便
-- 可以运行在`Express`和其他`Node.js`的`HTTP` 服务器上
-- 可以定制化专属的`babel`和`webpack`配置
-
-创建next项目
-
-```shell
-npm install --save react react-dom next
-```
-
-`Next.js`是从服务器生成页面，再返回给前端展示。`Next.js`默认从 `pages` 目录下取页面进行渲染返回给前端展示，并默认取 `pages/index.js` 作为系统的首页进行展示。注意，`pages` 是默认存放页面的目录，路由的根路径也是`pages`目录
-
-在pages目录下创建indexjs
-
-```javascript
-// next-Link用于引入文件
-import Link from 'next/link'
-
-const Index = () => (
-  <div>
-    <Link href="/about">
-      <a>About Page</a>
-    </Link>
-    <p>Hello Next.js</p>
-  </div>
-)
-
-export default Index
+```node
+@import '~antd/dist/antd.css';
 ```
 
 
 
-### 多页面
+按需导入包
+
+```node
+import {  } from 'antd';
+
+```
 
 
 
-### 使用redux
+组件
 
 
 
-### 路由遮盖
+### GraphQL
 
-`Next.js`上提供了一个独特的特性：路由遮盖（Route Masking）。它可以使得在浏览器上显示的是路由`A`，而`App`内部真正的路由是`B`。这个特性可以让我们来设置一些比较简洁的路由显示在页面，而系统背后是使用一个带参数的路由。比如上面的例子中，地址栏中显示的是 `http://localhost:3000/post?title=Hello%20Next.js` ，这个地址含有一个`title`参数，看着很不整洁。下面我们就用`Next.js`来改造路由，使用路由遮盖来创建一个更加简洁的路由地址。比如我们将该地址改造成 `http://localhost:3000/p/hello-nextjs
+Apollo是基于GraphQL的全栈解决方案集合，包括了apollo-client和apollo-server，从后端到前端提供了对应的lib使得开发GraphQL更加方便
 
-
-
-### 部署next项目
-
-`Next.js` 项目的部署，需要一个 `Node.js`的服务器，可以选择 `Express`, `Koa`或其他 `Nodejs` 的Web服务器。本文中以 `Express` 为例来部署 `Next` 项目。
-
-
-
- 
+```js
+apollo-boost 包含启动阿波罗客户端的所有依赖
+react-apollo 视图层面的集合
+graph-tag 解析查询语句
+graphql 也是解析查询语句
+```
 
 
 
-## Dvajs
+```react
+import ApolloClient from 'apollo-boost' 
 
-dva 首先是一个基于 redux 和 redux-saga的数据流方案，然后为了简化开发体验，dva 还额外内置了 react-router和 fetch，所以也可以理解为一个轻量级的应用框架。
+const client = new ApolloClient({
+    uri: 'http://localhost:5000/graphql'
+})
 
-dva把redux的action、reducer、createActions、actionType等不同目录的文件组织在一个modle文件中。
+import { ApolloProvider,Query } from 'react-apollo'
+import { Mutation,MutationFunc } from 'react-apollo'
+
+```
+
+
+
+```react
+npm install @apollo/client graphql
+```
+
+
+
+使用hooks
+
+
+
+### eventbus
 
 安装
 
 ```shell
-npm install dva-cli@next -g
-```
-
-创建项目
-
-```shell
-dva new myapp
-```
-
-进入目录，运行
-
-```shell
-npm start
+yarn add events
 ```
 
 
-
-
-
-## blitz.js
-
-安装
-
-```shell
-npm install -g blitz
-```
-
-创建项目
-
-```shell
-blitz new AppName
-cd 
-```
-
-
-
-
-
-## Umijs
-
-
-
-
-
-
-
-和creat-react-app的不同
-
-create-react-app 是基于 webpack 的打包层方案，包含 build、dev、lint 等，他在打包层把体验做到了极致，但是不包含路由，不是框架，也不支持配置。所以，如果大家想基于他修改部分配置，或者希望在打包层之外也做技术收敛时，就会遇到困难。
-
-和nextjs的不同
-
-next.js 是个很好的选择，Umi 很多功能是参考 next.js 做的。要说有哪些地方不如 Umi，我觉得可能是不够贴近业务，不够接地气。比如 antd、dva 的深度整合，比如国际化、权限、数据流、配置式路由、补丁方案、自动化 external 方面等等一线开发者才会遇到的问题。
-
-
-
-## Ramda
-
-ramda的主要特性：
-
-Ramda强调更加纯粹的函数式编程风格，数据不变性和无副作用是其核心设计理念，可以帮助你使用简洁优雅的代码完成工作
-
-Ramda函数本身都是自动柯里化的，这可以让你在只提供部分参数的情况下，轻松在已有函数的基础上创建新的函数
-
-Ramda函数参数的排列顺序更便于柯里化，要操作的数据通常在最后面。
-
-### 安装
-
-安装
-
-```shell
-npm install ramda 
-```
-
-全部引入
 
 ```javascript
-const R = require('ramda')
+//event.ts
+import {EventEmitter} from 'events'
+export default new EventEmitter()
 
-import * as R from 'ramda'
+//发布
+import emitter from './event'
 
-const {identity} = RR.map(identity,[1,2,3]) 
+class Father extends React.Component {
+  constructor(props){
+    super(props)
+  }
+  handleClick = () =>{
+    emitter.emit('info','来自father的info')
+  }
+}
+
+export default Father
+//订阅
+//emitter.addListener()事件监听订阅
+//emitter.removeListener()进行事件销毁，取消订阅
+import emitter from './event'
+
+class Son extends React.Component {
+  constructor(props){
+    super(props)
+  }
+}
 ```
 
-部分引入
+
+
+### react-beautiful-dnd
+
+
+
+
+
+### react-dnd
+
+
+
+Https://juejin.cn/post/6933036276660731912　
+
+
+
+### react-intl-universal
+
+不建议使用react-intl，而使用React-intl-universal实现
+
+建立英文和中文语言包,可以是json或者js文件
 
 ```javascript
-import identity from 'ramda/src/identity'
+const en_US = {
+  'hello':'nihao',
+  'name': 'zhangsan',
+  'age': '30',
+  'changelang': 'qiehuanyuyan',
+}
+
+export default en_US
 ```
 
+中文包
 
+```js
+const zh_CN = {
+  'hello':'nihao',
+  'name': 'zhangsan',
+  'age': '30',
+  'changelang': 'qiehuanyuyan',
+}
 
-
-
-
-
-## Preact
-
-### 基本概念
-
-启动-安装preact-cli
-
-```shell
-npm i -g preact-cli
+export default zh_CN
 ```
 
-创建应用
+使用
 
-```shell
-preact create my-first-preact-app
-cd my-first-preact-app
-```
+```react
+import intl from 'react-intl-universal'
+import cn from '../../assets/locals/zh-CN'
+import us from '../../assets'
 
-启动
-
-```shell
-npm start
-```
-
-在本地端口8080就可以访问
-
-打包构建
-
-```shell
-npm run build
-```
-
-preact打包构建很快，且和pwa配合很好，一些移动端的页面以及活动页建议可以尝试一下，性能确实会比React好一些，开发与构建流程也很简单高效。
-
-传统有状态组件与无状态组件
-
-有状态组件
-
-```javascript
-class Link extends Component {
-    render(props, state) {
-        return <a href={props.href}>{ props.children }</a>;
+class IntlExample extends React.Component{
+  constructor(){
+    super();
+    this.locals = {
+      'zh_CN': cn,
+      'en_US': us
     }
-}
-```
-
-上面的代码就用到了**PReact可以直接在render中传入props和state**的特性，从一定程度上简化了写法，提升了可读性。
-
-无状态组件
-
-
-
-**关联状态**
-
-在优化 state 改变的方面，Preact 比 React 走得更超前一点。在 ES2015 React 代码中，通常的模式是在 render() 方法中使用箭头函数，以便响应事件，更新状态。**每次渲染都再局部创建一个函数闭包，效率十分低下，而且会迫使垃圾回收器作许多不必要的工作。**
-
-在 Preact 的 Form 中，提供了 linkState() 作为解决方案。linkState() 是 Component 类的一个内置方法。
-
-当发生一个事件时，调用 .linkState('text') 将返回一个处理器函数，这个函数把它相关的值更新到组件状态内指定的值。 **多次调用 linkState(name)时，如果 name 参数相同，那么结果会被缓存起来**。所以就必然不存在**性能**问题，如:
-
-```javascript
-class Foo extends Component {
-    render({ }, { text }) {
-        return <input value={text} onInput={this.linkState('text')} />;
+    this.state = {
+      intl: cn
     }
+  }
+  
+  componentDidMount() {
+    this.initLocale();
+  }
+  initLocale(locale="zh_CN"){
+    
+  }
 }
 ```
 
-**外部DOM修改**
+### react-hot-loader
 
-有时，需要用到一些第三方库，这些**第三方库需要能够自由的修改 DOM，并且在 DOM 内部持久化状态，或这些第三方库根本就没有组件化**。有许多优秀的 UI 工具或可复用的元素都是处于这种无组件化的状态。在 Preact 中 (React 中也类似), 使用这样的库需要告诉 Virtual DOM 的 rendering/diffing 算法：在给定的组件(或者该组件所呈现的 DOM) 中不要去撤销任何外部 DOM 的改变。
+React-Hot-Loader 使用了 Webpack HMR API，针对 React 框架实现了对单个 component 的热替换，并且能够保持组件的 state。
+React-Hot-Loader 在编译时会在每一个 React component 外封装一层，每一个这样的封装都会注册自己的 module.hot.accept 回调，它们会监听每一个 component 的更新，在当前 component 代码更新时只替换自己的模块，而不是整个替换 root component。
+同时，React-Hot-Loader 对 component 的封装还会代理 component 的 state，所以当 component 替换之后依然能够保持之前的 state。
 
-可以在组件中定义一个 shouldComponentUpdate() 方法并让其返回值为 fasle：
+安装
+
+```shell
+npm install --save-dev react-hot-loader
+```
+
+ hot-loader 是基于 webpack-dev-server，所以还得安装 webpack-dev-server
+
+```shell
+npm install --save-dev webpack-dev-server
+```
+
+首先还是要让 webpack-dev-server 打开。
 
 ```javascript
-class Block extends Component {
-  shouldComponentUpdate = () => false;
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var config = require('./webpack.config');
+
+new WebpackDevServer(webpack(config), {
+  publicPath: config.output.publicPath,
+  hot: true,
+  historyApiFallback: true
+}).listen(3000, 'localhost', function (err, result) {
+  if (err) {
+    return console.log(err);
+  }
+
+  console.log('Listening at http://localhost:3000/')
+});
+```
+
+然后在 webpack 的配置文件里添加 react-hot-loader。
+
+```javascript
+var webpack = require('webpack');
+
+module.exports = {
+  // 修改 entry
+  entry: [
+    // 写在入口文件之前
+    "webpack-dev-server/client?http://0.0.0.0:3000",
+    "webpack/hot/only-dev-server",
+    // 这里是你的入口文件
+    "./src/app.js",
+  ],
+  output: {
+    path: __dirname,
+    filename: "build/js/bundle.js",
+    publicPath: "/build"
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        // 在这里添加 react-hot，注意这里使用的是loaders，所以不能用 query，应该把presets参数写在 babel 的后面
+        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015']
+      }
+    ]
+  },
+  // 添加插件
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
+```
+
+
+
+### uuid
+
+uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
+
+UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。
+
+格式
+
+uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符
+
+UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：
+
+uuid.v1()：创建版本1(时间戳)UUID
+
+uuid.v3()：创建版本3(md5命名空间)UUID
+
+uuid.v4()：创建版本4(随机)UUID
+
+uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD
+
+安装
+
+```shell
+npm install uuid 
+```
+
+使用
+
+```javascript
+import { v4 as uuidv4} from 'uuid'
+
+uuidv4()
+```
+
+可以使用uuid进行验证登陆,未登陆状态下生产uuid
+
+```javascript
+let uuid = sessionStorage.getItem('uuid')
+if(!uuid){
+  sessionStorage.setItem('uuid')
+}
+
+if(getToken()){
+  sessionStorage.removeItem('uuid');
+}else {
+  let uuid = sessionStorage.getItem('uuid');
+  if(!uuid){
+    sessionStorage.setItem('uuid',uuidv4());
+  }
 }
 ```
 
-有了这个生命周期的钩子（shouldComponentUpdate），并**告诉 Preact 当 VDOM tree 发生状态改变的时候, 不要去再次渲染该组件**。这样**组件就有了一个自身的根 DOM** 元素的引用。你**可以把它当做一个静态组件**，直到被移除。因此，任何的组件引用都可以简单通过 this.base 被调用，并且对应从 render() 函数返回的根 JSX 元素。
-
-### 性能监控
-
-Preact 很适用于 PWA，它也可以与许多其他工具和技术一起使用以进一步提升和监控性能，
-
-1. [**webpack的代码拆分按需加载**](https://webpack.github.io/docs/code-splitting.html) 来分解代码，以便**只发送用户页面需要的代码**。根据需要延迟加载其余部分可提高页面加载时间。
-2. [**Service Worker 缓存**](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)允许**离线缓存应用程序中的静态和动态资源**，实现即时加载和重复访问时更快的交互性。使用[sw-precache](https://github.com/GoogleChrome/sw-precache#wrappers-and-starter-kits)或[offline-plugin](https://github.com/NekR/offline-plugin)完成此操作。
-3. [**PRPL**](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)鼓励**向浏览器预先推送或预加载资源**，从而加快后续页面的加载速度。它基于代码拆分和 SW 缓存。
-4. [**Lighthouse**](https://github.com/GoogleChrome/lighthouse/)允许你**审计（监控）渐进式 Web 应用程序的性能和最佳实践**，因此你能知道你的应用程序的表现情况。
 
 
 
-### 把React替换为Preact
 
-两种方式：
-（1）安装 preact-compat
-（2）把 React 的入口替换为 preact，并解决代码冲突
 
-### 优缺点
 
-优点：
+### js-cookie
 
-1.接近于实质：Preact 实现了一个可能是最薄的一层虚拟 DOM。它将虚拟 DOM 与 DOM 本身区别开，注册真实的事件处理函数，很好地与其它库一起工作。
+cookie插件
 
-2.小体积、轻量：大多数 UI 框架相当大，在应用程序js代码中占比较高。Preact却足够小，你的业务代码，是应用程序中最大的部分。**preact本身的bundle在gzip压缩后大概只有3kb，比React小很多**。更少js代码的加载，解析和执行，可以有效的提升应用的性能与体验。
+```shell
+npm install js-cookie --save
+```
 
-3.快速、高性能：Preact 是快速的，不仅因为它的体积，**一个更简单和可预测的 diff 实现**，使它成为最快的虚拟 DOM 框架之一。它也包含**额外的性能优化特性**，如：批量自定义更新，可选的异步渲染，DOM 回收和通过关连状态优化的事件处理等。
+引用
 
-4.易于开发和生产：在不需要牺牲生产力的前提，preact包含了有一些额外而便捷的功能以使得开发更简单高效，如：
+```javascript
+import Cookies from 'js-cookie'
 
-props, state 和 context 可以被传递给 render()；
-**可使用标准的 HTML 属性**，如 class 和 for；
-可使用 React 开发工具等。
+//设置cookie
+Cookies.set('name','value',{expire:7,path:''}); //7天过期
+Cookies.set('name',{foo:'bar'}); //设置一个json
+//获取cookie
+Cookies.get('name'); //获取cookie
+Cookies.get();  //读取所有cookie
 
-5.与react生态兼容：可以无缝使用 React 生态系统中可用的数千个组件。增加一个简单的兼容层 preact-compat 到绑定库中，甚至可以在系统中使用非常复杂的 React 组件。
+//删除cookie
+Cookies.remove('name'); //删除cookie
+```
 
-6.可以很容易的和[PWA（渐进式 Web 应用程序）](https://developers.google.com/web/progressive-web-apps/)配合工作，提供更好的用户体验：PReact官方的脚手架[preact-cli](https://github.com/developit/preact-cli)可以直接快速的构建一个PReact的渐进式 Web 应用程序。使得页面在加载的 [5 秒内就进行交互](https://infrequently.org/2016/09/what-exactly-makes-something-a-progressive-web-app/)。
 
-### 与react对比
+
+### react-color
+
+react-color是一个拾色器，通过它获取颜色值
+
+安装
+
+```shell
+npm i react-color -S
+```
+
+使用
+
+```react
+import { TwitterPicker } from 'react-dom'
+
+function () {
+  render() {
+    <TwitterPicker 
+      width="240px"
+      
+      />
+  }
+}
+```
+
+
+
+### react-lazyload
+
+安装
+
+```shell
+npm install --save react-lazyload
+```
+
+懒加载图片
+
+```react
+import React from 'react';
+import ReactDOM from 'react-dom';
+import LazyLoad from 'react-lazyload';
+import MyComponent from './MyComponent';
+
+const App = () => {
+  return (
+    <div className="list">
+      <LazyLoad height={200}>
+        <img src="tiger.jpg" /> /*
+                                  Lazy loading images is supported out of box,
+                                  no extra config needed, set `height` for better
+                                  experience
+                                 */
+      </LazyLoad>
+      <LazyLoad height={200} once >
+                                /* Once this component is loaded, LazyLoad will
+                                 not care about it anymore, set this to `true`
+                                 if you're concerned about improving performance */
+        <MyComponent />
+      </LazyLoad>
+      <LazyLoad height={200} offset={100}>
+                              /* This component will be loaded when it's top
+                                 edge is 100px from viewport. It's useful to
+                                 make user ignorant about lazy load effect. */
+        <MyComponent />
+      </LazyLoad>
+      <LazyLoad>
+        <MyComponent />
+      </LazyLoad>
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.body);
+```
+
+默认懒加载组件
+
+```react
+import { lazyload } from 'react-lazyload';
+
+@lazyload({
+  height: 200,
+  once: true,
+  offset: 100
+})
+class MyComponent extends React.Component {
+  render() {
+    return <div>this component is lazyloaded by default!</div>;
+  }
+}
+```
+
 

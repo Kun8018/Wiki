@@ -13,6 +13,205 @@ thumbnail:
 
 ## React原理
 
+### 合成事件
+
+React合成事件是React模拟原生DOM事件所有能力的一个事件对象，即浏览器原生事件的跨浏览器包装器。它根据w3c规范来定义合成事件，兼容所有浏览器，拥有与浏览器原生事件相同的接口
+
+在React中，所有事件都是合成的，不是原生DOM事件，但可以通过e。nativeEvent属性获取DOM事件
+
+React合成事件存在的目的：
+
+1.为了更好的进行浏览器兼容，更好地跨平台
+
+React采用的是顶层事件代理机制，能够保证冒泡一致性，可以跨浏览器执行。React提供的合成事件用来抹平不同浏览器事件对象之间的差异，将不同平台事件模拟合成事件
+
+2.避免垃圾回收
+
+事件对象可能会被频繁创建和回收，因为react引入事件池，在事件池中获取或释放事件对象。即react事件对象不会被释放掉，而是存放在一个数组中，当事件触发时，就从这个数组中弹出，避免频繁地创建和销毁，垃圾回收
+
+3.方便事件统一管理和事务机制
+
+由于fiber架构的特点，生成一个fiber节点时，它对应的dom节点有可能还未挂载，事件处理函数作为fiber节点的props，也就不能直接绑定到真实的dom节点上。为此，react提供了一种顶层注册、事件收集、统一触发的事件绑定机制
+
+在React中，合成事件会以事件委托的形式绑定在组件最上层，即React所有事件都挂载在document对象上（react16及之前），react17之后绑定在root element元素对象上，并在组件卸载阶段自动销毁绑定的事件。事件委托是对冒泡机制进行优化。
+事件收集是指事件触发时构造合成事件对象，按照冒泡或者捕获的路径去组件中收集真正的事件处理函数
+
+统一触发是
+
+绑定到根组件而非document对象上的原因是为了react渐进升级，避免多版本react共同使用时事件系统发生冲突
+
+执行顺序：
+
+react对事件的优先级分类：
+
+离散事件discreteEvent：click、keydown、focus等，这些事件的触发不是连续的，优先级为0
+
+用户阻塞事件User Blocking Event：drag、scroll、mouseover等，特点是连续触发，阻塞渲染，优先级为1
+
+连续事件ContinuousEvent：canplay、error、audio标签等timeupdate等，优先级最高，为2
+
+四种优先级：
+
+事件优先级：由事件本身决定
+
+更新优先级：由事件计算得出
+
+任务优先级：
+
+调度优先级：调度优先级根据任务优先级获取
+
+### Fiber架构
+
+react16相比于react15，经过重构后Reconciliation和Rendering被分为两个不同的阶段。
+
+#### fiber架构中的基本概念
+
+Fiber 的架构有两个主要阶段：协调/渲染 和 提交。
+
+**reconciler协调阶段**：当组件次初始化和其后的状态更新中，React会创建两颗不相同的虚拟树，React 需要基于这两棵树之间的差别来判断如何有效率的更新 UI 以保证当前 UI 与最新的树保持同步，计算树哪些部分需要更新。**react diff算法就发生在这个阶段**
+
+**renderer阶段**：渲染器负责将拿到的虚拟组件树信息，根据其对应环境真实地更新渲染到应用中。有兴趣的朋友可以看一下dan自己的博客中的文章=》[运行时的react=》渲染器](https://overreacted.io/react-as-a-ui-runtime/#renderers)，介绍了react的Renderer渲染器如react-dom和react native等，其可以根据不同的主环境来生成不同的实例。
+
+协调阶段的工作：
+
+协调阶段通常被称为“渲染阶段”。这是React遍历组件树的阶段，并且：
+
+- 更新状态和属性
+- 调用生命周期钩子
+- 获取组件的`children`
+- 将它们与之前的`children`进行对比
+- 并计算出需要执行的DOM更新
+
+**fiber对象**
+
+一个fiber对象是表征work的一个基本单元。
+
+每一个React元素对应一个fiber对象，fibers是一个基于child, sibling 和 return属性构成的链表。 fiber对象核心的属性和含义如下所示：
+
+**child、silbing、return**
+
+fiber对象的属性，这些属性指向其他fiber，表征当前工作单元的下一个工作单元，用于描述fiber的递归树结构。
+
+child： 对应于父fiber节点的子fiber silbing： 对应于fiber节点的同类兄弟节点 return： 对应于fiber节点的父节点
+
+相对于React v16之前的版本，正是得益于fiber对象的child、sibing和return属性构成的单链表结构以及fiber对象中存储的上下文信息，才使得scheduler可以达到暂停、中止、重新开始等并发模式的新特性。
+
+**work**
+
+在React reconciliation过程中出现的各种比如state update，props update 或 refs update等必须执行计算的活动，这些活动我们在Fiber架构体系里面统一称之为 “work”。
+
+**worktag**
+
+workTag 类型，用于描述一个React元素的类型，即为上述fiber对象的 fiber.tag
+
+**stateNode**
+
+一个组件、一个DOM节点或其他跟fiber节点相关联的React元素的实例的引用。通常，我们可以说这个属性是用于保存与一个fiber相关联的本地状态。即上述fiber对象的 fiber.stateNode。
+
+#### 双缓存机制
+
+**current树和workInProgress树** 
+
+首次渲染后，React生成一个用于渲染UI并能映射应用状态的fiber树，我们通常称之为current树。当React遍历current树，它为每一个存在的fiber节点创建一个alternate属性的替代节点，该节点构成workInProgress树。
+
+所有发生update的work都在workInProgress树中执行，如果alternate属性还未创建，React将在处理update之前在createWorkInProgress函数中创建一个current树的副本，即形成workInProgress树，用于映射新的状态并在commit阶段刷新到屏幕。
+
+**所有这些活动都被称为Fiber内部的工作。** 需要完成的工作类型取决于React Element的类型。 例如，对于 `Class Component` React需要实例化一个类，然而对于`Functional Component`却不需要。
+
+在浏览器中GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。
+
+**Stack Reconciler 和 fiber reconciliation**
+
+React16 推出Fiber之前协调算法是Stack Reconciler，即递归遍历所有的 Virtual DOM 节点执行Diff算法，一旦开始便无法中断，直到整颗虚拟dom树构建完成后才会释放主线程，因其JavaScript单线程的特点，若当下组件具有复杂的嵌套和逻辑处理，diff便会堵塞UI进程，使动画和交互等优先级相对较高的任务无法立即得到处理，造成页面卡顿掉帧，影响用户体验。在`React15`及之前，`React`会递归比对`VirtualDOM`树，找出需要变动的节点，然后同步更新它们。这个过程`React`称为`Reconciliation(协调)`。
+
+在`Reconciliation`期间，`React`会一直占用着浏览器资源，一则会导致用户触发的事件得不到响应, 二则会导致掉帧，用户可能会感觉到卡顿。
+
+针对上述痛点，我们期望将**”找出有增删改的节点“，”然后同步更新他们“**这个过程分解成两个独立的部分，或者通过某种方式能让整个过程**可中断可恢复的执行**，类似于多任务操作系统的单处理器调度。
+
+fiber的核心目标：
+
+- 把可中断的工作拆分成多个小任务
+- 为不同类型的更新分配任务优先级
+- 更新时能够暂停，终止，复用渲染任务
+
+这是一种**合作式调度**，需要程序和浏览器互相信任。浏览器作为领导者，会分配执行时间片（即requestIdleCallback）给程序去选择调用，程序需要按照约定在这个时间内执行完毕，并将控制权交还浏览器。
+
+Fiber是一个执行单元，每次执行完一个执行单元，React就会检查现在还剩多少时间，如果没有时间就将控制权交还浏览器；然后继续进行下一帧的渲染。
+
+从根节点开始遍历
+
+如果没有长子，则标识当前节点遍历完成。`completeUnitOfWork`中收集
+
+如果没有相邻兄弟，则返回父节点标识父节点遍历完成。`completeUnitOfWork`中收集
+
+如果没有父节点，标识所有遍历完成。`over`
+
+如果有长子，则遍历；`beginWork`中收集；收集完后返回其长子，回到`第2步`循环遍历
+
+如果有相邻兄弟，则遍历；`beginWork`中收集；收集完后返回其长子，回到`第2步`循环遍历
+
+#### Render阶段
+
+**enqueueSetState**
+
+以类组件为例，ReactDOM中的updater对象是一个classComponentUpdater，用于获取fiber实例、update队列和调度 work
+
+fiber.updateQueue是一个具有updates优先级的链表（UpdateQueue is a linked list of prioritized updates）
+
+跟Fiber一样，update 队列也是成对出现：一个代表屏幕可见状态的 current 队列，一个在commit阶段之前可被异步计算和处理的work-in-progress 队列。如果一个work-in-progress队列在完成之前被丢弃，则将会通过克隆一个curent队列来创建一个新的work-in-progress队列。
+
+
+
+函数调用栈：performUnitOfWork --> beginWork --> updateClassComponent --> finishedComponent --> completeUnitOfWork
+
+
+
+**completeUnitOfWork**
+
+React在completeUnitOfWork函数中构建effect-list
+
+是深度优先搜索算法一部分，获取workInProgress.alternate、父节点workInProgress.return和workInProgress.sibling，如果存在兄弟节点则返回。否则，返回父节点。
+
+#### Commit阶段
+
+类似于`Git`的分支功能，从旧树里面fork一份，在新分支中进行**添加、删除、更新**操作，然后再进行提交。
+
+fiber大量使用链表。由于数组的大小是固定的，从数组的起点或者中间插入或移除项的成本很高。链表相对于传统的数组的优势在于添加或移除元素的时候不需要移动其他元素，**需要添加和移除很多元素时，最好的选择是链表，而非数组。** 链表在React的Fiber架构和Hooks实现发挥很大的作用。
+
+commit阶段被分为几个子阶段。每个子阶段都单独进行effect list传递。所有的mutation effects都会在所有的layout effects之前执行。
+
+被分为如下三个子阶段：
+
+- before mutation：React使用此阶段读取 host tree的state状态。 这是调用getSnapshotBeforeUpdate生命周期的地方。
+- mutation phase：在这个阶段，React 会改变host tree。 当该阶段执行结束时，work-in-progress树会变成current树，这必须发生在“mutation phase”阶段之后，以便于在componentWillUnmount生命周期内，仍然是之前的current树。但是，也要发生在“layout phase”阶段之前，以便于在componentDidMount / Update生命周期间，current树是已完成的work操作的。
+- layout phase：在这个阶段hfost tree已经被更改并调用 effects。componentDidMount / Update等生命周期在这个阶段被执行。
+
+### props与state的区别
+
+props和state都是普通的JavaScript对象，它们都是用来保存信息的，这些信息可以控制组件的渲染输出。不同点：
+
+props是传递给组件的，而state是组件内被组件自己管理
+
+props是不可修改的，所有react组件必须像纯函数一样保护它们的props不被修改，由于props是不可变的，因为如果一个组件中只有props，那么就视为pureComponent
+
+state实在组件中创建的，一般在constructor中初始化state
+
+state是多变的，可以修改的，每次setState都是异步更新的
+
+在react中，this.props和this.state都代表已经被渲染了的值，即当前屏幕显示的值。而调用setstate通常是异步的，因此如果你想基于当前的state计算出新的值，那么应该传递一个新函数，而不是一个对象
+
+```react
+increment() {
+  this.setState({count: this.state.count + 1})
+}
+
+increment() {
+  this.setState({count: state.count + 1})
+}
+```
+
+
+
 ### setState原理
 
 setState的执行过程：
@@ -39,7 +238,7 @@ setState的执行过程：
 
 ### setState的异步同步
 
-有时表现出异步,有时表现出同步
+简单来说，只要setState在react的调度流程中，就是异步的，只要没有进入react的流程中，那就是同步的。不会进入react调度流程的事件：setTimeout，setInterval、直接在DOM上绑定原生事件等，都不会走React调度流程。在这些情况里面调用setState就是同步的，否则就是异步的。
 
 `setState`只在合成事件和钩子函数中是“异步”的，在原生事件和`setTimeout` 中都是同步的。
 
@@ -299,6 +498,14 @@ Scheduer 流程主要是创建更新，创建更新的方式：
 
 
 
+#### 什么时候重新渲染
+
+1.组件的state发生变化，如props变化或者通过setstate变化
+
+2.shouldComponentUpdate
+
+shouldComponentUpdate方法默认总是返回true，可以重写shouldComponentUpdate方法来看它是否返回true
+
 
 
 ### Effect Hook机制
@@ -364,6 +571,18 @@ hook 还有一些附加的属性，但是弄明白 hook 是如何运行的关键
 - `baseState` —— 传递给 reducer 的状态对象。
 - `baseUpdate` —— 最近一次创建 `baseState` 的已发送的 action。
 - `queue` —— 已发送 action 组成的队列，等待传入 reducer。
+
+### redux原理
+
+Redux是将整个应用状态存储到一个地方上称为**store**,里面保存着一个状态树**store tree**,组件可以派发(dispatch)行为(action)给store,而不是直接通知其他组件，组件内部通过订阅**store**中的状态**state**来刷新自己的视图。
+
+redux三大原则
+
+- 1 唯一数据源
+- 2 保持只读状态
+- 3 数据改变只能通过纯函数来执行
+
+
 
 ### redux-reducer
 
@@ -524,452 +743,6 @@ const VisibilityObserverChildren = ({callback,children}) =>{
   },[callback,isVisible])
   
   return <>{children}</>
-}
-```
-
-
-
-## react库
-
-### react-helmet
-
-React Helmet是一个HTML文档head管理工具，管理对文档头的所有修改。React Helmet采用纯HTML标记并输出纯HTML标记，非常简单，对react初学者友好
-
-特点：
-
-支持所有有效的head标签，title、base、meta、link、script、noscript和style
-
-支持body、html和title的属性
-
-支持服务端渲染
-
-嵌套组件覆盖重复的head标签修改
-
-同一组件中定义时将保留重复的head标签修改(比如“apple-touch-icon”)
-
-支持跟踪DOM更改的回调
-
-安装
-
-```shell
-npm i react-helmet
-```
-
-使用
-
-```react
-import {Helmet} from "react-helmet"
-
-class Application extends React.Component {
-  render(){
-   return(
-      <div className="application">
-        <Helmet>
-          <meta charSet="utf-8"/>
-          <title>My title</title>
-          <link rel="canonical" href="http://mysite.com/example" />
-        </Helmet>
-        <Child>
-       			<Helmet>
-                <title>new Title</title>
-            </Helmet>
-       </Child>
-      </div>
-   )
-  }
-}
-```
-
-上面代码中，后面的helmet会覆盖前面的helmet
-
-服务端渲染时，需要在ReactDOMServer.renderToString或ReadDOMServer.renderToStaticMarkup后调用Helmet.renderStatic()来获得你预渲染的head数据
-
-```react
-ReactDOMServer.renderToString(<Handler />);
-const helmet = Helmet.renderStatic();
-```
-
-### 使用antd
-
-Ant-Design是蚂蚁金服开发的面向React和Vue的类似于bootstrap的框架，官网链接为：https://ant.design/index-cn
-
-安装包
-
-```node
-npm install antd --save
-cnpm i antd -S
-```
-
-
-
-在App.css文件中导入样式
-
-```node
-@import '~antd/dist/antd.css';
-```
-
-
-
-按需导入包
-
-```node
-import {  } from 'antd';
-
-```
-
-
-
-组件
-
-
-
-### GraphQL
-
-Apollo是基于GraphQL的全栈解决方案集合，包括了apollo-client和apollo-server，从后端到前端提供了对应的lib使得开发GraphQL更加方便
-
-```js
-apollo-boost 包含启动阿波罗客户端的所有依赖
-react-apollo 视图层面的集合
-graph-tag 解析查询语句
-graphql 也是解析查询语句
-```
-
-
-
-```react
-import ApolloClient from 'apollo-boost' 
-
-const client = new ApolloClient({
-    uri: 'http://localhost:5000/graphql'
-})
-
-import { ApolloProvider,Query } from 'react-apollo'
-import { Mutation,MutationFunc } from 'react-apollo'
-
-```
-
-
-
-```react
-npm install @apollo/client graphql
-```
-
-
-
-使用hooks
-
-
-
-### eventbus
-
-安装
-
-```shell
-yarn add events
-```
-
-
-
-```javascript
-//event.ts
-import {EventEmitter} from 'events'
-export default new EventEmitter()
-
-//发布
-import emitter from './event'
-
-class Father extends React.Component {
-  constructor(props){
-    super(props)
-  }
-  handleClick = () =>{
-    emitter.emit('info','来自father的info')
-  }
-}
-
-export default Father
-//订阅
-//emitter.addListener()事件监听订阅
-//emitter.removeListener()进行事件销毁，取消订阅
-import emitter from './event'
-
-class Son extends React.Component {
-  constructor(props){
-    super(props)
-  }
-}
-```
-
-
-
-### react-beautiful-dnd
-
-
-
-
-
-### react-dnd
-
-
-
-Https://juejin.cn/post/6933036276660731912　
-
-
-
-### react-intl-universal
-
-React-intl-universal实现
-
-
-
-### react-hot-loader
-
-React-Hot-Loader 使用了 Webpack HMR API，针对 React 框架实现了对单个 component 的热替换，并且能够保持组件的 state。
-React-Hot-Loader 在编译时会在每一个 React component 外封装一层，每一个这样的封装都会注册自己的 module.hot.accept 回调，它们会监听每一个 component 的更新，在当前 component 代码更新时只替换自己的模块，而不是整个替换 root component。
-同时，React-Hot-Loader 对 component 的封装还会代理 component 的 state，所以当 component 替换之后依然能够保持之前的 state。
-
-安装
-
-```shell
-npm install --save-dev react-hot-loader
-```
-
- hot-loader 是基于 webpack-dev-server，所以还得安装 webpack-dev-server
-
-```shell
-npm install --save-dev webpack-dev-server
-```
-
-首先还是要让 webpack-dev-server 打开。
-
-```javascript
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
-
-new WebpackDevServer(webpack(config), {
-  publicPath: config.output.publicPath,
-  hot: true,
-  historyApiFallback: true
-}).listen(3000, 'localhost', function (err, result) {
-  if (err) {
-    return console.log(err);
-  }
-
-  console.log('Listening at http://localhost:3000/')
-});
-```
-
-然后在 webpack 的配置文件里添加 react-hot-loader。
-
-```javascript
-var webpack = require('webpack');
-
-module.exports = {
-  // 修改 entry
-  entry: [
-    // 写在入口文件之前
-    "webpack-dev-server/client?http://0.0.0.0:3000",
-    "webpack/hot/only-dev-server",
-    // 这里是你的入口文件
-    "./src/app.js",
-  ],
-  output: {
-    path: __dirname,
-    filename: "build/js/bundle.js",
-    publicPath: "/build"
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        // 在这里添加 react-hot，注意这里使用的是loaders，所以不能用 query，应该把presets参数写在 babel 的后面
-        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015']
-      }
-    ]
-  },
-  // 添加插件
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
-```
-
-
-
-### uuid
-
-uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
-
-UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。
-
-格式
-
-uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符
-
-UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：
-
-uuid.v1()：创建版本1(时间戳)UUID
-
-uuid.v3()：创建版本3(md5命名空间)UUID
-
-uuid.v4()：创建版本4(随机)UUID
-
-uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD
-
-安装
-
-```shell
-npm install uuid 
-```
-
-使用
-
-```javascript
-import { v4 as uuidv4} from 'uuid'
-
-uuidv4()
-```
-
-可以使用uuid进行验证登陆,未登陆状态下生产uuid
-
-```javascript
-let uuid = sessionStorage.getItem('uuid')
-if(!uuid){
-  sessionStorage.setItem('uuid')
-}
-
-if(getToken()){
-  sessionStorage.removeItem('uuid');
-}else {
-  let uuid = sessionStorage.getItem('uuid');
-  if(!uuid){
-    sessionStorage.setItem('uuid',uuidv4());
-  }
-}
-```
-
-
-
-
-
-
-
-### js-cookie
-
-cookie插件
-
-```shell
-npm install js-cookie --save
-```
-
-引用
-
-```javascript
-import Cookies from 'js-cookie'
-
-//设置cookie
-Cookies.set('name','value',{expire:7,path:''}); //7天过期
-Cookies.set('name',{foo:'bar'}); //设置一个json
-//获取cookie
-Cookies.get('name'); //获取cookie
-Cookies.get();  //读取所有cookie
-
-//删除cookie
-Cookies.remove('name'); //删除cookie
-```
-
-
-
-### react-color
-
-react-color是一个拾色器，通过它获取颜色值
-
-安装
-
-```shell
-npm i react-color -S
-```
-
-使用
-
-```react
-import { TwitterPicker } from 'react-dom'
-
-function () {
-  render() {
-    <TwitterPicker 
-      width="240px"
-      
-      />
-  }
-}
-```
-
-
-
-### react-lazyload
-
-安装
-
-```shell
-npm install --save react-lazyload
-```
-
-懒加载图片
-
-```react
-import React from 'react';
-import ReactDOM from 'react-dom';
-import LazyLoad from 'react-lazyload';
-import MyComponent from './MyComponent';
-
-const App = () => {
-  return (
-    <div className="list">
-      <LazyLoad height={200}>
-        <img src="tiger.jpg" /> /*
-                                  Lazy loading images is supported out of box,
-                                  no extra config needed, set `height` for better
-                                  experience
-                                 */
-      </LazyLoad>
-      <LazyLoad height={200} once >
-                                /* Once this component is loaded, LazyLoad will
-                                 not care about it anymore, set this to `true`
-                                 if you're concerned about improving performance */
-        <MyComponent />
-      </LazyLoad>
-      <LazyLoad height={200} offset={100}>
-                              /* This component will be loaded when it's top
-                                 edge is 100px from viewport. It's useful to
-                                 make user ignorant about lazy load effect. */
-        <MyComponent />
-      </LazyLoad>
-      <LazyLoad>
-        <MyComponent />
-      </LazyLoad>
-    </div>
-  );
-};
-
-ReactDOM.render(<App />, document.body);
-```
-
-默认懒加载组件
-
-```react
-import { lazyload } from 'react-lazyload';
-
-@lazyload({
-  height: 200,
-  once: true,
-  offset: 100
-})
-class MyComponent extends React.Component {
-  render() {
-    return <div>this component is lazyloaded by default!</div>;
-  }
 }
 ```
 

@@ -89,6 +89,88 @@ create-react-app [项目名]
 npm start 
 ```
 
+### 为什么会有react和react-dom两个包？什么时候替换react-dom
+
+react在v0.14之前是没有React DOM的，所有的功能都包含在React里。从v0.14开始，react被拆分成react和reactDom，因为有了react Native，react只负责web和mobile的通用核心部分，负责DOM操作的分到ReactDOM中，负责Mobile的包含在react-native中
+
+react-dom只做和浏览器或者DOM相关的操作。如ReactDOM.render,reactDom.findDomNode(),如果是服务端渲染可以reactDOM.renderToString()。React不仅能通过ReactDom和web页面打交道，还能在服务端SSR，移动端React Native和桌面端Electron
+
+web端代码
+
+```react
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+const App = () => (
+	<div>
+  	<h1>Hello React</h1>
+  </div>
+)
+
+ReactDOM.render(<App/>,document.getElementById('root'))
+```
+
+React-native
+
+```react
+import React from 'react'
+import { Text, View} from 'react-native'
+
+const WelcomeScreen = () => (
+	<View>
+  	<Text>Hello</Text>
+  </View>
+)
+```
+
+React具有的api：
+
+创建React元素：React.createElement()
+
+创建React组件：React.Component()、React.PureComponent()
+
+创建可包装函数：React.memo()
+
+操作元素的api，进行转换元素操作：
+
+cloneElement() isValidElement() React.children()
+
+Fragments减少不必要嵌套的组件:
+
+​	React.Fragments
+
+Refs：
+
+React.createRef
+
+React.forwardRef
+
+Suspense:
+
+​	suspense使组件可以等待某些操作结束后再进行渲染。通过react.lazy动态加载组件
+
+​	react.suspense
+
+​	react.lazy
+
+React-dom的api
+
+render
+
+hydrate
+
+findDOMNode
+
+unmountComponentAtNode
+
+createPortal
+
+
+
+promise.then(success,failed)he
+
+
+
 ## 构建路由
 
 
@@ -290,11 +372,85 @@ match
 
 match是一个匹配路径参数的对象，它有一个属性params，里面的内容就是路径参数，除常用的params属性外，它还有url、path、isExact属性。
 
-
-
 ### 方法
 
 
+
+### 对象
+
+history对象
+
+监听路由变化
+
+根据history对象判断路由变化作进一步操作
+
+```react
+class Header extends Component {
+  
+  componentWillReceiveProps (nextProps,nextState){
+    if(this.props.location.pathname !== location.pathname){
+        
+    }
+  }
+  
+  componentDidMount() {
+    this.props.history.listen(location => {
+      if(this.props.location.pathname !== location.pathname){
+        
+      }
+    })
+  }
+  
+  shouldComponentUpdate (nextProps){
+    let preRouteName = this.props.location.pathname;
+    let currentRouteName = this.props.location.pathname;
+    return preRouteName !== currentRouteName;
+  }
+}
+```
+
+Hooks
+
+```react
+import React,{ useEffect } from 'React';
+const Header = function(props) {
+  useEffect(()=> {
+    console.log(props.location)
+  },[props.location])
+}
+
+export default Header;
+```
+
+
+
+### nginx与webpack配置
+
+单页应用(SPA)一般只有一个index.html, 导航的跳转都是基于[HTML5 History API](https://link.juejin.cn/?target=http%3A%2F%2Fwww.w3.org%2Fhtml%2Fwg%2Fdrafts%2Fhtml%2Fmaster%2Fsingle-page.html%23the-history-interface)，当用户在越过index.html 页面直接访问这个地址或是通过浏览器的刷新按钮重新获取时，就会出现404问题；
+
+在`webpack.config.js`里面增加配置：
+
+```javascript
+devServer {
+	historyApiFallback: true
+}
+```
+
+`webpack` 里面的 `historyApiFallback` 使用的是`connect-history-api-fallback`
+
+```nginx
+location /react {
+    alias /project/react/;
+    # browserHistory模式 404问题
+    try_files $uri $uri/ /react/index.html;
+    index index.html;
+    autoindex on;
+}
+```
+
+autoindex on; 开启这个，输入到/react 会直接定向到index.html;
+
+try_files 主要解决的是，如果在一些目录下找不到 index.html， 会最终有一个保底资源的路径就是 /react/index.html；
 
 
 
@@ -348,6 +504,54 @@ ReactDOM.render(
     document.getElementById('root')
 )
 ```
+
+### 受控组件与非受控组件
+
+如果组件的状态只能由用户控制，那么就是非受控组件，如果组件的状态可以由用户和通过代码两种方式控制，那么就是受控组件
+
+在React中没有类似于Vue中v-model的双向绑定功能。
+
+```react
+class TestComponent extends React.Component {
+  constructor (props){
+    super(props);
+    this.state = {username: 'lindaidai' }
+  }
+  render () {
+		return <input name="username" value={this.state.username} />
+  }
+}
+```
+
+受控组件的完整定义：
+
+在Html的表单元素中，它们通常自己维护一套state，并随着用户的数据自己进行UI上的更新，这种行为不被我们程序所控制。而如果将React的state属性和表单元素的值建立依赖关系，再通过onChange事件与setState()结合更新state属性，就能达到控制用户输入过程中表单发生的操作，被react以这种方式控制取值的表单输入元素就是受控组件
+
+```react
+class TestComponent extends React.Component {
+  constructor (props){
+    super(props);
+    this.state = {
+      username: 'lindaidai' 
+    }
+  }
+  onChange (e){
+    this.setState({
+      username: e.target.value
+    })
+  }
+  render () {
+		return <input name="username" value={this.state.username} 
+             onChange={(e)=> this.onChange(e)} />
+  }
+}
+```
+
+#### 封装组件为受控组件和非受控组件两种
+
+
+
+
 
 ### 组件间通信
 
@@ -537,7 +741,7 @@ const Pannel = () =>{
 export default App
 ```
 
-### OnRef
+### ref与OnRef
 
 Onref通过props将子组件的组件实例当作参数，通过回调传到父组件，然后在父组件就可以拿到子组件的实例了，拿到实例就可以调用它的方法了
 
@@ -558,6 +762,39 @@ class Father extends React.Component {
   }
 }
 ```
+
+ref可以直接获得dom信息,非受控组件可以采用这种方式获取值而不进行其他操作
+
+```react
+import React,{ Component } from 'react'
+
+export class UnControl extends Component {
+  constructor (props) {
+		super(props);
+    this.inputRef = React.createRef();
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('input内的值为',this.inputRef.current.value);
+  }
+  render () {
+    return (
+    	<form onSubmit={e => this.handleSubmit(e)}>
+        <input defaultValue="lindaidai" ref={this.inputRef}/>
+        <input type="submit" value="提交"/>
+      </form>
+    )
+  }
+}
+```
+
+### 列表组件
+
+使用key时，不能使用数组的index作为列表组件的key
+
+使用index作为key的列表，向列表中添加或删除某些项时可能导致错误的显示。因为key是连接真实DOM的标识，当更改后的key与更改前的key相同时，react会认为前后的组件是相同的，但其实这两项并不一样
+
+
 
 
 
@@ -750,8 +987,6 @@ DOM更新时，会依次调用生命周期函数：
 
 错误处理生命周期函数
 
-
-
 新版生命周期
 
 static getDerivedStateFromProps
@@ -761,6 +996,12 @@ static getDerivedStateFromProps
 **该生命周期钩子的作用：** 将父组件传递过来的 `props` **映射** 到子组件的 `state` 上面，这样组件内部就不用再通过 `this.props.xxx` 获取属性值了，统一通过 `this.state.xxx` 获取。映射就相当于拷贝了一份父组件传过来的 `props` ，作为子组件自己的状态。注意：子组件通过 `setState` 更新自身状态时，不会改变父组件的 `props`
 
 配合 `componentDidUpdate`，可以覆盖 `componentWillReceiveProps` 的所有用法
+
+不把上一个props传递过来的原因：
+
+1.在第一次调用getDerivedStateFromProps后，prevprops参数为null，需要在访问prevprops之前添加if-not-null逻辑检查
+
+2.不把以前的props传递给这个函数，可以把之前不需要用的props释放掉，避免内存占用
 
 **该生命周期钩子触发的时机：**
 
@@ -793,19 +1034,62 @@ async shouldComponentUpdate() {
 
 此外，fiber架构中使用异步渲染，render之前的生命周期函数会被调用多次，因此尽量保持render之前的生命周期不要产生副作用
 
-所以async使用的生命周期一般是componentDIdMound和componentDitUpdate
-
-
+所以async使用的生命周期一般是componentDIdMount和componentDitUpdate
 
 
 
 ### 旧版生命周期函数被弃用的原因
 
-ComponentWillReceiveProps(Props):getDerivedStateFromProps与ComponentDidUpdate配合，可以覆盖ComponentWillReceiveProps的所有用法
+这三个生命周期容易被和误解和滥用
 
-ComponentWillUpdate(Props){}:getSnapshotBeforeUpdate与ComponentWillUpdate配合，可以覆盖ComponentWillUpdate的所有用法
+**ComponentWillReceiveProps(Props)**:react 16之前使用componentWillReceiveProps来做props比较，然后更新组件的state。16及16之后推荐响应props更改的方法使用static getDerivedStateFromProps生命周期。该方法
 
-ComponentWillMount(){}:
+getDerivedStateFromProps与ComponentDidUpdate配合，可以覆盖ComponentWillReceiveProps的所有用法
+
+**ComponentWillUpdate(Props){}**:官方推荐用getDerivedStateFromProps回调里面处理传递过来的props，然后将异步数据放在componentDidupdate中。
+
+在更新列表数据时，需要保持滚动条的位置。可以在getSnapshotBeforeUpdate获取dom的属性，例如offsetHeight、scrollHeight等，将React的值作为参数传递给componentDidUpdate
+
+getSnapshotBeforeUpdate与ComponentWillUpdate配合，可以覆盖ComponentWillUpdate的所有用法
+
+**ComponentWillMount(){}**:通常为了提前setState，防止二次渲染(第一次是空state渲染，第二次外部数据渲染)，经常在ComponentWillMount请求数据。但是这样可能会导致异步获取外部数据不一定在渲染之前返回，也意味着组件也有可能会被渲染一次，为了后面新版本实现异步渲染，建议请求放在componentDidMount来调用。还有一个问题是在服务端渲染（Next.js）时，componentWillMount会导致服务端和客户端各渲染一次，而componentDidMount只在客户端渲染一次（有问题直接下掉）
+
+### 新旧生命周期兼容
+
+使用unsafe字样
+
+
+
+使用react-lifecycles-compat
+
+安装
+
+```shell
+npm install react-lifecycles-compat --save
+```
+
+使用
+
+```react
+import {polyfill} from 'react-lifecycles-compat'
+
+class ExampleComponent extend React.Component {
+  static getDerivedStateFromProps(nextProps,prevState){
+    
+  }
+  getSnapshotBeforeUpdate(preProps,prevState){
+    
+  }
+}
+
+polyfill(ExampleComponent)
+
+export default ExampleComponent;
+```
+
+
+
+
 
 ##  事件处理
 
@@ -931,314 +1215,4 @@ ReactDOM.render(
 ```
 
 
-
-## Redux
-
-Facebook 有一个 Flux 的实现，但是我们会使用 Redux 库。 它使用相同的原理，但是更简单一些。 Facebook 现在也使用 Redux 而不是原来的 Flux。
-
-### 基本概念
-
-redux中概念：
-
-Store:储存state的地方，通过createStore方法创建store
-
-Action:应用中的各种操作或动作，不同的操作会改变相应的state状态
-
-Reducer:按照action更新state
-
-Store.getState():获取整个状态数据对象
-
-store.dispatch():分发Action
-
-store.subscribe():设置监听函数，一旦state变化就会自动执行
-
-以图书馆举例，react component就是一个要借书的用户，当你向图书馆借书时跟图书管理员说要什么书，这个语境就是Action Creators，图书馆的管理员就是store，负责数据状态的管理，图书馆收到请求后向图书系统中查询，这个系统就是Reducers。
-
-安装
-
-```js
-yarn add redux
-```
-
-新建reducer.js
-
-```js
-
-```
-
-新建store.js
-
-```js
-import { } from 'redux'
-
-```
-
-action.js
-
-```javascript
-const action = {
-   type:'ADD_TODO',
-   payload:'Learn Redux'
-}
-```
-
-监听
-
-```javascript
-import {createStore} from 'redux'
-const store = createStore(reducer);
-
-store.subscribe(listener)
-```
-
-action发出后reducer立即执行即为同步，一段时间后执行为异步
-
-对于异步，
-
-### React-redux
-
-react-redux提供connet方法，用于从UI组件生成容器组件，
-
-```javascript
-import {connet} from 'react-redux'
-
-const VisibleTodoList = connect(
-   mapStateToProps,
-   mapDispatchToProps
-)(TodoList)
-```
-
-connet生成容器之后，需要让容器组件拿到state对象，react-redux提供Provider组件让容器拿到state
-
-```javascript
-import {Provider} from 'react-redux'
-import {createStore} from 'redux'
-
-render(
- <Provider store= {store}>
-  <App />
-  </Provider>
-)
-```
-
-### 中间件
-
-redux-thunk
-
-用于异步action，允许你的action可以返回函数, 带有dispatch和getState两个参数, 在这个action函数里, 异步的dispatch action;
-
-redux-saga
-
-功能类似redux-thunk，用于异步action，原理是通过generator函数，相比于thunk更复杂一些，集中处理了action，支持dispatch后的回调。
-
-redux-logger
-
-在控制台打印redux过程，类似的也可以按redux文档示范的中间件，但是感觉logger的颜色更好看
-
-redux-persist
-
-实现数据持久化，自动存入localStorage，配置略麻烦
-
-### 文档
-
-Https://cn.redux.js.org
-
-
-
-## mobx
-
-mobx与redux相比：
-
-- 函数式 VS 面向对象
-- redux 需要 connect，也需要 Immutable Data，reducer，action，文件、代码量较多，概念也多。 mobx 直接引用对象组织，修改数据。
-- redux 数据流动很自然，任何 dispatch 都会导致广播，需要依据对象引用是否变化来控制更新粒度。mobx 数据流流动不自然，只有用到的数据才会引发绑定，局部精确更新，但免去了粒度控制烦恼。
-- redux 有时间回溯，每个 action 都被记录下来，可预测性，定位错误的优势。mobx 只有一份数据引用，不会有历史记录。
-- redux 引入中间件去解决异步操作，以及很多复杂的工作。mobx 没有中间件，数据改了就是改了，没有让你增加中间件的入口。
-
-为什么用mobx
-
-- 简单，概念，代码少
-- class 去定义、组织 store，数据、computed、action 定义到一块，结构更清晰，面向对象的思维更适合快速的业务开发
-- 某个 store 的引用不一定非在组件中才能取到，因为是对象，可以直接引用。比如在 constant.js 文件中可以定义一些来自 store 的变量。
-- 据说效率更高。mobx 会建立虚拟推导图 (virtual derivation graph)，保证最少的推导依赖
-
-### 基本概念
-
-Observable state
-
-给数据对象添加可观测的功能，支持任何数据结构。
-
-Computed values
-
-某个 state 发生变化时，需要自动计算的值。比如说单价变化，总价的计算
-
-Reactions
-
-Reactions 和 Computed 类似，都是 state 变化后触发。但它不是去计算值，而是会产生副作用，比如 console、网络请求、react dom 更新等。mobx 提供了三个函数用于自定义 reactions。
-
-Actions
-
-
-
-https://github.com/sunyongjian/blog/issues/28
-
-## Recoil
-
-
-
-`Recoil` 本身就是为了解决 `React` 全局数据流管理的问题，采用分散管理原子状态的设计模式。
-
-`Recoil` 提出了一个新的状态管理单位 `Atom`，它是可更新和可订阅的，当一个 `Atom` 被更新时，每个被订阅的组件都会用新的值来重新渲染。如果从多个组件中使用同一个 `Atom` ，所有这些组件都会共享它们的状态。
-
-可以把`Atom` 想象为为一组 `state` 的集合，改变一个 `Atom` 只会渲染特定的子组件，并不会让整个父组件重新渲染。
-
-使用 `Redux、Mobx` 当然可以，并没有什么问题，主要原因是它们本身并不是 `React` 库，我们是借助这些库的能力来实现状态管理。像 `Redux` 它本身虽然提供了强大的状态管理能力，但是使用的成本非常高，你还需要编写大量冗长的代码，另外像异步处理或缓存计算也不是这些库本身的能力，甚至需要借助其他的外部库。
-
-并且，它们并不能访问 `React` 内部的调度程序，而 `Recoil` 在后台使用 `React` 本身的状态，在未来还能提供并发模式这样的能力。
-
-使用实例
-
-初始化
-
-```react
-import React from 'react';
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState
-} from 'recoil';
-
-function App() {
-  return (
-    <RecoilRoot>
-      <CharacterCounter />
-    </RecoilRoot>
-  );
-}
-```
-
-定义状态
-
-`Atom` 是一种新的状态，但是和传统的 `state` 不同，它可以被任何组件订阅，当一个 `Atom` 被更新时，每个被订阅的组件都会用新的值来重新渲染。
-
-定义atom
-
-```react
-export const nameState = atom({
-  key: 'nameState',
-  default: 'ConardLi'
-});
-```
-
-这种方式意味着你不需要像 `Redux` 那样集中定义状态，可以像 `Mobx` 一样将数据分散定义在任何地方。
-
-要创建一个 `Atom` ，必须要提供一个 `key` ，其必须在 `RecoilRoot` 作用域中是唯一的，并且要提供一个默认值，默认值可以是一个静态值、函数甚至可以是一个异步函数。
-
-订阅和更新状态
-
-`Recoil` 采用 `Hooks` 方式订阅和更新状态，常用的是下面三个 API：
-
-`useRecoilState`：类似 useState 的一个 `Hook`，可以取到 `atom` 的值以及 `setter` 函
-
-`useSetRecoilState`：只获取 `setter` 函数，如果只使用了这个函数，状态变化不会导致组件重新渲染
-
-`useRecoilValue`：只获取状态
-
-```react
-import { nameState } from './store'
-// useRecoilState
-const NameInput = () => {
-  const [name, setName] = useRecoilState(nameState);
-  const onChange = (event) => {
-   setName(event.target.value);
-  };
-  return <>
-   <input type="text" value={name} onChange={onChange} />
-   <div>Name: {name}</div>
-  </>;
-}
-
-// useRecoilValue
-const SomeOtherComponentWithName = () => {
-  const name = useRecoilValue(nameState);
-  return <div>{name}</div>;
-}
-
-// useSetRecoilState  
-const SomeOtherComponentThatSetsName = () => {
-  const setName = useSetRecoilState(nameState);
-  return <button onClick={() => setName('Jon Doe')}>Set Name</button>;
-}
-```
-
-派生状态
-
-`selector` 表示一段派生状态，它使我们能够建立依赖于其他 `atom` 的状态。它有一个强制性的 `get` 函数，其作用与 `redux` 的 `reselect` 或 `MobX` 的 `@computed` 类似。
-
-```react
-const lengthState = selector({
-  key: 'lengthState', 
-  get: ({get}) => {
-    const text = get(nameState);
-    return text.length;
-  },
-});
-
-function NameLength() {
-  const length = useRecoilValue(charLengthState);
-  return <>Name Length: {length}</>;
-}
-```
-
-selector 是一个纯函数：对于给定的一组输入，它们应始终产生相同的结果（至少在应用程序的生命周期内）。这一点很重要，因为选择器可能会执行一次或多次，可能会重新启动并可能会被缓存。
-
-异步状态
-
-`Recoil` 提供了通过数据流图将状态和派生状态映射到 `React` 组件的方法。真正强大的功能是图中的函数也可以是异步的。这使得我们可以在异步 `React` 组件渲染函数中轻松使用异步函数。使用 `Recoil` ，你可以在选择器的数据流图中无缝地混合同步和异步功能。只需从选择器 `get` 回调中返回 `Promise` ，而不是返回值本身。
-
-```react
-const userNameQuery = selector({
-  key: 'userName',
-  get: async ({get}) => {
-    const response = await myDBQuery({
-      userID: get(currentUserIDState),
-    });
-    return response.name;
-  },
-});
-
-function CurrentUserInfo() {
-  const userName = useRecoilValue(userNameQuery);
-  return <div>{userName}</div>;
-}
-```
-
-`Recoil` 推荐使用 `Suspense`，`Suspense` 将会捕获所有异步状态，另外配合 `ErrorBoundary` 来进行错误捕获：
-
-```react
-function MyApp() {
-  return (
-    <RecoilRoot>
-      <ErrorBoundary>
-        <React.Suspense fallback={<div>Loading...</div>}>
-          <CurrentUserInfo />
-        </React.Suspense>
-      </ErrorBoundary>
-    </RecoilRoot>
-  );
-}
-```
-
-`Recoil` 推崇的是分散式的状态管理，这个模式很类似于 `Mobx`，使用起来也感觉有点像 `observable + computed` 的模式，但是其 API 以及核心思想设计的又没有  `Mobx` 一样简洁易懂，反而有点复杂，对于新手上手起来会有一定成本。
-
-在使用方式上完全拥抱了函数式的 `Hooks` 使用方式，并没有提供 `Componnent` 的使用方式，目前使用原生的 `Hooks API` 我们也能实现状态管理，我们也可以使用 `useMemo` 创造出派生状态，`Recoil` 的 `useRecoilState` 以及 `selector` 也比较像是对 `useContext、useMemo` 的封装。
-
-但是毕竟是 `Facebook` 官方推出的状态管理框架，其主打的是高性能以及可以利用 `React` 内部的调度机制，包括其承诺即将会支持的并发模式，这一点还是非常值得期待的。
-
-另外，其本身的分散管理原子状态的模式、读写分离、按需渲染、派生缓存等思想还是非常值得一学的
-
-https://juejin.cn/post/6881493149261250568#heading-2
 
