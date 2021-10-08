@@ -809,7 +809,7 @@ strategy:
       node:[6,8,10]
 ```
 
-上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，{{matrix.os}}是一个上下文参数
+上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，`{{matrix.os}}`是一个上下文参数
 
 strategy策略包括：
 
@@ -929,7 +929,7 @@ job.status:当前job的状态，如success、failure等
 
 Steps.output:某个action的输出
 
-runner.os:runner的操作系统，如windows、linux或者macOS
+runner.os：runner的操作系统，如windows、linux或者macOS
 
 github还做了一个官方市场，可以搜索到其他人提交的actions，另外还有一个awesome actions的仓库可以找到其他action
 
