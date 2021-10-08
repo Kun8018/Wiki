@@ -529,6 +529,10 @@ Request.js、Response.js ： 这两部分就是对原生的res、req的一些操
 
 
 
+### 资源
+
+koa资源库：https://github.com/huaize2020/awesome-koa
+
 
 
 https://github.com/airuikun/blog/issues/2
@@ -783,6 +787,37 @@ exports.mysql = {
 }
 ```
 
+### 上传文件
+
+config
+
+```javascript
+config.multipart = {
+  fileSize: '50mb',
+  mode: 'stream',
+  fileExtensions: ['xls','.txt']
+}
+```
+
+
+
+```shell
+npm install await-stream-ready stream-wormhole dayjs
+```
+
+
+
+```javascript
+const fs = require('fs');
+const path = requrie('path');
+
+const awaitWriteStream = require('await-stream-ready').write;
+
+
+```
+
+
+
 ### 定时任务
 
 有一些任务是需要定时运行的，比如
@@ -819,6 +854,84 @@ class UpdayeCache extends Subscription {
 
 module.exports = UpdateCache;
 ```
+
+
+
+### 多进程模型与进程间通信
+
+Node官方提供了cluster模块，用于多核计算
+
+原生的Node-cluster特点：
+
+在服务器上同时启动多个进程；
+
+每个进程都跑同一份源代码，
+
+更神奇的是，这些进程可以同时监听同一个端口，
+
+其中，负责启动其他进程的叫做Master进程，他好比是包工头，不做具体的工作，只负责启动其他进程
+
+其他被启动的叫Worker进程，就是干活的工人，它们接收请求，对外提供服务
+
+Worker进程的数量一般由服务器的CPU核数决定，这样可以完美利用多核资源
+
+egg在此基础上进行了别的考虑：
+
+进程崩溃
+
+work异常退出时如何处理？多个worker进程之间如何共享资源和调度？
+
+Nodejs进程退出可以分为两类：
+
+1是代码抛出了异常但未被捕获，进程将会退出。当一个worker进程遇到未捕获的异常时，它已经处于一个不确定状态，我们应该让这个进程优雅退出：
+
+关闭异常worker进程的所有tcp server。断开和Master的IPC通道，不再接受新的用户请求
+
+Master立刻fork一个进行中的worker进程，保证在线的工人总数不变
+
+异常worker等待一段时间，处理完已经接受的请求之后退出
+
+2是进程崩溃或者系统异常，不像未捕获异常时，当前进程直接退出，Master直接fork一个新的worker
+
+进程守护
+
+有些工作不需要每个worker都去做，如果都做，一来是浪费资源，更重要的是可能会导致多进程间资源访问冲突。
+
+对于这一类后台运行逻辑，全部放到一个单独的进程去执行，这个进程就叫做Agent Worker。Agent就好比Master给其他Worker请的一个秘书，它不对外提供服务，只给App Worker打工，专门处理一些公共事务。
+
+所以框架启动时进程的启动顺序就会变成：
+
+1.master启动后先fork Agent进程
+
+2.Agent初始化成功之后，通过IPC通道通知Master
+
+3.Master再fork多个App worker
+
+4.App Worker初始化成功，通知Master
+
+5.所有进程初始化成功后，Master通知Agent和Worker启动成功
+
+进程通信
+
+虽然每个Worker进程是相对独立的，但是它们之间始终还是需要通讯的，称为IPC通讯。
+
+Node cluster提供的IPC通道只存在于Master和Worker/Agent之间，Worker之间、Worker与Agent之间是没有的，要想相互通信只能通过master转发，这是不太方便的
+
+Egg封装了messenger对象挂载在app/agent上，能够相互通信
+
+方法
+
+```javascript
+app.messenger.broadcast(action,data)
+app.messenger.sendToApp(action,data)
+app.messenger.sendToAgent(action,data)
+agent.messenger.sendRandom(action,data)
+agent.messenger.sendTo(pid,action,data)
+```
+
+### 日志
+
+
 
 
 

@@ -511,7 +511,7 @@ https://www.yuque.com/loway/zh3lby/wzgzti
 
 ## 组件间通信
 
-### 父子组件、eventbus
+### 父子组件、eventbus、provide/inject
 
 父子组件通信：props/$emit
 
@@ -591,6 +591,44 @@ export default{
 
 ```
 
+跨级通信：provide/inject
+
+这是`vue@2.2`版本添加的一对需要一起使用的`API`，它允许父级组件向它之后的所有子孙组件提供依赖，让子孙组件无论嵌套多深都可以访问到
+
+`provide` 和 `inject` 主要为高阶插件/组件库提供用例。并不推荐直接用于应用程序代码中。
+
+provide/inject会让组件数据层级关系变的混乱的缘故，但在开发组件库时会很好使。
+
+```vue
+<!--父组件 提供-->
+{
+    provide() {
+        return {
+            parent: this
+        }
+    }
+}
+<!--子组件 注入-->
+{
+    // 写法一
+    inject: ['parent']
+    // 写法二
+    inject: { parent: 'parent' }
+    // 写法三
+    inject: {
+        parent: {
+            from: 'parent',
+            default: 222
+        }
+    }
+}
+
+```
+
+复杂系统使用vuex，相当于单独维护的数据
+
+
+
 ### 插槽
 
 ```vue
@@ -626,35 +664,7 @@ export default{
 </children>
 ```
 
-跨级通信：provide/inject
 
-```vue
-<!--父组件 提供-->
-{
-    provide() {
-        return {
-            parent: this
-        }
-    }
-}
-<!--子组件 注入-->
-{
-    // 写法一
-    inject: ['parent']
-    // 写法二
-    inject: { parent: 'parent' }
-    // 写法三
-    inject: {
-        parent: {
-            from: 'parent',
-            default: 222
-        }
-    }
-}
-
-```
-
-复杂系统使用vuex，相当于单独维护的数据
 
 ### 驼峰命名法
 

@@ -93,6 +93,10 @@ req.end();
 
 ```
 
+服务端安全退出：
+
+api: Server.close()
+
 
 
 ## 读取文件夹、文件
@@ -234,14 +238,16 @@ https://juejin.im/post/6845166891401478158
 ```javascript
 os.tmpdir()//返回操作系统的默认临时文件夹
 os.hostname()//返回操作系统的主机名
-os.release()//返回操作系统的发行版本
-os.type()//返回操作系统名
-os.uptime()//返回操作系统的运行时间，单位为秒
+os.release()//返回操作系统的发行版本,字符串
+os.type()//返回操作系统名，
+os.uptime()//返回上次重新启动之后操作系统的运行时间，单位为秒
 os.totalmem()//返回系统总内存量，单位字节
 os.freemem()//返回系统空闲内存量，单位字节
 os.arch()//返回操作系统的CPU架构
 os.cpus()//返回数组对象，包含每个CPU的信息
-os.networkInterfaces()//返回网络接口列表
+os.networkInterfaces()//返回系统上可用的网络接口的详细信息
+os.userInfo() //返回包含当前username、uid、gid、shell和homedir的对象
+os.platform() //返回Nodejs的编译平台，如darwin、freebsd、linux、openbsd、win32等
 ```
 
 
@@ -340,7 +346,7 @@ console.log
 
 基本属性：
 
-- `process.argv`：返回一个数组，成员是当前进程的所有命令行参数。
+- `process.argv`：返回一个数组，成员是当前进程的所有命令行参数。一般第一个参数是node路径，第二个参数是文件路径，第三个参数
 - `process.env`：返回一个对象，成员为当前Shell的环境变量，比如`process.env.HOME`。
 - `process.installPrefix`：返回一个字符串，表示 Node 安装路径的前缀，比如`/usr/local`。相应地，Node 的执行文件目录为`/usr/local/bin/node`。
 - `process.pid`：返回一个数字，表示当前进程的进程号。
@@ -394,11 +400,66 @@ node事件循环与浏览器循环是不同的
 
 3.**`idle, prepare` 阶段**: 仅node内部使用;
 
-4.**`poll` 阶段**: 获取新的I/O事件, 例如操作读取文件等等，适当的条件下node将阻塞在这里;如果 poll 队列不空，event loop会遍历队列并同步执行回调，直到队列清空或执行的回调数到达系统上限；如果 poll 队列为空，则发生以下两件事之一：如果代码已经被setImmediate()设定了回调, event loop将结束 poll 阶段进入 check 阶段来执行 check 队列（里面的回调 callback）。如果代码没有被setImmediate()设定回调，event loop将阻塞在该阶段等待回调被加入 poll 队列，并立即执行。setImmediate() 实际上是一个特殊的timer，跑在event loop中一个独立的阶段。它使用`libuv`的API 来设定在 poll 阶段结束后立即执行回调。
+4.**`poll` 阶段**: 
 
-5.**`check` 阶段**: 执行 `setImmediate()` 设定的callbacks;
+获取新的I/O事件, 例如操作读取文件等等，适当的条件下node将阻塞在这里;
+
+如果 poll 队列不空，event loop会遍历队列并同步执行回调，直到队列清空或执行的回调数到达系统上限；
+
+如果 poll 队列为空，则发生以下两件事之一：
+
+如果代码已经被setImmediate()设定了回调, event loop将结束 poll 阶段进入 check 阶段来执行 check 队列（里面的回调 callback）。
+
+如果代码没有被setImmediate()设定回调，event loop将阻塞在该阶段等待回调被加入 poll 队列，并立即执行。setImmediate() 实际上是一个特殊的timer，跑在event loop中一个独立的阶段。它使用`libuv`的API 来设定在 poll 阶段结束后立即执行回调。
+
+5.**`check` 阶段**: 执行 `setImmediate()` 设定的callbacks，check阶段在poll阶段之后;
 
 6.**`close callbacks` 阶段**: 比如 `socket.on(‘close’, callback)` 的callback会在这个阶段执行;如果一个 socket 或 handle 被突然关掉，close事件将在这个阶段被触发，否则将通过process.nextTick()触发
+
+日常开发的绝大部分异步任务都在timers、poll、check这3个阶段处理的
+
+### Node事件循环与浏览器事件循环的区别
+
+在浏览器环境中，microtask任务队列是每个macrotask执行完之后执行，而在Nodejs中microtask在事件循环的各个阶段之间执行
+
+
+
+### setimmediate与settimeout
+
+两者非常相似，区别在于调用时机不同：
+
+setimmediate设计在poll阶段完成时执行，即check阶段；
+
+setTimeout设计在poll阶段为空闲时，且设定事件达到后执行，但它在timer阶段执行
+
+但当二者在异步i/o callback内部调用时，总是先执行setimmediate，再执行setTimeout
+
+```javascript
+setTimeout(function(){
+  console.log('timeout')
+},0);
+
+setImmediate(function() {
+  console.log('immediate')
+})
+//setTimeout可能先执行也可能后执行
+const fs = require('fs')
+
+fs.readFile(_filename,()=>{
+  setTimeout(function(){
+    console.log('timeout')
+  },0);
+
+	setImmediate(function() {
+    console.log('immediate')
+  })
+})
+//setImmediate总是先于setTimeout
+```
+
+### process.nextTick
+
+这个函数是独立于Event Loop之外的，有自己的队列，当每个阶段完成时，如果存在nextTick队列就清空队列中的所有回调函数，并且优先于其他microtask执行
 
 
 
@@ -605,9 +666,9 @@ ts由于有较严的格式规范，往往会报一些不必要的格式警告，
 
 
 
-## Node常用命令
+## 设置npm镜像源
 
-　设置镜像源
+　
 
 ```Node
 npm config get registry  // 查看npm当前镜像源
@@ -619,7 +680,9 @@ yarn config get registry  // 查看yarn当前镜像源
 https://registry.npm.taobao.org/  // 设置yarn镜像源为淘宝镜像
 ```
 
+新建npmrc文件
 
+在npmrc文件中粘贴npm地址
 
 
 
@@ -667,6 +730,234 @@ try {
 
 
 ## 功能模块
+
+### commander.js
+
+前端开发node cli 必备技能。
+
+安装
+
+```shell
+npm install commander
+```
+
+api
+
+```javascript
+var program = require('commander');
+ 
+program
+    .name("intl helper");
+    .version('0.0.1')
+    .parse(process.argv);
+    
+//执行结果：
+node index.js -V
+ 
+0.0.1
+//如果希望程序响应-v选项而不是-V选项，
+//只需使用与option方法相同的语法将自定义标志传递给version方法
+program
+  .version('0.0.1', '-v, --version')
+```
+
+commander.js中命令行有两种可变性，一个叫做`option`，意为选项。一个叫做`command`，意为命令。
+
+常用api
+
+`version`
+
+用法： `.version('x.y.z')`
+
+用于设置命令程序的版本号，
+
+`option`
+
+用户：`.option('-n, --name <name>', 'your name', 'GK')`
+
+- 第一个参数是选项定义，分为短定义和长定义。用|，,， 连接。
+  - 参数可以用`<>`或者`[]`修饰，前者意为必须参数，后者意为可选参数。
+- 第二个参数为选项描述
+- 第三个参数为选项参数默认值，可选。
+
+`command`
+
+用法：`.command('init <path>', 'description')`
+
+- `command`的用法稍微复杂，原则上他可以接受三个参数，第一个为命令定义，第二个命令描述，第三个为命令辅助修饰对象。
+- 第一个参数中可以使用`<>`或者`[]`修饰命令参数
+- 第二个参数可选。
+  - 当没有第二个参数时，commander.js将返回`Command`对象，若有第二个参数，将返回原型对象。
+  - 当带有第二个参数，并且没有显示调用`action(fn)`时，则将会使用子命令模式。
+  - 所谓子命令模式即，`./pm`，`./pm-install`，`./pm-search`等。这些子命令跟主命令在不同的文件中。
+- 第三个参数一般不用，它可以设置是否显示的使用子命令模式。
+
+`description`
+
+用法：`.description('command description')`
+
+用于设置命令的描述
+
+用法：`.action(fn)`
+
+用于设置命令执行的相关回调。`fn`可以接受命令的参数为函数形参，顺序与`command()`中定义的顺序一致。
+
+`parse`
+
+用法：`program.parse(process.argv)`
+
+此api一般是最后调用，用于解析`process.argv`。
+
+`outputHelp`
+
+用法：`program.outputHelp()`
+
+一般用于未录入参数时自动打印帮助信息。
+
+### inquire
+
+`Inquirer.js`可以理解成就是给输入命令行的用户提供一个好看的界面，提供一下功能：
+
+- 有错误反馈；
+- 向用户提问；
+- 解析输入；
+- 校验回答；
+- 能在用户输入的时候提供友好的提示。
+
+安装
+
+```shell
+yarn add inquirer --save-dev
+```
+
+Inquirer 提供`prompt`对象，该对象中提供配置项，`then`会在用户回答完所有问题后执行，`catch`则是报出异常：
+
+prompt是一个对象数组，对象主要包含以下几种配置：
+
+type： 类型，主要类型有input、number、confirm、list、rawlist、expand、checkbox、password、editor；
+
+name：可以理解成当前回答的变量名；
+
+message：问题描述；
+
+default：问题的默认值；
+
+choice：问题选项；
+
+validate：回答的校验器；
+
+filter：回答的过滤器；
+
+transformer：接收用户输入，回答散列和选项标志，并返回一个转换后的值显示给用户。
+
+when：是否应该问这个问题
+
+PageSize：控制选项显示的个数，就是是否当前最多显示多少个选项，如果超过则需要向下才能显示更多；
+
+prefix：更改默认的前缀消息。
+
+suffix：更改默认后缀消息。
+
+askAnswered：如果答案已经存在，就必须提出问题。
+
+loop：是否启用列表循环。
+
+```javascript
+var inquirer = require('inquirer');
+inquirer.prompt([
+  {
+    type: 'list',
+    name: 'preset',
+    message: 'Please pick a preset:',
+    choices: ['default(babel, eslint)', 'Manually select feature'],
+    filter: function(val){
+      return val.toLowerCase();
+    }
+  },
+  {
+    type: 'input',
+    name: 'key',
+    message: "input the text key:",
+  },
+  {
+  type: 'checkbox',
+  name: 'features',
+  message: 'Checkout the feature needed for you project:',
+  choices: [{
+    name: 'Babel',
+  }, {
+    name: 'TypeScript',
+  },{
+    name: 'Progressive Web App (PWA) Support',
+  }, {
+    name: 'Router',
+  },{
+    name: 'Vuex',
+  }, {
+    name: 'CSS Pre-processors',
+  }, {
+    name: 'Linter / Formatter',
+  }, {
+    name: 'Unit Testing',
+  }, {
+    name: 'E2E Testing',
+  }],
+  pageSize: 9,
+  validate: function(answer){
+    if(answer.length < 1){
+      return 'You must choose at least one topping.';
+    }
+
+    return true;
+  }
+}]).then(answers => {
+  console.log(JSON.stringify(answers, null, '  '));
+}).catch(error => {
+  console.log(error);
+})
+```
+
+### chalk
+
+`chalk` 包的作用是修改控制台中字符串的样式，包括：
+
+1. 字体样式(加粗、隐藏等)
+2. 字体颜色
+3. 背景颜色
+
+使用
+
+```javascript
+const chalk = require('chalk');
+console.log(chalk.red.bold.bgWhite('Hello World'));
+```
+
+
+
+### process
+
+[progress ](https://www.npmjs.com/package/progress)是现在最常用的 `npm` 包用来渲染进度条。
+
+```shell
+npm install --save progress
+```
+
+使用
+
+```javascript
+var ProgressBar = require('progress');
+
+var bar = new ProgressBar(':bar', { total: 10 });
+var timer = setInterval(function () {
+  bar.tick();
+  if (bar.complete) {
+    console.log('\ncomplete\n');
+    clearInterval(timer);
+  }
+}, 100);
+```
+
+
 
 ### 转码包
 
@@ -942,6 +1233,18 @@ const nodemailer = require("nodemailer");
 ```
 
 ### http爬虫
+
+
+
+### node应用打包可执行文件
+
+pkg可以将node项目打包为一个单独的可执行文件，在未安装nodejs的机器上运行。支持win、linux等多系统
+
+```shell
+npm install pkg --save-dev
+```
+
+
 
 
 

@@ -89,6 +89,8 @@ window实例方法
 
 `window.matchMedia()`方法用来检查 CSS 的`mediaQuery`语句
 
+##### requestAnimationFrame()与requestIdleCallback()事件
+
 `window.requestAnimationFrame()`方法跟`setTimeout`类似，都是推迟某个函数的执行。不同之处在于，`setTimeout`必须指定推迟的时间，`window.requestAnimationFrame()`则是推迟到浏览器下一次重流时执行，执行完才会进行下一次重绘。重绘通常是 16ms 执行一次，不过浏览器会自动调节这个速率，比如网页切换到后台 Tab 页时，`requestAnimationFrame()`会暂停执行。
 
 如果某个函数会改变网页的布局，一般就放在`window.requestAnimationFrame()`里面执行，这样可以节省系统资源，使得网页效果更加平滑。因为慢速设备会用较慢的速率重流和重绘，而速度更快的设备会有更快的速率。
@@ -127,7 +129,7 @@ window.onunhandledrejection：未处理的 Promise 对象的reject事件的监�
 window.onunload：unload事件的监听函数。
 ```
 
-##### window.onload事件与DOMcontentloaded事件、jquery document.ready的区别
+##### window.onload与DOMcontentloaded、jquery中document.ready的区别
 
 DOM解析的完整过程：
 
@@ -248,11 +250,53 @@ ajax支持多种协议（ftp、file等），可以发送任何格式的数据。
 
 XMLHttpRequest对象的属性
 
-`XMLHttpRequest.responseText`属性返回从服务器接收到的字符串，该属性为只读。只有 HTTP 请求完成接收以后，该属性才会包含完整的数据。
+`XMLHttpRequest.readyState`返回一个整数，表示实例对象的当前状态。该属性只读，返回以下值：
 
-`XMLHttpRequest.responseURL`属性是字符串，表示发送数据的服务器的网址。
+0:XMLHttpRequest 实例已经创建，但是没调用open方法
+
+1:open方法已经调用，但没有调用send方法发起请求。此时仍然可以使用实例的setRequestHeader()方法设定HTTP请求的头信息
+
+2:表示实例的send方法已经调用，服务器返回的头信息和状态码已经收到
+
+3:表示正在接收服务器传来的数据体，此时如果实例的responseType属性等于text或者空字符串，responseText属性就会包含已经收到的部分信息
+
+4:表示服务器返回的数据已经完全接收，或者本次接收已经失败
+
+`XMLHttpRequest.onreadystatechange`属性指向一个监听函数，readystatechange事件发生时就会执行这个函数。此外，如果实例执行abort方法，也会触发该属性
+
+**`XMLHttpRequest.response`**属性表示服务器返回的数据体。它可能是任何数据类型，比如字符串、二进制对象、对象等等。
+
+**`XMLHttpRequest.responseType`**属性是一个字符串，表示服务器返回数据的类型，这个属性是可写的。设置这个属性的值可以告诉浏览器如何解读返回的数据。如果responseType设为空字符串，就是默认值text
+
+responseType也可以是以下值：
+
+Array buffer:ArrayBuffer对象，表示服务器返回二进制数组
+
+blob：Blob对象，表示服务器返回二进制对象
+
+document：Document对象，表示服务器返回一个文档对象
+
+json：JSON对象
+
+text：字符串
+
+**`XMLHttpRequest.responseText`**属性返回从服务器接收到的字符串，该属性为只读。只有 HTTP 请求完成接收以后，该属性才会包含完整的数据。
+
+**`XMLHttpRequest.responseURL`**属性是字符串，表示发送数据的服务器的网址。
 
 `XMLHttpRequest.status`属性返回一个整数，表示服务器回应的 HTTP 状态码。
+
+XMLHttpRequest 对象事件监听属性：
+
+XMLHttpRequest 对象可以对以下事件指定监听函数。
+
+- XMLHttpRequest.onloadstart：loadstart 事件（HTTP 请求发出）的监听函数
+- XMLHttpRequest.onprogress：progress事件（正在发送和加载数据）的监听函数
+- XMLHttpRequest.onabort：abort 事件（请求中止，比如用户调用了`abort()`方法）的监听函数
+- XMLHttpRequest.onerror：error 事件（请求失败）的监听函数
+- XMLHttpRequest.onload：load 事件（请求成功完成）的监听函数
+- XMLHttpRequest.ontimeout：timeout 事件（用户指定的时限超过了，请求还未完成）的监听函数
+- XMLHttpRequest.onloadend：loadend 事件（请求完成，不管成功或失败）的监听函数
 
 XMLHttpRequest对象的方法
 
@@ -272,13 +316,70 @@ password：表示用于认证的密码，默认为空字符串。该参数可选
 
 `XMLHttpRequest.abort()`方法用来终止已经发出的 HTTP 请求。调用这个方法以后，`readyState`属性变为`4`，`status`属性变为`0`。
 
-
-
 XMLHttpRequest 对象的事件
+
+readyStateChange 事件
+
+`readyState`属性的值发生改变，就会触发 readyStateChange 事件。
+
+我们可以通过`onReadyStateChange`属性，指定这个事件的监听函数，对不同状态进行不同处理。尤其是当状态变为`4`的时候，表示通信成功，这时回调函数就可以处理服务器传送回来的数据。
+
+progress 事件
 
 XMLHttpRequest 实例对象本身和实例的`upload`属性，都有一个`progress`事件，会不断返回上传的进度。
 
 load 事件表示服务器传来的数据接收完毕，error 事件表示请求出错，abort 事件表示请求被中断（比如用户取消请求）。
+
+loadend事件
+
+`abort`、`load`和`error`这三个事件，会伴随一个`loadend`事件，表示请求结束，但不知道其是否成功。
+
+
+
+#### arraybuffer blob filereader
+
+Blob 对象表示一个二进制文件的数据内容，比如一个图片文件的内容就可以通过 Blob 对象读写。它通常用来读写文件，它的名字是 Binary Large Object （二进制大型对象）的缩写。它与 ArrayBuffer 的区别在于，它用于操作二进制文件，而 ArrayBuffer 用于操作内存。
+
+`Blob`构造函数接受两个参数。第一个参数是数组，成员是字符串或二进制对象，表示新生成的`Blob`实例对象的内容；第二个参数是可选的，是一个配置对象，目前只有一个属性`type`，它的值是一个字符串，表示数据的 MIME 类型，默认是空字符串。
+
+文件选择器`<input type="file">`用来让用户选取文件。出于安全考虑，浏览器不允许脚本自行设置这个控件的`value`属性，即文件必须是用户手动选取的，不能是脚本指定的。一旦用户选好了文件，脚本就可以读取这个文件。
+
+文件选择器返回一个 FileList 对象，该对象是一个类似数组的成员，每个成员都是一个 File 实例对象。File 实例对象是一个特殊的 Blob 实例，增加了`name`和`lastModifiedDate`属性。
+
+
+
+取得 Blob 对象以后，可以通过`FileReader`对象，读取 Blob 对象的内容，即文件内容。
+
+FileReader 对象提供四个方法，处理 Blob 对象。Blob 对象作为参数传入这些方法，然后以指定的格式返回。
+
+- `FileReader.readAsText()`：返回文本，需要指定文本编码，默认为 UTF-8。
+- `FileReader.readAsArrayBuffer()`：返回 ArrayBuffer 对象。
+- `FileReader.readAsDataURL()`：返回 Data URL。
+- `FileReader.readAsBinaryString()`：返回原始的二进制字符串。
+
+```javascript
+function typefile(file) {
+  // 文件开头的四个字节，生成一个 Blob 对象
+  var slice = file.slice(0, 4);
+  var reader = new FileReader();
+  // 读取这四个字节
+  reader.readAsArrayBuffer(slice);
+  reader.onload = function (e) {
+    var buffer = reader.result;
+    // 将这四个字节的内容，视作一个32位整数
+    var view = new DataView(buffer);
+    var magic = view.getUint32(0, false);
+    // 根据文件的前四个字节，判断它的类型
+    switch(magic) {
+      case 0x89504E47: file.verified_type = 'image/png'; break;
+      case 0x47494638: file.verified_type = 'image/gif'; break;
+      case 0x25504446: file.verified_type = 'application/pdf'; break;
+      case 0x504b0304: file.verified_type = 'application/zip'; break;
+    }
+    console.log(file.name, file.verified_type);
+  };
+}
+```
 
 
 
@@ -292,6 +393,8 @@ File的属性：
 - File.name：文件名或文件路径
 - File.size：文件大小（单位字节）
 - File.type：文件的 MIME 类型
+
+
 
 ### 事件
 
@@ -372,6 +475,22 @@ Dom3也允许自定义事件
 DOM 的事件操作（监听和触发），都定义在`EventTarget`接口。所有节点对象都部署了这个接口，其他一些需要事件通信的浏览器内置对象（比如，`XMLHttpRequest`、`AudioNode`、`AudioContext`）也部署了这个接口。
 
 `EventTarget.addEventListener()`用于在当前节点或对象上，定义一个特定事件的监听函数。一旦这个事件发生，就会执行监听函数。该方法没有返回值。
+
+addEventListener()有三个参数：
+
+type：表示监听事件类型的字符串，比如click等
+
+listener：监听函数
+
+options：指定有关listener属性等可选参数对象。在旧版的DOM规定中addEventListener的第三个参数是布尔值表示是否在捕获阶段调用事件处理程序。随着时间的推移，很明显需要更多的选项。与其在后面添加更多的参数，不如将第三个参数改为一个包含各种属性的对象
+
+​				capture：布尔值，表示listener会在该类型的事件捕获阶段传播到该EventTarget时触发
+
+​				once：布尔值，表示listener在添加之后最多只被调用一次，如果是true，listener会在其被调用之后自动移除
+
+​				passive：设置为true时，表示listener永远不会调用preventDefault。如果listener仍然调用了这个函数，客户端将会忽略它并抛出一个警告
+
+​				
 
 `EventTarget.removeEventListener`方法用来移除`addEventListener`方法添加的事件监听函数。
 

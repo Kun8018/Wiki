@@ -463,8 +463,6 @@ type VariadicFn<A extends
 
 
 
-
-
 ```typescript
 type FunctionReturnType<T> = T extends (...args: any[]) => infer R ? R : T;
 
@@ -556,6 +554,26 @@ let tom: Person = {
 
 
 接口还可以继承类，
+
+#### 接口注意事项
+
+接口(interface)定义了“公共(public)”契约(Contract)，因此在接口(interface)上具有`protected`或`private`访问修饰符没有任何意义，更多的是实现细节
+
+使用read-only访问修饰符
+
+```typescript
+interface IModuleMenuItem {
+     readonly name : string;
+}
+
+class ModuleMenuItem implements IModuleMenuItem {
+    public readonly name : string;
+
+    constructor() {
+        name = "name";
+    }
+}
+```
 
 #### 接口和类的区别
 
@@ -889,6 +907,14 @@ npm install --save-dev eslint-plugin-react
 }
 ```
 
+#### style-lint
+
+
+
+
+
+
+
 ### 对Node的支持
 
 想用typescript写nodejs，需要引入第三方声明文件
@@ -995,12 +1021,18 @@ type B = typeof div
 
 
 
+### npm run tsc
+
+
+
+
+
 ### 学习资源
 
 深入理解typescript：https://jkchao.github.io/typescript-book-chinese/
 
 typescript入门教程：https://ts.xcatliu.com/basics/type-of-function.html
 
-
+ts中文手册：https://typescript.bootcss.com/
 
 

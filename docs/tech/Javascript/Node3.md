@@ -11,9 +11,9 @@ thumbnail: http://cdn.kunkunzhang.top/javascript.png
 
 <!--more-->
 
-### DOM方法
+## DOM方法
 
-#### Mutation Observer
+### Mutation Observer
 
 Mutation Observer APi用来监听DOM变动。DOM的任何变动，比如节点的增减、属性的变动、文本的变动，这个api都可以得到通知
 
@@ -33,7 +33,7 @@ Mutation Observer有以下特点：
 
 `takeRecords()`方法用来
 
-#### document
+### Document
 
 实例方法
 
@@ -47,9 +47,7 @@ Mutation Observer有以下特点：
 
 
 
-#### element
-
-
+### Element
 
 实例属性
 
@@ -131,7 +129,7 @@ Mutation Observer有以下特点：
 
 
 
-#### Htmlcollection、NodeList
+### Htmlcollection、NodeList
 
 document和element都是单个dom对象，可以使用htmlcollection和nodelist多节点对象
 
@@ -165,7 +163,7 @@ HTMLCollection.namedItem()方法：通过id或者name属性返回对应的元素
 
 
 
-#### text、documentFragment
+### text、documentFragment
 
 Text节点表示元素节点和属性节点的文本内容。如果一个节点只包含一段文本，那么它就有一个文本字节点，代表该节点的文本内容。
 
@@ -199,11 +197,25 @@ DocumentFragment节点不是单独的一种节点对象，它具有的属性和�
 
 
 
-### 函数和闭包
+## 函数、函数作用域和闭包
 
 JavaScript 语言将函数看作一种值，与其它值（数值、字符串、布尔值等等）地位相同。凡是可以使用值的地方，就能使用函数。比如，可以把函数赋值给变量和对象的属性，也可以当作参数传入其他函数，或者作为函数的结果返回。函数只是一个可以执行的值，此外并无特殊之处。
 
 由于函数与其他数据类型地位平等，所以在 JavaScript 语言中又称函数为第一等公民。
+
+return语句
+
+函数体内的return语句表示返回，JavaScript引擎遇到return语句就会直接返回return语句后面那个表达式的值，后面即使还有语句也不会得到执行，也就是说，return语句所带的那个表达式就是函数的返回值。return语句不是必须的，如果没有的话该函数就不返回任何值，或者说返回undefined
+
+通过return语句调用自己，就是递归，比如计算斐波那契数列
+
+```javascript
+function fib(num) {
+  if(num == 0) return 0;
+  if(num == 1) return 1;
+  return fib(num-1) + fib(num-2)
+}
+```
 
 arguements对象
 
@@ -215,7 +227,114 @@ arguements对象
 
 如果要让`arguments`对象使用数组方法，真正的解决方法是将`arguments`转为真正的数组。下面是两种常用的转换方法：`slice`方法和逐一填入新数组。
 
-闭包
+### 函数提升与变量提升
+
+JavaScript 引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行地运行。这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升（hoisting）。
+
+变量提升例子
+
+```javascript
+for (var i=0;i<5;i++) {
+  setTimeout(()=>{
+    console.log(i);
+  },0)
+}
+//输出都是4
+//使用立即执行函数或者let变量可以输出0，1，2，3，4
+for (let i=0;i<5;i++) {
+  setTimeout(()=>{
+    console.log(i);
+  },0)
+}
+
+for (var i=0;i<5;i++) {
+  (function(i){
+    setTimeout(()=>{
+    	console.log(i);
+  	},0)
+  })(i)
+}
+```
+
+变量提升的其他例子
+
+```javascript
+var foo = 3;
+
+// 预编译之后
+function hoistVariable() {
+    var foo;
+
+    foo = foo || 5;
+
+    console.log(foo); // 5
+}
+
+hoistVariable();
+```
+
+JavaScript 引擎将函数名视同变量名，所以采用`function`命令声明函数时，整个函数会像变量声明一样，被提升到代码头部。所以，下面的代码不会报错。
+
+表面上，上面代码好像在声明之前就调用了函数`f`。但是实际上，由于“变量提升”，函数`f`被提升到了代码头部，也就是在调用之前已经声明了。但是，如果采用赋值语句定义函数，JavaScript 就会报错。
+
+```javascript
+function hoistFunction() {
+    foo(); // output: I am hoisted
+
+    function foo() {
+        console.log('I am hoisted');
+    }
+}
+
+hoistFunction();
+// 预编译之后
+function hoistFunction() {
+    function foo() {
+        console.log('I am hoisted');
+    }
+
+    foo(); // output: I am hoisted
+}
+
+hoistFunction();
+```
+
+变量提升和函数提升的原因：
+
+函数提升是为了解决函数相互递归调用的目的
+
+也就是说，变量提升是人为实现的问题，而函数提升在当初设计时是有目的的。
+
+其他：
+
+ES6中的class声明也存在提升，不过它和let、const一样，被约束和限制了，其规定，如果再声明位置之前引用，则是不合法的，会抛出一个异常。
+
+所以，无论是早期的代码，还是ES6中的代码，我们都需要遵循一点，先声明，后使用。
+
+### 作用域与作用域链
+
+JS执行环境在JS机制内部`就是用一个对象来表示的`，称作`执行环境对象`，简称`环境对象`。执行环境分为`全局执行环境`和`局部执行环境`两种，每个执行环境都有一个属于自己的环境对象。在web浏览器中，全局环境对象为window对象
+
+作用域
+
+作用域是变量或者函数可以被访问的代码范围，或者说是变量和函数所起作用的范围。
+
+作用域分为`全局作用域`、`局部作用域`两种。
+
+在页面中的脚本开始执行时，就会产生一个“全局作用域”。它是最外围（范围最大，或者说层级最高）的一个作用域。全局作用域的变量、函数
+可以在代码的任何地方访问到。
+
+当一个函数被创建的时候，会创建一个“局部作用域”。局部作用域中的函数、变量只能在某些局部代码中可以访问到。
+
+作用域链
+
+当前作⽤域没有定义的变量，就是⾃由变量 。为了得到⾃由变量，js程序内部将向⽗级作⽤域寻找。如果上一级父级作用域也没有，就一层一层向上找，直到找到全局作⽤域还是没找到，就宣布放弃。这种⼀层⼀ 层的关系，就是 **作⽤域链** 。
+
+
+
+### 闭包
+
+闭包就是有权访问另一个函数作用域中的变量的函数。
 
 由于函数作用域的影响，正常情况下，函数外部无法读取函数内部声明的变量，只有函数内部可以读取全局变量和父作用域变量。
 
@@ -266,6 +385,12 @@ p1.getAge() // 25
 
 需要值长期保存又需要隐藏的场景
 
+闭包的问题
+
+一般情况下，一个函数执行完内部的代码，函数调用时所创建的执行环境、环境对象（包括变量对象、[[scope]]等）都会被销毁，它们的生命周期就只有函数调用到函数执行结束这一段时间。
+
+闭包形成后，会在函数执行完仍将他的变量对象保存在内存中，当引用时间过长或者引用对象很多的时候，会占用大量内存，严重影响性能。
+
 闭包的清除
 
 将闭包的值手动置空即可。
@@ -274,73 +399,43 @@ eval命令
 
 `eval`命令接受一个字符串作为参数，并将这个字符串当作语句执行。
 
-#### 函数提升与变量提升
 
-JavaScript 引擎的工作方式是，先解析代码，获取所有被声明的变量，然后再一行一行地运行。这造成的结果，就是所有的变量的声明语句，都会被提升到代码的头部，这就叫做变量提升（hoisting）。
 
-```javascript
-console.log(a)
+### 立即执行函数
 
-```
-
-变量提升的其他例子
+立即执行函数就是声明一个匿名函数，并且马上调用这个匿名函数
 
 ```javascript
-var foo = 3;
-
-// 预编译之后
-function hoistVariable() {
-    var foo;
-
-    foo = foo || 5;
-
-    console.log(foo); // 5
-}
-
-hoistVariable();
+//函数最后的括号是调用的意思
+(function() {alert('匿名函数')})()
 ```
 
+立即执行函数的作用只有一个：创建独立的作用域
 
-
-JavaScript 引擎将函数名视同变量名，所以采用`function`命令声明函数时，整个函数会像变量声明一样，被提升到代码头部。所以，下面的代码不会报错。
-
-表面上，上面代码好像在声明之前就调用了函数`f`。但是实际上，由于“变量提升”，函数`f`被提升到了代码头部，也就是在调用之前已经声明了。但是，如果采用赋值语句定义函数，JavaScript 就会报错。
+在这个作用域里面的变量，外面访问不到，即避免变量污染
 
 ```javascript
-function hoistFunction() {
-    foo(); // output: I am hoisted
-
-    function foo() {
-        console.log('I am hoisted');
-    }
+var liList = ul.getElementsByTagName('li')
+for(var i=0;i<6;i++){
+  liList[i].onclick = function(){
+    alert(i) //输出都是6，i贯穿整个作用域，而不是给每个li一个i
+  }
 }
 
-hoistFunction();
-// 预编译之后
-function hoistFunction() {
-    function foo() {
-        console.log('I am hoisted');
-    }
-
-    foo(); // output: I am hoisted
+//使用立即执行函数创建独立作用域
+var liList = ul.getElementsByTagName('li')
+for(var i=0;i<6;i++){
+  !function(ii){
+    liList[ii].onclick = function(){
+    	alert(ii) //输出都是6，i贯穿整个作用域，而不是给每个li一个i
+  	}
+  }
 }
-
-hoistFunction();
 ```
 
-变量提升和函数提升的原因：
 
-函数提升是为了解决函数相互递归调用的目的
 
-也就是说，变量提升是人为实现的问题，而函数提升在当初设计时是有目的的。
-
-其他：
-
-ES6中的class声明也存在提升，不过它和let、const一样，被约束和限制了，其规定，如果再声明位置之前引用，则是不合法的，会抛出一个异常。
-
-所以，无论是早期的代码，还是ES6中的代码，我们都需要遵循一点，先声明，后使用。
-
-### 严格模式
+## 严格模式
 
 早期的 JavaScript 语言有很多设计不合理的地方，但是为了兼容以前的代码，又不能改变老的语法，只能不断添加新的语法，引导程序员使用新语法。
 
@@ -371,7 +466,7 @@ ES6中的class声明也存在提升，不过它和let、const一样，被约束�
 
 
 
-### this关键字
+## this关键字
 
 `this`指向属性或方法“当前”所在的对象。
 
@@ -411,9 +506,15 @@ func();
 counter.count // 1
 ```
 
+### call apply bind区别
 
+call方法第一个参数是this指向，第二个参数可以传入参数列表，call方法临时改变一次this指向，并立即执行
 
-### 原型链继承
+Apply方法可以传入参数数组，使用apply方法改变this指向后原函数会立即执行，且此方法只是临时改变this指向一次。
+
+bind方法和apply方法类似，第一个参数是this指向，第二个参数可以传入参数列表，但是bind改变this指向后不会立即执行，而是返回一个永久改变this指向的函数
+
+## 原型链继承
 
 A 对象通过继承 B 对象，就能直接拥有 B 对象的所有属性和方法。这对于代码的复用是非常有用的。
 
@@ -506,13 +607,11 @@ C.prototype.method1 = function (...) { ... };
 
 要么将`constructor`属性重新指向原来的构造函数，要么只在原型对象上添加方法，这样可以保证`instanceof`运算符不会失真。
 
-#### prototype与proto
+### prototype与proto
 
 
 
-
-
-#### 构造函数与构造函数的继承
+### 构造函数与构造函数的继承
 
 让一个构造函数继承另一个构造函数，是非常常见的需求。
 
@@ -550,7 +649,7 @@ Rectangle.prototype.constructor = Rectangle;
 
 
 
-#### 原生原型链
+### 原生原型链
 
 ```javascript
 const b = 2;
@@ -559,7 +658,7 @@ a = b;
 
 b是基础类型，所以a的原型指向Number
 
-##### 改变原型
+#### 改变原型
 
 使用构造函数的prototype属性
 
@@ -567,7 +666,7 @@ b是基础类型，所以a的原型指向Number
 
 
 
-### 浏览器缓存storage方法
+## 浏览器缓存storage方法
 
 storage 接口用于脚本在浏览器保存数据。两个对象部署了这个接口：`window.sessionStorage`和`window.localStorage`。
 
@@ -609,7 +708,7 @@ window.addEventListener('storage', onStorageChange);
 
 
 
-### 实例对象与new
+## 实例对象与new
 
 javascript是面向对象编程的语言。js中一切皆对象。对象具有属性和方法，属性是对象的状态，方法是对象的行为（完成某种任务）。
 
@@ -657,7 +756,9 @@ new对象的原理
 
 对普通函数（内部没有`this`关键字的函数）使用`new`命令，则会返回一个空对象。
 
-### 异步操作与定时器
+## 异步操作与定时器
+
+### 事件循环
 
 异步操作、队列与事件循环
 
@@ -671,15 +772,91 @@ JavaScript 引擎怎么知道异步任务有没有结果，能不能进入主线
 
 微任务的优先级高于宏任务，即每次事件队列完毕先检查是否有微任务，再检查是否有宏任务，有微任务则先执行微任务，全部执行完毕再执行宏任务。
 
-常见的宏任务有：setTimeout()、setInterval()、UI交互事件
+常见的宏任务有：MessageChannel、setTimeout()、setInterval()、UI交互事件，浏览器中独有的requestFrames、requestCallback，Node中独有setimmidiatly
 
-常见的微任务有：promise.then、MutationObserver(html5 新特性)。
+requestFrames会在每次重排时触发，requestCallback只有在浏览器空闲时触发。因此优先级较低，优先执行主代码块>setimmediate >settimeout/setInterval
+
+在vue中对宏任务的实现，优先监测setImmediate，不支持的话再去检测是否支持原生的MessageChannel，如果还不支持就降级为settimeout 0
+
+react中fiber架构，同样如果支持MessageChannel优先选择MessageChannel，不支持采用setTimeout降级处理
+
+常见的微任务有：process.nexttick、promise.then、MutationObserver(html5 新特性)。
 
 在事件循环中，每进行一次循环操作称为 tick。
 
 异步操作的模式
 
-#### 定时器
+题目1:
+
+```javascript
+console.log('script start')
+
+setTimeout(function(){
+  console.log('setTimeout')
+},0)
+
+Promise.resolve()
+	.then(function () {
+  	console.log('promise1');
+	})
+	.then(function () {
+  	console.log('promise2')
+	})
+
+console.log('script end')
+
+// script start
+// script end
+// promise1
+// promise2
+// setTimeout
+```
+
+题目2:
+
+```javascript
+async function async1() {
+  console.log('async1 start');
+  await async2();
+  console.log('async1 end');
+}
+
+async function async2() {
+  console.log('async2')
+}
+
+console.log('script start')
+
+setTimeout(function(){
+  console.log('setTimeout');
+},0)
+
+async1()
+
+new Promise(function(resolve){
+  console.log('promise1');
+  resolve();
+}).then(function () {
+  console.log('promise2');
+})
+console.log('script end');
+
+// script start
+// async1 start
+// async2 
+
+// promise1
+// script end
+
+// promise2 
+// async1 end
+
+// setTimeout
+```
+
+需要注意的是，Promise一个立即执行函数，他成功或者失败的回调函数确实一个异步回调函数。当执行到resolve时这个任务会被放到回调队列当中。
+
+### 定时器
 
 `setTimeout`函数用来指定某个函数或某段代码，在多少毫秒之后执行。它返回一个整数，表示定时器的编号，以后可以用来取消这个定时器。
 
@@ -707,7 +884,7 @@ function debounce(fn, delay){
 }
 ```
 
-#### setTimeout(f,0)
+### setTimeout(f,0)
 
 `setTimeout`的作用是将代码推迟到指定时间执行，如果指定时间为`0`，即`setTimeout(f, 0)`，不会立刻执行该函数，必须要等到当前脚本的同步任务，全部处理完以后，才会执行`setTimeout`指定的回调函数`f`。也就是说，`setTimeout(f, 0)`会在下一轮事件循环一开始就执行。
 
@@ -719,7 +896,15 @@ function debounce(fn, delay){
 
 `setTimeout(1)`和 `setTimeout(1) `的优先级均高于`setTimeout(f,2)`。
 
-#### 0ms延时的代码
+### 为什么setTimeout有最小时延4ms
+
+windows默认的time resolution是10-15.6ms，最开始浏览器的timer依赖于系统层面的timer resolution。但是chrome目的是高性能的现代浏览器，其希望timer的量级能够达到亚毫秒级，也就是小于1ms，因此chrome选取了和flash和quicktime同样的api来替代系统默认的timer resolution。
+
+那为什么不设置最小延迟为0ms呢？因为设置0ms会让JavaScript引擎过度循环。如果速度很慢的JavaScript 通过0ms timer不断安排唤醒系统，那么event loop就会被阻塞，那么就会遇到CPU spining 和浏览器崩溃的状态。这就是chrome不设置最小延迟为0ms的原因。
+
+那为什么不设置最小延迟为1ms呢？因为设置后有bug报告，现实timer导致CPU spinning，而CPU spinning的后果是计算机没有办法进入休眠模式。因此chrome团队不得不调整，对timer做了很多限制。最后发现将1ms提升到4ms，大部分机器上好像没有CPU spinning 和过于耗电的问题，
+
+### 0ms延时的代码
 
 使用postMessage实现0ms延时
 
@@ -751,7 +936,7 @@ function debounce(fn, delay){
 
 postMessage的回调函数的执行和setTimeout一样属于宏任务，
 
-#### setTimeout准时策略
+### setTimeout准时策略
 
 **首次调用会有延时**
 
@@ -890,7 +1075,7 @@ timer(5000);
 
 
 
-### 异步对象promise
+## 异步对象promise
 
 Promise 对象是 JavaScript 的异步操作解决方案，为异步操作提供统一接口。它起到代理作用（proxy），充当异步操作与回调函数之间的中介，使得异步操作具备同步操作的接口。它可以将异步操作以同步的流程表达出来，它比传统的使用回调函数和事件来处理异步问题更加合理，更符合人们线性处理问题的逻辑。Promise 可以让异步操作写起来，就像在写同步操作的流程，而不必一层层地嵌套回调函数。
 
@@ -936,7 +1121,7 @@ Promise最大的问题是代码冗余，原来的任务被promise包装后不管
 
 https://caogongzi.gitee.io/2019/03/25/ES6-Promise/
 
-#### promise A+规范
+### promise A+规范
 
 PromiseA+规范其实是对Promise的长相进行了规范
 
@@ -980,7 +1165,7 @@ https://segmentfault.com/a/1190000023157856
 
 
 
-#### promise同步与异步的问题
+### promise同步与异步的问题
 
 需要注意的是，promise只有.then和.catch的回调函数是异步的，会被添加到事件队列的微任务，promise resolve前的代码是同步的
 
@@ -1020,7 +1205,7 @@ click2
 
 
 
-### 深拷贝与浅拷贝
+## 赋值、深拷贝与浅拷贝
 
 浅拷贝:将内存中的某个对象复制一份,在内存中开辟一块新的空间,如果复制的这个对象的属性为基本数据类型,则拷贝的便为这个值本身,如果为复杂数据类型,则拷贝复制的为地址,因此,修改新对象会对原对象产 生影响
 
@@ -1028,5 +1213,34 @@ click2
 
 深拷贝：我们希望在改变新的数组（对象）的时候，不改变原数组（对象）
 
+赋值是将某一**数值或对象**赋给某个**变量**的过程，分为：
+
+1、基本数据类型：赋值，赋值之后两个变量互不影响
+
+2、引用数据类型：赋**址**，两个变量具有相同的引用，指向同一个对象，相互之间有影响
+
+浅拷贝：**创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝**。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以如果其中一个对象改变了这个地址，就会影响到另一个对象。object.assign、array.slice都属于浅拷贝
 
 
+
+用代码说明
+
+```javascript
+var a = {}
+var b = {...a}
+var c = a;
+
+console.log(a === b)  //false
+console.log(b === c)  //false
+console.log(a === c)	// true
+```
+
+
+
+
+
+|        | 和原数据是否指向同一对象 | 第一层数据为基本数据类型 | 原数据中包含子对象       |
+| ------ | ------------------------ | ------------------------ | ------------------------ |
+| 赋值   | 是                       | 改变会使原数据一起改变   | 改变会使原数据一起改变   |
+| 浅拷贝 | 否                       | 改变不会使原数据一起改变 | 改变会使原数据一起改变   |
+| 深拷贝 | 否                       | 改变不会使原数据一起改变 | 改变不会使原数据一起改变 |

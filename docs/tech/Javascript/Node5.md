@@ -31,6 +31,49 @@ ES6 既是一个历史名词，也是一个泛指，含义是 5.1 版以后的 J
 
 **考虑到未来所有的代码，其实都是运行在模块之中，ES6 实际上把整个语言升级到了严格模式。**
 
+### let、const与块级作用域 
+
+const声明一个只读的常量，一旦声明，常量的值就不能修改
+
+let和const只在声明的块级作用域内有效
+
+const和let声明的变量不可重复声明
+
+const变量一旦声明，就必须**立即初始化**，不能留到以后赋值，只声明不赋值就会报错
+
+```javascript
+const foo
+// SyntaxError: Missing initializer in const declaration
+```
+
+const声明Object或者Array时，只是已经声明的对象属性不能变化，但是对象和数组仍然可变，可以添加新的属性或者值，如果想要对象不变，使用object.freeze冻结对象
+
+
+
+暂时性死区
+
+
+
+ES5中只有全局作用域和函数作用域，ES6新增了块级作用域，用{}表示。
+
+```javascript
+function f1() {
+  let n = 5;
+  if (true) {
+    let n = 10;
+  }
+  console.log(n) //5
+}
+```
+
+块级作用域的出现使得获得广泛应用的匿名立即执行函数表达式(匿名IIFE)不再必要了
+
+ES5中规定，函数只能在顶层作用域和函数作用域中声明，不能在块级作用域中声明
+
+ES6中中明确规定允许在块级作用域声明函数，函数声明语句类似于let，只能在块级作用域中引用
+
+
+
 ### proxy
 
 Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。
@@ -422,11 +465,9 @@ weakmap的用途：
 
 其他模块加载该模块时，`import`命令可以为该匿名函数指定任意名字。
 
+#### Js模块化方案对比
 
-
-nodejs使用的common加载方法在node的教程有详述，这里不再赘述。
-
-#### 与commonjs、AMD、CMD区别
+模块化这个话题在ES6之前不存在，因此也被诟病为早期Javascript开发全局污染和依赖管理混乱的源头
 
 `require`是运行时加载模块，`import`命令无法取代`require`的动态加载功能。
 
@@ -449,13 +490,31 @@ let readfile = _fs.readfile;
 
 由于 ES6 模块是编译时加载，使得静态分析成为可能。有了它，就能进一步拓宽 JavaScript 的语法，比如引入宏（macro）和类型检验（type system）这些只能靠静态分析实现的功能。
 
-commonjs优点：服务器端模块重用，NPM中模块包多，有将近20万个。
+commonjs
 
-**缺点：**加载模块是同步的，只有加载完成后才能执行后面的操作，也就是当要用到该模块了，现加载现用，不仅加载速度慢，而且还会导致性能、可用性、调试和跨域访问等问题。Node.js主要用于服务器编程，加载的模块文件一般都存在本地硬盘，加载起来比较快，不用考虑异步加载的方式，因此,CommonJS规范比较适用。然而，这并不适合在浏览器环境，同步意味着阻塞加载，浏览器资源是异步加载的，因此有了AMD CMD解决方案。
+弥补JavaScript在服务器端缺少模块化机制，NodeJS、webpack都是基于该规范开发
+
+**特点**：
+
+ 所有代码都运行在独立的模块作用域，不会污染全局作用域
+
+模块可以多次加载，但是只会在第一次加载时运行，然后运行结果就会被缓存，以后再加载就读取缓存结果，要想让模块再次运行就必须清除缓存
+
+模块加载的顺序按照在代码中出现的顺序
+
+**优点**：服务器端模块重用，NPM中模块包多，有将近20万个。
+
+**缺点：**
+
+无法在编译阶段确认产物，且可以在代码中随意使用require，比如全局、函数、if/else条件语句中等等
+
+加载模块是同步的，只有加载完成后才能执行后面的操作，也就是当要用到该模块了，现加载现用，不仅加载速度慢，而且还会导致性能、可用性、调试和跨域访问等问题。Node.js主要用于服务器编程，加载的模块文件一般都存在本地硬盘，加载起来比较快，不用考虑异步加载的方式，因此,CommonJS规范比较适用。然而，这并不适合在浏览器环境，同步意味着阻塞加载，浏览器资源是异步加载的，因此有了AMD CMD解决方案。
 
 此外，ES6 模块输出的是值的引用，输出接口动态绑定，而 CommonJS 输出的是值的拷贝
 
-AMD
+AMD与requirejs
+
+commonJS规范很好，但是不适用于浏览器环境，于是有了AMD和CMD两种方案。AMD全称Asynchronous Module Definition，即异步模块定义。它采用异步方式加载模块，
 
 ```javascript
 define("module", ["dep1", "dep2"], function(d1, d2) {
@@ -464,10 +523,20 @@ define("module", ["dep1", "dep2"], function(d1, d2) {
 require(["module", "../file"], function(module, file) { /* ... */ });
 ```
 
+AMD草案的作者以RequireJS实现了AMD规范，所以一般说AMD是RequireJS
+
 CMD
 
-```javascript
+CMD全称Common Module Definition，是Sea.js所推广的一个模块化方案的输出。SeaJS与RequireJS并称，作者为阿里的玉伯
+
+与AMD的主要区别：
+1.对于依赖的模块，AMD是提前执行，CMD是延迟执行。不过RequereJS从2.0开始也改成可以延迟执行，CMD推崇as lazy as possible。延迟执行的意思是只有到require时依赖模块才执行
+
+2.CMD推崇依赖就近，AMD推崇依赖前置
+
 Common Module Definition 规范和 AMD 很相似，尽量保持简单，并与 CommonJS 和 Node.js 的 Modules 规范保持了很大的兼容性。
+
+```javascript
 
 define(function(require, exports, module) {
   var $ = require('jquery');
@@ -477,15 +546,35 @@ define(function(require, exports, module) {
 })
 ```
 
+UMD，全称Universal Module Definition，即通用模块规范，既然CommonJS和AMD风格一样流行，就需要一个统一浏览器端和非浏览器端的模块化方案的规范
+
+UMD的实现很简单：
+
+先判断是否支持AMD(define是否存在)，存在则使用AMD方式加载模块
+
+再判断是否支持Nodejs模块格式(exports是否存在)，存在则使用Nodejs模块格式
+
+前两个都不存在，则将模块公开到全局(window或者global)
+
+ES6 Modules
+
+以上这些都是社区提供的方案，历史上Javascript一直没有模块化系统，直到ES6在语言标准的层面实现了它。
+
+CommonJS和AMD模块都只能在运行时确定模块的依赖关系，以及输入输出的变量，而ES6的设计思想是尽可能静态化，在编译时就能确定这些东西。
+
+**总结**
+
+AMD依赖前置，提前执行，语法是define，require
+
+CMD依赖就近，延迟执行，语法是define，seajs。use 。延迟执行的意思是只有到require时依赖模块才执行
+
+Commonjs首次执行会被缓存，再次加载只返回缓存结果，require返回的值时输出值的拷贝，对于引用类型是浅拷贝
+
 
 
 ### 扩展运算符
 
-扩展运算符（spread）是三个点（`...`）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
 
- 该运算符主要用于函数调用时使用，用于将数组的每个元素转化为逐个参数。
-
-扩展运算符与正常的函数参数可以结合使用，非常灵活。
 
 
 
@@ -596,6 +685,8 @@ super关键字
 
 ES6允许使用箭头定义函数
 
+箭头函数的存在是为了方便在很多地方执行小函数的情况。比如foreach、settimeout等，这种情况下我们并不想离开当前上下文，这时就使用箭头函数。
+
 ```js
 // 箭头函数,包含一个name参数
 let fun = (name) => {
@@ -621,7 +712,254 @@ let fun = function (name) {
 
 ES6 引入 rest 参数（形式为`...变量名`），用于获取函数的多余参数，
 
+##### 箭头函数与普通函数的区别
 
+1.语法更加简洁清晰
+
+2.箭头函数不会创建自己的this。箭头函数没有自己的`this`，它会捕获自己在**定义时**（注意，是定义时，不是调用时）所处的**外层执行环境的`this`**，并继承这个`this`值。所以，箭头函数中`this`的指向在它被定义的时候就已经确定了，之后永远不会改变。.call()/.apply()/.bind()也无法改变箭头函数中this的指向
+
+3.箭头函数没有原型prototype，没有自己的arguments，在箭头函数中访问`arguments`实际上获得的是外层局部（函数）执行环境中的值。
+
+实例
+
+```js
+function outer(val1, val2) {
+    let argOut = arguments;
+    console.log(argOut);    // ①
+    let fun = () => {
+        let argIn = arguments;
+        console.log(argIn);     // ②
+        console.log(argOut === argIn);  // ③
+    };
+    fun();
+}
+outer(111, 222);
+//1、2处的输出相同，为111，222，3处输出为true
+```
+
+4.箭头函数不能作为构造函数使用，不能用作Generator函数，不能使用yeild关键字、new关键字
+
+箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
+
+##### 箭头函数vsbind
+
+箭头函数没有创建任何绑定，箭头函数只是没有this，this的查找与常规变量的搜索方式完全相同：在外部词法环境中查找
+
+。bind创建了一个函数参数的绑定版本
+
+##### 尾调用与尾递归(非常重要)
+
+尾调用时函数式编程的一个重要概念，本身非常简单，就是某个函数在最后一步调用另一个函数
+
+```javascript
+
+```
+
+函数调用时会在内存中形成一个调用记录，又称调用帧，保存调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用帧上方还会形成一个B的调用帧，等到B运行结束之后，将结果返回到A，B的调用帧才会消失。如果函数B内部还调用函数C，那就还有一个C的调用帧，以此类推，所有的调用帧就形成一个调用栈
+
+尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用帧，因为调用位置、内部变量信息等不会被再用到，只有直接用内层函数的调用帧，取代外层函数的调用帧就可以
+
+这个就叫做尾调用优化，只保留内层函数的调用帧。如果所有的函数都是尾调用，那么完全可以做到每次调用时调用帧只有一项，这将大大节省内存，这就是尾调用的意义
+
+函数调用自身的过程，称为递归。递归非常耗费内存，因为需要同时保存成千上百个调用帧，很容易发生栈溢出错误。但是对于尾递归来说，由于只存在一个调用帧，所以永远也不会发生栈溢出错误。
+
+比如常见的斐波那契数列的非尾递归写法
+
+```javascript
+function Fibonacci(n) {
+  if (n<=1) {
+    return n
+  }
+  return Fibonacci(n-1) + Fibonacci(n-2)
+}
+
+Fibonacci(10) //89
+Fibonacci(100) // 超时
+Fibonacci(1000) // 超时
+```
+
+尾递归优化之后的代码
+
+```javascript
+function Fibonacci2(n,ac=1,ac2=1) {
+  if (n<=1) {
+    return ac2
+  }
+  return Fibonacci(n-1,ac2,ac1+ac2)
+}
+Fibonacci2(100) //89
+Fibonacci2(1000) //89
+Fibonacci2(10000) //infinite
+```
+
+尾调用的意义非常重大，因此ES6规定所有ECMA的实现都必须采用尾调用优化
+
+递归本质上是一种循环操作，但是纯粹的函数式编程没有循环操作命令，所有的循环都通过递归实现，这就是尾递归对这些语言的重要意义
+
+尾递归调用要注意的问题
+
+尾递归调用不能使用函数中的其他变量，因此写的时候要注意写法
+
+通常是在另一个函数中调用递归函数，这样去实现避免中间变量
+
+```javascript
+//阶乘函数，用普通递归函数实现
+function factorial(n) {
+  if (n == 1){
+    return 1
+  }
+  return n * factorial(n-1);
+}
+
+factorial(5)
+//用尾调用实现
+function factorial(n,total) {
+  if(n == 1) return total;
+  return factorial(n-1,n*total);
+}
+
+factorial(5,1)
+//用嵌套尾调用实现，参数更简单
+function tailFactorial(n,total) {
+  if(n == 1) return total;
+  return tailFactorial(n-1,n*total);
+}
+
+function factorial(n) {
+  return tailFactorial(n,1);
+}
+factorial(5)
+```
+
+也可以用函数科里化实现
+
+#### 解构赋值与扩展运算符
+
+ES6允许按照一定模式从对象和数组中提取值，对变量进行赋值，称为解构
+
+数组解构
+
+```javascript
+// 解构不成功时为undefined
+let [a,b,c] = [1,2,3] //a:1,b:2,c:3
+let [,,third] = ["foo","bar","baz"] //third: baz
+let [x,,y] = [1,2,3] //x:1,y:3
+let [head,...tail] = [1,2,3,4] //head:1,tail:[2,3,4]
+let [x,y,...z] = ['a'] //x:'a',y:undefined,z:[]
+
+// 不完全解构
+let [x,y] = [1,2,3] //x:1,y:2
+let [a,[b],d] = [1,[2,3],4] //a:1,b:2,d:4
+
+```
+
+对象解构
+
+```javascript
+//对象与数组的不同是，数组的元素是按次序排列的，变量的取值由位置决定，而对象的属性没有次序，必须同名才能取到正确的值
+let { foo, bar } = {foo:'aaa',bar:'bbb'}; //foo “aaa”，bar “bbb”
+let { baz } = {foo:'aaa',bar:'bbb'} // undefined
+
+//将现有对象的方法赋值到某个变量上去
+let { log,sin,cos } = Math;
+
+// 先找同名的属性值，再赋给对应的变量，所以真正被赋值的是后者而不是前者
+let { foo:baz } = {foo:'aaa',bar:'bbb'}, //baz:'aaa',foo:error,not defined
+
+//嵌套解构
+let obj = {
+  p: ['hello',{y: 'world'}]
+}
+let {p:[x,{y}]} = obj; //x：hello y：world p：undefined
+let {p,p:[x,{y}]} = obj; // x：helle y：world p “helle ，y world
+```
+
+字符串解构
+
+```javascript
+const [a,b,c,d,e] = 'hello',
+```
+
+数值和布尔值的解构赋值
+
+```javascript
+let {toString: s} = 123;
+
+let {toString: s} = true;
+```
+
+函数参数的解构赋值
+
+```javascript
+function add([x,y]){
+  return x+y
+}
+add([1,2])
+
+[[1,2],[3,4]].map(([a,b])=> a + b) //[3,7]
+```
+
+解构赋值的应用
+
+1.变量交换
+
+```javascript
+let x=1;let y=2;
+[x,y] = [y,x]
+```
+
+2.从函数返回多个值
+
+```javascript
+function example(){
+  return {
+    foo: 1,
+    bar: 2
+  }
+}
+let { foo,bar } = example();
+```
+
+3.函数参数定义
+
+```javascript
+//
+function f({x,y,z}) {...}
+f({z:3,y:2,x:1})
+// 
+function f([x,y,z]) {...}
+f([1,2,3])
+```
+
+4.提取JSON数据
+
+```javascript
+let jsonData = {
+  id:42;
+  status: "OK",
+  data: [867, 5309]
+}
+
+let { id,status, data:number} = jsonData //id,status,number
+```
+
+5.输入模块的指定方法。解构赋值能使输入语句变得十分清晰
+
+```javascript
+const { SourceMapConsumer, SourceNode } = require("source-map")
+```
+
+其他：函数参数默认值、遍历Map结构
+
+解构赋值和扩展运算符都是浅拷贝
+
+扩展运算符使用objec
+
+扩展运算符（spread）是三个点（`...`）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
+
+ 该运算符主要用于函数调用时使用，用于将数组的每个元素转化为逐个参数。
+
+扩展运算符与正常的函数参数可以结合使用，非常灵活。
 
 
 
@@ -732,42 +1070,4 @@ npm install --save-dev @babel/register
 使用时，必须首先加载`@babel/register`。
 
 Babel 提供一个[REPL 在线编译器](https://babeljs.io/repl/)，可以在线将 ES6 代码转为 ES5 代码。转换后的代码，可以直接作为 ES5 代码插入网页运行。
-
-## 浏览器
-
-### chrome浏览器调试
-
-以chrome为例
-
-在chrome菜单中选择更多工具->开发者工具或者右键点击网页元素，选择检查打开调试面板。
-
-调试面板中有设备模式、元素面板、控制台面板、源代码面板、网络面板、性能面板、内存面板、应用面板、安全面板。
-
-设备模式面板可以选择web、ios、安卓等设备模式检查响应式布局
-
-元素面板(element)可以检查页面DOM和CSS，还可以自由操作DOM和CSS更改布局和设计页面。
-
-点击箭头图标，点击网页的任意位置，就可以出现该位置的元素html代码和css样式
-
-控制台面板(console)可以在开发期间记录输出信息，或者作为shell与javascript交互
-
-error和waring就是网页运行中产生的错误和警告，info用作输出的显示
-
-源代码面板(source)可以设置断点调试JavaScript，或者通过workspace连接本地文件来使用开发者工具的实时编辑器。
-
-网络面板(network)查看当前网页的请求和下载的资源文件。
-
-点击network就能看到各个接口请求的先后顺序和耗时。想要查看具体的接口参数，在name中找到具体的接口，header为请求头参数，preview和response为返回值。
-
-内存面板(memory)可以跟踪内存泄漏等功能
-
-性能面板(performance)可以记录和查看网站生命周期内发生的各种事件，通过修改对应事件来提高页面的运行性能。
-
-应用面板(application)中可以检查加载的所有资源，包括indexedDB、WebSQL数据库、本地和会话存储、cookie、应用程序缓存、图像、字体、样式表等。
-
-安全面板(security)检查证书问题等。
-
-
-
-
 

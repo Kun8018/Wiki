@@ -1,6 +1,6 @@
 ---
 title: Linux
-date: 2020-03-02 21:40:33
+date: 2021-09-02 21:40:33
 categories: 技术博客
 tags: IT，
 toc: true
@@ -44,16 +44,54 @@ ps -elf
 
 ```shell
 lsof -i:端口号
-/*查看tcp udp端口和进程等情况*/
+##查看tcp udp端口和进程等情况
 netstat -tunlp | grep 端口号
-netstat -ntlp//查看当前所有tcp端口
-netstat -ntulp | grep 80 //查看所有80端口使用情况
+netstat -ntlp ## 查看当前所有tcp端口
+netstat -ntulp | grep 80 ##查看所有80端口使用情况
+netstat -l ##只显示监听端口
+netstat -lt ## 只列出所有监听TCP端口
+netstat -lu ## 只列出所有监听UDP端口
+netstat -lx ## 只列出所有监听UNIX端口
+netstat -pt ## 在netstat输出中显示PIC和进程名称
+netstat -an | grep ':80' ##找出运行在指定端口的进程
 ```
+
+服务器常用端口
+
+21 ftp ftp服务器所开放的端口，用于上传下载
+
+22 ssh 22端口就是ssh端口，用于通过命令行模式远程连接Linux系统的服务器
+
+25 SMTP SMTP服务器所开放的端口，用于发送邮件
+
+80 HTTP 用于网站服务例如IIS、Apache、Nginx等提供对外访问
+
+113 POP3 110端口是为POP3服务开放的
+
+143 IMAP 143端口主页用于Internet Message
+
+443 HTTPS 网页浏览端口，能提供加密和通过安全端口传输的另一种HTTP
+
+3306 MySQL  3306端口是MySQL数据库的默认端口，用于MySQL对外提供服务
+
+8080 代理端口 8080端口同80端口，是被用于www代理服务的，可以实现网页浏览，经常在访问某个网站或使用代理服务器时会加上8080端口，此外Apache Tomcat web server默认服务端口就是8080
 
 清除端口进程
 
 ```shell
-kill -9 PID//pid号
+kill [信号] PID//pid号
+```
+
+kill信号
+
+```shell
+kill -0:程序退出时收到该信息
+kill -1:挂掉电话线或者终端连接的挂起信号，这个信号也会造成某些进程在没有终止的情况下重新初始化
+kill -2:表示结束进程，但不是强制性的，常用的ctrl+c就是发出一个kill -2命令
+kill -3:退出
+kill -9:杀死进程，即强制结束进程，有可能会导致程序崩溃等
+kill -11:段错误
+kill -15:正常结束进程，是kill命令段默认信号
 ```
 
 删除文件/文件夹
@@ -65,6 +103,8 @@ rm -rf filename
 ```
 
 set
+
+set命令用于设置shell
 
 
 
@@ -98,6 +138,182 @@ scp -r username@servernama:/path/ /var/www/local_dir
 ## 上传目录
 scp -r /var/www/local_dir username@servernama:/path
 ```
+
+修改文件
+
+```shell
+sed 's/properties/property/g' build.xml
+## 批量替换
+grep -ilr 'log(' *|xargs-|@ sed -i "'s/print(///Log(/g'@
+## 
+sed -i "s/hello/hi/g" test.txt
+## 删除行首空格
+sed -i 's/^ //g'test
+## 删除行尾空格
+sed -i 's/$//g' test
+## 替换当前目录中所有含有hello字符的文件中的hello为hi
+sed -i "s/hello/hi/g" `grep "hello" -rl ./`
+## 批量操作当前目录以m开头的文件
+sed -i 's/foo/bar/g' ./m*
+## 查找所有子目录中m开头的文件并进行替换
+sed -i 's/foo/bar/g' `grep foo -rl --include="m*" ./`
+```
+
+
+
+### systemd
+
+历史上，linux的启动一直采用init进程
+
+init进程有两个缺点：
+
+启动时间长、启动脚本复杂
+
+systemd就是为解决这个问题而生的，d是守护进程daemon的缩写。
+
+systemd取代了initd，成为了系统的第一个进程（pid等于1），其他进程都是它的子进程
+
+systemd的优点是功能强大，使用方便，缺点是体系庞大，非常复杂
+
+systemd的常用命令
+
+```shell
+## 重启系统
+sudo systemctl reboot
+## 关闭系统，切断电源
+sudo systemctl poweroff
+## cpu停止工作
+sudo systemctl halt
+## 暂停系统
+sudo systemctl suspend
+## 让系统进入冬眠状态
+sudo systemctl hibernate
+## 让系统进入交互式休眠状态
+sudo systemctl hybrid-sleep
+## 启动救援状态
+sudo systemctl rescue
+```
+
+查看本机信息
+
+```shell
+## 查看当前主机信息
+hostnamectl
+
+## 设置主机名
+sudo hostnamectl set-hostname rhel7
+
+## 查看本地化设置
+localectl
+
+## 设置本地化参数
+sudo localectl set-locale LANG=en_GB.utf8
+sudo lccalectl set-keymap en_GB
+
+## 查看当前登陆的用户
+loginctl list-users
+
+## 列出当前session
+loginctl list-sessions
+
+## 列出显示指定用户的信息
+loginctl show-user ruanyf
+
+## 查看当前时区设置
+timedatectl 
+
+## 显示所有可用的时区
+timedatectl list-timezones
+
+## 设置当前时区
+sudo timedatectl set-timezone America/New_York
+sudo timedatectl set-time YYYY-MM-DD
+sudo timedatectl set-time HH:MM:SS
+```
+
+查看Unit信息
+
+
+
+nohup命令
+
+nohup命令用于在后台不挂断地运行命令，挂起进程，退出终端不会影响程序的运行
+
+nohup命令在默认情况下，也就是非重定向时，会输出一个名叫nohup。out的文件到当前目录，如果当前目录到nohup。out文件不可写，输出到HOME/nohu。pout文件中
+
+```shell
+nohup ./nebula-httpd &
+```
+
+
+
+#### node应用的systemd启动
+
+创建配置文件,后缀为service
+
+```bash
+[Unit]
+Description=node simple server
+
+[Service]
+##启动命令
+ExecStart=
+Restart=always
+User=nobody
+Group=nobody
+Environment=PATH=/usr/bin:/user/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/tmp/node-systemd-demo
+
+[Install]
+WantedBy=multi-user.target
+```
+
+将配置文件拷贝到systemd之中
+
+```shell
+sudo cp node-server.service /etc/systemd/system
+```
+
+重载配置文件
+
+```shell
+sudo systemctl daemon-reload
+```
+
+
+
+### 什么命令都不能用了
+
+环境变量配置错误造成的，输入
+
+```shell
+export PATH=/usr/local/sbin:usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin
+```
+
+或者手动在/etc/profile中添加此行
+
+
+
+## 用户
+
+
+
+普通用户可以用sudo
+
+如果提示不再sudoers文件中，在sudoers文件中添加用户
+
+```shell
+vim /etc/sudoers
+```
+
+添加语句
+
+```properties
+username ALL=(ALL)  ALL
+```
+
+
 
 
 
@@ -179,6 +395,14 @@ ServerAliveInterval 5
 ​        关闭终端   Ctrl+alt+Q
 
 ​        新建终端   Ctrl+alt+N
+
+
+
+## 增加CPU占有率
+
+```shell
+for i in `seq 1 $(cat/proc/cpuinfo |grep "physical id" |wc -l)`;do dd if=/dev/zero of=/dev/null & done
+```
 
 
 
@@ -348,6 +572,18 @@ cmake --version
 
 
 
+### rpm-build
+
+如果你想打包rpm包，可能还需要rpm-build包
+
+```shell
+sudo yum install rpm-build 
+```
+
+
+
+
+
 ## Selinux
 
 安全增强型 Linux（SELinux）是一种采用安全架构的 [Linux® 系统](https://www.redhat.com/zh/topics/linux/what-is-linux)，它能够让管理员更好地管控哪些人可以访问系统。它最初是作为 [Linux 内核](https://www.redhat.com/zh/topics/linux/what-is-the-linux-kernel)的一系列补丁，由美国国家安全局（NSA）利用 Linux 安全模块（LSM）开发而成。
@@ -383,6 +619,62 @@ setenforce 0 ##设置SELinux 成为permissive模式
 
 
 
+### 全局端口转发
+
+iptables 是一个配置 Linux 内核 防火墙 的命令行工具，是 netfilter 项目的一部分。
+ 术语 iptables 也经常代指该内核级防火墙。
+ iptables 用于 ipv4，ip6tables 用于 ipv6。
+ 需要root账户执行以下操作
+
+开启iptables
+
+```shell
+echo 1 >/proc/sys/net/ipv4/ip_forward
+```
+
+默认值0是禁止ip转发，修改为1即开启ip转发功能。
+
+简单转发
+
+```shell
+#-- 把访问本机 8091 端口的请求转发到 8090端口
+$ iptables -t nat -A PREROUTING -p tcp --dport 8091 -j REDIRECT --to-ports 8090
+#-- 把访问本机 8093 端口的请求转发到 192.168.1.3 的 8090端口
+$ iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 8093 -j DNAT --to 192.168.1.3:8090
+```
+
+
+
+## 定时执行脚本
+
+crontab可以在指定的时间执行一个shell脚本以及一系列Linux命令
+
+常用于定时备份数据库、日志等
+
+常用命令
+
+```shell
+crontab -e     ##修改crontab文件，
+crontab -l     ##显示crontab文件
+crontab -r     ##删除crontab文件
+crontab -ir    ##删除crontab文件之前提醒用户
+
+service crond status
+service crond start
+service crond stop
+service crond restart
+service crond reload
+```
+
+基本格式
+
+```shell
+* * * * * command
+#分 时 日 月 周 + 命令
+10 0 * * * command ./a.sh
+## 每天0点10分执行命令
+```
+
 
 
 ## Nginx
@@ -414,6 +706,18 @@ nginx -s quit    # 等待工作进程处理完成后关闭
 nginx -T         # 查看配置文件的实际内容
 ```
 
+### 默认主页、目录访问
+
+```nginx
+server {
+  root /网站根目录;
+  # 优先使用默认主页
+  index index.html index.htm index.php;
+  # 当默认主页不存在时直接列出目录内文件树
+  autoindex on;
+}
+```
+
 
 
 ### 反向代理
@@ -425,6 +729,28 @@ nginx -T         # 查看配置文件的实际内容
 反向代理是一个`Web`服务器，它接受客户端的连接请求，然后将请求转发给上游服务器，并将从服务器得到的结果返回给连接的客户端。
 
 客户端访问网络不需要配置，只要把请求发送到反向代理服务器，由反向代理服务器去选择目标服务器获取数据，然后再返回到客户端，此时反向代理服务器和目标服务器对外就是一个服务器，暴露的是代理服务器地址，隐藏了真实服务器IP地址
+
+location匹配规则：
+
+～：正则匹配，区分大小写
+
+～*：正则匹配，不区分大小写
+
+@：定义一个命名的location，用于内部定向，例如error_page、try_files
+
+=：普通字符匹配，精确匹配
+
+^～：普通字符匹配，如果该选项匹配，则只匹配该选项，不再向下匹配其他选项
+
+匹配优先级（与location书写的先后顺序关系不大）：
+
+1.精确匹配：=符号严格匹配这个查询，如果找到，停止搜索，
+
+2.普通字符匹配：所有剩下的常规字符串，最长的匹配；如果找到^~这个符号停止搜索；
+
+3.正则匹配；
+
+4.默认匹配：如果第三条条件生效使用第三条，否则使用第二条
 
 nginx做http反向代理
 
@@ -463,7 +789,108 @@ server{
 | `proxy_ignore_headers`   | 这个指令禁止处理来自代理服务器的应答。                       |
 | `proxy_intercept_errors` | 使`nginx`阻止`HTTP`应答代码为400或者更高的应答。             |
 
-#### 域名转发
+
+
+#### 泛域名转发
+
+```nginx
+server {
+  listen 80;
+  server_name ~^([\w-]+)\.user\.demo\.com$;
+  
+  #配合上面语句可以把不同的域名转发到不同目录，如xuexb.user.demo.com-> /home/user/wwwroot/user/xuexb a01.user.demo.com-> /home/user/wwwroot/user/a01
+  root /home/user/wwwroot/user/$1;
+  
+  ## xuexb.user.demo.com/path -> 127.0.0.1:8080/xuexb/path a01.user.demo.com/path -> 127.0.0.1:8080/a01/path
+  location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
+    proxy_pass http://127.0.0.1:8080/$1$request_uri;
+  }
+}
+```
+
+#### Nodejs
+
+
+
+```nginx
+server {
+  server_name www.xxoo.com;
+  listen 80;
+  
+  root /wwwroot/www.xxoo.com/;
+  
+  if (-f $request_filename/index.html) {
+    rewrite (.*) $1/index.html break;
+  }
+  
+  if (!-f $request_filename) {
+    rewrite (.*) /index.js;
+  }
+  
+  location = /index.js {
+    
+    proxy_set_header Connection "";
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
+    
+    proxy_pass http://127.0.0.1:8001$request_uri;
+    
+    proxy_redirect off;
+  }
+}
+```
+
+
+
+### 配置浏览器缓存
+
+不缓存
+
+```nginx
+server {
+  expires -1;
+  if_modified_since off;##
+}
+## Cache-Control: no-cache;
+```
+
+
+
+设置缓存
+
+```nginx
+server {
+  expires 1d;
+  ## expires max;
+}
+## Cache-Control: max-age=315360000
+```
+
+
+
+根据路径设置不同的缓存策略
+
+```nginx
+server {
+  set $expires_time 1M;
+  
+  if($request_uri ~* ^/admin(\/.*)?$) {
+    set $expires_time -1;
+  }
+  
+  if($request_uri ~* ^/admin(\/.*)?$) {
+    set $expires_time max;
+  }
+  
+  expires $expires_time;
+}
+```
 
 
 
@@ -682,8 +1109,6 @@ if ($allowed_country = yes) {
 
 
 
-
-
 ### 重定向
 
 ```nginx
@@ -703,6 +1128,24 @@ location /old-site {
     rewrite ^/old-site/(.*) http://example.org/new-site/$1 permanent;
 }
 ```
+
+### 配置图片防盗链
+
+防盗链是指当图片不是自己网站打开时返回403或者指定图片，通过判断请求的来路判断是否是自己的站点来设置
+
+```nginx
+server {
+  location ~* \.(gif|jpg|png|bmp)$ {
+    valid_referers none blocked *.xuexb.com server_names
+      
+      if ($invalid_referer) {
+      	return 403;
+    	}
+  }
+}
+```
+
+
 
 ### Https配置
 
@@ -795,13 +1238,60 @@ Problem binding to port 80:Could not bind to IPv4 or IPv6
 
 #### openssl
 
+先生成一个key
 
+```shell
+openssl genrsa -des3 -out ssl.key 1024
+```
 
-#### nginx配置
+根据key生成证书请求文件
 
-```conf
+```shell
+openssl req -new -key ssl.key -out ssl.csr
+```
+
+最后根据这两个文件生成crt证书文件，如果需要pfx可以用第二个命令生成
+
+```shell
+openssl x509 -req -days 3650 -in ssl.csr -signkey ssl.key -out ssl.cer
+openssl pkcs12 -export -inkey ssl.key -in ssl.crt -out ssl.pfx
+```
+
+在需要使用证书的server中配置
+
+```nginx
 server {
-    server_name www.kunzhang.me;
+  ssl on;
+  ssl_certificate /home/ssl.crt;
+  ssl_certificate_key /home/ssl.key;
+  ssl_session_timeout 5m;
+  ssl_protocols SSLv2 SSLv3 TLSv1;
+  ssl_ciphers ALL:!EXPORT56:RC4+RSA+HIGH:+MEDIUM+LOW:+SSLv2:+EXP;
+  ssl_prefer_server_cipher on;
+  
+  listen 443;
+  ssl on;
+  ssl_certificate /usr/local/webserver/nginx/conf/vhost/ssl/server.crt;
+  ssl_certificate_key /usr/local/webserver/nginx/conf/vhost/ssl/server.key;
+}
+```
+
+
+
+重启nginx就可以，使用https进行访问
+
+#### nginx配置/http重定向到https
+
+不可以把301和proxy_pass写在同一个server中，会产生重定向次数过多的问题
+
+```nginx
+server {
+    server_name www.kunzhang.me kunzhnag.me;
+    if ($host = www.kunzhang.me){
+       return 301 https://$host/$request_url;
+    }
+}
+server {
     listen 443 ssl http 1.1;
     ssl_certificate /etc/letsencrypt/live/diamondfsd.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/diamondfsd.com/privkey.pem;
@@ -832,7 +1322,39 @@ http {
 }
 ```
 
+### gzip压缩
+
+```nginx
+http {
+  # 开启gzip
+  gzip on;
+
+  # 启用gzip压缩的最小文件，小于设置值的文件将不会压缩
+  gzip_min_length 1k;
+
+  # gzip 压缩级别，1-10，数字越大压缩的越好，也越占用CPU时间
+  gzip_comp_level 1;
+
+  # 进行压缩的文件类型。javascript有多种形式。其中的值可以在 mime.types 文件中找到。
+  gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+
+  # 是否在http header中添加Vary: Accept-Encoding，建议开启
+  gzip_vary on;
+
+  # 禁用IE 6 gzip
+  gzip_disable "MSIE [1-6]\.";
+}
+```
+
+
+
 ### 错误日志
+
+打开nginx.conf文件
+
+```shell
+vim /etc/nginx/nginx.conf
+```
 
 
 
@@ -900,7 +1422,23 @@ proxy_headers_hash_max_size 51200;
 proxy_headers_hash_bucket_size 6400;
 ```
 
+### 伪静态
 
+伪静态即是网站本身动态网页，如。php、。asp、。aspx等格式动态网页，加？参数来读取数据库内不同资料，伪静态就是做url重写操作，伪静态最主要的作用是利于seo，
+
+```nginx
+location / {
+  rewrite c(\d+1)_(.*).html /index.php?c=user&id=$1&title=$2 last;
+  root /usr/share/nginx/html/sta;
+  index index.html index.htm index.php
+}
+```
+
+
+
+### 资源
+
+Https://xuexb.github.io/learn-nginx
 
 
 

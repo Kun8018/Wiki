@@ -38,11 +38,11 @@ React采用的是顶层事件代理机制，能够保证冒泡一致性，可以
 
 统一触发是
 
-绑定到根组件而非document对象上的原因是为了react渐进升级，避免多版本react共同使用时事件系统发生冲突
+绑定到根组件而非document对象上的原因是为了react渐进升级，避免多版本react共同使用时事件系统发生冲突。
 
-执行顺序：
+在react中人为地将事件划分等级，最终目的是确定调度任务的轻重缓急。
 
-react对事件的优先级分类：
+react按照事件的紧急程度，对事件的优先级分类：
 
 离散事件discreteEvent：click、keydown、focus等，这些事件的触发不是连续的，优先级为0
 
@@ -52,13 +52,23 @@ react对事件的优先级分类：
 
 四种优先级：
 
-事件优先级：由事件本身决定
+事件优先级：按照用户事件的交互紧急程度，由事件本身决定
 
-更新优先级：由事件计算得出
+更新优先级：事件导致react产生的更新对象的优先级，由事件计算得出
 
-任务优先级：
+任务优先级：产生更新对象之后，react去执行一个更新任务，这个任务所持有的优先级
 
-调度优先级：调度优先级根据任务优先级获取
+调度优先级：Scheduler根据React更新任务生成一个调度任务，调度优先级根据任务优先级获取
+
+事件优先级是在注册阶段被确定的。在root上注册事件时，会根据事件的类别，创建不同优先级的事件监听，最终将它绑定到root上。最终绑定到root上的事件监听其实是dispatchDiscreteEvent、dispatchUserBlockingUpdate、dispatchEvent三个事件中的一个
+
+事件的执行会创建一个update对象，update对象创建完成后意味着需要对页面进行更新，会调用scheduleUpdateOnFiber进入调度，而真正开始调度之前会计算本次产生的更新任务的任务优先级，目的是与已有任务的任务优先级去做比较，便于作出多任务的调度决策
+
+任务优先级被用来区分多个更新任务的紧急程度，它由更新优先级计算而来。任务优先级保证高优先级任务及时响应，收敛同等优先级的任务调度。
+
+一旦事件被调度，那么它就会进入Scheduler，在Scheduler中这个任务会被包装一下，生成一个属于属于Schedule自己的task，这个task持有的优先级就是调度优先级
+
+在Scheduler中，分别用过期任务和未过期任务的队列去管理它内部的task，过期任务的队列中的task根据过期事件去排序，最早过期的排在前面，便于被最先处理，而过期时间是有调度优先级计算出的，不同的调度优先级对应的过期时间不同
 
 ### Fiber架构
 
@@ -74,7 +84,7 @@ Fiber 的架构有两个主要阶段：协调/渲染 和 提交。
 
 协调阶段的工作：
 
-协调阶段通常被称为“渲染阶段”。这是React遍历组件树的阶段，并且：
+协调阶段这是React遍历组件树的阶段，并且：
 
 - 更新状态和属性
 - 调用生命周期钩子
@@ -581,6 +591,22 @@ redux三大原则
 - 1 唯一数据源
 - 2 保持只读状态
 - 3 数据改变只能通过纯函数来执行
+
+`react-redux`的核心机制是通知订阅模式，源码中有一个`Subscription`类，它的作用主要是订阅父级的更新和通知子级的更新，也就是它既可以订阅别人，别人也可以订阅它，同时可以通知订阅它的`Subscription`
+
+最外层的`Provider`组件的`Context`里包含了的`store`（也就是我们传入的）和生成的`Subscription`实例，它的`Subscription`实例订阅的则是`redux` 的`subscrib()`
+
+当我们使用了`connect()`时，它会生成一个新组件`<Component1/>`，`<Component1/>`里会生成一个`Subscription`实例，它会订阅父级（这时是`Provider`）的`Subscription`实例，同时将自己的`Subscription`覆盖进`Context`，再包装我们传入的组件
+
+如果在`<Component1/>`里的子组件又有`connect()`，那么生成的`<Component2/>`组件的`Subscription`实例会订阅父级`<Component1/>`的`Subscription`实例，同时再将自己的`Subscription`覆盖进`Context`
+
+在组件挂载完成后，如果`store`有更新，`Provider`会通知下一级组件的`Subscription`，下一级组件又会通知自己的下一级组件
+
+在订阅的时候，会将更新自己组件的方法通过回调`onStateChange()`传入父级的`Subscription`
+
+一旦父级接收到通知，就会循环调用订阅自己的组件的`onStateChange`来更新它们
+
+更新的原理就是使用我们传入的`mapStateToProps`和`mapDispatchToProps`，结合内置的`selectorFactor()`来对比`state`和`props`，一旦有改变就强制更新自己，所以我们传入的`WrappedComponent`也被强制更新了
 
 
 

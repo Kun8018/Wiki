@@ -15,7 +15,113 @@ thumbnail: http://cdn.kunkunzhang.top/javascript.png
 
 ## loash.js
 
-pick_by
+### Array
+
+_.chunk：将一个数组拆分成多个size长度的区块，并用这些区块组成一个新数组
+
+_.compact：去掉原数组中所有的假值元素，创建一个新数组
+
+_.concat：将所有参数组合，创建一个新数组，
+
+_.difference：返回过滤后的新数组，去除重复值
+
+_.differenceBy：
+
+_.drop：去除数组中的前n个元素
+
+_.dropRight：去除数组尾部的n个元素
+
+_.dropRightWhile：
+
+
+
+### Object
+
+_.assign:返回一个对象
+
+_.at:返回所选中对象属性组成的数组
+
+_.findKey:返回满足value条件的key
+
+_.findLastKey:
+
+_.pick：返回一个从object中选中的属性的对象
+
+_.pickBy：返回一个从object中判断为真的属性的对象
+
+_.omit:与pick返回结果相反
+
+_.omitBy：与pickBy返回结果相反
+
+_.invert：返回一个原对象key-value倒置的对象
+
+_.invertBy：返回一个原对象key-value倒置的对象，与invert不同的是value是一个数组
+
+_.values：返回一个object可枚举属性组成的数组
+
+_.valuesln：返回一个object自身和继承的可枚举属性组成的数组
+
+
+
+### String
+
+_.camelCase：转换字符串为驼峰写法
+
+_.capitalize：返回首字母为大写、其他字母为小写的字符串
+
+_.startWith: 返回布尔值，是否以该首字母开头
+
+_.toLower：转换整个字符串的字符为小写
+
+_.toUpper：转换整个字符串的字符为大写
+
+_.trim:从字符串中移除前面和后面的空格或指定的字符串
+
+_.trimEnd:移除字符串后面的空格或者指定字符串
+
+_.trimStart: 移除字符串前面的空格或者指定字符串
+
+
+
+### 常用函数
+
+
+
+### Math
+
+_.ceil：向上取整数
+
+_.floor：向下取整数
+
+_.max：取数组中的最大值
+
+_.maxBy：
+
+_.min：取数组中的最小值
+
+_.minBy
+
+_.mean：计算数组中的平均值
+
+_.meanBy
+
+_.divide：除
+
+
+
+### Number
+
+_.clamp：返回限制在上下限之间的值
+
+_.inRange：返回布尔值，判断是否在上下限之间
+
+_.random：产生一个上下限之间的数，可以指定是否为浮点数
+
+```javascript
+_.clamp(-10,-5,5) //5
+_.inRange(3,2,4) //true
+_.random(0,5)
+```
 
 
 
@@ -383,6 +489,86 @@ openDownloadDialog(sheet2blob(sheet), '单元格合并示例.xlsx');
 
 http://blog.haoji.me/js-excel.html#dao-chu-excel
 
+
+
+## marked.js
+
+marked.js可以将md解析为html
+
+```html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+```
+
+使用
+
+```javascript
+let md = `### h3`
+let table = marked(md);
+```
+
+
+
+## Showdown.js
+
+Markdown转 html
+
+```html
+<script src="/showdown-1.9.0/dist/showdown.min.js"></script>
+<script type="text/javascript">
+  var content = $('#text').text();
+  var converter = new showdown.Converter();
+  var htmlcontent = converter.makeHtml(content);
+  $("#article").html(htmlcontent);
+</script>
+<body>
+  <p id="text"></p>
+  <p id="article"></p>
+</body>
+```
+
+
+
+## docsearchjs
+
+首先在Algolia申请一个api。
+
+在Vue中可以使用docsearchjs，配合Algolia使用
+
+```shell
+yarn add -D docsearch.js
+```
+
+在组件中使用
+
+```Vue
+<template>
+	<input
+    type="text"
+    class="search-input"
+   	id="search_input"
+    placeholder=""
+   />
+</template>
+<script>
+import 'docsearch.js/dist/cdn/docsearch.min.css'
+import docsearch from 'docsearch.js'
+  
+export default {
+  mounted () {
+    docsearch({
+      apiKey: 'feb33c2506cdece7f0267859a856767a'
+      IndexName: '',
+      inputSelector: '#search_input',
+      algoliaOptions: { 'fetchFilters': ['version: v2_0'] },
+      debug: false
+    })
+  }
+}
+</script>
+```
+
+还有组件we-vue可以使用
+
 ## jquery
 
 jquery是目前使用最广泛的js函数库，在使用JavaScript的网站中，93%使用了jquery，成为了开发者必学的技能
@@ -535,6 +721,130 @@ $('p').detach()
 $('p').replaceWith('<div></div>')
 ```
 
+### 遍历方法
+
+first方法返回结果集的第一个成员，last方法返回结果集的最后一个成员
+
+```javascript
+//返回div元素内部第一个p元素和最后一个p元素
+$("div p").first();
+$("div p").last();
+```
+
+next方法紧邻的下一个同级元素，prev方法紧邻的上一个同级元素
+
+```javascript
+$("h2").next();
+$("h2").prev();
+```
+
+siblings方法返回当前元素的所有同级元素，也可以设置参数来过滤对同胞元素的搜索，nextAll方法返回当前元素其后的所有同级元素，prevAll返回当前元素前面的所有同级元素
+
+```javascript
+//返回h2所有同胞元素下的所有p元素
+$("h2").siblings("p")
+$("h2").nextAll("p")
+$("h2").prevAll("p")
+```
+
+parent方法返回当前元素的父元素，parents方法返回当前元素的所有上级元素，也可以指定元素类型进行筛选，parentsUntil方法返回介于两个给定元素之间的所有祖先元素
+
+```javascript
+$("span").parent()
+$("span").parents("ul")
+$("span").parentsUntil("div")
+```
+
+closest方法返回当前元素、以及当前元素的所有上级元素之中第一个符合条件的元素
+
+find方法返回当前元素的所有符合条件的下级元素
+
+```javascript
+$("span").closest("ul").css({"color":"red"})
+
+```
+
+filter方法用于过滤结果集，他可以接受多种类型的参数，只返回与参数一致的结果，
+
+not方法返回,与filter方法相反
+
+```javascript
+$("p").filter(".url")
+$("p").not(".url")
+```
+
+has方法与filter方法作用相同，但是只过滤出子元素符号条件的元素
+
+is方法判断当前jquery对象是否符合指定的表达式
+
+hasClass方法判断当前对象所匹配的元素是否含有指定的css类名
+
+```javascript
+$('.object').is("expression")
+$('.object').hasClass("className")
+```
+
+获取子元素是父元素的第几个子元素
+
+```javascript
+$(function(){
+  $(".demo ul li").click(function(){
+    var index=$(".demo ul li").index(this);
+    console.log(index);
+  })
+})
+```
+
+获取第几个子元素
+
+children方法获取该元素下的直接子集元素
+
+find方法获取该元素下的所有子集元素
+
+```javascript
+//使用eq()方法找到
+$('#test').children().eq(1).css({'display':'inline-block'})
+$('#test').find('select').eq(2).val();
+```
+
+each方法用于遍历指定的对象和数组，并以对象的每个属性或者数组的每个成员作为上下文来遍历执行指定的函数，上下文是指通过this指针引用该元素
+
+map方法用于处理当前的Jquery对象匹配的所有元素，并将结果封装为新的数组。
+
+```javascript
+$("li").each(function(){
+  alert($(this))
+})
+```
+
+### 网络请求
+
+$.ajax()方法：执行异步AJAX请求，该方法常用于其他方法不能完成的请求
+
+$.get()方法：使用AJAX的HTTP GET请求从服务器加载数据
+
+$.getJSON()方法：使用HTTP GET请求从服务器加载JSON编码数据
+
+$.getScript()方法：
+
+$.load方法：从服务器加载数据，并把返回的数据放入被选元素中
+
+$.post()方法：使用AJAX的HTTP POST请求从服务器加载数据
+
+```javascript
+$.ajax({url:"demo_test.txt",success:function(result){
+  	$("#div1").html(result);
+}})
+```
+
+
+
+### 使用this
+
+
+
+
+
 ### 动画
 
 jquery提供简单的动画效果，但整体不如css强大
@@ -554,6 +864,8 @@ fadeOut：将当前元素的不透明度逐渐降为0%
 fadeToggle：以逐渐透明或逐渐不透明的方式折叠显示当前元素
 
 slideDown：以从上向下滑入的方式显示当前元素
+
+slideDown只能显示被jquery隐藏的元素或者css设置为display：none的元素，使用overflow:hidden隐藏的元素不能被展示
 
 slideUp：以从下向上滑出的方式隐藏当前元素
 
@@ -638,6 +950,12 @@ off方法用来移除事件的回调函数
 ```javascript
 $('li').off()
 ```
+
+### 插件
+
+
+
+
 
 ### jquery的其他应用
 

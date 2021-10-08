@@ -205,6 +205,28 @@ Generate AST:
 
 Patch phase:数据模型一旦变化，会被调用生成新的虚拟DOM
 
+
+
+### new Vue
+
+`vue`的架构设计，它的架构是分层式的。最底层是一个`ES5`的构造函数，再上层在原型上会定义一些`_init`、`$watch`、`_render`等这样的方法，再上层会在构造函数自身定义全局的一些`API`，如`set`、`nextTick`、`use`等(以上这些是不区分平台的核心代码)，接着是跨平台和服务端渲染(这些暂时不在讨论范围)及编译器。将这些属性方法都定义好了之后，最后会导出一个完整的构造函数给到用户使用，而`new Vue`就是启动的钥匙。
+
+在`vue`的内部，`_`符号开头定义的变量是供内部私有使用的，而`$` 符号定义的变量是供用户使用的，而且用户自定义的变量不能以`_`或`$`开头，以防止内部冲突
+
+new Vue时依次执行方法：
+
+initMixin(Vue)：定义`_init`方法。
+
+stateMixin(Vue)：定义数据相关的方法`$set`,`$delete`,`$watch`方法。
+
+eventsMixin(Vue)：定义事件相关的方法`$on`，`$once`，`$off`，`$emit`。
+
+lifecycleMixin(Vue)：定义`_update`，及生命周期相关的`$forceUpdate`和`$destroy`。
+
+renderMixin(Vue)：定义`$nextTick`，`_render`将render函数转为`vnode`。
+
+
+
 ### v-model原理-vue2、vue3
 
 v-model基于object.defineproperty实现
@@ -701,9 +723,21 @@ MessageChannel的onmessage回调也是microtask，但也是个新API，面临兼
 
 ### vuex实现原理
 
+Vuex是一个专为Vue服务，用于管理页面数据状态、提供统一数据操作的生态系统。它集中于MVC模式中的Model层，规定所有的数据操作必须通过 `action - mutation - state change` 的流程来进行，再结合Vue的数据视图双向绑定特性来实现页面的展示更新
+
+统一的页面状态管理以及操作处理，可以让复杂的组件交互变得简单清晰，同时可在调试模式下进行时光机般的倒退前进操作，查看数据改变过程，使code debug更加方便。
+
+利用vue的[插件机制](https://link.zhihu.com/?target=https%3A//cn.vuejs.org/v2/guide/plugins.html)，使用Vue.use(vuex)时，会调用vuex的install方法，装载vuex
+
+vuex是利用vue的mixin混入机制，在beforeCreate钩子前混入vuexInit方法，vuexInit方法实现了store注入vue组件实例，并注册了vuex store的引用属性$store。applyMixin方法使用vue[混入机制](https://link.zhihu.com/?target=https%3A//cn.vuejs.org/v2/guide/mixins.html)，vue的生命周期beforeCreate钩子函数前混入vuexInit方法，
+
+Vuex的state状态是响应式，是借助vue的data是响应式，将state存入vue实例组件的data中；Vuex的getters则是借助vue的计算属性computed实现数据实时监听。
+
 
 
 ### 组件keep-alive实现原理
+
+
 
 
 

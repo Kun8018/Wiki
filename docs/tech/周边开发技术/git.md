@@ -161,15 +161,21 @@ cd ~/.ssh
 ls
 ```
 
+
+
 运行ssh-agent
 
 ```git
 eval "$(ssh-agent -s)"
 ```
 
+
+
 ```git
 Host * IdentityFile ~/.ssh/id_rsa
 ```
+
+
 
 添加ssh key到github或gitlab
 
@@ -224,6 +230,14 @@ git restore .
 ```shell
 git commit -m '本次提交的说明'
 ```
+
+提交commit可以直接关联issue，在issue下面可以直接显示关联的commit代码
+
+```shell
+git commit -m '说明 #issue链接'
+```
+
+在pr的comment中添加issue的链接可以关联pr与issue，当pr被合并时issue会被自动关闭
 
 可以通过`git log`查看每次提交对应的日志。
 
@@ -347,6 +361,198 @@ git branch --track <branch-name> origin/develop
 git branch --track <branch-name> origin/develop
 ```
 
+### rebase、squash与merge的区别
+
+rebase可以尽可能保持master分支干净，并且易于识别author
+
+squash也可以保持master分支干净，但是master中author都是maintainer，而不是原owner
+
+merge不能保持master分支干净，但是保持了所有的commit history，大多数情况下都是不好的，个别情况好
+
+
+
+## 子模块
+
+当你在一个git项目上工作时，你需要在其中使用另一个Git项目。也许它是一个第三方开发的库或者是你独立开发合并在多个父项目中使用。
+
+在git中可以用子模块submodule来管理这些项目，submodule允许你将一个git仓库当作另外一个git仓库的子目录，这允许你克隆另外一个仓库到你的项目中并且保持你的提交相对独立
+
+克隆含有子模块的项目
+
+克隆含有子模块的项目可以先克隆父项目，再更新子模块，另一种是直接递归克隆整个项目
+
+先克隆父项目，再更新子模块
+
+```shell
+git clone https://.../.git assets
+```
+
+此时子模块子模块还未初始化
+
+初始化子模块
+
+```shell
+git submodule init
+```
+
+更新子模块
+
+```shell
+git submodule update
+```
+
+直接递归克隆整个项目
+
+```shell
+git clone https://.../.git assets --recursive
+```
+
+添加子模块
+
+```shell
+git submodule add https://.../.git assets
+```
+
+查看子模块
+
+```shell
+git status
+git submodule
+```
+
+更新子模块
+
+```shell
+## 更新项目内子模块到最新版本
+git submodule update
+## 更新子模块为远程项目的最新版本
+git submodule update --remote
+## 更新所有子模块
+git submodule foreach git pull
+```
+
+修改子模块
+
+在子模块中修改文件后，直接提交到远程项目分支
+
+```shell
+git add .
+git ci -m "commit"
+git push origin HEAD:master
+```
+
+删除子模块
+
+删除子模块比较麻烦，需要手动删除相关的文件，否则在添加子模块时有可能出现错误。
+
+首先删除子模块文件夹
+
+```shell
+git rm --cached assets
+rm -rf assets
+```
+
+删除相关子模块信息
+
+```shell
+[submodule "assets"]
+	path = assets
+	url = https://github.com/../.git
+```
+
+删除相关子模块信息
+
+```shell
+[submodule "assets"]
+	url = https://github.com/../.git
+```
+
+删除相关子模块文件
+
+```shell
+rm -rf ./git/modules/assets
+```
+
+## 子仓库
+
+与submodule的异同
+
+git submodule:
+
+允许其他仓库指定以一个commit嵌入仓库的子目录
+
+仓库clone下来要init和update
+
+会产生文件记录和submodule版本信息
+
+git submodule删除起来比较费劲
+
+git subtree：
+
+避免以上问题
+
+管理和更新流程比较方便
+
+git subtree合并子仓库到项目中的子目录，不用像submodule一样每次子目录修改之后都要init和update，万一每次没update就直接add，将
+
+git 1.5之后建议使用git submodule
+
+使用方法
+
+如果p1项目和p2项目共用S项目
+
+添加subtree
+
+```shell
+git subtree add --prefix=<s project path>  <s project url> <branch> --squash
+```
+
+修改代码，可以改subtree里面的代码，添加相关commit
+
+pull&push
+
+```shell
+git subtree pull --prefix=<s project path>  <s project url> <branch> --squash
+git subtree push --prefix=<s project path>  <s project url> <branch> --squash
+```
+
+拆分已有项目,比如P项目拆分出s项目
+
+```shell
+git subtree split -P <S project path> -b <tmp branch>
+```
+
+git会遍历所有commit，分离与S项目有关的commit，并存入临时分支branch中
+
+创建子repo
+
+```shell
+mkdir 
+cd s new path
+git init
+git pull <S project path> <tmp branch>
+git remote add origin <S github>
+git push origin -u master
+```
+
+清理原项目中的子项目数据
+
+```shell
+cd P project
+git rm -rf 
+git commit -m
+git branch -D 
+```
+
+在新项目中添加subtree
+
+```shell
+git subtree add --prefix=<s project path>  <s project url> <branch> --squash
+git push origin master
+```
+
+
+
 ## 其他操作
 
 `git fetch`：下载远程仓库的所有变动，可以将远程仓库下载到一个临时分支，然后再根据需要进行合并操作，`git fetch`命令和`git merge`命令可以看作是之前讲的`git pull`命令的分解动作。
@@ -439,6 +645,18 @@ git rebase --continue
 git rebase --abort
 ```
 
+`git alias`可以配置命令的别名，简化命令
+
+```git
+git config --global alias.co checkout
+git config --global alias.ci commit
+git config --global alias.br branch
+
+git ci -m "commit message"
+```
+
+
+
 ## pr
 
 GitHub pr
@@ -451,33 +669,33 @@ GitHub pr
 
 执行指令进行初始化，会在原始文件夹中生成一个隐藏的文件夹.git
 
-```shell
+```node
 rm -rf .git//删掉原来的.git目录
 $ git init
 ```
 
 将文件添加到本地仓库,运行命令：
 
-```shell
-git add . 
+```node
+$ git add . 
 ```
 
 输入本次提交说明
 
-```shell
-git commit -m "layout"
+```node
+$ git commit -m "layout"
 ```
 
 将本地仓库与远程仓库相关联，
 
 ```git
-git remote add origin https://github.com/CongliYin/CSS.git
+$ git remote add origin https://github.com/CongliYin/CSS.git
 ```
 
 如果出现错误：fatal: remote origin already exists，则执行以下语句：
 
 ```git
-git remote rm origin
+$ git remote rm origin
 ```
 
 执行上传命令
@@ -511,6 +729,8 @@ https://github.com/settings/tokens
 ### 错误
 
 GitHub pull之后有冲突
+
+
 
 尚未完成合并(MERGE_HEAD存在)？
 
@@ -589,7 +809,7 @@ strategy:
       node:[6,8,10]
 ```
 
-上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，os的矩阵是一个上下文参数
+上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，{{matrix.os}}是一个上下文参数
 
 strategy策略包括：
 
@@ -717,6 +937,62 @@ github还做了一个官方市场，可以搜索到其他人提交的actions，�
 
 在github action下找到要回滚的版本，点击re-run就可以回到指定的版本
 
+
+
+### 触发其他repo的workflow
+
+
+
+```yaml
+name: Dispatch Event
+
+on: [push]
+
+jobs:
+	build:
+		
+		runs-on: ubuntu-latest
+		
+		steps:
+		- uses: actions/checkout@v1
+			with:
+				fetch-depth: 1
+		
+		- name: dispatch event to another_repository
+			env:
+				GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+				EVENT: YOUR_EVENT_TYPE
+				ORG: YOUR_ORG_NAME
+				REPO: YOUR_TARGET_REPO_NAME
+			run: |
+				curl -d "{\"event_type\": \"${EVENT}\"}" -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
+```
+
+
+
+```yaml
+name: hugo publish
+
+on: 
+	push: 
+		branches:
+			-master
+	repository_dispatch:
+		types: sub_commit
+
+jobs:
+	build-deploy:
+		runs-on: ubuntu-18.04
+		steps:
+		- uses: actions/checkout@v2
+			with: 
+				submodule: recursive
+```
+
+
+
+
+
 ### 好用的git action
 
 action-js-inline
@@ -725,11 +1001,17 @@ Https://github.com/marketplace/actions/execute-javascript-inline
 
 可以在git action里执行js代码，而不只是shell代码
 
+
+
 ### 本地跑git action
 
 https://www.github.com/nektos/act
 
+
+
 ## Git Hooks
+
+
 
 ## 更新不了代码
 
@@ -773,6 +1055,8 @@ git commit -a
 git checkout master
 ```
 
+
+
 将新分支与原分支合并
 
 ```git
@@ -797,13 +1081,17 @@ git push -u origin master
 git branch -d newbranch
 ```
 
-## 检查
+
+
+## 检查版本信息
 
 查看远程仓库信息
 
 ```git
 git remote -v
 ```
+
+
 
 ```git
 git status
@@ -843,7 +1131,7 @@ npm install -g git-open
 
 将本地仓库文件撤回至工作区
 
-```shell
+```git
 git reset --hard
 git reser --mixed
 ```
@@ -876,7 +1164,33 @@ git diff
 
 git-diff能在命令行显示当前代码与上次提交时代码的修改，可以逐行见检查代码
 
+## 代码检查
 
+### js
+
+使用husky
+
+安装
+
+```shell
+npm install husky -D
+```
+
+编辑package。json 》 prepare 脚本并且运行
+
+```shell
+npm set-script prepare "husky install" 
+npm run prepare
+```
+
+添加钩子函数
+
+```shell
+npx husky add .husky/pre-commit "npm test"
+git add ./husky/pre-commit
+```
+
+然后提交commit就会检查
 
 
 
@@ -897,6 +1211,33 @@ git-diff能在命令行显示当前代码与上次提交时代码的修改，可
 ### GitHub activity
 
 一般来说，只有对GitHub上repo的master分支操作时，比如push或者合并到master时GitHub activity会有记录
+
+### GitHub api
+
+
+
+api.github.com/repos/{repo_name}/releases/tags/
+
+```bash
+curl -o index.json https:api.github.com/repos/vesoft-inc/nebula-graph/releases/tags/v2.5.0
+https:api.github.com/repos/{repo_name}/releases/latest
+```
+
+
+
+
+
+### pr/issue template
+
+
+
+
+
+### GitHub release
+
+
+
+
 
 ## git-open
 

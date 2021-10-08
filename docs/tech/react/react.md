@@ -372,11 +372,7 @@ match
 
 match是一个匹配路径参数的对象，它有一个属性params，里面的内容就是路径参数，除常用的params属性外，它还有url、path、isExact属性。
 
-### 方法
 
-
-
-### 对象
 
 history对象
 
@@ -409,18 +405,7 @@ class Header extends Component {
 }
 ```
 
-Hooks
-
-```react
-import React,{ useEffect } from 'React';
-const Header = function(props) {
-  useEffect(()=> {
-    console.log(props.location)
-  },[props.location])
-}
-
-export default Header;
-```
+Https://reactrouter.com
 
 
 
@@ -794,7 +779,23 @@ export class UnControl extends Component {
 
 使用index作为key的列表，向列表中添加或删除某些项时可能导致错误的显示。因为key是连接真实DOM的标识，当更改后的key与更改前的key相同时，react会认为前后的组件是相同的，但其实这两项并不一样
 
+### Constructor
 
+class组件中有constructor构造函数，有两个目的
+
+1.初始化this.state
+
+2.函数方法绑定到实例
+
+```react
+constructor(props) {
+  super(props);
+  this.state = { counter: 0 };
+  this.handleClick = this.handleClick.bind(this)
+}
+```
+
+使用箭头函数则不需要将事件在constructor中绑定
 
 
 

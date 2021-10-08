@@ -323,15 +323,122 @@ ipcRenderer.on('main-msg', (event, msg) => {
 })
 ```
 
+### ipc通信实现的原理
+
 `ipcMain` 和 `ipcRenderer` 都是 `EventEmitter` 类的一个实例。`EventEmitter` 类是 `NodeJS` 事件的基础，它由 `NodeJS` 中的 `events` 模块导出。
 
-`EventEmitter` 的核心就是事件触发与事件监听器功能的封装。它实现了事件模型需要的接口， 包括 `addListener，removeListener`, `emit` 及其它工具方法. 同原生 `JavaScript` 事件类似， 采用了发布/订阅(观察者)的方式， 使用内部 `_events` 列表来记录注册的事件处理器。
+`EventEmitter` å的核心就是事件触发与事件监听器功能的封装。它实现了事件模型需要的接口， 包括 `addListener，removeListener`, `emit` 及其它工具方法. 同原生 `JavaScript` 事件类似， 采用了发布/订阅(观察者)的方式， 使用内部 `_events` 列表来记录注册的事件处理器。
 
 我们通过 `ipcMain`和`ipcRenderer` 的 `on、send` 进行监听和发送消息都是 `EventEmitter` 定义的相关接口。
 
 渲染进程之间通过html5 storage接口进行数据共享
 
+### remote与ipc的区别
+
+remote实现调用方法
+
+```javascript
+const os = require('os')
+
+function getCpu(){
+  const cors = os.cpus();
+  if(cores.length > 0){
+    return cores[0].model;
+  }
+}
+
+exports.getCpu = getCpu;
+
+const obj = require('electron').remote.require('./systemInfo')
+const cpuInfo = obj.getCpu();
+
+```
+
+remote实现数据共享
+
+```javascript
+const os = require('os')
+
+function getCpu(){
+  const cors = os.cpus();
+  if(cores.length > 0){
+    return cores[0].model;
+  }
+}
+
+exports.getCpu = getCpu;
+
+const getCpu = require('/systemInfo');
+const cpuInfo = getCpu();
+global['cpuinfo'] = cpuInfo;
+
+const cpuInfo = require('electron').remote.getGlobal('cpuInfo')
+```
+
+使用ipc传递数据
+
+```javascript
+const os = require('os')
+
+function getCpu(){
+  const cors = os.cpus();
+  if(cores.length > 0){
+    return cores[0].model;
+  }
+}
+
+exports.getCpu = getCpu;
+
+const getCpu = require('./systemInfo');
+const ipc = require('electron').ipcMain;
+
+ipc.on('get-cpu-info',function (event,arg){
+  event.sender.send('cpu-info-reply',getCpu())
+})
+
+const ipc = require('electron').ipcRenderer;
+const getCpuInfoBtn = document.getElementById('info-btn');
+
+getCpuInfoBtn.addEventListener('click',function() {
+  ipc.send('get-cpu-info')
+})
+
+ipc.on('cpu-info-reply', function(event, arg) {
+  console.log(arg);
+})
+```
+
+remote通过方法直接调用以及全局变量获取来实现数据的传递
+
+ipc：通过事件注册发布的方式实现数据传递
+
+remote是同步的，底层通过ipc实现
+
 https://www.wxwenku.com/d/200894878
+
+### 设置global变量
+
+通过ipc main监听，设置变量
+
+```javascript
+const { ipcMain } = require('electron')
+
+ipcMain.on("setMyGloBalVariable",(event,myGlobalVariableValue)=>{
+  global.myGlobalVariableValue = myGlobalVariableValue;
+})
+```
+
+remote获取
+
+```javascript
+const { ipcRenderer, remote } = require("electron")
+
+ipcRenderer.send("setMyGloBalVariable","Hi There!")
+
+remote.getGlobal("MyGlobalVariableValue"); //=> "Hi There"
+```
+
+
 
 ## 引入终端
 
@@ -675,6 +782,22 @@ Vue.prototype.$db = db.db
 
 
 
+## 启动参数
+
+当你的应用启动时，你可能需要同时带上一些参数来影响程序的执行逻辑，比如通过设置启动参数来让程序换不同的皮肤
+
+在electron中，主进程其实就是个node进程，所以直接通过node支持的方式去获取启动参数
+
+```javascript
+const { app,BrowserWindow } = require('electron');
+console.log(process.argv)
+//渲染进程
+const remote = require('eletron').remote
+alert(remote.process.argv)
+```
+
+
+
 ## 结合React
 
 
@@ -701,7 +824,7 @@ npm install -save electron
 
 在项目`public/`目录下新建`renderer.js`文件,该文件是预加载的js文件，并且在该文件内可以使用所有的Node.js的API。在`renderer.js`中添加
 
-```
+```javascript
 global.electron = require(``'electron'``)
 ```
 
@@ -709,7 +832,7 @@ global.electron = require(``'electron'``)
 
 在`<div id="root"></div>`前引入`renderer.js`文件
 
-```
+```html
 <script>require('./renderer.js')</script>
 <div id="root"></div>
 ```
@@ -892,6 +1015,10 @@ electron-builder
 第一点我们无法改变，我们可以从第二点对应用体积进行优化：`Electron`在打包时只会将`denpendencies`的依赖打包进去，而不会将 `devDependencies` 中的依赖进行打包。所以我们应尽可能的减少`denpendencies`中的依赖。在上面的进程中，我们使用`webpack`对渲染进程进行打包，所以渲染进程的依赖全部都可以移入`devDependencies`。
 
 另外，我们还可以使用双`packajson.json`的方式来进行优化，把只在开发环境中使用到的依赖放在整个项目的根目录的`package.json`下，将与平台相关的或者运行时需要的依赖装在`app`目录下。
+
+tree-shaking
+
+
 
 ## 自定义安装UI和路径
 

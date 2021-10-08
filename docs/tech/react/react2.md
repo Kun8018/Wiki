@@ -680,7 +680,117 @@ const B = React.memo(({count:}{count:number})=>{
 })
 ```
 
+## Hook
+
+### Hook调用异步接口写法
+
+```react
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+
+function App() {
+  const [data, setData] = useState({ products: [{
+    productId: '123',
+    productName: 'macbook'
+  }] });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError,setIsError] = useState(false);
+  
+  useEffect(()=> {
+    const fetchData = async()=> {
+      setIsError(false);
+      setIsLoading(true);
+      
+      try {
+        const result = await axios (
+        	'https://c.com/api/products?date=today',
+        )
+        setData(result.data);
+      }catch(e){
+        setIsError(true);
+      }
+      
+      setIsLoading(false);
+    }
+    fetchData();
+  },[]);
+  
+  return (
+  	<div>
+      { isError && <div></div>}
+      { isLoading ? (
+      	<div>Loading...</div>
+      ):(
+      	<ul>
+        	{data.products.map(i=> (
+          	<li key="{i.productId}">
+              {i.productName}
+            </li>
+          ))}
+        </ul>
+      )};
+    </div>
+  )
+}
+
+export default App;
+```
+
+也可以使用立即执行函数
+
+```react
+const MyFunctionnalComponent: React.FC = props => {
+  useEffect(()=>{
+    (async function anyNameFunction() {
+      await loadContent();
+    })();
+  },[]);
+  return <div></div>
+}
+```
+
+
+
 ## Hook包
 
 ### react-use
+
+
+
+### react-router
+
+useHistory useLocation useParams useRouteMatch 
+
+```react
+import {
+  useHistory,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom"
+
+function HomeButton() {
+  let history = useHistory();
+  function haddleClick() {
+    history.push("/home");
+  }
+  
+  function usePageViews() {
+      let location = useLocation();
+    	React.useEffect(()=>{
+        ga.send(["pageview", location.pathname]);
+      },[location])
+  }
+  
+  let { slug } = useParams();
+  return <div>Now showing post {slug}</div>
+  
+  let match = useRouteMatch("/blog/:slug")
+  const match = useRouteMatch({
+    path: "/BLOG/:slug",
+    strict: true,
+    sensitive: true
+  })
+}
+```
 
