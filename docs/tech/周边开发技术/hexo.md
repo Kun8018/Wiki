@@ -419,9 +419,9 @@ language:
 +        <div class="column-right-shadow <%= (page.__page !== true && page.__post !== true) ? 'is-hidden-widescreen' : '' %> <%= sticky_class('right') %>">
          <% get_widgets('right').forEach(widget => {%>
              <%- _partial('widget/' + widget.type, { widget }) %>
-         <% }) %>
+         <%}) %>
          </div>
-     <% } %>
+     <%} %>
 ```
 
 修改`themes\icarus\layout\layout.ejs`
@@ -434,7 +434,7 @@ language:
                  <%- _partial('common/widget', { position: 'left' }) %>
 +                <% if (page.__page !== true && page.__post !== true) { %>
                  <%- _partial('common/widget', { position: 'right' }) %>
-+                <% } %>
++                <%} %>
              </div>
          </div>
      </section>
@@ -535,7 +535,6 @@ logo:
 
 ```node
  </div>
- <% } %>
  +        <hr>
  +        <p id="evan">IT学徒、斜杠青年</p>
           <p id="evan">机器人爱好者、摄影爱好者</p>
