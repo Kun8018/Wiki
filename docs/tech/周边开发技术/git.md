@@ -807,9 +807,8 @@ strategy:
    matrix:
       os:[ubuntu-16.04 ubuntu-18.04]
       node:[6,8,10]
+## 上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，`{{matrix.os}}`是一个上下文参数
 ```
-
-上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，`{{matrix.os}}`是一个上下文参数
 
 strategy策略包括：
 
@@ -819,7 +818,7 @@ fail-fast：默认为true，即一旦某个矩阵任务失败则立即取消所�
 
 max-paraller：可同时执行的最大并发数，默认情况下github会动态调整
 
-此外还可以使用include为一个特定的os版本声明，用exclude删除特定的配置项
+此外还可以使用include为一个特定的`os`版本声明，用exclude删除特定的配置项
 
 ```yaml
 runs-on: ${{matrix.os}}
