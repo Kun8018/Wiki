@@ -322,6 +322,32 @@ plus():加法。minus():减法
 
 
 
+## shell.js
+
+Shelljs是Node.js下的脚本语言解析器，具有丰富且强大的底层操作(Windows/Linux/OS X)权限。Shelljs本质就是基于node的一层命令封装插件，让前端开发者可以不依赖linux也不依赖类似于cmder的转换工具，而是直接在我们最熟悉不过的javascript代码中编写shell命令实现功能。
+
+使用
+
+```javascript
+//局部模式
+var shell = require('shelljs');
+//全局模式下，就不需要用shell开头了。
+//require('shelljs/global');
+
+if (shell.exec('npm run build').code !== 0) {//执行npm run build 命令
+  shell.echo('Error: Git commit failed');
+  shell.exit(1);
+}
+
+//由于我的用另外一个仓库存放dist目录，所以这里要将文件增量复制到目标目录。并切换到对应目录。
+shell.cp ('-r', './dist/*', '../../Rychou');
+shell.cd('../../Rychou');
+
+shell.exec('git add .');
+shell.exec("git commit -m 'autocommit'")
+shell.exec('git push')
+```
+
 
 
 ## Robotjs自动化库
