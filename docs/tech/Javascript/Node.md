@@ -932,7 +932,48 @@ Json对象的方法
 
 `JSON.parse`方法用于将 JSON 字符串转换成对应的值。
 
+JSON.stringify()的几种妙用:
 
+判断数组是否包含某对象，或者判断对象是否相等。
+
+```javascript
+let data = [
+{name:'echo'},
+{name:'听风是风'},
+{name:'天子笑'},
+],
+val = {name:'天子笑'};
+console.log(JSON.stringify(data).indexOf(JSON.stringify(val)) !== -1);
+console.log(data.indexOf(val) !== -1)
+//因为数组和对象是引用值不能比较，所以需要序列化一下转成字符串
+```
+
+判断两数组/对象是否相等
+
+```javascript
+let a = [1,2,3],
+b = [1,2,3];
+JSON.stringify(a) === JSON.stringify(b);//true
+```
+
+让localStorage/sessionStorage可以存储对象。
+
+localStorage/sessionStorage默认只能存储字符串，而实际开发中，我们往往需要存储的数据多为对象类型，那么这里我们就可以在存储时利用json.stringify()将对象转为字符串，而在取缓存时，只需配合json.parse()转回对象即可
+
+```javascript
+//存
+function setLocalStorage(key,val){
+window.localStorage.setItem(key,JSON.stringify(val));
+};
+//取
+function getLocalStorage(key){
+let val = JSON.parse(window.localStorage.getItem(key));
+return val;
+};
+//测试
+setLocalStorage('demo',[1,2,3]);
+let  a = getLocalStorage('demo');//[1,2,3]
+```
 
 
 

@@ -167,6 +167,10 @@ Actions
 
 
 
+### mobx的object与map区别
+
+
+
 ### mobx与redux的不同
 
 redux与mobx的相同点：
@@ -1169,7 +1173,258 @@ if(getToken()){
 
 
 
+### react-virtualized
 
+
+
+使用
+
+```react
+import {AutoSizer, List, CellMeasurerCache, CellMeasurer} from 'react-virtualized'
+
+// 宽度固定
+const measureCache = new CellMeasurerCache({
+    fixedWidth: true,
+    minHeight: 60, 
+})
+
+// 每一行内容
+const rowRenderer = ({ index, key, parent, style }) => {
+    const item = records[index]
+
+    return (
+        <CellMeasurer cache={measureCache} key={key} parent={parent} rowIndex={index}>
+            <div style={style}>
+                content
+            </div>
+        </CellMeasurer>
+    )
+}
+
+<AutoSizer>
+    {({width, height}) => (
+        <List
+            width={width}
+            height={height}
+            deferredMeasurementCache={measureCache}
+            rowCount={records.length}
+            rowHeight={measureCache.rowHeight}
+            rowRenderer={rowRenderer}
+            className={styles.list}
+        />
+    )}
+</AutoSizer>
+```
+
+无限滚动 + 可编辑表格
+
+```react
+import {Table, Column} from 'react-virtualized'
+import {Input, Empty} from 'antd'
+
+// 防止Input组件不必要的渲染
+const MemoInput = React.memo(function (props) {
+    const {rowIndex, field, handleFieldChange, ...restProps} = props
+    return <Input {... restProps} onChange={(e) => handleFieldChange(field, e, rowIndex)} />
+})
+
+function VirtualTable(props) {
+    // ...
+
+    // 列, 使用useCallback优化
+    const nameColumn = ({cellData, rowIndex, dataKey }) => {
+        // ...
+        return (
+            <div>
+                <MemoInput
+                    placeholder="请输入姓名"
+                    value={cellData}
+                    rowIndex={rowIndex}
+                    field="姓名"
+                    handleFieldChange={handleFieldChange}
+                />
+            </div>
+        )
+    }
+    
+    // 表头
+    const columnHeaderRenderer = useCallback(({dataKey}) => dataKey, [])
+
+    const rowGetter = useCallback(({index}) => dataSource[index], [dataSource])
+
+    const noRowsRenderer = useCallback(() => <Empty className={styles.empty} />, [])
+
+    return <Table
+        ref={tableRef}
+        className={styles.virtualTable}
+        headerClassName={styles.header}
+        rowClassName={styles.row}
+        headerHeight={TableHeaderHeight}
+        width={TableWidth}
+        height={TableHeight}
+        noRowsRenderer={noRowsRenderer}
+        rowHeight={TableRowHeight}
+        rowGetter={rowGetter}
+        rowCount={dataSource.length}
+        overscanRowCount={OverscanRowCount}
+    >
+        <Column
+            width={120}
+            dataKey="姓名"
+            headerRenderer={columnHeaderRenderer}
+            cellRenderer={nameColumn}
+        />
+    </Table>
+}
+```
+
+
+
+### react-window
+
+react虚拟列表库 
+React Window是一个有效呈现大型列表和表格数据的组件，是React-virtualized的完全重写。
+
+React Window专注于使软件包更小，更快，同时API（和文档）对初学者尽可能友好。
+
+安装
+
+```shell
+npm i react-window
+```
+
+固定高度列表
+
+```react
+import { FixedSizeList as List } from 'react-window';
+
+const Row = ({ index, style }) => (
+  <div style={style}>Row {index}</div>
+);
+
+const Example = () => (
+  <List
+    height={150}
+    itemCount={1000}
+    itemSize={35}
+    width={300}
+  >
+    {Row}
+  </List>
+);
+```
+
+VariableSizeList （可变尺寸列表）
+
+```react
+import { VariableSizeList } from 'react-window';
+ 
+const rowHeights = new Array(1000)
+  .fill(true)
+  .map(() => 25 + Math.round(Math.random() * 50));
+ 
+const getItemSize = index => rowHeights[index]; // 此处采用随机数作为每个列表项的高度
+ /** 
+    * 每个列表项的组件
+    * @param index：列表项的下标；style：列表项的样式（此参数必须传入列表项的组件中，否则会出现滚动到下方出现空白的情况）
+    **/ 
+const Row = ({ index, style }) => (
+  <div style={style}>Row {index}</div>
+);
+ 
+const Example = () => (
+  <VariableSizeList
+    height={150} // 列表可视区域的高度
+    itemCount={1000} // 列表数据长度
+    itemSize={getItemSize} // 设置列表项的高度
+    layout= "vertical" // （vertical/horizontal） 默认为vertical，此为设置列表的方向
+    width={300}
+  >
+    {Row}
+  <VariableSizeList>
+);
+```
+
+结合react-virtualized-auto-sizer使列表自适应当前页面的宽高
+
+```react
+import { FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+const Example = () => (
+  <AutoSizer>
+    {({ height, width }) => (
+      <FixedSizeList
+        className="List"
+        height={height}
+        itemCount={1000}
+        itemSize={35}
+        width={width}
+      >
+        {Row}
+      </FixedSizeList>
+    )}
+  </AutoSizer>
+);
+```
+
+
+
+### react-sticky
+
+让组件实现类似position-sticky的效果
+
+安装
+
+```shell
+npm install react-sticky
+```
+
+使用
+
+```react
+import React from 'react';
+import { StickyContainer, Sticky } from 'react-sticky';
+
+class App extends React.Component {
+  render() {
+    return (
+      <StickyContainer>
+        {/* Other elements can be in between `StickyContainer` and `Sticky`,
+        but certain styles can break the positioning logic used. */}
+        <Sticky>
+          {({
+            style,
+ 
+            // the following are also available but unused in this example
+            isSticky,
+            wasSticky,
+            distanceFromTop,
+            distanceFromBottom,
+            calculatedHeight
+          }) => (
+            <header style={style}>
+              {/* ... */}
+            </header>
+          )}
+        </Sticky>
+        {/* ... */}
+      </StickyContainer>
+    );
+  },
+}
+```
+
+sticky上可以添加不同的属性
+
+```react
+<StickyContainer>
+  ...
+  <Sticky topOffset={80} bottomOffset={80} disableCompensation>
+    { props => (...) }
+  </Sticky>
+  ...
+</StickyContainer>
+```
 
 
 

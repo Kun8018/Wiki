@@ -1,1009 +1,1052 @@
 ---
-title: NodeJs开发（五） 
-date: 2021-1-23 21:40:33
+title: NodeJs开发（四） 
+date: 2021-1-22 22:41:33
 categories: IT
 tags: IT，Web
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/nestjs.png
+thumbnail: http://cdn.kunkunzhang.top/koajs.jpeg
 ---
 
-万万万万万万没想到会来到第十篇，第十篇写Nest和Nodejs游戏框架
+万万万万万万没想到会来到第七篇，第七篇写Koa框架及Eggjs
 
 <!--more-->
 
-## Nestjs
+## koa
 
-https://segmentfault.com/a/1190000018153359
+### 简介/安装
 
-nest之于javascript就像spring boot之于java，nest可以使用typescrip或者JavaScript开发，默认使用express作为底层服务框架
+Koa是一个类似于Express的Web开发框架，创始人也是同一个人。它的主要特点是，使用了ES6的Generator函数，进行了架构的重新设计。也就是说，Koa的原理和内部结构很像Express，但是语法和内部结构进行了升级。
 
-nest基于typescript编写并且结合了OOP(面向对象编程)、FP(函数式编程)、FRP(函数式响应编程)
+官方[faq](https://github.com/koajs/koa/blob/master/docs/faq.md#why-isnt-koa-just-express-40)有这样一个问题：”为什么koa不是Express 4.0？“，回答是这样的：”Koa与Express有很大差异，整个设计都是不同的，所以如果将Express 3.0按照这种写法升级到4.0，就意味着重写整个程序。所以，我们觉得创造一个新的库，是更合适的做法。“
 
-熟悉spring或者angular的同学可以快速上手Nestjs，因为它大量借鉴了Spring和Angular中的思想和概念。nest 的核心思想是提供一个层与层之间直接耦合度极小、抽象化较高的架构体系。
+一个Koa应用就是一个对象，包含了一个middleware数组，这个数组由一组Generator函数组成。这些函数负责对HTTP请求进行各种加工，比如生成缓存、指定代理、请求重定向等等。
 
-安装nest
+初始化文件夹
 
-```js
-npm i -g @nestjs/cli
+```javascript
+npm init
 ```
 
-检查安装是否成功
-
-```js
-nest -h
-```
-
-创建nest项目
-
-```js
-nest  new nest-demo
-```
-
-进入项目，npm run start
-
-```js
-//nest常用指令
-nest new []//创建项目
-nest -h//帮助
-nest g co [名称]//创建控制器
-nest g s [名称]//创建服务
-nest g mi [名称]//创建中间件
-nest g pi [名称]//创建管道
-nest g mo [名称]//创建模块
-nest g gu [名称]//创建守卫
-```
-
-### 依赖注入
-
-依赖注入是面向对象中控制反转最常见的实现方式，主要降低代码的耦合度，
-
-实例
-
-```js
-import { Engine } from './engine'
-import { Tire } from './tire'
-
-class Container {
-    private constructorPool;
-
-    constructor() {
-        this.constructorPool = new Map();
-    }
-    
-    register(name,constructor) {
-        this.constructorPool.set(name,constructor);
-    }
-    
-    get(name){
-       const target = this.constructorPool.get(name);
-       return new target();
-    }
-}
-
-const container = new Container();
-container.bind('engine',Engine);
-container.bind('tire',Tire);
-
-class Car {
-    private engine;
-    private tire;
-    
-    constructor() {
-        this.engine = container.get('engine');
-        this.tire = container.get('tire');
-    }
-}
-```
-
-在nestjs中，通过@injectable装饰器向IoC容器注册
-
-```js
-import { Injectable } from '@nestjs/common';
-
-```
-
-
-
-### 控制器
-
-控制器负责处理传入的请求和向客户端返回响应。每个控制器有多个路由，每个路由能执行不同的操作
-
-通过命令行创建控制器
+安装koa
 
 ```shell
-$ nest g co cats
+npm install koa
 ```
 
-
-
-实例
-
-```js
-import { Controller ,Get，Post} from '@nestjs/common'
-
-@Controller('cats')
-export class CatsController {
-    @Post
-    create(): string {
-        return 'this is a cat';
-    }
-    @Get
-    findAll(): string {
-        return 'this return all cats';
-    }
-}
-
-```
-
-Nest还提供其他端点装饰器@Put()、@Delete()、@Patch()、
-
-#### 状态码
-
-
-
-
-
-#### 自定义响应头
-
-可以使用 `@header()` 修饰器或类库特有的响应对象,
-
-```ts
-@Post()
-@Header('Cache-Control', 'none')
-create() {
-  return 'This action adds a new cat';
-}
-```
-
-#### 重定向
-
-可以使用 `@Redirect()`装饰器或特定于库的响应对象(并直接调用 `res.redirect()`)。
-
-`@Redirect()` 带有必需的 `url`参数和可选的 `statusCode`参数。 如果省略，则 `statusCode` 默认为 `302`。
-
-```ts
-@Redirect('https://nestjs.com', 301)
-```
-
-#### 动态路由
-
-当您需要接受**动态数据**作为请求的一部分时，
-
-
-
-### 模块化
-
-nest把controller、service、pipe等打包成内部的功能块，每个模块聚焦一个特性区域、业务领域、工作流等。
-
-在nest中通过@Module装饰器声明一个模块，每个nest程序至少有一个模块，即根模块，根模块是Nest开始安排应用程序树的地方
-
-@module()装饰器接受哦一个描述模块属性的对象
-
-```js
-provider 
-controller
-imports 
-exports
-```
-
-把模块到处就能在其他任意模块中重复使用，模块导出时可以导出他们的内部提供者，也可以再导出自己导入的模块
-
-#### 全局模块
-
-当你在很多地方需要导入同一模块时，可以将模块定义为全局模块。一旦定义，他们到处可用。
-
-@Global装饰器使模块注册为全局模块。全局模块只注册一次，最好在根模块或者核心模块注册
-
-实例
-
-```js
-import { Module,Global } from '@nestjs/common'
-import { CatsController } from './cats.controller'
-import { CatsService } from './cats.service'
-
-@Global()
-@Module({
-   controllers: [CatsController],
-   provider: [CatsService],
-   exports: [CatsService],
-})
-export class CatModule {}
-```
-
-### 提供者
-
-Providers 是 `Nest` 的一个基本概念。许多基本的 `Nest` 类可能被视为 provider - `service`,`repository`, `factory`, `helper` 等等。
-
-
-
-### 装饰器和注解
-
-@
-
-#### 自定义装饰器
-
-
-
-### 面向切面编程
-
-面向切面编程是针对业务处理过程中的切面进行提取，在某个步骤和阶段进行一些操作。面向切面编程是对面向对象编程的一种补充。
-
-在nest中，面向切面编程主要分为下面几个部分：中间件、守卫、拦截器、管道、过滤器
-
-洋葱模型
-
-#### 中间件
-
-nest的中间件和express的语言，可以直接使用express的中间件
-
-
-
-#### 管道
-
-管道有两种类型：
-
-将输入数据转化为所需的数据输出，或者对输入数据进行验证，验证成功则继续传递，否则抛出异常。即转换管道和验证管道。管道也是具有@Injecttable装饰器的类
-
-nest自带5个开箱即用的管道，从@nestjs/common包中导出，ValidationPipe、ParseIntPipe、ParseBoolPipe、ParseArrayPipe、ParseUUIDPipe。
-
-Pipe 是具有 `@Injectable()` 装饰器的类，并实现了 `PipeTransform` 接口。
-
-实例
-
-验证管道
-
-Nest 与 [class-validator](https://github.com/pleerock/class-validator) 配合得很好。class-validator库允许您使用基于装饰器的验证。装饰器的功能非常强大，尤其是与 Nest 的 Pipe 功能相结合使用时，因为我们可以通过访问 `metatype` 信息做很多事情，
-
-
-
-转换管道
-
-管道一般作为全局pipe使用
+最简单的demo
 
 ```javascript
-async function bootstrap() {
-  const app = await NestFactory.create(ApplicationModule);
-  app.setGlobalPrefix('api/v1');
-  
-  app.useGlobalPipes(new ValidationPipe());
-  
-  await app.listen(3000);
-}
-bootstrap();
+const Koa = require('koa')
+const app = new Koa()
+
+app.ues(async (ctx,next)=>{
+   ctx.response.body = "我是吴彦祖"
+})
+
+app.listen(3333,()=>{
+   console.log('server is running')
+})
 ```
 
-假设我们没有这层 pipe，那在 controller 中就会进行参数校验，这样就会打破单一职责的原则。有了这一层 pipe 帮助我们校验参数，有效地降低了类的复杂度，提高了可读性和可维护性。
+### 核心概念
 
-#### 守卫
+ctx：koa将node的request和response对象封装进ctx，得到ctx.request、cox.response。特别的，ctx将常用的属性做了进一步简化，可以由ctx直接访问，如ctx.request,url可以简化为ctx.request
 
-守卫与前端(vue)中的路由守卫一样，主要确定请求是否由该路由程序处理，通过守卫可以知道上下文的信息，所以与中间件相比，守卫可以确切知道在next之后要执行什么
+next：next参数将处理的控制权转交下一个中间件，响应结束时再由中间件逐层传递回来，也是著名的洋葱模型
 
-守卫在中间件之后执行，在拦截器和管道之前
+request对象：表示HTTP请求。
 
-在控制器中绑定守卫
+response对象：表示HTTP回应。
 
-守卫可以是全局范围或者控制范围内的，使用@UserGuards()装饰器设置一个控制范围的守卫，这个装饰器可以传递单个或多个守卫，用逗号隔开
+ctx对象的属性：
 
-```js
-import { UseGuards } from '@nestjs/common'
-@Controller('cats')
-@UseGuards(RolesGuard)
-export  default CatsControllers {}
-```
-
-全局守卫用于整个应用程序, 每个控制器和每个路由处理程序。全局守卫
-
-为了设置一个全局守卫，使用Nest应用程序实例的 `useGlobalGuards()` 方法：
-
-```ts
-const app = await NestFactory.create(AppModule);
-app.useGlobalGuards(new RolesGuard());
-```
+- request：指向Request对象
+- response：指向Response对象
+- req：指向Node的request对象
+- res：指向Node的response对象
+- app：指向App对象
+- state：用于在中间件传递信息。
 
 
 
+request对象的属性：
+
+(1) this.request.header：返回一个对象，包含所有HTTP请求的头信息。也可以写成`this.request.headers`。
+
+(2) this.request.method：返回HTTP请求的方法，该属性可读写。
+
+(3)this.request.length:返回HTTP请求的Content-Length属性，取不到值，则返回undefined。
+
+(4)this.request.path:返回HTTP请求的路径，该属性可读写。
+
+(5)this.request.href:返回HTTP请求的完整路径，包括协议、端口和url。
+
+(6)this.request.querystring:返回HTTP请求的查询字符串，不含问号。该属性可读写。
+
+(7)this.request.ip:返回发出HTTP请求的IP地址。
+
+(8)this.request.fresh:返回一个布尔值，表示缓存是否代表了最新内容。通常与If-None-Match、ETag、If-Modified-Since、Last-Modified等缓存头，配合使用。
+
+(9)this.request.query:返回一个对象，包含了HTTP请求的查询字符串。如果没有查询字符串，则返回一个空对象。该属性可读写。
+
+(10)this.request.host:返回HTTP请求的主机（含端口号）。
+
+(11)this.request.hostname:返回HTTP的主机名（不含端口号）。
+
+(12)this.request.search:返回HTTP请求的查询字符串，含问号。该属性可读写。
+
+(13)this.request.type:返回HTTP请求的Content-Type属性。
+
+(14)this.request.charset:返回HTTP请求的字符集。
+
+(15)this.request.protocol:返回HTTP请求的协议，https或者http。
+
+(16)this.request.secure:返回一个布尔值，表示当前协议是否为https。
+
+(17)this.request.is(types…):返回指定的类型字符串，表示HTTP请求的Content-Type属性是否为指定类型。
+
+(18)this.request.accepts(types):检查HTTP请求的Accept属性是否可接受，如果可接受，则返回指定的媒体类型，否则返回false。
+
+(19)this.request.acceptsEncodings(encodings):该方法根据HTTP请求的Accept-Encoding字段，返回最佳匹配，如果没有合适的匹配，则返回false。
+
+(20)this.request.acceptsCharsets(charsets):该方法根据HTTP请求的Accept-Charset字段，返回最佳匹配，如果没有合适的匹配，则返回false。
+
+(21)this.request.acceptsLanguages(langs):该方法根据HTTP请求的Accept-Language字段，返回最佳匹配，如果没有合适的匹配，则返回false。
+
+(22)this.request.socket:返回HTTP请求的socket。
+
+(23)this.request.get(field):返回HTTP请求指定的字段。
+
+response对象的属性：
+
+(1)this.response.header：返回HTTP回应的头信息。
+
+(2)this.response.socket：返回HTTP回应的socket。
+
+(3)this.response.status:返回HTTP回应的状态码。默认情况下，该属性没有值。该属性可读写，设置时等于一个整数。
+
+(4)this.response.message：返回HTTP回应的状态信息。该属性与`this.response.message`是配对的。该属性可读写。
+
+(5)this.response.length:返回HTTP回应的Content-Length字段。该属性可读写，如果没有设置它的值，koa会自动从this.request.body推断。
+
+(6)this.response.body: 返回HTTP回应的信息体。该属性可读写，它的值可能有以下几种类型。
+
+ 字符串：Content-Type字段默认为text/html或text/plain，字符集默认为utf-8，Content-Length字段同时设定。
+二进制Buffer：Content-Type字段默认为application/octet-stream，Content-Length字段同时设定。
+Stream：Content-Type字段默认为application/octet-stream。
+JSON对象：Content-Type字段默认为application/json。
+null（表示没有信息体）
+
+(7)this.response.get(field):返回HTTP回应的指定字段。
+
+(8)this.response.set():设置HTTP回应的指定字段。
+
+(9)this.response.remove(field):移除HTTP回应的指定字段。
+
+(10)this.response.is(types…):该方法类似于`this.request.is()`，用于检查HTTP回应的类型是否为支持的类型。
+
+它可以在中间件中起到处理不同格式内容的作用。
+
+(11)this.response.redirect(url, [alt]):该方法执行302跳转到指定网址。如果redirect方法的第一个参数是back，将重定向到HTTP请求的Referrer字段指定的网址，如果没有该字段，则重定向到第二个参数或“/”网址。
+
+(12)this.response.attachment([filename]):该方法将HTTP回应的Content-Disposition字段，设为“attachment”，提示浏览器下载指定文件。
+
+(13)this.response.headerSent：该方法返回一个布尔值，检查是否HTTP回应已经发出。
+
+(14)this.response.lastModified：该属性以Date对象的形式，返回HTTP回应的Last-Modified字段（如果该字段存在）。该属性可写。
+
+(15)this.response.etag:该属性设置HTTP回应的ETag字段。
+
+(16)this.response.vary(field):该方法将参数添加到HTTP回应的Vary字段。
+
+### 中间件
+
+Koa的中间件很像Express的中间件，也是对HTTP请求进行处理的函数，但是必须是一个Generator函数。而且，Koa的中间件是一个级联式（Cascading）的结构，也就是说，属于是层层调用，第一个中间件调用第二个中间件，第二个调用第三个，以此类推。上游的中间件必须等到下游的中间件返回结果，才会继续执行，这点很像递归。
+
+中间件通过当前应用的use方法注册。
+
+`app.use`方法的参数就是中间件，它是一个Generator函数，最大的特征就是function命令与参数之间，必须有一个星号。Generator函数的参数next，表示下一个中间件。
 
 
-#### 拦截器
 
-拦截器可以：
 
-在函数执行之前/之后绑定额外的逻辑
 
-转换从函数返回的结果 
-
-转换从函数抛出的异常
-
-扩展基本函数行为
-
-根据所选条件完全重写函数
+### 洋葱模型
 
 实例
 
+```javascript
+//打印时间戳
+module.exports = function() {
+    return async function(ctx, next) {
+        console.log("next前，打印时间戳:", new Date().getTime())
+        await next()
+        console.log("next后，打印时间戳:", new Date().getTime())
+    }
+}
 
+//打印路由
+module.exports = function() {
+    return async function(ctx, next) {
+        console.log("next前，打印url:", ctx.url)
+        await next()
+        console.log("next后，打印url:", ctx.url)
+    }
+}
 
-#### 异常处理/过滤器
+//使用中间件
+const Koa = require('koa')
+const app = new Koa()
 
-内置的 Exception filters 负责处理整个应用程序中的所有抛出的异常，也是 Nestjs 中在 response 前，最后能捕获异常的机会。
+const logTime = require('./middleware/logTime')
+const logUrl = require('./middleware/logUrl')
 
-```js
-import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+// logTime
+app.use(logTime())
 
-@Catch()
-export class AnyExceptionFilter implements ExceptionFilter {
-  catch(exception: any, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse();
-    const request = ctx.getRequest();
+// logUrl
+app.use(logUrl())
 
-    response
-      .status(status)
-      .json({
-        statusCode: exception.getStatus(),
-        timestamp: new Date().toISOString(),
-        path: request.url,
-      });
+// response
+app.use(async ctx => {
+  ctx.body = 'Hello World'
+})
+
+app.listen(3000)
+```
+
+#### 源码koa-compose
+
+koa中比较重要的点：
+
+1. context的保存和传递
+2. 中间件的管理和next的实现
+
+1.app.listen使用了this.callback()来生成node的httpServer的回调函数。
+
+```javascript
+listen(...args) {
+    debug('listen');
+    const server = http.createServer(this.callback());
+    return server.listen(...args);
+}
+```
+
+中间件引擎
+
+```javascript
+callback() {
+    const fn = compose(this.middleware); // 核心：中间件的管理和next的实现
+    
+    if (!this.listeners('error').length) this.on('error', this.onerror);
+    
+    const handleRequest = (req, res) => {
+      const ctx = this.createContext(req, res); // 创建ctx
+      return this.handleRequest(ctx, fn);
+    };
+    
+    return handleRequest;
+}
+```
+
+使用compose函数处理中间件。compose中有`dispatch`函数，它将遍历整个`middleware`，然后将`context`和`dispatch(i + 1)`传给`middleware`中的方法。
+
+```javascript
+function compose (middleware) {
+  return function (context, next) {
+    // last called middleware #
+    let index = -1
+    return dispatch(0)
+    
+    function dispatch (i) {
+      if (i <= index) return Promise.reject(new Error('next() called multiple times'))
+      index = i
+      let fn = middleware[i]
+      if (i === middleware.length) fn = next
+      if (!fn) return Promise.resolve()
+      try {
+        return Promise.resolve(fn(context, function next () {
+          return dispatch(i + 1)
+        }))
+      } catch (err) {
+        return Promise.reject(err)
+      }
+    }
   }
 }
 ```
 
-而 Interceptor 则负责对成功请求结果进行包装：
+
+
+### 路由
+
+使用koa-router处理URL
+
+安装
+
+```shell
+npm i koa-router --save 
+```
+
+实例
 
 ```javascript
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-} from '@nestjs/common'
-import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
+const Koa = require('koa');
+const app = new Koa();
+const Router = require('koa-router')
 
-interface Response<T> {
-  data: T
+//写法1，一个路由对象
+const router = new Router();
+
+router.get('/',async (ctx,next)=>{
+  ctx.body = 'index页'
+})
+
+router.get('/',async (ctx,next)=>{
+  ctx.body = 'index页'
+})
+
+app.use(router.routes())
+app.listen(3333,()=>{
+  console.log("server is running")
+})
+//写法2，建立不同路由对象然后一起装载,嵌套路由
+let oneRouter = new Router();
+let twoRouter = new Router();
+
+oneRouter.get('/',async(ctx,next)=>{
+   ctx.body = "onerouter 页"
+})
+
+twoRouter.get('/',async(ctx,next)=>{
+   ctx.body = 'tworouter页'
+}).get('/home',async(ctx,next)=>{
+   ctx.body = 'home页'
+})
+
+let indexRouter = new Router();
+indexRouter.use('/one',oneRouter.routes(),oneRouter.allowedMethods())
+indexRouter.use('/two',twoRouter.routes(),twoRouter.allowedMethods())
+
+app
+  .use(indexRouter.routes())
+  .use(indexRouter.allowedMethods())
+
+app.listen(3333,()=>{
+   console.log('server')
+})
+```
+
+### 处理请求
+
+使用koa-router处理请求，如get、post
+
+post请求使用koa-bodyparser处理body中的数据
+
+```shell
+npm i koa-bodyparser --save
+```
+
+
+
+```javascript
+const Koa = require('koa');
+const app = new Koa()
+const Router.= require ('koa-router')
+const router = new Router()
+
+//get请求
+router.get('/data',async(ctx,next)=>{
+  let url = ctx.url;
+  
+  let data = ctx.request.query;//查询的的对象
+  let dataQuery = ctx.request.querystring; // 查询的字符串
+})
+
+//restful风格api，get请求
+router.get('data/:id',async(ctx,next)=>{
+   let data = ctx.params;
+})
+
+//post请求
+router.post('/post/result',async (ctx,next)=>{
+    let {name,num} = ctx.request.body
+    
+    if(name && num ){
+     ctx.body = "${name} ${num}"
+    }
+})
+```
+
+### 日志
+
+### koa-logger
+
+这个库比较简单，记录请求的基本信息，比如请求的方法、URl、用时等。作为中间件中使用，注意：推荐放在所有的中间件之前，这个跟 koa 的洋葱模型有关。假如不是第一个，计算时间会不准确。
+
+```javascript
+var logger = require('koa-logger');
+app.use(logger());
+```
+
+默认情况下，日志是通过 `console` 的方式直接输出到控制台中，假如我们需要对日志做自定义的操作，比如写入到日志文件中等。可以通过类似完成
+
+### koa-log4js
+
+`koa-logger` 比较轻量，也暴露了相对灵活的接口。但在实际业务中使用，我个人推荐使用 `koa-log4js`。主要理由如下：
+
+- `koa-logger` 看起来只支持中间件的使用方式，而不支持上报特定日志的功能。
+- 内置的功能比较少。比如日志的分类和落盘等。
+
+**koa-log4js**[2] 对 **log4js-node**[3] 做了一层包装，从而支持 `Koa` 日志的中间件。它的配置和 `log4js-node` 是保持一致的。所以假如你用 `log4js-node` 的话，使用上应该是一致的。
+
+安装
+
+```shell
+npm i --save koa-log4
+```
+
+在根目录新建一个文件夹 `log`。并且新建一个文件夹 `utils`，在其中新建文件 `logger.js`
+
+```javascript
+const path = require('path');
+const log4js = require('koa-log4');
+const RUNTIME_PATH = path.resolve(__dirname, '../');
+const LOG_PATH = path.join(RUNTIME_PATH, 'log');
+
+log4js.configure({
+  // 日志的输出
+  appenders: {
+    access: {
+      type: 'dateFile',
+      pattern: '-yyyy-MM-dd.log', //生成文件的规则
+      alwaysIncludePattern: true, // 文件名始终以日期区分
+      encoding: 'utf-8',
+      filename: path.join(LOG_PATH, 'access.log') //生成文件名
+    },
+    application: {
+      type: 'dateFile',
+      pattern: '-yyyy-MM-dd.log',
+      alwaysIncludePattern: true,
+      encoding: 'utf-8',
+      filename: path.join(LOG_PATH, 'application.log')
+    },
+    out: {
+      type: 'console'
+    }
+  },
+  categories: {
+    default: { appenders: [ 'out' ], level: 'info' },
+    access: { appenders: [ 'access' ], level: 'info' },
+    application: { appenders: [ 'application' ], level: 'all'}
+  }
+});
+
+// getLogger 传参指定的是类型
+exports.accessLogger = () => log4js.koaLogger(log4js.getLogger('access')); // 记录所有访问级别的日志
+exports.logger = log4js.getLogger('application');
+```
+
+categories配置日志类别。必须配置默认日志类别，用于没有命中的情况下的兜底行为。该配置为一个对象，`key` 值为分类名称。其中每个类别都有两个配置 `appenders` 是一个字符串数组，是输出配置（后文中会详解），可以指定多个，至少要有一个。`level` 是上文日志级别。
+
+ `appenders`配置输出日志，该配置的 `key` 值为自定义的名称（可以给 `categories` 中的 `appenders` 使用），属性值为一个对象，配置输出类型。`out` 指的是通过 `console` 输出，这个可以作为我们的一个兜底。`access` 中 `type` 为 `dataFile`，指的是输出文件，然后配置文件的命名和输出路径。
+
+在 `app.js` 以及`routes/index.js` 中加入：
+
+```javascript
+// app.js
+const { accessLogger, logger } = require('./utils/logger');
+app.use(accessLogger())
+
+// routes/index.js
+const { logger } = require('../utils/logger')
+
+router.get('/', async (ctx, next) => {
+  logger.info('我是首页');
+  await ctx.render('index', {
+    title: 'Hello Koa 2!'
+  })
+})
+```
+
+可以看到在 `log` 文件夹中输出两个文件：access-log和application-log两个日志文件
+
+日志的分级，主要作用是更好的展示日志（不同颜色）、有选择的落盘日志，比如在生产中避免一些 `debug` 的敏感日志被泄露。`log4js-node` 默认有九个分级（你可以通过 `levels` 进行修改）
+
+```javascript
+{
+  ALL: new Level(Number.MIN_VALUE, "ALL"),
+  TRACE: new Level(5000, "TRACE"),
+  DEBUG: new Level(10000, "DEBUG"),
+  INFO: new Level(20000, "INFO"),
+  WARN: new Level(30000, "WARN"),
+  ERROR: new Level(40000, "ERROR"),
+  FATAL: new Level(50000, "FATAL"),
+  MARK: new Level(9007199254740992, "MARK"), // 2^53
+  OFF: new Level(Number.MAX_VALUE, "OFF")
 }
+```
 
-@Injectable()
-export class TransformInterceptor<T>
-  implements NestInterceptor<T, Response<T>> {
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler,
-  ): Observable<Response<T>> {
-    return next.handle().pipe(
-      map(rawData => {
-          return {
-            data: rawData,
-            status: 0,
-            message: '请求成功',
-          }
+默认只会输出级别相等或者级别高的日志。比如你配置了 `WARN`，就不会输出 `INFO` 的日志。可以在下面配置的 `categories` 中配置不同的类型日志的日志级别。
+
+### cookie、session操作koa-session
+
+koa可以直接操作cookie
+
+```javascript
+router.post('/post/result',async(ctx,next)=>{
+		let {name,num} = ctx.request.body
+    
+    if(name && num ){
+      ctx.body = "${name} ${num}"
+      ctx.cookies.set(
+        'xunleiCode',num,
+        {
+          domain:'localhost',  //写cookie所在的域名
+          path:'/post/result',  //写cookie所在的路径
+          maxAge: 10 * 60 * 1000; //cookie有效时长
+          expires: new Date('2018-09-17'); //cookie失效时间
+          httpOnly:false, //是否只用于http请求中获取
+          overwrite： false， //是否允许重写
         }
       )
-    )
+    }
+})
+```
+
+安装koa-session
+
+```javascript
+npm i koa-session
+```
+
+实例
+
+```javascript
+const session = require('koa-session')
+
+app.keys = ['some secret hurr'];
+const CONFIG = {
+  key:"koa:sess",  //默认cookie为koa：sess
+  maxAge: 86400000,// 过期时间，默认为1天
+  overwrite: true, // 是否可以重写
+  httpOnly: true,  //cookie是否只有服务端可以访问
+  signed:true,     //签名默认为true
+  rolling:false,   //在每次请求时重新设置cookie，重置cookie过期时间
+  renew:false,     //刷新session当session接近失效
+}
+app.use(session(CONFIG,app));
+```
+
+
+
+### CSRF攻击koa-csrf
+
+CSRF攻击是指用户的session被劫持，用来冒充用户的攻击。
+
+koa-csrf插件用来防止CSRF攻击。原理是在session之中写入一个秘密的token，用户每次使用POST方法提交数据的时候，必须含有这个token，否则就会抛出错误。
+
+```javascript
+var koa = require('koa');
+var session = require('koa-session');
+var csrf = require('koa-csrf');
+var route = require('koa-route');
+
+var app = module.exports = koa();
+
+app.keys = ['session key', 'csrf example'];
+app.use(session(app));
+
+app.use(csrf());
+
+app.use(route.get('/token', token));
+app.use(route.post('/post', post));
+
+function* token () {
+  this.body = this.csrf;
+}
+
+function* post() {
+  this.body = {ok: true};
+}
+
+app.listen(3000);
+```
+
+POST请求含有token，可以是以下几种方式之一，koa-csrf插件就能获得token。
+
+- 表单的_csrf字段
+- 查询字符串的_csrf字段
+- HTTP请求头信息的x-csrf-token字段
+- HTTP请求头信息的x-xsrf-token字段
+
+### 数据压缩koa-compress
+
+koa-compress模块可以实现数据压缩。
+
+```javascript
+app.use(require('koa-compress')())
+app.use(function* () {
+  this.type = 'text/plain'
+  this.body = fs.createReadStream('filename.txt')
+})
+```
+
+### koa-connect
+
+安装
+
+```shell
+npm install koa-connect
+```
+
+使用
+
+```javascript
+import k2c from 'koa2-connect'
+import httpProxy from 'http-proxy-middleware'
+
+async function proxyHandler(ctx:Context,next:any){
+  const nebulaProxy = k2c(
+    httpProxy({
+      target: 'http://localhost:8000',
+      pathRewrite:{
+        '/api-nebula':'/api'
+      }
+      changeOrigin: True,
+    }) 
+  )
+}
+```
+
+
+
+### 源码
+
+koa2有四个核心文件：application.js、context.js、request.js、response.js。
+
+application.js：application.js是koa的入口文件，它向外导出了创建class实例的构造函数，它继承了events，这样就会赋予框架事件监听和事件触发的能力。application还暴露了一些常用的api，比如toJSON、listen、use等等。
+
+Context.js：这部分就是koa的应用上下文ctx,其实就一个简单的对象暴露，里面的重点在delegate，这个就是代理，这个就是为了开发者方便而设计的，比如我们要访问ctx.repsponse.status但是我们通过delegate，可以直接访问ctx.status访问到它。
+
+Request.js、Response.js ： 这两部分就是对原生的res、req的一些操作了，大量使用es6的get和set的一些语法，去取headers或者设置headers、还有设置body等等
+
+基于此，如果要实现koa框架需要四个模块：
+
+- 封装node http server、创建Koa类构造函数
+- 构造request、response、context对象
+- 中间件机制和剥洋葱模型的实现
+- 错误捕获和错误处理
+
+
+
+### 资源
+
+koa资源库：https://github.com/huaize2020/awesome-koa
+
+
+
+https://github.com/airuikun/blog/issues/2
+
+## eggjs
+
+web应用离不开session、视图模版、路由、文件上传、日志管理，这些koa都不提供，需要自行去官方的中间件网站去找，100个人可能有100种搭配
+
+而eggjs是基于koajs，解决了上述问题，将社区最佳实践整合进koajs，并且将多进程启动、开发时的热更新等问题一并解决，对开发者很友好，开箱即是最佳/较佳配置
+
+### 目录结构
+
+`app/router.js`:用于配置URL路由规则
+
+`app/controller/**`:用于解析用户的输入，处理返回相应的结果
+
+`app/service/**`:用于编写业务逻辑层，可选
+
+`app/middleware/**`:用于编写中间件，
+
+`app/public/**`:用于放置静态资源
+
+`app/extend/**`:用于框架的扩展
+
+`config/config.{env}.js`:用于编写配置文件
+
+`config/plugin.js`:用于配置需要加载的文件
+
+`test/**`:用于单元测试
+
+`app.js`和`agent.js`:用于自定义的初始化工作
+
+### 内置对象
+
+eggjs继承了koa的application、context、request、response对象，并且扩展了一些新的全局对象，controller、service、logger、config、helper
+
+每个controller下面都有以下属性：
+
+ctx：当前请求的context实例
+
+app：应用的application实例
+
+config：应用的配置
+
+service：应用所有的service
+
+logger：为当前controller封装的logger对象
+
+推荐从egg对象上获取controller基类，也可以从app实例上获取
+
+```javascript
+//从egg上获取
+const Controller = require('egg').Controller
+class USerController extends Controller {
+
+}
+module.exports = UserController;
+//从app上获取
+module.exports = app => {
+  return class UserController extends app.controller{
+    
+  };
+}
+```
+
+Service基类与controller基类基本相同，获取方式也相同
+
+
+
+### 路由Router
+
+Router的请求用来描述URL与具体承担执行动作的controller的关系，框架约定了`app/router.js`文件用于统一所有路由规则
+
+路由定义时需指定：
+
+1.请求方法/请求动作，包括head、options、get、post、delete、put、patch、redirect等
+
+2.路由名称，给路由设定一个别名
+
+3.中间件，在router里可以配置多个中间件，**串联执行**
+
+4.控制器，指定路由映射到具体到控制器上
+
+特别地，Restful风格的CRUD的路由配置如下
+
+```javascript
+module.exports = app =>{
+   const { router,controller} = app;
+   router.resources('posts','/api/posts',controller.posts);
+   router.resources('users','/api/v1/users',controller.v1.users)
+}
+```
+
+
+
+
+
+### 控制器controller
+
+控制器与路由对应，实现控制器的服务
+
+```javascript
+//router.js
+module.exports = app =>{
+  const {router,controller} = app;
+  router.get('/user/:id',controller.user.info);
+}
+//controller,user.js
+class UserController extends Controller {
+  async info(){
+    const { ctx } = this;
+    ctx.body = {
+      name:`hello ${ctx.params.id}`,
+    }
   }
 }
 ```
 
-同样 Interceptor 和 Exception Filter 需要把它定义在全局范围内：
+
+
+### 服务(service)
+
+service是复杂场景下用于做业务逻辑封装的一个抽象层，有利于：
+
+1.保持controller的逻辑更加简洁
+
+2.保持业务逻辑的独立性，抽象出来的service可以被多个controller重复调用
+
+3.将逻辑与展现分离，更容易编写测试用例
+
+使用场景：
+
+复杂数据的处理，如需要查数据库、按一定规则计算或者计算完成之后更新到数据库
+
+调用第三方的服务时
+
+定义service
 
 ```javascript
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api/v1');
+//app/service/user.js
+const Service = require('egg').Service
 
-  app.useGlobalFilters(new ExceptionsFilter());
-  app.useGlobalInterceptors(new TransformInterceptor());
-  app.useGlobalPipes(new ValidationPipe());
+Class UserService extends Service{
+   async find(uid){
+     const user = await this.ctx.db.query('select * from user where uid = ?',uid);
+     return user;
+   }
+}
 
-  await app.listen(3000);
+module.exports = UserService
+```
+
+在controller中调用对应的service
+
+```javascript
+const Controller = require('egg').Controller;
+class UserController extends Controller {
+  async info(){
+    const { ctx } = this;
+    const userId = ctx.params.id;
+    const userInfo = await ctx.service.user.find(userId)
+  }
+}
+module.exports = UserController;
+```
+
+### 中间件
+
+我们约定中间件是一个放置在`app/middleware`目录下的单独文件，它接受两个参数，
+
+Options:中间件的配置，框架会将config传递进来
+
+app:当前应用application的实例
+
+中间件实例
+
+```javascript
+//app/middleware/gzip.js
+const isJSON = require('koa-js-json');
+const zli = require('zlib')
+
+module.exports = options =>{
+  return async function gzip(ctx,next){
+    await next();
+    
+    let body = ctx.body;
+    if(!body) return;
+    
+    const stream = zlib.createGzip();
+    ctx.body = stream;
+    ctx.set('Content-Encoding','gzip')
+  }
 }
 ```
 
-### 微服务
+在单个router中或者全局实例化和挂载
 
-安装包
-
-```js
-npm i --save @nestjs/microservices
-```
-
-创建微服务
-
-```js
-
-```
-
-
-
-#### Redis
-
-
-
-
-
-### GraphQL
-
-在nest中开发GraphQL有两种方式，一种是代码先行，一种是架构先行
-
-安装包
-
-```js
-npm i @nestjs/graphql graphql-tools graphql apollo-server-express
-```
-
-@nestjs/graphql是对apollo server的封装
-
-数据量较少时可以将schema和resolver写在一个文件内，数据量较多时最好写在不同的js/ts文件中
-
-定义模型schema
-
-```js
-import {Field,Int,ObjectType} from '@nestjs/graphql';
-//也可以从其他模型文件中引入schema
-import { Post } from './post.graphql'
-
-@ObjectType()
-export class Author {
-  @Field(type =>Int)
-  id: number;
-
-  @Field({ nullable: true})
-  firstName?: String;
-  
-  @Field({ nullable: true})
-  lastName?: String;
-  
-  @Field(type => [Post])
-  posts: Post[];
-}
-
-//post.graphql.ts
-import {Field,Int,ObjectType} from '@nestjs/graphql';
-
-@ObjectType()
-export class Post {
-    @Field(type => Int)
-    id: number;
-
-    @Field()
-    title: string;
-
-    @Field(type =>Int,{nullable:true})
-    votes?: number;
+```javascript
+//单个路由加载
+module.exports = app =>{
+  const gzip = app.middleware.gzip({ threshold:1024 });
+  app.router.get('/needgzip',gzip,app.controller.handler);
 }
 ```
 
-定义resolver
+全局加载
 
-```js
-import {
-  Resolver,
-  Query,
-  Parent,
-  ResolveField,
-  Args,
-  Int,
-} from '@nestjs/graphql';
-import { Author } from './graphql/author.graphql';
-import { Post } from './graphql/post.graphql';
+```javascript
+//config.default.js
+module.exports = {
+  middleware:[gzip],
+  gzip:{
+    threshold:1024,
+  }
+}
+```
 
-@Resolver(() => Author)
-export class AuthorsResolver {
-  constructor(
-  private authorsService: AuthorsService,
-  private postsService: PostsService) {}
+### 插件
 
-  // @Query 表示创建Query 操作类型
-  // @Args 表示传入的参数
-  @Query(() => Author)
-  async author(@Args('id', { type: () => Int }) id: number): Promise<any> {
-    // 这里注释掉的是启用 `service` 对数据库进行访问
-    // return this.authorsService.findOneById(id);
+koa的中间件系统有其固有的缺点：
+
+1.中间件的顺序不可固定，使用先后顺序的不同，结果可能有天壤之别
+
+2.有些功能是与请求无关的，如定时任务、消息订阅，中间件处理起来麻烦
+
+3.初始化逻辑复杂，需要在应用启动的时候完成
+
+一个插件就像一个mini的应用，有service，中间件，配置等，没有路由和controller，没有plugin
+
+插件一般提供npm的方式安装
+
+```shell
+npm i egg-mysql --save
+```
+
+在package.json中引入依赖
+
+```json
+{
+  "dependencies":{
+    "egg-mysql":"^3.0.0"
+  }
+}
+```
+
+在plugin.js中声明
+
+```javascript
+exports.mysql = {
+  enable:true;
+  package:'egg-dev',
+}
+```
+
+### 上传文件
+
+config
+
+```javascript
+config.multipart = {
+  fileSize: '50mb',
+  mode: 'stream',
+  fileExtensions: ['xls','.txt']
+}
+```
+
+
+
+```shell
+npm install await-stream-ready stream-wormhole dayjs
+```
+
+
+
+```javascript
+const fs = require('fs');
+const path = requrie('path');
+
+const awaitWriteStream = require('await-stream-ready').write;
+
+
+```
+
+
+
+### 定时任务
+
+有一些任务是需要定时运行的，比如
+
+1.定时上报任务状态
+
+2.定时从远程接口更新本地缓存
+
+3.定时进行文件切割、文件删除等
+
+所有的定时任务放在`app/schedule`目录下，每一个文件都是独立的定时任务，可以配置定时任务的属性和要执行的方法
+
+比如，定义一个更新远程数据到内存缓存的定时任务
+
+```javascript
+//app/schedule/update_cache.js
+const Subscription = require('egg').Subscription
+
+class UpdayeCache extends Subscription {
+  static get schedule(){
     return {
-      id,
-      firstName: 'name',
-      lastName: 'mase',
+      interval:'1m',
+      type:'all',
     };
   }
   
-  // @ResolveField 表示下面装饰的方法与父类型（在当前示例中为Author类型）相关联
-  @ResolveField()
-  async posts(@Parent() author: Author): Promise<any> {
-    const { id } = author;
-    return [
-      {
-        id: 4,
-        title: 'hello',
-        votes: 2412,
-      },
-    ];
+  async subscribe(){
+    const res = await this.ctx.curl('http://www.api.com/cache',{
+      dataType: 'json'
+    });
+    this.ctx.app.cache = res.data;
   }
 }
-```
 
-在module文件中引入
-
-```ts
-import { Module } from '@nestjs/common';
-import { AuthorsResolver } from './authors.resolver'
-
-@Module({
-  providers: [AuthorsResolver],
-})
-export class AuthorModule {}
-```
-
-在主文件中引入module
-
-```ts
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { AuthorModule } from './author/author.module'
-import { join } from 'path';
-
-@Module({
-  imports: [
-    ...
-    GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'), // 最后生成的`Schema 文件，不可修改`
-    }),
-    ConfigModule.forRoot({
-      load: [configuration],
-    }),
-    AuthorModule
-  ],
-})
+module.exports = UpdateCache;
 ```
 
 
 
-### Websocket
+### 多进程模型与进程间通信
 
-安装包
+Node官方提供了cluster模块，用于多核计算
 
-```js
-npm i --save @nestjs/websockets @nestjs/platform-socket.io
-npm i --save-dev @types/socket.io
-```
+原生的Node-cluster特点：
 
+在服务器上同时启动多个进程；
 
+每个进程都跑同一份源代码，
 
-### JWT认证
+更神奇的是，这些进程可以同时监听同一个端口，
 
-通过用户认证可以判断该访问角色的合法性和权限。通常认证要么基于 Session，要么基于 Token。这里就以基于 Token 的 JWT（JSON Web Token） 方式进行用户认证。
+其中，负责启动其他进程的叫做Master进程，他好比是包工头，不做具体的工作，只负责启动其他进程
 
-```shell
-$ npm install --save @nestjs/passport passport @nestjs/jwt passport-jwt
-```
+其他被启动的叫Worker进程，就是干活的工人，它们接收请求，对外提供服务
 
-创建`jwt.strategy.ts`，用来验证 token，当 token 有效时，允许进一步处理请求，否则返回`401(Unanthorized)`
+Worker进程的数量一般由服务器的CPU核数决定，这样可以完美利用多核资源
 
+egg在此基础上进行了别的考虑：
 
+进程崩溃
 
-### 模版引擎
+work异常退出时如何处理？多个worker进程之间如何共享资源和调度？
 
-在 Nestjs 中，可以使用 hbs 作为模板渲染引擎：
+Nodejs进程退出可以分为两类：
 
-```shell
-$ npm install --save hbs
-```
+1是代码抛出了异常但未被捕获，进程将会退出。当一个worker进程遇到未捕获的异常时，它已经处于一个不确定状态，我们应该让这个进程优雅退出：
 
-在`main.ts`中，我们告诉 express，`static`文件夹用来存储静态文件，`views`中含了模板文件：
+关闭异常worker进程的所有tcp server。断开和Master的IPC通道，不再接受新的用户请求
+
+Master立刻fork一个进行中的worker进程，保证在线的工人总数不变
+
+异常worker等待一段时间，处理完已经接受的请求之后退出
+
+2是进程崩溃或者系统异常，不像未捕获异常时，当前进程直接退出，Master直接fork一个新的worker
+
+进程守护
+
+有些工作不需要每个worker都去做，如果都做，一来是浪费资源，更重要的是可能会导致多进程间资源访问冲突。
+
+对于这一类后台运行逻辑，全部放到一个单独的进程去执行，这个进程就叫做Agent Worker。Agent就好比Master给其他Worker请的一个秘书，它不对外提供服务，只给App Worker打工，专门处理一些公共事务。
+
+所以框架启动时进程的启动顺序就会变成：
+
+1.master启动后先fork Agent进程
+
+2.Agent初始化成功之后，通过IPC通道通知Master
+
+3.Master再fork多个App worker
+
+4.App Worker初始化成功，通知Master
+
+5.所有进程初始化成功后，Master通知Agent和Worker启动成功
+
+进程通信
+
+虽然每个Worker进程是相对独立的，但是它们之间始终还是需要通讯的，称为IPC通讯。
+
+Node cluster提供的IPC通道只存在于Master和Worker/Agent之间，Worker之间、Worker与Agent之间是没有的，要想相互通信只能通过master转发，这是不太方便的
+
+Egg封装了messenger对象挂载在app/agent上，能够相互通信
+
+方法
 
 ```javascript
-import { NestFactory } from '@nestjs/core'
-import { NestExpressApplication } from '@nestjs/platform-express'
-import { join } from 'path'
-
-import { AppModule } from './app.module'
-import config from './config'
-import { Logger } from './shared/utils/logger'
-
-async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true,
-  })
-
-  app.setGlobalPrefix('api/v1')
-
-  app.useStaticAssets(join(__dirname, '..', 'static'))
-  app.setBaseViewsDir(join(__dirname, '..', 'views'))
-  app.setViewEngine('hbs')
-
-  await app.listen(config.port, config.hostName, () => {
-    Logger.log(
-      `Awesome-nest API server has been started on http://${config.hostName}:${config.port}`,
-    )
-  })
-}
+app.messenger.broadcast(action,data)
+app.messenger.sendToApp(action,data)
+app.messenger.sendToAgent(action,data)
+agent.messenger.sendRandom(action,data)
+agent.messenger.sendTo(pid,action,data)
 ```
 
-在`views`下新建一个`catsPage.hbs`的文件，假设，我们需要在里面填充的数据结构是这样：
+### 日志
 
-```javascript
-{
-  cats: [
-    {
-      id: 1,
-      name: 'yyy',
-      age: 12,
-      breed: 'black cats'
-    }
-  ],
-  title: 'Cats List',
-}
-```
 
-此时，可以这样写模板：
 
-```javascript
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <style>
-        .table .default-td {
-            width: 200px;
-        }
 
-        .table tbody>tr:nth-child(2n-1) {
-            background-color: rgb(219, 212, 212);
-        }
 
-        .table tbody>tr:nth-child(2n) {
-            background-color: rgb(172, 162, 162);
-        }
-    </style>
-</head>
-<body>
-<p>{{ title }}</p>
-<table class="table">
-    <thead>
-    <tr>
-        <td class="id default-td">id</td>
-        <td class="name default-td">name</td>
-        <td class="age default-td">age</td>
-        <td class="breed default-td">breed</td>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each cats}}
-        <tr>
-            <td>{{id}}</td>
-            <td>{{name}}</td>
-            <td>{{age}}</td>
-            <td>{{breed}}</td>
-        </tr>
-    {{/each}}
-    </tbody>
-</table>
-</body>
-</html>
-```
-
-
-
-### http请求
-
-Nestjs 中对[Axios](https://github.com/axios/axios)进行了封装，并把它作为 `HttpService` 内置到`HttpModule`中。`HttpService`返回的类型和 Angular 的 `HttpClient Module`一样，都是`observables`，所以可以使用 [rxjs](https://rxjs.dev/) 中的操作符处理各种异步操作。
-
-```javascript
-import { Global, HttpModule, Module } from '@nestjs/common'
-
-import { LunarCalendarService } from './services/lunar-calendar/lunar-calendar.service'
-
-@Global()
-@Module({
-  imports: [HttpModule],
-  providers: [LunarCalendarService],
-  exports: [HttpModule, LunarCalendarService],
-})
-export class SharedModule {}
-```
-
-
-
-### ORM
-
-通过ORM可以使用面向对象编程的方式操作关系型数据库。Java中通常会有DAO(data access object，数据访问对象)层，DAO包含了各种数据库的操作方法，通过DAO对数据进行相关的操作。DAO的主要作用是分离数据层与业务层，避免业务层与数据层耦合。
-
-在nestjs中，使用typeORM作为DAO层，支持MySQL、MariaDB、MongoDB、NoSQL、SQLite、Postgres、CockroachDB、Oracle。
-
-安装库
-
-```javascript
-$ npm install --save @nestjs/typeorm
-```
-
-在typeORM中数据库的表对应的就是一个类，通过一个类创建实体，实体是一个映射到数据库表的类，通过@Entity来标记
-
-```js
-import {Entity,PrimaryGeneratedColumn,Column} from "typeorm";
-
-@Entity()
-export class User{
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @Column()
-    firstName: String;
-
-    @Column()
-    lastName: String;
-
-    @Column()
-    age: number;
-}
-```
-
-通过@InjectRepository()修饰器注入对应的Repository，就可以在Repository对象上
-
-进行数据库的操作。
-
-```js
-import {Injectable} from '@nestjs/common';
-import {InjectRepository } from '@nestjs/typeorm';
-import {Rspository } from '@nestjs/typeorm';
-import {User} from './user.entity'
-
-@Injectable()
-export class UserService{
-    constructor(
-     @InjectRepository(User)
-     private readonly userRepository: Repository<User>,
-     ){}
-    
-    async findAll() Promise<User[]>{
-        return await this.userRepository.find();
-    }
-}
-
-```
-
-#### Mongo
-
-安装包
-
-```ts
-yarn add @nestjs/typeorm typeorm mongodb
-```
-
-在app.module.ts中配置数据库连接
-
-```ts
-@Module({
-      imports: [
-        TypeOrmModule.forRoot({
-          type: 'mongodb',
-          host: 'localhost',
-          port: 27017,
-          database: 'typeorm', // 数据库名
-          entities: [join(__dirname, '**/entity/*.{ts,js}')], // 需要自动实体映射的文件路径匹配
-          useNewUrlParser: true, // 使用新版mongo连接Url解析格式
-          synchronize: true, // 自动同步数据库生成entity
-        })
-      ],
-```
-
-
-
-#### Mysql
-
-安装包
-
-```js
-npm install --save typeorm mysql
-```
-
-配置数据库连接
-
-```js
-import { createConnection } from 'typeorm';
-
-export const databaseProviders = [
-  {
-    provide: 'DATABASE_CONNECTION',
-    useFactory: async () => await createConnection({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      entities: [
-          __dirname + '/../**/*.entity{.ts,.js}',
-      ],
-      synchronize: true,
-    }),
-  },
-];
-
-```
-
-### 数据库迁移
-
-在持续交付项目中，项目会不断迭代上线，这时候就会出现数据库改动的问题，对一个投入使用的系统，通常会使用 migration 帮我们同步数据库。TypeORM 也自带了一个 [CLI 工具](https://github.com/typeorm/typeorm/blob/master/docs/zh_CN/using-cli.md)帮助我们进行数据库的同步。
-
-
-
-### CRUD
-
-对于一般的 CRUD 的操作，在 Nestjs 中可以使用[@nestjsx/crud](https://github.com/nestjsx/crud/wiki/Controllers#getting-started)这个库来帮我们减少开发量。
-
-首先安装相关依赖：
-
-```javascript
-npm i @nestjsx/crud @nestjsx/crud-typeorm class-transformer class-validator --save
-```
-
-
-
-### 安全防范
-
-对 JWT 的认证方式，因为没有 cookie，所以也就不存在 CSRF。如果你不是用的 JWT 认证方式，可以使用[csurf](https://github.com/expressjs/csurf)这个库去解决这个安全问题。
-
-对于 XSS，可以使用[helmet](https://github.com/helmetjs/helmet)去做安全防范。helmet 中有 12 个中间件，它们会设置一些安全相关的 HTTP 头。比如`xssFilter`就是用来做一些 XSS 相关的保护。
-
-对于单 IP 大量请求的暴力攻击，可以用[express-rate-limit](https://github.com/nfriedly/express-rate-limit)来进行限速。
-
-对于常见的跨域问题，Nestjs 提供了两种方式解决，一种通过`app.enableCors()`的方式启用跨域，另一种像下面一样，在 Nest 选项对象中启用。
-
-最后，所有这些设置都是作为全局的中间件启用，最后`main.ts`中，和安全相关的设置如下：
-
-```javascript
-import * as helmet from 'helmet'
-import * as rateLimit from 'express-rate-limit'
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true })
-
-  app.use(helmet())
-  app.use(
-    rateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutes
-      max: 100, // limit each IP to 100 requests per windowMs
-    }),
-  )
-
-  await app.listen(config.port, config.hostName, () => {
-    Logger.log(
-      `Awesome-nest API server has been started on http://${config.hostName}:${config.port}`,
-    )
-  })
-}
-```
-
-
-
-### Swagger
-
-Nest提供对Swagger的支持，方便追踪和测试api。
-
-安装npm包
-
-```shell
-$ npm install --save @nestjs/swagger swagger-ui-express
-```
-
-在`main.ts`中构建文档：
-
-```typescript
-const options = new DocumentBuilder()
-    .setTitle('Awesome-nest')
-    .setDescription('The Awesome-nest API Documents')
-    .setBasePath('api/v1')
-    .addBearerAuth()
-    .setVersion('0.0.1')
-    .build()
-
-const document = SwaggerModule.createDocument(app, options)
-SwaggerModule.setup('docs', app, document)
-```
-
-访问`http://localhost:3300/docs`就可以看到 swagger 文档的页面。
-
-对于不同的 API 可以在 controller 中使用`@ApiUseTags()`进行分类，对于需要认证的 API，可以加上`@ApiBearerAuth()`，这样在 swagger 中填完 token 后，就可以直接测试 API：
-
-```javascript
-@ApiUseTags('cats')
-@ApiBearerAuth()
-@Controller('cats')
-@UseGuards(AuthGuard())
-export class CatsController {
-  constructor(private readonly catsService: CatsService) {}
-
-  @Get('page')
-  @Render('catsPage')
-  getCatsPage(): Promise<any> {
-    return this.catsService.getCats()
-  }
-}
-```
-
-### 热重载
-
-在开发的时候，运行`npm run start:dev`的时候，是进行全量编译，如果项目比较大，全量编译耗时会比较长，这时候我们可以利用 webpack 来帮我们做增量编译，这样会大大增加开发效率。
-
-首先，安装 webpack 相关依赖：
-
-```shell
-$ npm i --save-dev webpack webpack-cli webpack-node-externals ts-loader
-```
-
-在根目录下创建一个`webpack.config.js`：
-
-```javascript
-const webpack = require('webpack');
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
-
-module.exports = {
-  entry: ['webpack/hot/poll?100', './src/main.ts'],
-  watch: true,
-  target: 'node',
-  externals: [
-    nodeExternals({
-      whitelist: ['webpack/hot/poll?100'],
-    }),
-  ],
-  module: {
-    rules: [
-      {
-        test: /.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  mode: 'development',
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'server.js',
-  },
-};
-```
-
-在main.ts中启动HMR，
-
-```javascript
-declare const module: any;
-
-async function bootstrap() {
-  const app = await NestFactory.create(ApplicationModule);
-  await app.listen(3000);
-
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
-}
-bootstrap();
-```
-
-在`package.json`中增加下面两个命令：
-
-```javascript
-{
-  "scripts": {
-    "start": "node dist/server",
-		"webpack": "webpack --config webpack.config.js"
-  }
-}
-```
-
-运行`npm run webpack`之后，webpack 开始监视文件，然后在另一个命令行窗口中运行`npm start`。
-
-
-
-## Nodejs游戏框架pomelo
-
-http://nextzeus.github.io/pomelo/#
+## midwayjs
 
 
 

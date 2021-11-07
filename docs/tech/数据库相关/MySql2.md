@@ -1,11 +1,9 @@
----
 title: 非关系型数据库
 date: 2020-03-02 21:40:33
 categories: IT
 tags: IT，Web,数据库
 toc: true
 thumbnail: https://s1.ax1x.com/2020/03/27/G9OTjU.png
----
 
 　　非关系型数据库有关的知识，学习后端必备。
 
@@ -115,11 +113,76 @@ mac下使用Robo 3T gui工具
 
 
 
+### 缺点
+
+不支持事务
+
 
 
 
 
 ## Redis
+
+redis是用c语言开发的一个开源的高性能键值对数据库。它通过提供多种键值数据类型来满足不同场景下的存储需求
+
+redis 的应用场景：
+
+缓存（数据查询、短连接、新闻内容、商品内容等等）
+
+分布式集群架构中的session分离
+
+聊天室的在线好友列表
+
+任务队列（秒杀、抢购、12306等等）
+
+应用排行榜
+
+网站访问统计
+
+数据过期处理（精确到毫秒）
+
+### 安装
+
+使用linux wget命令安装
+
+```shell
+wget http://download.redis.io/releases/redis-3.0.0.tar.gz
+```
+
+将redis-3.0.0 tar包拷贝到/usr/local下
+
+```shell
+cp redis-3.0.0.tar.gz /usr/local
+```
+
+解压源码
+
+```shell
+tar -zxvf redis-3.0.0.tar.gz
+```
+
+进入解压后的目录，编译、安装到指定目录
+
+```shell
+cd /usr/local/redis-3.0.0
+make PREFIX=/usr/local/redis install
+```
+
+Redis bin：
+
+redis-benchmark：redis性能测试工具
+
+redis-check-aof：AOF文件修复工具
+
+redis-check-rdb：RDB文件修复工具
+
+redis-cli： redis命令行客户端
+
+redisconf：redis配置文件
+
+redis-sentinal：redis集群管理工具
+
+redis-server：redis
 
 启动服务
 

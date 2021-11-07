@@ -135,6 +135,8 @@ npm install fullpage.js
 
 
 
+## Velocity.js
+
 
 
 
