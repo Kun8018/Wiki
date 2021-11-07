@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Hexo个人博客搭建及配置</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.88b3a504.css" as="style"><link rel="preload" href="/assets/js/app.f8154061.js" as="script"><link rel="preload" href="/assets/js/2.4cccd600.js" as="script"><link rel="preload" href="/assets/js/32.ac026d3a.js" as="script"><link rel="prefetch" href="/assets/js/10.54f00d7a.js"><link rel="prefetch" href="/assets/js/11.3da5b74a.js"><link rel="prefetch" href="/assets/js/12.7fee73d6.js"><link rel="prefetch" href="/assets/js/13.76868392.js"><link rel="prefetch" href="/assets/js/14.73742d11.js"><link rel="prefetch" href="/assets/js/15.5f9a7bea.js"><link rel="prefetch" href="/assets/js/16.bc63dc43.js"><link rel="prefetch" href="/assets/js/17.cf9ef8d3.js"><link rel="prefetch" href="/assets/js/18.813f3d8e.js"><link rel="prefetch" href="/assets/js/19.381f5e21.js"><link rel="prefetch" href="/assets/js/20.e6f846bb.js"><link rel="prefetch" href="/assets/js/21.699eb7d8.js"><link rel="prefetch" href="/assets/js/22.9b419f3a.js"><link rel="prefetch" href="/assets/js/23.9e2fcc0f.js"><link rel="prefetch" href="/assets/js/24.c0934c78.js"><link rel="prefetch" href="/assets/js/25.4d32001d.js"><link rel="prefetch" href="/assets/js/26.6a089853.js"><link rel="prefetch" href="/assets/js/27.b32725bd.js"><link rel="prefetch" href="/assets/js/28.a7d1db61.js"><link rel="prefetch" href="/assets/js/29.ee4f84ac.js"><link rel="prefetch" href="/assets/js/3.6608d946.js"><link rel="prefetch" href="/assets/js/30.c1000c38.js"><link rel="prefetch" href="/assets/js/31.694fd1d6.js"><link rel="prefetch" href="/assets/js/33.c8ee999f.js"><link rel="prefetch" href="/assets/js/34.6663a77a.js"><link rel="prefetch" href="/assets/js/35.da0b5d07.js"><link rel="prefetch" href="/assets/js/36.75f20762.js"><link rel="prefetch" href="/assets/js/37.df31ffd6.js"><link rel="prefetch" href="/assets/js/38.848c2684.js"><link rel="prefetch" href="/assets/js/39.9a7a0d1a.js"><link rel="prefetch" href="/assets/js/4.9660033f.js"><link rel="prefetch" href="/assets/js/40.ca8e34ae.js"><link rel="prefetch" href="/assets/js/41.ab3f4971.js"><link rel="prefetch" href="/assets/js/42.3f849176.js"><link rel="prefetch" href="/assets/js/43.9b90ce3e.js"><link rel="prefetch" href="/assets/js/44.196181d0.js"><link rel="prefetch" href="/assets/js/45.4ebcccbd.js"><link rel="prefetch" href="/assets/js/46.a68cdba9.js"><link rel="prefetch" href="/assets/js/47.d26979d7.js"><link rel="prefetch" href="/assets/js/48.f6c3543c.js"><link rel="prefetch" href="/assets/js/49.87b9dc0d.js"><link rel="prefetch" href="/assets/js/5.bbf68f26.js"><link rel="prefetch" href="/assets/js/50.0d956d0a.js"><link rel="prefetch" href="/assets/js/51.6d654f81.js"><link rel="prefetch" href="/assets/js/52.180028c6.js"><link rel="prefetch" href="/assets/js/53.688b8ed0.js"><link rel="prefetch" href="/assets/js/54.4760398b.js"><link rel="prefetch" href="/assets/js/55.79d61c82.js"><link rel="prefetch" href="/assets/js/56.22ba5d85.js"><link rel="prefetch" href="/assets/js/57.085d3e52.js"><link rel="prefetch" href="/assets/js/58.a778b7b9.js"><link rel="prefetch" href="/assets/js/59.2ea1a17d.js"><link rel="prefetch" href="/assets/js/6.690811ac.js"><link rel="prefetch" href="/assets/js/60.82c5f4a5.js"><link rel="prefetch" href="/assets/js/61.9851b4bf.js"><link rel="prefetch" href="/assets/js/62.e9ca8158.js"><link rel="prefetch" href="/assets/js/63.44d8baf4.js"><link rel="prefetch" href="/assets/js/64.df339ab2.js"><link rel="prefetch" href="/assets/js/65.ac505688.js"><link rel="prefetch" href="/assets/js/66.3af3b829.js"><link rel="prefetch" href="/assets/js/67.41c1aab0.js"><link rel="prefetch" href="/assets/js/68.5d9e177d.js"><link rel="prefetch" href="/assets/js/69.d3e85f6e.js"><link rel="prefetch" href="/assets/js/7.491a7910.js"><link rel="prefetch" href="/assets/js/70.4494003e.js"><link rel="prefetch" href="/assets/js/71.6e2116c7.js"><link rel="prefetch" href="/assets/js/72.49cda61b.js"><link rel="prefetch" href="/assets/js/73.e7e66ead.js"><link rel="prefetch" href="/assets/js/74.5e98329f.js"><link rel="prefetch" href="/assets/js/75.3dd401e4.js"><link rel="prefetch" href="/assets/js/76.aabec56b.js"><link rel="prefetch" href="/assets/js/77.95564de2.js"><link rel="prefetch" href="/assets/js/78.69634719.js"><link rel="prefetch" href="/assets/js/79.6fcc3d23.js"><link rel="prefetch" href="/assets/js/8.63bf7718.js"><link rel="prefetch" href="/assets/js/9.58039158.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.88b3a504.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="hexo个人博客简介"><a href="#hexo个人博客简介" class="header-anchor">#</a> Hexo个人博客简介</h2> <p>Hexo 是一个快速、简洁且高效的博客框架。Hexo是基于Node的框架，使用 <a href="http://daringfireball.net/projects/markdown/" target="_blank" rel="noopener noreferrer">Markdown<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p> <p>​       Hexo具有以下优点：</p> <ul><li>使用广泛，主题和插件很多，可扩展性强</li> <li>支持Markdown语法，编辑简介美观</li> <li>一键生成，快捷方便</li></ul> <p>基于以上特点，推荐使用Hexo博客框架。</p> <p>推荐https://easyhexo.com/，教程很nice</p> <h2 id="基本搭建环境"><a href="#基本搭建环境" class="header-anchor">#</a> 基本搭建环境</h2> <p>Node.js</p> <p>在<a href="">Node官网</a>下载对应系统最新版安装即可</p> <p>Git</p> <p>在<a href="https://git-scm.com/downloads" target="_blank" rel="noopener noreferrer">Git官网<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>下载对应系统最新版安装即可</p> <h2 id="本地搭建博客"><a href="#本地搭建博客" class="header-anchor">#</a> 本地搭建博客</h2> <p>在本地安装Hexo,在Git bash窗口下运行命令</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> -g hexo-cli
+</code></pre></div><p>在一个空文件夹(可以新建，例:Hexo)下，点击右键，运行Git bash,输入命令：</p> <div class="language-git extra-class"><pre class="language-git"><code>hexo init
+</code></pre></div><p>就会从官网下载Hexo 模板，</p> <p><img src="http://q6mb9zdoi.bkt.clouddn.com/hexo.png" alt=""></p> <p>下载完再运行</p> <div class="language-git extra-class"><pre class="language-git"><code>hexo server
+</code></pre></div><p>启动成功。</p> <p>打开浏览器，输入local host：4000（Hexo服务器默认端口为4000），就能看到博客页面，只不过现在的页面是默认的模板，没有任何你自己的东西。</p> <h2 id="托管到github服务器"><a href="#托管到github服务器" class="header-anchor">#</a> 托管到Github服务器</h2> <h3 id="git-hub配置"><a href="#git-hub配置" class="header-anchor">#</a> Git hub配置</h3> <p>在Git hub下创建仓库，仓库名字必须为 <code>[用户名].github.io</code>,</p> <p><img src="http://q6mb9zdoi.bkt.clouddn.com/rep.png" alt=""></p> <h3 id="本地文件配置"><a href="#本地文件配置" class="header-anchor">#</a> 本地文件配置</h3> <p>在本地<code>Hexo</code>文件夹下打开<code>_config.yml</code>文件，在deploy输入以下代码</p> <div class="language-git extra-class"><pre class="language-git"><code>deploy:
+  type: git
+  repository:                    https://github.com/tengzhangchao/tengzhangchao.github.io.git
+  branch: master
+</code></pre></div><p>保存文件,关闭</p> <p>打开Git bash，使用<code>npm</code>安装发布模块，运行</p> <div class="language-git extra-class"><pre class="language-git"><code>npm install hexo-deployer-git --save
+</code></pre></div><p>安装模块，安装完后运行</p> <div class="language-git extra-class"><pre class="language-git"><code>hexo clean        //清理puclic文件夹下的文件,预备
+hexo generate     //由你的md文件在public下生成html等文件
+hexo deploy       //将本地的public下生成的传到Github仓库里
+</code></pre></div><p>在首次运行Hexo deploy时会提醒你需要输入Git hub用户名及密码。</p> <p>运行完后在浏览器输入<code>[用户名].github.io</code>即可访问</p> <h2 id="绑定个人域名"><a href="#绑定个人域名" class="header-anchor">#</a> 绑定个人域名</h2> <p>绑定个人域名需在域名与Git hub仓库、本地文件夹三个地方分别设置</p> <h3 id="个人域名配置"><a href="#个人域名配置" class="header-anchor">#</a> 个人域名配置</h3> <p>首先Ctrl+R,打开CMD窗口，使用ping方法寻找你的博客ip地址，</p> <p>​         我在ping的时候发现我的博客地址在185.199.108.153，185.199.109.153，185.199.110.153，185.199.111.153四个IP地址自动转换，后来在网上查找发现这是Git hub 的四个IP，所以我把我的个人域名下把这四个IP全部解析，解析时选择添加A类型地址及@、www属性</p> <p>我的Namesilo域名配置</p> <p><img src="http://q6mb9zdoi.bkt.clouddn.com/namesio.jpg" alt="域名解析配置"></p> <p>特别注意: 有的人用腾讯云免费解析（非腾讯云购买）,但是只能解析两个类型，所以最好在你购买的域名商下解析</p> <h3 id="github配置"><a href="#github配置" class="header-anchor">#</a> Github配置</h3> <p>方式一: 在Git hub之前建立的仓库下，custom domain下输入个人域名</p> <p><img src="http://q6mb9zdoi.bkt.clouddn.com/domain.png" alt="Gitpage设置"></p> <p>方式二: 然后在对应的仓库下建立一个CNAME文件，文件内容为个人域名,</p> <h3 id="本地文件配置-2"><a href="#本地文件配置-2" class="header-anchor">#</a> 本地文件配置</h3> <p>另外需要注意的是，CNAME文件在本地也需建立，因为发布时是把本地的文件夹<code>hexo/public</code>上传在Git hub仓库里,所以在本地文件夹也新建。</p> <h2 id="hexo与icarus主题详细配置"><a href="#hexo与icarus主题详细配置" class="header-anchor">#</a> Hexo与Icarus主题详细配置</h2> <h3 id="icarus主题介绍"><a href="#icarus主题介绍" class="header-anchor">#</a> Icarus主题介绍</h3> <p>​       Hexo默认的主题为landscape，我个人不是很喜欢这个主题，特别推荐使用较多的Next主题，以及我个人使用的icarus主题</p> <p>​        <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener noreferrer">Hexo-theme-icarus<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 是一个优秀的 Hexo 主题，开发者 <a href="https://github.com/ppoffice" target="_blank" rel="noopener noreferrer">Ruipeng Zhang<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 同时还维护了 <a href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener noreferrer">hexo-theme-hueman<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 和 <a href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener noreferrer">hexo-theme-minos<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 两个项目。</p> <p>​         icarus 是一个三栏结构的自适应主题，预置了大量第三方插件，可以方便使用者快速建站。整体风格简约，适合各种类型的站点，无论是技术文章，还是摄影佳作，都可以完美承载。</p> <p>效果图</p> <p><img src="http://q6mb9zdoi.bkt.clouddn.com/icarus.png" alt=""></p> <h3 id="安装主题"><a href="#安装主题" class="header-anchor">#</a> 安装主题</h3> <p>在命令行中cd至博客根目录，加载主题：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">git</span> clone https://github.com/ppoffice/hexo-theme-icarus.git themes/icarus
+</code></pre></div><p>安装完theme文件夹下多了Icarus文件夹，Icarus文件结构：</p> <div class="language- extra-class"><pre class="language-text"><code>├─includes
+├─languages
+├─layout
+│  ├─comment
+│  ├─common
+│  ├─donate
+│  ├─plugin
+│  ├─search
+│  ├─share
+│  └─widget
+├─sripts
+└─source
+    ├─css
+    ├─images
+    └─js
+</code></pre></div><p>在博客根目录下的 <code>_config.yml</code> 文件中做两件事情：</p> <ol><li>设置语言: <code>language: zh-CN</code></li> <li>设置主题为 icarus: <code>theme: icarus</code></li></ol> <h3 id="新建博客"><a href="#新建博客" class="header-anchor">#</a> 新建博客</h3> <p>方式一: 在Hexo目录下打开Git bash,运行</p> <div class="language-git extra-class"><pre class="language-git"><code>hexo new [post] [博客名字]
+</code></pre></div><p>方式二:</p> <p>在<code>source/_posts</code>文件夹新建.md文件，运行博客服务器时会自动加载</p> <h3 id="修改界面"><a href="#修改界面" class="header-anchor">#</a> 修改界面</h3> <p>打开<code>Hexo/themes/icarus/</code>目录下的<code>_config.yml</code>文件,</p> <div class="language-git extra-class"><pre class="language-git"><code><span class="token comment"># Version of the Icarus theme that is currently used</span>
+version: 2.3.0
+<span class="token comment"># 你的网站图标，可以搜索在线图标制作，并将其放在images文件夹中</span>
+favicon: /images/favicons.ico
+<span class="token comment"># Path or URL to RSS atom.xml</span>
+rss: /atom.xml
+<span class="token comment"># 显示在导航栏左侧的网站logo，同样可以自己制作</span>
+logo: /images/gen.svg
+<span class="token comment"># Open Graph metadata</span>
+<span class="token comment"># https://hexo.io/docs/helpers.html#open-graph</span>
+open_graph:
+    # Facebook App ID
+    fb_app_id: 
+    # Facebook Admin ID
+    fb_admins: 
+    # Twitter ID
+    twitter_id: 
+    # Twitter site
+    twitter_site: 
+    # Google+ profile link
+    google_plus: 
+<span class="token comment">#  导航栏</span>
+navbar:
+    #菜单（显示名称：对应文件夹）
+    menu:
+        主页: /
+        归档: /archives
+        分类: /categories
+        标签: /tags
+        关于: /about   
+    # 导航栏右侧图标链接
+    links:
+        My GitHub:
+            icon: fab fa-github
+            url: <span class="token string">'你的gityhub地址'</span>
+<span class="token comment"># Footer section link settings</span>
+footer:
+    # 页脚图标链接
+    links:
+        Creative Commons:
+            icon: fab fa-creative-commons
+            url: <span class="token string">'https://creativecommons.org/'</span>
+        Attribution 4.0 International:
+            icon: fab fa-creative-commons-by
+            url: <span class="token string">'https://creativecommons.org/licenses/by/4.0/'</span>
+        Download on GitHub:
+            icon: fab fa-github
+            url: <span class="token string">'http://github.com/ppoffice/hexo-theme-icarus'</span>
+<span class="token comment"># 文章显示设置</span>
+article:
+    # Code highlight theme
+    # https://github.com/highlightjs/highlight.js/tree/master/src/styles
+    #代码主题atom-one-light亮色，atom-one-dark暗色
+    highlight: atom-one-dark
+    # 是否显示文章主图
+    thumbnail: true
+    # 是否显示估算阅读时间
+    readtime: true
+<span class="token comment"># 搜索插件设置</span>
+<span class="token comment"># http://ppoffice.github.io/hexo-theme-icarus/categories/Configuration/Search-Plugins</span>
+search:
+    # Name of the search plugin
+    type: insight
+<span class="token comment"># 评论插件设置</span>
+<span class="token comment"># http://ppoffice.github.io/hexo-theme-icarus/categories/Configuration/Comment-Plugins</span>
+comment:
+    #可选valine，disqus（科学上网）等
+    # Name of the comment plugin
+    #type: valine
+    #app_id: 不为空
+    #app_key: 不为空
+    #notify: true
+    #verify: true
+    #placeholder:
+    type: disqus
+    shortname: 不能为空
+<span class="token comment"># 打赏功能</span>
+<span class="token comment"># http://ppoffice.github.io/hexo-theme-icarus/categories/Donation/</span>
+donate:
+    -
+        # 阿里巴巴支付宝
+        type: alipay
+        # 二维码图片
+        qrcode: <span class="token string">'/images/honbao.PNG'</span>
+    -
+        # 微信
+        type: wechat
+        # 二维码图片
+        qrcode: <span class="token string">'/images/yjtp.png'</span>
+    -
+<span class="token comment"># 分享插件设置</span>
+<span class="token comment"># http://ppoffice.github.io/hexo-theme-icarus/categories/Configuration/Share-Plugins</span>
+share:
+    # 插件类型，有多种，可选，自行百度
+    type: sharejs
+<span class="token comment"># Sidebar settings.</span>
+<span class="token comment"># Please be noted that a sidebar is only visible when it has at least one widget</span>
+sidebar:
+    # 左侧边栏设置
+    left:
+        # 是否不随页面滚动
+        # http://ppoffice.github.io/hexo-theme-icarus/Configuration/Theme/make-a-sidebar-sticky-when-page-scrolls/
+        sticky: false
+    # 右侧边栏设置
+    right:
+        # 是否不随页面滚动
+        # http://ppoffice.github.io/hexo-theme-icarus/Configuration/Theme/make-a-sidebar-sticky-when-page-scrolls/
+        sticky: false
+<span class="token comment"># 边栏小部件设置</span>
+<span class="token comment"># http://ppoffice.github.io/hexo-theme-icarus/categories/Widgets/</span>
+widgets:
+    -
+        # 个人信息
+        type: profile
+        # 部件位置（左）
+        position: left
+        # 作者名（字符串）
+        author: 飞鱼
+        # 作者身份描述（字符串）
+        author_title: Student
+        # 作者当前居住地
+        location: China,Fujian
+        # 头像（可用本地图片或网络图片链接）
+        avatar: <span class="token string">'/images/ava.png'</span>
+        # Email address for the Gravatar to be shown in the profile widget
+        gravatar: 
+        # 关注我的链接，可设为你的GitHub主页
+        follow_link: <span class="token string">'https://github.com/yourname'</span>
+        # 个人介绍部件底部图标社交链接
+        social_links:
+            Github:
+                icon: fab fa-github
+                url: <span class="token string">'https://github.com/yourname'</span>
+            Facebook:
+                icon: fab fa-facebook
+                url: <span class="token string">'https://facebook.com'</span>
+            Twitter:
+                icon: fab fa-twitter
+                url: <span class="token string">'https://twitter.com/yourname'</span>
+            RSS:
+                icon: fas fa-rss
+                url: /
+    -
+        # Widget name
+        type: toc
+        # Where should the widget be placed, left or right
+        position: left
+    -
+        # 分类
+        type: category
+        # 位置指定
+        position: left
+    -
+        # 标签云
+        type: tagcloud
+        # 位置
+        position: right
+    -
+        # 近期文章
+        type: recent_posts
+        # 位置
+        position: left
+    -
+        # 归档
+        type: archive
+        # Where should the widget be placed, left or right
+        position: right
+    -
+        # 标签
+        type: tag
+        # Where should the widget be placed, left or right
+        position: right
+    -
+        # 外部链接
+        type: links
+        # Where should the widget be placed, left or right
+        position: left
+        # Links to be shown in the links widget
+        links:
+            Google: <span class="token string">'https://google.com'</span>
+            Baidu: <span class="token string">'https://baidu.com'</span>
+</code></pre></div><h3 id="widget"><a href="#widget" class="header-anchor">#</a> Widget</h3> <p>所有的 widget 都是一个卡片，可以自由摆放在任何位置：</p> <h4 id="语言切换"><a href="#语言切换" class="header-anchor">#</a> 语言切换</h4> <p>在<code>_config.yml</code>文件下修改</p> <div class="language-node extra-class"><pre class="language-text"><code>language:
+        zh-cn
+</code></pre></div><h4 id="更改布局"><a href="#更改布局" class="header-anchor">#</a> 更改布局</h4> <p>默认的Icarus首页和文章页是三栏布局，文章页三栏布局有点窄，不利于观看，因为修改为两栏并调整列宽</p> <p>修改两栏：</p> <p>修改<code>themes\icarus\includes\helpers\layout.js</code></p> <div class="language-node extra-class"><pre class="language-text"><code>     hexo.extend.helper.register('column_count', function () {
+         let columns = 1;
++        if (this.page.__post === true || this.page.__page === true) {
++            return 2;
++        }
+         const hasColumn = hexo.extend.helper.get('has_column').bind(this);
+         columns += hasColumn('left') ? 1 : 0;
+         columns += hasColumn('right') ? 1 : 0;
+         return columns;
+     });
+</code></pre></div><p>修改<code>themes\icarus\layout\common\widget.ejs</code></p> <div class="language-node extra-class"><pre class="language-text"><code>     &lt;% if (position === 'left') { %&gt;
+-        &lt;div class=&quot;column-right-shadow is-hidden-widescreen &lt;%= sticky_class('right') %&gt;&quot;&gt;
++        &lt;div class=&quot;column-right-shadow &lt;%= (page.__page !== true &amp;&amp; page.__post !== true) ? 'is-hidden-widescreen' : '' %&gt; &lt;%= sticky_class('right') %&gt;&quot;&gt;
+         &lt;% get_widgets('right').forEach(widget =&gt; {%&gt;
+             &lt;%- _partial('widget/' + widget.type, { widget }) %&gt;
+         &lt;%}) %&gt;
+         &lt;/div&gt;
+     &lt;%} %&gt;
+</code></pre></div><p>修改<code>themes\icarus\layout\layout.ejs</code></p> <div class="language-node extra-class"><pre class="language-text"><code>     &lt;section class=&quot;section&quot;&gt;
+         &lt;div class=&quot;container&quot;&gt;
+             &lt;div class=&quot;columns&quot;&gt;
+                 &lt;div class=&quot;column &lt;%= main_column_class() %&gt; has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;
+                 &lt;%- _partial('common/widget', { position: 'left' }) %&gt;
++                &lt;% if (page.__page !== true &amp;&amp; page.__post !== true) { %&gt;
+                 &lt;%- _partial('common/widget', { position: 'right' }) %&gt;
++                &lt;%} %&gt;
+             &lt;/div&gt;
+         &lt;/div&gt;
+     &lt;/section&gt;
+</code></pre></div><p>修改文章页列宽</p> <p>修改<code>themes/icarus/layout/layout.ejs</code></p> <div class="language-node extra-class"><pre class="language-text"><code> &lt;head&gt;
+     &lt;%- partial('common/head') %&gt;
+ &lt;/head&gt;
+-&lt;body class=&quot;is-&lt;%= column_count() %&gt;-column&quot;&gt;
++&lt;body class=&quot;is-3-column&quot;&gt;
+     &lt;%- partial('common/navbar', { page }) %&gt;
+             case 2:
+-                return 'is-8-tablet is-8-desktop is-8-widescreen';
++                return 'is-8-tablet is-8-desktop is-9-widescreen';
+             case 3:
+                 return 'is-8-tablet is-8-desktop is-6-widescreen'
+         }
+</code></pre></div><p>修改<code>themes\icarus\layout\common\widget.ejs</code></p> <div class="language-node extra-class"><pre class="language-text"><code> &lt;% if (get_widgets(position).length) { %&gt;
+ &lt;% function side_column_class() {
+     switch (column_count()) {
+         case 2:
+-            return 'is-4-tablet is-4-desktop is-4-widescreen';
++            return 'is-4-tablet is-3-desktop is-3-widescreen';
+         case 3:
+             return 'is-4-tablet is-4-desktop is-3-widescreen';
+     }
+     return '';
+ } %&gt;
+</code></pre></div><p>修改<code>themes/icarus/source/css/style.styl</code></p> <div class="language-node extra-class"><pre class="language-text"><code> &lt;head&gt;
+     &lt;%- partial('common/head') %&gt;
+ &lt;/head&gt;
+-&lt;body class=&quot;is-&lt;%= column_count() %&gt;-column&quot;&gt;
++&lt;body class=&quot;is-3-column&quot;&gt;
+     &lt;%- partial('common/navbar', { page }) %&gt;
+             case 2:
+-                return 'is-8-tablet is-8-desktop is-8-widescreen';
++                return 'is-8-tablet is-8-desktop is-9-widescreen';
+             case 3:
+                 return 'is-8-tablet is-8-desktop is-6-widescreen'
+         }
+</code></pre></div><h4 id="调整字体大小"><a href="#调整字体大小" class="header-anchor">#</a> 调整字体大小</h4> <p>默认的14px字号我感觉略小，改为15px</p> <p>修改<code>\themes\icarus\source\css\style.styl</code>中：</p> <div class="language-node extra-class"><pre class="language-text"><code>html
+    font-size: 15px
+</code></pre></div><h4 id="设置每页显示博客数"><a href="#设置每页显示博客数" class="header-anchor">#</a> 设置每页显示博客数</h4> <p>在<code>_config.yml</code>文件下修改</p> <div class="language-node extra-class"><pre class="language-text"><code>index_generator:
+  path: ''
+  per_page: 5
+  order_by: -date
+</code></pre></div><h4 id="添加菜单"><a href="#添加菜单" class="header-anchor">#</a> 添加菜单</h4> <p>hexo new page [name]</p> <h4 id="logo设置"><a href="#logo设置" class="header-anchor">#</a> logo设置</h4> <p>logo 会展示在顶部导航栏的最左侧以及底部的footer区域，大家可以替换 <code>source/images/</code> 下的 logo 文件，使用 svg 或者 png 格式的都可以。</p> <p>或者给 logo 添加 <code>text</code> 属性，就会优先展示预设文字作为 logo：</p> <div class="language- extra-class"><pre class="language-text"><code>logo:
+  text: your name
+</code></pre></div><h4 id="添加个人签名"><a href="#添加个人签名" class="header-anchor">#</a> 添加个人签名</h4> <p>在 /layout/widget/profile.ejs文件中, 在倒数第二个前加上你想说的话</p> <div class="language-node extra-class"><pre class="language-text"><code> &lt;/div&gt;
+ +        &lt;hr&gt;
+ +        &lt;p id=&quot;evan&quot;&gt;IT学徒、斜杠青年&lt;/p&gt;
+          &lt;p id=&quot;evan&quot;&gt;机器人爱好者、摄影爱好者&lt;/p&gt;
+          &lt;p id=&quot;evan&quot;&gt;PS、PR、LR、达芬奇潜在学习者&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre></div><h4 id="添加分享"><a href="#添加分享" class="header-anchor">#</a> 添加分享</h4> <p>icarus默认提供多个分享插件。</p> <ul><li><p>AddThis</p></li> <li><p>AddToAny</p></li> <li><p>Baidu Share</p></li> <li><p>Share.js</p></li> <li><p>ShareThis</p> <p>在Icarus主题文件中找到share，配置</p></li></ul> <div class="language-node extra-class"><pre class="language-text"><code>_config.yml
+share:
+    type: sharejs
+</code></pre></div><p>如果你觉得分享图标太多，可以隐去一些</p> <div class="language-node extra-class"><pre class="language-text"><code>&lt;div class=&quot;social-share&quot; data-disabled=&quot;tencent,linkedin,douban,diandian,google&quot;&gt;&lt;/div&gt;
+</code></pre></div><h3 id="打赏"><a href="#打赏" class="header-anchor">#</a> 打赏</h3> <p>在<code>_config.yml</code>文件中配置：</p> <div class="language- extra-class"><pre class="language-text"><code>donate:
+    -
+        type: alipay
+        qrcode: /images/alipay.JPG
+    -
+        type: wechat
+        qrcode: /images/wechat.JPG
+    -
+        # type: paypal
+        # Paypal business ID or email address
+        # business: ''
+        # Currency code
+        # currency_code: USD
+    -
+        # type: patreon
+        # URL to the Patreon page
+        # url: ''
+</code></pre></div><h3 id="博客加密"><a href="#博客加密" class="header-anchor">#</a> 博客加密</h3> <h4 id="安装插件"><a href="#安装插件" class="header-anchor">#</a> 安装插件</h4> <p>运行命令：</p> <div class="language-git extra-class"><pre class="language-git"><code>npm install --save hexo-blog-encrypt
+</code></pre></div><h4 id="配置"><a href="#配置" class="header-anchor">#</a> 配置</h4> <p>在 <code>_config.yml</code> 中启用该插件（没有自己添加）:</p> <div class="language- extra-class"><pre class="language-text"><code># Security##encrypt:    enable: true
+</code></pre></div><h4 id="使用方式"><a href="#使用方式" class="header-anchor">#</a> 使用方式</h4> <p>在你的文章的头部添加上对应的字段，如 password, abstract, message</p> <div class="language- extra-class"><pre class="language-text"><code>---title: hello world
+date: 2016-03-30 21:18:02
+tags:    - fdsafsdaf
+password: Mike
+abstract: Welcome to my blog, enter password to read.
+message: Welcome to my blog, enter password to read.---
+</code></pre></div><h3 id="设置文章置顶与先后顺序"><a href="#设置文章置顶与先后顺序" class="header-anchor">#</a> 设置文章置顶与先后顺序</h3> <h3 id="添加访问量、站点时间和阅读量"><a href="#添加访问量、站点时间和阅读量" class="header-anchor">#</a> 添加访问量、站点时间和阅读量</h3> <p>打开<code>icarus/layout/common/footer.ejs</code>,添加以下代码:</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token style-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span><span class="token style language-css"><span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span></span><span class="token punctuation">&quot;</span></span></span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>is-size-7<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+				&lt;% if (busuanzi) { %&gt;
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>busuanzi_container_site_uv<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+					<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>fa fa-user<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">&gt;</span></span> 本站访客数 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>busuanzi_value_site_uv<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span> 人次
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>busuanzi_container_site_pv<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+					|  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>fa fa-eye<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">&gt;</span></span> 本站总访问量 
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>busuanzi_value_site_pv<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span> 次
+				<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+				&lt;% } %&gt;
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>timeDate<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>载入天数...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">&quot;</span>times<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>载入时分秒...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+			<span class="token keyword">var</span> now <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+			<span class="token keyword">function</span> <span class="token function">createtime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+				<span class="token keyword">var</span> grt<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token string">&quot;3/2/2020 08:00:00&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// 此处修改你的建站时间或者网站上线时间 </span>
+				now<span class="token punctuation">.</span><span class="token function">setTime</span><span class="token punctuation">(</span>now<span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">250</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+				days <span class="token operator">=</span> <span class="token punctuation">(</span>now <span class="token operator">-</span> grt<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span> <span class="token operator">/</span> <span class="token number">60</span> <span class="token operator">/</span> <span class="token number">60</span> <span class="token operator">/</span> <span class="token number">24</span><span class="token punctuation">;</span> dnum <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>days<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+				hours <span class="token operator">=</span> <span class="token punctuation">(</span>now <span class="token operator">-</span> grt<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span> <span class="token operator">/</span> <span class="token number">60</span> <span class="token operator">/</span> <span class="token number">60</span> <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token number">24</span> <span class="token operator">*</span> dnum<span class="token punctuation">)</span><span class="token punctuation">;</span> hnum <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>hours<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+				<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>hnum<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">==</span><span class="token number">1</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>hnum <span class="token operator">=</span> <span class="token string">&quot;0&quot;</span> <span class="token operator">+</span> hnum<span class="token punctuation">;</span><span class="token punctuation">}</span> minutes <span class="token operator">=</span> <span class="token punctuation">(</span>now <span class="token operator">-</span> grt<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span> <span class="token operator">/</span><span class="token number">60</span> <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token number">24</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> dnum<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token number">60</span> <span class="token operator">*</span> hnum<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+				mnum <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>minutes<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>mnum<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">==</span><span class="token number">1</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>mnum <span class="token operator">=</span> <span class="token string">&quot;0&quot;</span> <span class="token operator">+</span> mnum<span class="token punctuation">;</span><span class="token punctuation">}</span> 
+				seconds <span class="token operator">=</span> <span class="token punctuation">(</span>now <span class="token operator">-</span> grt<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">1000</span> <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token number">24</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> dnum<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token number">60</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> hnum<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token number">60</span> <span class="token operator">*</span> mnum<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+				snum <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">round</span><span class="token punctuation">(</span>seconds<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">String</span><span class="token punctuation">(</span>snum<span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">==</span><span class="token number">1</span> <span class="token punctuation">)</span><span class="token punctuation">{</span>snum <span class="token operator">=</span> <span class="token string">&quot;0&quot;</span> <span class="token operator">+</span> snum<span class="token punctuation">;</span><span class="token punctuation">}</span> 
+				document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;timeDate&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">&quot;本站已安全运行&quot;</span><span class="token operator">+</span>dnum<span class="token operator">+</span><span class="token string">&quot;天&quot;</span><span class="token punctuation">;</span> 
+				document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;times&quot;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> hnum <span class="token operator">+</span> <span class="token string">&quot;小时&quot;</span> <span class="token operator">+</span> mnum <span class="token operator">+</span> <span class="token string">&quot;分&quot;</span> <span class="token operator">+</span> snum <span class="token operator">+</span> <span class="token string">&quot;秒&quot;</span><span class="token punctuation">;</span> 
+			<span class="token punctuation">}</span> 
+			<span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token string">&quot;createtime()&quot;</span><span class="token punctuation">,</span><span class="token number">250</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h3 id="添加评论"><a href="#添加评论" class="header-anchor">#</a> 添加评论</h3> <h3 id="隐藏博客属性"><a href="#隐藏博客属性" class="header-anchor">#</a> 隐藏博客属性</h3> <p>安装插件hexo-hide-posts</p> <div class="language- extra-class"><pre class="language-text"><code>$ npm install hexo-hide-posts --save
+</code></pre></div><p>使用：在你的博客前添加hidden属性</p> <div class="language- extra-class"><pre class="language-text"><code>title: 'Lorem Ipsum'
+date: '2019/8/10 11:45:14'
+hidden: true
+</code></pre></div><p>Github原文地址：https://github.com/printempw/hexo-hide-posts</p> <p>获取地址</p> <h3 id="在线编辑"><a href="#在线编辑" class="header-anchor">#</a> 在线编辑</h3> <p>hexo-admin</p> <h3 id="设置相关阅读"><a href="#设置相关阅读" class="header-anchor">#</a> 设置相关阅读</h3> <h3 id="添加背景音乐"><a href="#添加背景音乐" class="header-anchor">#</a> 添加背景音乐</h3> <h3 id="被搜索引擎收录"><a href="#被搜索引擎收录" class="header-anchor">#</a> 被搜索引擎收录</h3> <p>gitpage托管的网站默认会被google收录，在搜索引擎中输入site: 你的域名 就可以找到，百度不会</p> <p>https://www.xiemingzhao.com/posts/HexoblogSE.html</p> <h3 id="rss订阅"><a href="#rss订阅" class="header-anchor">#</a> RSS订阅</h3> <p>RSS订阅是站点用来和其他站点之间共享内容的一种简易方式，即Really Simple Syndication（简易信息聚合）</p> <div class="language-shell extra-class"><pre class="language-shell"><code>$ <span class="token function">npm</span> <span class="token function">install</span> hexo-generator-feed
+</code></pre></div><p>等待安装完成后，打开hexo目录下配置文件的_config.yml，在末尾添加以下配置：</p> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token comment"># Extensions</span>
+<span class="token comment">## Plugins: http://hexo.io/plugins/</span>
+<span class="token comment">#RSS订阅</span>
+<span class="token key atrule">plugin</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> hexo<span class="token punctuation">-</span>generator<span class="token punctuation">-</span>feed
+<span class="token comment">#Feed Atom</span>
+<span class="token key atrule">feed</span><span class="token punctuation">:</span>
+<span class="token key atrule">type</span><span class="token punctuation">:</span> atom
+<span class="token key atrule">path</span><span class="token punctuation">:</span> atom.xml
+<span class="token key atrule">limit</span><span class="token punctuation">:</span> <span class="token number">20</span>
+</code></pre></div><h3 id="seo"><a href="#seo" class="header-anchor">#</a> seo</h3> <p>Hexo-generator-sitemap 和Hexo-generator-baidu-sitemap</p> <h2 id="gridea"><a href="#gridea" class="header-anchor">#</a> gridea</h2> <p>https://gridea.dev/</p> <p>https://v2ex.com/t/699961#reply4</p> <h2 id="jekyll"><a href="#jekyll" class="header-anchor">#</a> jekyll</h2> <h2 id="mkdocs"><a href="#mkdocs" class="header-anchor">#</a> mkdocs</h2> <p>mkdocs是基于python的编译器。比Hugo慢，也没hexo那样基于Node拓展性强，因为我涉及到这方面的工作，所以只是一个记录</p> <p>启动mkdocs项目需要python和pip的支持，所以不管是windows或者linux，要支持这些</p> <h2 id="托管到giteepage服务器"><a href="#托管到giteepage服务器" class="header-anchor">#</a> 托管到giteepage服务器</h2> <p>码云是国内的代码托管网站，也可以托管静态博客，与github托管的功能类似。最重要的是对于国内的用户访问速度会比github快，所以可以尝试一下。</p> <p>如果你之前hexo配置好了，你只需要做两件事情</p> <h3 id="在gitee新建账号和仓库"><a href="#在gitee新建账号和仓库" class="header-anchor">#</a> 在gitee新建账号和仓库</h3> <h3 id="本地关联gitee仓库和发布"><a href="#本地关联gitee仓库和发布" class="header-anchor">#</a> 本地关联gitee仓库和发布</h3> <p>由于gitee也是使用git作为版本管理工具，所以不需要改用其他版本管理工具。</p> <p>添加gitee远程仓库关联</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">git</span> remote <span class="token function">add</span> github git@gitee.com:yefcion/Poweron.gits
+</code></pre></div><p>修改站点配置文件 _config.yml,把原来github的repo注释掉，新加gitee的仓库链接</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> git
+  <span class="token comment">#  repo: https://github.com/zhengqingya/zhengqingya.github.io # github仓库</span>
+  <span class="token key atrule">repo</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//gitee.com/zhengqingya/blog <span class="token comment"># 码云仓库</span>
+  <span class="token key atrule">branch</span><span class="token punctuation">:</span> master
+  <span class="token key atrule">message</span><span class="token punctuation">:</span> 
+</code></pre></div><p>发布到仓库</p> <div class="language-hexo extra-class"><pre class="language-text"><code>hexo deploy
+</code></pre></div><p>在仓库的gitpage服务下面点击更新</p> <h2 id="托管到netify服务器"><a href="#托管到netify服务器" class="header-anchor">#</a> 托管到Netify服务器</h2> <h3 id="netlifycms"><a href="#netlifycms" class="header-anchor">#</a> NetlifyCMS</h3> <p>托管到Netlify有一个好处是能够使用NetlifyCMS管理静态博客文件，进而可以远程编辑，Netlify会获取你的Git仓库很多权限。</p> <p>在hexo中添加依赖</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> hexo-netlify-cms --save
+<span class="token comment">#或者</span>
+<span class="token function">yarn</span> <span class="token function">add</span> hexo-netlify-cms
+</code></pre></div><p>在config_yml中添加配置</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">netlify_cms</span><span class="token punctuation">:</span>
+  <span class="token key atrule">backend</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> git<span class="token punctuation">-</span>gateway
+    <span class="token key atrule">branch</span><span class="token punctuation">:</span> master
+</code></pre></div><p>在Netlify中开启netlify git-gateway服务</p> <p>添加netlify-identity-widget.js, 代码如下</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">&quot;https://identity.netlify.com/v1/netlify-identity-widget.js&quot;</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+</code></pre></div><p>现在Netlify CMS已经好了, 你可以访问<code>your-site/admin</code>查看</p> <h2 id="开发hexo主题"><a href="#开发hexo主题" class="header-anchor">#</a> 开发hexo主题</h2> <p>开发一款属于你的hexo主题吧～</p> <h3 id="ejs语法"><a href="#ejs语法" class="header-anchor">#</a> EJS语法</h3> <p>Hexo 使用主流的模板引擎，如： <code>EJS</code> 、 <code>Jade</code> 、 <code>Swing</code> 等，Hexo 的页面都是通过模板引擎渲染出来的页面，它可以实现一些代码的复用。</p> <p>“E” 代表什么？可以表示 “可嵌入（Embedded）”，也可以是“高效（Effective）”、“优雅（Elegant）”或者是“简单（Easy）”。EJS 是一套简单的模板语言，帮你利用普通的 JavaScript 代码生成 HTML 页面。EJS 没有如何组织内容的教条；也没有再造一套迭代和控制流语法；有的只是普通的 JavaScript 代码而已。</p> <p>标签</p> <ul><li><code>&lt;%</code> '脚本' 标签，用于流程控制，无输出。</li> <li><code>&lt;%_</code> 删除其前面的空格符</li> <li><code>&lt;%=</code> 输出数据到模板（输出是转义 HTML 标签）</li> <li><code>&lt;%-</code> 输出非转义的数据到模板</li> <li><code>&lt;%#</code> 注释标签，不执行、不输出内容</li> <li><code>&lt;%%</code> 输出字符串 '&lt;%'</li> <li><code>%&gt;</code> 一般结束标签</li> <li><code>-%&gt;</code> 删除紧随其后的换行符</li> <li><code>_%&gt;</code> 将结束标签后面的空格符删除</li></ul> <h3 id="hexo语法"><a href="#hexo语法" class="header-anchor">#</a> hexo语法</h3> <p>除了ejs语法，还有hexo特有的一些语法</p> <p>辅助函数：</p> <p><code>url_for</code>：输出路径</p> <p><code>partial</code>：载入其他模版文件</p> <p><code>css</code>：载入css文件</p> <p><code>js</code>：载入js文件</p> <p><code>data_xml</code>：插入 XML 格式的日期</p> <p>变量</p> <ul><li><p><code>page</code>：针对该页面的内容以及 front-matter 所设定的变量</p></li> <li><p><code>config</code>：网站配置（hexo的_config.yml）</p></li> <li><p><code>theme</code>：主题配置（theme的_config.yml）</p></li> <li><p><code>url</code>：当前页面的完整网址</p></li> <li><p><code>path</code>：当前页面的路径（不含根路径）</p></li> <li><p><code>post.title</code>：文章的题目</p></li> <li><p><code>post.excerpt</code>：文章的摘要，即写文章的时候<code>&lt;!--more--&gt;</code>之上的那段儿，首页显示</p></li> <li><p><code>post.comments</code>：评论模块</p></li> <li><p><code>post.photots</code>：文章中插入的图片</p></li> <li><p><code>post.content</code>：文章内容</p></li> <li><p><code>post.date</code>：文章的时间</p></li></ul> <h3 id="文件"><a href="#文件" class="header-anchor">#</a> 文件</h3> <p>主题的文件全部在theme文件夹下，</p> <p>layout.ejs</p> <p>在layout文件夹下，布局被写在layout.ejs中，由于hexo支持<strong>模块儿化布局</strong>，使用hexo提供的局部函数<code>partial</code>载入其他模版文件，配合ejs的语法，布局文件layout.ejs</p> <p>Index.ejs</p> <p>首页</p> <p>Post.ejs</p> <p>文章页</p> <p>Archive.ejs</p> <p>归档页</p> <p>Tag.ejs</p> <p>标签页</p> <p>Page.ejs</p> <p>其他页面</p> <h3 id="参考"><a href="#参考" class="header-anchor">#</a> 参考</h3> <p>他山之石，可以攻玉。在编写时要参考现有的优秀的博客主题，如Next、icarus</p> <h2 id="学习资源"><a href="#学习资源" class="header-anchor">#</a> 学习资源</h2> <p>https://easyhexo.com/</p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.f8154061.js" defer></script><script src="/assets/js/2.4cccd600.js" defer></script><script src="/assets/js/32.ac026d3a.js" defer></script>
+  </body>
+</html>

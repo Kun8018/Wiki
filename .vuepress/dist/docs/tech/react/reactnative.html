@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>React Native入门</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.88b3a504.css" as="style"><link rel="preload" href="/assets/js/app.f8154061.js" as="script"><link rel="preload" href="/assets/js/2.4cccd600.js" as="script"><link rel="preload" href="/assets/js/25.4d32001d.js" as="script"><link rel="prefetch" href="/assets/js/10.54f00d7a.js"><link rel="prefetch" href="/assets/js/11.3da5b74a.js"><link rel="prefetch" href="/assets/js/12.7fee73d6.js"><link rel="prefetch" href="/assets/js/13.76868392.js"><link rel="prefetch" href="/assets/js/14.73742d11.js"><link rel="prefetch" href="/assets/js/15.5f9a7bea.js"><link rel="prefetch" href="/assets/js/16.bc63dc43.js"><link rel="prefetch" href="/assets/js/17.cf9ef8d3.js"><link rel="prefetch" href="/assets/js/18.813f3d8e.js"><link rel="prefetch" href="/assets/js/19.381f5e21.js"><link rel="prefetch" href="/assets/js/20.e6f846bb.js"><link rel="prefetch" href="/assets/js/21.699eb7d8.js"><link rel="prefetch" href="/assets/js/22.9b419f3a.js"><link rel="prefetch" href="/assets/js/23.9e2fcc0f.js"><link rel="prefetch" href="/assets/js/24.c0934c78.js"><link rel="prefetch" href="/assets/js/26.6a089853.js"><link rel="prefetch" href="/assets/js/27.b32725bd.js"><link rel="prefetch" href="/assets/js/28.a7d1db61.js"><link rel="prefetch" href="/assets/js/29.ee4f84ac.js"><link rel="prefetch" href="/assets/js/3.6608d946.js"><link rel="prefetch" href="/assets/js/30.c1000c38.js"><link rel="prefetch" href="/assets/js/31.694fd1d6.js"><link rel="prefetch" href="/assets/js/32.ac026d3a.js"><link rel="prefetch" href="/assets/js/33.c8ee999f.js"><link rel="prefetch" href="/assets/js/34.6663a77a.js"><link rel="prefetch" href="/assets/js/35.da0b5d07.js"><link rel="prefetch" href="/assets/js/36.75f20762.js"><link rel="prefetch" href="/assets/js/37.df31ffd6.js"><link rel="prefetch" href="/assets/js/38.848c2684.js"><link rel="prefetch" href="/assets/js/39.9a7a0d1a.js"><link rel="prefetch" href="/assets/js/4.9660033f.js"><link rel="prefetch" href="/assets/js/40.ca8e34ae.js"><link rel="prefetch" href="/assets/js/41.ab3f4971.js"><link rel="prefetch" href="/assets/js/42.3f849176.js"><link rel="prefetch" href="/assets/js/43.9b90ce3e.js"><link rel="prefetch" href="/assets/js/44.196181d0.js"><link rel="prefetch" href="/assets/js/45.4ebcccbd.js"><link rel="prefetch" href="/assets/js/46.a68cdba9.js"><link rel="prefetch" href="/assets/js/47.d26979d7.js"><link rel="prefetch" href="/assets/js/48.f6c3543c.js"><link rel="prefetch" href="/assets/js/49.87b9dc0d.js"><link rel="prefetch" href="/assets/js/5.bbf68f26.js"><link rel="prefetch" href="/assets/js/50.0d956d0a.js"><link rel="prefetch" href="/assets/js/51.6d654f81.js"><link rel="prefetch" href="/assets/js/52.180028c6.js"><link rel="prefetch" href="/assets/js/53.688b8ed0.js"><link rel="prefetch" href="/assets/js/54.4760398b.js"><link rel="prefetch" href="/assets/js/55.79d61c82.js"><link rel="prefetch" href="/assets/js/56.22ba5d85.js"><link rel="prefetch" href="/assets/js/57.085d3e52.js"><link rel="prefetch" href="/assets/js/58.a778b7b9.js"><link rel="prefetch" href="/assets/js/59.2ea1a17d.js"><link rel="prefetch" href="/assets/js/6.690811ac.js"><link rel="prefetch" href="/assets/js/60.82c5f4a5.js"><link rel="prefetch" href="/assets/js/61.9851b4bf.js"><link rel="prefetch" href="/assets/js/62.e9ca8158.js"><link rel="prefetch" href="/assets/js/63.44d8baf4.js"><link rel="prefetch" href="/assets/js/64.df339ab2.js"><link rel="prefetch" href="/assets/js/65.ac505688.js"><link rel="prefetch" href="/assets/js/66.3af3b829.js"><link rel="prefetch" href="/assets/js/67.41c1aab0.js"><link rel="prefetch" href="/assets/js/68.5d9e177d.js"><link rel="prefetch" href="/assets/js/69.d3e85f6e.js"><link rel="prefetch" href="/assets/js/7.491a7910.js"><link rel="prefetch" href="/assets/js/70.4494003e.js"><link rel="prefetch" href="/assets/js/71.6e2116c7.js"><link rel="prefetch" href="/assets/js/72.49cda61b.js"><link rel="prefetch" href="/assets/js/73.e7e66ead.js"><link rel="prefetch" href="/assets/js/74.5e98329f.js"><link rel="prefetch" href="/assets/js/75.3dd401e4.js"><link rel="prefetch" href="/assets/js/76.aabec56b.js"><link rel="prefetch" href="/assets/js/77.95564de2.js"><link rel="prefetch" href="/assets/js/78.69634719.js"><link rel="prefetch" href="/assets/js/79.6fcc3d23.js"><link rel="prefetch" href="/assets/js/8.63bf7718.js"><link rel="prefetch" href="/assets/js/9.58039158.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.88b3a504.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="概述"><a href="#概述" class="header-anchor">#</a> 概述</h2> <p>React Native是目前移动端跨平台开发的选择之一，另一种是Flutter，目前安卓平台还是以Android原生开发和java为主，IOS端以Object-c和Swift为主，ReactNative作为一种新的跨平台开发方式，目前可使用的包还不多，但是我认为对于个人开发者还是比较方便的，所以这里把我实现的方式（因为真的很烦）</p> <h2 id="最重要的事"><a href="#最重要的事" class="header-anchor">#</a> 最重要的事</h2> <p>一定要翻墙 !一定要翻墙!一定要翻墙！</p> <p>因为配置的工具比较多，各软件版本一定要对！各软件版本一定要对！各软件版本一定要对！</p> <p>重要的事情说三遍！重要的事情说三遍！重要的事情说三遍！（所以这句话为什么要说三遍？因为很重要！因为很重要！因为很重要！（禁止套娃））</p> <p>不然你就会像我一样，装了删，删了重装，关键你还不知道到底是五个工具哪个有问题（往事不要再提)</p> <h2 id="开始安装"><a href="#开始安装" class="header-anchor">#</a> 开始安装</h2> <h3 id="node"><a href="#node" class="header-anchor">#</a> Node</h3> <h3 id="python-2-7"><a href="#python-2-7" class="header-anchor">#</a> Python 2.7</h3> <p>python是免费的</p> <h3 id="java-jdk-1-8"><a href="#java-jdk-1-8" class="header-anchor">#</a> Java JDK 1.8</h3> <p>https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</p> <h3 id="android-studio-最新版"><a href="#android-studio-最新版" class="header-anchor">#</a> Android Studio 最新版</h3> <h3 id="配置环境变量"><a href="#配置环境变量" class="header-anchor">#</a> 配置环境变量</h3> <h3 id="android-studio-sdk配置"><a href="#android-studio-sdk配置" class="header-anchor">#</a> Android Studio SDK配置</h3> <h3 id="reactnative命令行"><a href="#reactnative命令行" class="header-anchor">#</a> ReactNative命令行</h3> <div class="language-node extra-class"><pre class="language-text"><code>npm install -g react-native-cli
+</code></pre></div><p>测试连接设备</p> <div class="language-node extra-class"><pre class="language-text"><code>adb devices
+</code></pre></div><h3 id="启动"><a href="#启动" class="header-anchor">#</a> 启动</h3> <div class="language-node extra-class"><pre class="language-text"><code>react-native init  [文件名]
+cd [文件名]
+npx react-native run-android
+</code></pre></div><h2 id="第二种安装方式"><a href="#第二种安装方式" class="header-anchor">#</a> 第二种安装方式</h2> <p>（如果你看到这里了，无论你看到上面多么复杂，难受，可以忽略了）</p> <p>目前官方推荐使用第二种</p> <p>使用Expo方式安装和使用</p> <div class="language-node extra-class"><pre class="language-text"><code>npm install -g create-react-native-app
+</code></pre></div><p>创建项目</p> <div class="language-node extra-class"><pre class="language-text"><code>create-react-native-app appName
+cd appName
+</code></pre></div><p>启动项目</p> <div class="language-node extra-class"><pre class="language-text"><code>npm start
+</code></pre></div><p>启动项目后会生成二维码</p> <p>手机端下载安装App，打开App扫描二维码,等待加载完成，即可热刷新</p> <p>注意：</p> <ul><li><p>Expo App只能在Google Play中下载，国内的应用商店没有，可以在下方链接下载安装</p></li> <li><p>手机和电脑应处于同一WIFI环境下，不需要额外连线</p></li></ul> <h2 id="导航器"><a href="#导航器" class="header-anchor">#</a> 导航器</h2> <p>使用官方</p> <div class="language-node extra-class"><pre class="language-text"><code>npm install @react-navigation/native
+</code></pre></div><h3 id="底部导航栏"><a href="#底部导航栏" class="header-anchor">#</a> 底部导航栏</h3> <p>导入包</p> <div class="language-yarn extra-class"><pre class="language-text"><code>yarn add @react-navigation/bottom-tabs
+</code></pre></div><h3 id="顶部信息"><a href="#顶部信息" class="header-anchor">#</a> 顶部信息</h3> <h3 id="栈内导航"><a href="#栈内导航" class="header-anchor">#</a> 栈内导航</h3> <div class="language-yarn extra-class"><pre class="language-text"><code>yarn add @react-navigation/stack
+</code></pre></div><div class="language-node extra-class"><pre class="language-text"><code>&lt;Stack.Screen
+        name=&quot;Home&quot;
+        component={Home}
+        options={{
+          headerTitle: '首页',
+          headerLeft: () =&gt; (
+            &lt;Button
+              onPress={() =&gt; alert('This is a button!')}
+              title=&quot;我&quot;
+              color=&quot;#f56f&quot;
+            /&gt;
+          ),
+          headerRight: () =&gt; (
+            &lt;Button
+              onPress={() =&gt; alert('This is a button!')}
+              title=&quot;I扫一扫&quot;
+              color=&quot;#35ff&quot;
+            /&gt;
+          ),
+        }}
+        /&gt;
+</code></pre></div><p>导入部分加入</p> <div class="language- extra-class"><pre class="language-text"><code>
+</code></pre></div><p>程序主部分</p> <h3 id="侧边栏"><a href="#侧边栏" class="header-anchor">#</a> 侧边栏</h3> <p>安装包</p> <div class="language-yarn extra-class"><pre class="language-text"><code>yarn add @react-navigation/drawer
+</code></pre></div><p>导入包</p> <div class="language-reactnative extra-class"><pre class="language-text"><code>import {
+  createDrawerNavigator, //创建侧边栏必备
+  DrawerContentScrollView, //创建内容
+  DrawerItemList,  //创建项目条
+} from '@react-navigation/drawer';
+</code></pre></div><h2 id="内容"><a href="#内容" class="header-anchor">#</a> 内容</h2> <h3 id="获取网络数据"><a href="#获取网络数据" class="header-anchor">#</a> 获取网络数据</h3> <p>三种方法：fetch、 axios、async await</p> <p>这里用axios</p> <p>安装包</p> <h3 id="scrollview-滚动视图"><a href="#scrollview-滚动视图" class="header-anchor">#</a> Scrollview（滚动视图）</h3> <h3 id="轮播图"><a href="#轮播图" class="header-anchor">#</a> 轮播图</h3> <p>安装包</p> <div class="language-node extra-class"><pre class="language-text"><code>npm i react-native-swiper –save 
+</code></pre></div><p>导入包</p> <div class="language-reactnative extra-class"><pre class="language-text"><code>import Swiper from ‘react-native-swiper’;
+</code></pre></div><p>github源地址</p> <p>https://github.com/leecade/react-native-swiper</p> <div class="language-node extra-class"><pre class="language-text"><code>&lt;View style={styles.swiper}&gt;
+                    &lt;Swiper  showsButtons={true} autoplay={true}&gt;//设置自动轮播、轮播按钮
+                        &lt;View style={styles.slide1} &gt;
+                        &lt;Text style={styles.text}&gt;Hello Swiper&lt;/Text&gt;
+                        {/* &lt;Image source={{ uri:'http://q6mb9zdoi.bkt.clouddn.com/linux.jpg' }}&gt;&lt;/Image&gt; */}
+                        &lt;/View&gt;
+                        &lt;View style={styles.slide2}&gt;
+                        &lt;Text style={styles.text}&gt;Beautiful&lt;/Text&gt;
+                        &lt;/View&gt;
+                        &lt;View style={styles.slide3}&gt;
+                        &lt;Text style={styles.text}&gt;And simple&lt;/Text&gt;
+                        &lt;/View&gt;
+                    &lt;/Swiper&gt;
+
+            &lt;/View&gt;
+</code></pre></div><h3 id="九宫格"><a href="#九宫格" class="header-anchor">#</a> 九宫格</h3> <h3 id="摄像头模块"><a href="#摄像头模块" class="header-anchor">#</a> 摄像头模块</h3> <p>安装包</p> <div class="language-yarn extra-class"><pre class="language-text"><code>yarn add react-native-image-picker
+</code></pre></div><p>导入包</p> <div class="language-node extra-class"><pre class="language-text"><code>import ImagePicker from 'react-native-image-picker';
+</code></pre></div><p>使用</p> <p>Git hub源地址：https://github.com/react-native-community/react-native-image-picker</p> <h3 id="滚轮"><a href="#滚轮" class="header-anchor">#</a> 滚轮</h3> <p>https://github.com/lesliesam/react-native-wheel-picker</p> <h3 id="定时器"><a href="#定时器" class="header-anchor">#</a> 定时器</h3> <p>安装包</p> <div class="language-node extra-class"><pre class="language-text"><code>npm i react-timer-mixin --save
+</code></pre></div><h2 id="打包apk"><a href="#打包apk" class="header-anchor">#</a> 打包Apk</h2> <h3 id="expo"><a href="#expo" class="header-anchor">#</a> Expo</h3> <div class="language-node extra-class"><pre class="language-text"><code>npm install -g exp 
+exp login   （此处需要在expo官网注册账号，然后登录）
+
+配置app.json
+{
+   &quot;expo&quot;: {
+    &quot;name&quot;: &quot;Your App Name&quot;,
+    &quot;icon&quot;: &quot;./path/to/your/app-icon.png&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;slug&quot;: &quot;your-app-slug&quot;, 
+    &quot;sdkVersion&quot;: &quot;XX.0.0&quot;,
+    &quot;ios&quot;: {
+      &quot;bundleIdentifier&quot;: &quot;com.yourcompany.yourappname&quot;
+    },
+    &quot;android&quot;: {
+      &quot;package&quot;: &quot;com.yourcompany.yourappname&quot;
+    }
+   }
+ }
+exp build:android 
+</code></pre></div><h3 id="reactnative-原生项目打包"><a href="#reactnative-原生项目打包" class="header-anchor">#</a> Reactnative 原生项目打包</h3> <p>原生打包有两种方式，一是React Native内打包，二是Android Studio打包，这里采用React Native打包，Android Studio打包以后更新（我看了好几篇博客，听说AS打包很慢，而且会常常出错。</p> <p>1.生成Android签名证书</p> <p>进入JDK/bin目录，在目录下打开cmd窗口执行命令：</p> <div class="language-node extra-class"><pre class="language-text"><code>keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+</code></pre></div><p>执行后设置密钥库密码以及发布信息，记住密码，my-release-key是生成apk的名字。</p> <p>密钥库里应该已经生成了一个单独的密钥，有效期为<code>10000</code>天</p> <p>2.设置Gradle变量</p> <p>在<code>/android/gradle.properties</code>文件末尾加入代码</p> <div class="language-node extra-class"><pre class="language-text"><code>MYAPP_RELEASE_STORE_FILE=your keystore filename   
+MYAPP_RELEASE_KEY_ALIAS=your keystore alias  
+MYAPP_RELEASE_STORE_PASSWORD=*****    
+MYAPP_RELEASE_KEY_PASSWORD=*****  
+</code></pre></div><p>等号右边的部分用自己的项目替换</p> <p>3.修改Gradle配置文件</p> <p>在<code>/android/app/build.gradle</code>下添加以下代码</p> <p>4.签名打包APK</p> <p>在项目的<code>android</code>目录下启动终端，运行命令</p> <p><code>./gradlew assembleRelease</code></p> <p>自动进行打包</p> <p>5.将APK发送到手机上执行</p> <p>打包成功的APK文件默认安装在<code>/[项目名]/android/app/build/outputs/apk/</code>下，后缀为.apk,</p> <p>打包博客链接</p> <p>https://www.jianshu.com/p/1380d4c8b596</p> <p>https://blog.csdn.net/carry_qi/article/details/87917387?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.f8154061.js" defer></script><script src="/assets/js/2.4cccd600.js" defer></script><script src="/assets/js/25.4d32001d.js" defer></script>
+  </body>
+</html>
