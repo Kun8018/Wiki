@@ -7,13 +7,11 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/nestjs.png
 ---
 
-手写javascript
-
 <!--more-->
 
 ## 手写JavaScript
 
-#### Promise、Promise.all实现原理、手写promise、promise.all
+### Promise、Promise.all实现原理、手写promise、promise.all
 
 - 适合多个异步调用函数，并且多个异步函数的调用的入参和结果都无必然联系，比如多个文件的上传或下载。
 - 多个异步函数的执行只关注成功或失败结果。
@@ -193,7 +191,7 @@ Promise.allSettled = function(iterators) {
 
 
 
-#### Promise并发限制
+### Promise并发限制
 
 使用promise.all能够确保所有调用的promise对象全部达到resolve状态执行then回调。
 
@@ -243,7 +241,7 @@ limitLoad(urls,loadImg,3);
 
 项目中也可以直接使用npm包，比如async-pool,es6-promise-pool,p-limit。
 
-#### 实现一个lazy_man
+### 实现一个lazy_man
 
 题目：
 
@@ -331,7 +329,7 @@ function LazyMan(name) {
 
 如果用 ES5 来写要在维护 `this` 方面多写一些代码。
 
-#### js队列实现
+### js队列实现
 
 基本队列、优先队列和循环队列
 
@@ -477,7 +475,7 @@ function PriorityQueue() {
     console.log('胜利者是' + winner);
 ```
 
-#### 基于generator实现async/await
+### 基于generator实现async/await
 
 ```javascript
 function asyncToGenerator(generatorFunc) {
@@ -504,7 +502,7 @@ function asyncToGenerator(generatorFunc) {
 }
 ```
 
-#### 版本排序
+### 版本排序
 
 ```javascript
 function sortVersion(versions) {
@@ -522,7 +520,7 @@ function sortVersion(versions) {
 }
 ```
 
-#### 大数相加
+### 大数相加
 
 补0
 
@@ -549,7 +547,7 @@ function add(str1,str2){
 
 
 
-#### json下划线与驼峰格式切换格式
+### json下划线与驼峰格式切换格式
 
 ```javascript
 // 字符串的下划线格式转驼峰格式，eg：hello_world => helloWorld
@@ -604,7 +602,7 @@ function jsonToUnderline(obj) {
 
 
 
-#### 预定问题
+### 预定问题
 
 选择最低价格预定，如果价格相同，优先选择时间
 
@@ -719,7 +717,7 @@ function findKey(obj,value, compare= (a,b) => a === b){
 }
 ```
 
-#### 两数平均值（无穷大）
+### 两数平均值（无穷大）
 
 ```javascript
 x&y+(x^y)>>1；
@@ -727,7 +725,7 @@ x&y+(x^y)>>1；
 
 
 
-#### 数组根据某属性去重
+### 数组根据某属性去重
 
 ```javascript
 function arrayUnique(arr,property) {
@@ -741,7 +739,7 @@ function arrayUnique(arr,property) {
 
 
 
-#### object-fit各属性实现
+### object-fit各属性实现
 
 object-fit总共有fill、contain、cover、none、scale-down五种方式
 
@@ -799,7 +797,7 @@ function scaleDown(containerSize, elementSize) {
 
 Https://xiaojun1994.top/posts/a97a42fc.html
 
-#### js执行计算密集型任务
+### js执行计算密集型任务
 
 根据w3c性能小组，超过50ms的任务就是长任务
 
@@ -819,7 +817,7 @@ Https://xiaojun1994.top/posts/a97a42fc.html
 
 3.大量渲染DOM使用documentFragments
 
-#### 图片懒加载
+### 图片懒加载
 
 ```javascript
 let imgList = [...document.querySelectorAll('img')];
@@ -832,7 +830,7 @@ const imgLazyLoad = (function() {
 })
 ```
 
-#### js实现LRU
+### js实现LRU
 
 数组实现
 
@@ -902,7 +900,7 @@ LRUCache.prototype.put = function (key, value) {
 };
 ```
 
-#### js实现正则表达式通配符
+### js实现正则表达式通配符
 
 
 

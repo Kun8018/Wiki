@@ -7,13 +7,11 @@ toc: true
 thumbnail: http://cdn.kunkunzhang.top/nestjs.png
 ---
 
-手写javascript
-
 <!--more-->
 
-## 手写JavaScript
+## 手写JavaScript基础
 
-#### new实例的过程、手写new的过程
+### new实例的过程、手写new的过程
 
 ```js
 //接受一个函数
@@ -29,7 +27,7 @@ function new (fn) {
 }
 ```
 
-#### this、手写bind、call、apply
+### this、手写bind、call、apply
 
 this 永远指向最后调用它的那个对象
 
@@ -141,7 +139,7 @@ const _this = { name: 'YIYING' }
 fun.ownApply(_this, [1, 2])
 ```
 
-#### 手写深拷贝与浅拷贝
+### 手写深拷贝与浅拷贝
 
 区别：
 
@@ -200,7 +198,7 @@ JSON.stringify()只能序列化对象的可枚举的自有属性，例如 如果
 
 
 
-#### 手写typeof与instanceof
+### 手写typeof与instanceof
 
 `typeof` 一般被用于判断一个变量的类型，我们可以利用 `typeof` 来判断`number`, `string`, `object`, `boolean`, `function`, `undefined`, `symbol` 这七种类型，typeof可以判断出基本数据类型(当然除了null的数据类型为object的bug),还可以正确判断出某个对象是否为function,其余的Date,Array等无法判断
 
@@ -228,7 +226,7 @@ function instanceOf(left,right) {
 }
 ```
 
-#### 手写ajax
+### 手写ajax
 
 ajax请求是通过js的xmlHttpRequest对象与后端服务器交换数据
 
@@ -250,7 +248,7 @@ xhr.onreadtstatechange = function() {
 
 0-未初始化，还未调用send方法 1-载入，已调用send方法发送请求，等待响应 2-载入完成，完全接收到响应内容 3-交互，正在解析响应内容 4-完成解析，可以进行调用
 
-#### 手写jsonp
+### 手写jsonp
 
  jsonp原理：因为jsonp发送的并不是ajax请求，其实是动态创建script标签 script标签是没有同源限制的，把script标签的src指向请求的服务端地址。
 
@@ -291,7 +289,7 @@ xhr.onreadtstatechange = function() {
  })
 ```
 
-#### 防抖与节流
+### 防抖与节流
 
 防抖
 
@@ -346,7 +344,7 @@ function throttle(fn, wait) {
 
 - 高频点击提交、重复提交
 
-#### 手写js数组push、splice、map、foreach方法
+### 手写js数组push、splice、map、foreach方法
 
 push方法
 
@@ -396,7 +394,7 @@ if (!Array.prototype.mapUsingReduce) {
 ) // [5, 7, , 10]
 ```
 
-#### 数组reduce方法
+### 数组reduce方法
 
 reduce的应用
 
@@ -518,7 +516,7 @@ multiply16(16); // 256
 multiply24(10); // 240
 ```
 
-#### 手写数组flat方法
+### 手写数组flat方法
 
 数组拍平方法 `Array.prototype.flat()` 也叫数组扁平化、数组拉平、数组降维。
 
@@ -551,7 +549,7 @@ var flattened = [[0,1],[2,3],[4,5],[6,7]].reduce(
 )
 ```
 
-#### ES6、ES5数组去重
+### ES6、ES5数组去重
 
 利用ES6:
 
@@ -632,7 +630,7 @@ console.log(result)
 
 
 
-#### 函数柯里化
+### 函数柯里化
 
 把接收多个参数的函数转换为接收单一参数的函数
 
@@ -666,7 +664,7 @@ function curry(fn) {
 
 
 
-#### 偏函数
+### 偏函数
 
 偏函数是将n个参数的函数转换为固定x个参数的函数，剩余n-x个参数将在下次调用全部传入.
 
@@ -683,7 +681,7 @@ function partial(fn, ...args) {
 
 
 
-#### 遍历深层次对象
+### 遍历深层次对象
 
 给定一个对象，用给定str去遍历
 
@@ -708,7 +706,7 @@ const getData = (obj,str)=>{
 )
 ```
 
-#### 数字千分位加逗号
+### 数字千分位加逗号
 
 正则表达式
 
@@ -740,7 +738,7 @@ function　thousands(num){
 
 
 
-#### ES6语法转ES5语法的实现
+### ES6语法转ES5语法的实现
 
 ES6 转 ES5 目前行业标配是用 `Babel`，转换思路为：
 
@@ -795,7 +793,7 @@ function hello(a, b, c){
 有了这个json后，就可以对代码进行操作了。在没有树的情况下，如果要对文件里的某一个语句进行替换的话，一般就是全局
 搜索然后replace，这样有可能影响到别的代码，但是有了树后，就可以对这个json进行操作，精确地去修改某个对象的属性，也就不会影响到别的代码了。所以babel转换ES6的核心，就是在ast中按照一定的规则取修改json里的属性和方法，然后再把tree转换成代码
 
-#### let、const、var区别
+### let、const、var区别
 
 主要是let和const、let和var区别
 
@@ -836,7 +834,7 @@ for (let i=0;i<3;i++){
 
 
 
-#### js实现红绿灯
+### js实现红绿灯
 
 使用setTimeout、Promise、async await 三种方式实现红绿灯代码，红灯2秒，黄灯1秒，绿灯3秒，循环改变颜色。改变颜色的方法，就简单写成打印出颜色。
 
@@ -907,7 +905,7 @@ function main() {
 main();
 ```
 
-#### 实现解析url
+### 实现解析url
 
 ```javascript
 const url = "https://shanyue.tech?a=3&b=4&c=5"
@@ -948,7 +946,7 @@ function parse(url){
 }
 ```
 
-#### 手写evenbus
+### 手写evenbus
 
 ```javascript
 class EventEmeitter {
@@ -1042,7 +1040,7 @@ eventHub.off('xxx',f1)
 
 
 
-#### js继承
+### js继承
 
 原型式继承
 
@@ -1110,7 +1108,7 @@ Man.prototype = Object.create(Person.prototype)
 var man1 = new Man("Davin")
 ```
 
-#### 将二维数组转换为树结构
+### 将二维数组转换为树结构
 
 ```javascript
 function arrToTreeArr(arr = []){
