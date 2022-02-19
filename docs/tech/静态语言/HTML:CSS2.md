@@ -19,7 +19,94 @@ thumbnail: http://cdn.kunkunzhang.top/css3.png
 
 ## CSS
 
-### 常见的CSS属性
+### 常见CSS属性
+
+**背景图片**
+
+background-img:
+
+Background-repeat:重复背景图片
+
+background-size：设定背景图片的尺寸
+
+属性值：length：可以指定图像的宽度和高度，第一个值是宽度，第二个值是高度。如果只设置第一个值，第二个值默认为auto
+
+​				百分比：以父元素的百分比来设置图片的宽度和高度的，第一个值是宽度，第二个值是高度，如果只设置一个值，那么第二个值默认是auto
+
+​				cover：把背景图片放到足够大，以使背景图片完全覆盖背景区域
+
+​				contain：把图像扩展至最大尺寸，以使宽度和高度
+
+object-fit：指定可替换元素的内容应该如何适应到其使用的高度和宽度确定的框
+
+Text-decoration: line-through; 在文本上加横线表示划掉
+
+​								dashed：虚线
+
+​								underline: 下划线
+
+​								wavy： 波浪线
+
+​								overline： 上划线
+
+
+
+#### flex布局高度
+
+设置height：auto属性
+
+**横向滚动**
+
+white-space: nowrap;//不分行
+
+Overflow-x: scroll//开启横向滚动
+
+Overflow-y:hidden//纵向滚动关闭
+
+filter: grayscale(100%);//适用于一键变灰等功能
+
+**display**: block：可以定义宽度和高度。块元素占用了全部宽度，在前后都是换行符。
+
+​               inline：此元素会被显示为内联元素，元素前后没有换行符,不强制换行。内联元素无法定义宽高。
+
+​               none：不显示
+
+​               inherit：从父元素继承display属性
+
+​               Inline-block:行内块元素
+
+​              flex：
+
+​               Table-cell:会作为一个表格单元格显示
+
+其中**flex**是未来布局的首选方案，意为弹性布局，灵活性较大，任何一个容器都可以指定为flex布局。定义为flex之后可以添加其他附带6个属性在该容器上
+
+```css
+flex-direction:row | row-reverse | column | column-reverse;/*决定主轴的方向（即项目的排列方向）,row（默认值）：主轴为水平方向，起点在左端。row-reverse：主轴为水平方向，起点在右端。column：主轴为垂直方向，起点在上沿。column-reverse：主轴为垂直方向，起点在下沿。。*/
+flex-wrap:nowrap | wrap | wrap-reverse;/*默认情况下，项目都排在一条线（又称"轴线"）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。nowrap（默认）：不换行。wrap：换行，第一行在上方。wrap-reverse：换行，第一行在下方。*/
+flex-flow
+justify-content:flex-start | flex-end | center | space-between | space-around;/*justify-content属性定义了项目在主轴上的对齐方式。flex-start（默认值）：左对齐.flex-end：右对齐.center： 居中.space-between：两端对齐，项目之间的间隔都相等。space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。*/
+align-items:flex-start | flex-end | center | baseline | stretch;/*align-items属性定义项目在交叉轴上如何对齐。flex-start：交叉轴的起点对齐。flex-end：交叉轴的终点对齐。center：交叉轴的中点对齐。baseline: 项目的第一行文字的基线对齐。stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。*/
+align-content:flex-start | flex-end | center | space-between | space-around | stretch;/*align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。flex-start：与交叉轴的起点对齐。flex-end：与交叉轴的终点对齐。center：与交叉轴的中点对齐。space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。stretch（默认值）：轴线占满整个交叉轴。
+space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。*/
+```
+
+还有6个属性作为flex容器的子容器的属性
+
+```css
+order: <integer>;/*order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。*/
+flex-grow: <number>; /* default 0 flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。*/
+flex-shrink: <number>; /* default 1 flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。*/
+align-self: auto | flex-start | flex-end | center | baseline | stretch;/* align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。*/
+flex-basis: <length> | auto; /* default auto flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。*/
+flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]/*flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。*/
+```
+
+flex一般是0或1.
+
+默认是块元素的例子：<p>、<h1>、<div>、<ul>
+
+默认是内联元素的例子：<span>、<a>、<input>、<img>、
 
 **curser**:css设置光标的类型，在鼠标悬停在元素上时显示相应的样式
 
@@ -55,7 +142,7 @@ word-break：
 
 table-layout：auto：默认值
 
-​                         fixed：宽度固定，截断超出的内容
+​                 fixed：宽度固定，截断超出的内容
 
 **文本**
 
@@ -65,17 +152,41 @@ letter-spacing：用于设置文本字符的间距表现
 
 或者指定宽度：1px，rem这样
 
-Text-transform:指定文本元素的大小写。
-
 text-transform:控制文本大小写 direction：书写方向 color:文本颜色
 
 text-indent：规定文本首行的缩进 white-space：处理元素的空白如nowrap表示文本不会换行
 
 letter-spacing/Word-spacing:设置字符/单词间距  text-wrap 规定文本的换行规则 
 
-Text-align:文本对齐方式 text-align-last:最后一行的对齐方式 text-transform:定义文本的大小写 text-shadow:添加阴影
+Text-align:文本对齐方式
 
-text-overflow:设置文本溢出时的属性，clip表示修剪，ellipsis表示用省略号代替被修剪的文本，string表示用字符串代替被修剪的文本
+ text-align-last:最后一行的对齐方式 
+
+text-transform:定义文本的大小写 
+
+text-shadow: 添加文本阴影
+
+text-shadow的参数：当阴影大于一个时要用逗号区别开阴影之间的参数
+
+每个阴影都有两到三个`<length>`参数 ， 以及一个与阴影颜色相关的`<color>`参数 。 前两个`<length>`参数，是以“文字中心”为原点的坐标轴，分别为x轴 `<offset-x>` 和y轴 `<offset-y>` 的值； 如果有第三个`<length>`参数，则第三个数值为形成阴影效果的半径的数值 `<blur-radius>` 
+
+当所给的阴影大于一个时，阴影应用的顺序为从前到后, 第一个指定的阴影在顶部.
+
+**blur-radius**： 值越大，模糊半径越大，阴影也就越大越淡
+
+offset-x、offset-y
+
+必选。这些长度值指定阴影相对文字的偏移量。`<offset-x>` 指定水平偏移量，若是负值则阴影位于文字左边。 `<offset-y>` 指定垂直偏移量，若是负值则阴影位于文字上面。如果两者均为0，则阴影位于文字正后方（如果设置了`<blur-radius> `则会产生模糊效果)。
+
+这个属性同时适用于[`::first-line`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::first-line) 以及 [`::first-letter`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/::first-letter) [伪元素](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements).
+
+text-overflow:设置文本溢出时的属性，
+
+​						clip表示修剪，
+
+​						ellipsis表示用省略号代替被修剪的文本，
+
+​						string表示用字符串代替被修剪的文本
 
 word-wrap：允许对长的不可分割的单词进行分割并换行到下一行。
 
@@ -105,6 +216,8 @@ overflow要指定dom的宽度width:200px，配合text-overflow使用
 Text-overflow:ellipsis 省略号
 
  clip：剪裁
+
+perspective：指定观察者与z=0平面的距离，使具有三维位置变换的元素具有透视效果。z>0平面的三维元素比正常大，z<0则比正常小，大小程度由该属性的值决定
 
 #### position各属性的区别
 
@@ -176,605 +289,21 @@ absolute参照位置是离当前元素最近的定位方式为fixed,absolute,rel
 
 3.由于@import样式表的延后加载，可能导致页面样式闪烁
 
+#### link与import的区别
+
+@import是 CSS 提供的语法规则，只有导入样式表的作用；link是HTML提供的标签，不仅可以加载 CSS 文件，还可以定义 RSS、rel 连接属性等。
+
+加载顺序：加载页面时，link标签引入的 CSS 被同时加载；@import引入的 CSS 将在页面加载完毕后被加载。
+
+兼容性：@import是 CSS2.1 才有的语法，故只可在 IE5+ 才能识别；[link标签](https://www.zhihu.com/search?q=link标签&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={"sourceType"%3A"article"%2C"sourceId"%3A136047345})作为 HTML 元素，不存在兼容性问题。
+
+可操控性：可以通过 JS 操作 DOM ，插入link标签来改变样式；由于 DOM 方法是基于文档的，无法使用@import的方式插入样式。
+
 ### 模块化
 
 使用css-loader，设置options.module为true
 
 构建时根据文件到位置、内容生成一个全局唯一的base64字符串，替换原来的名称以解决全局命名冲突的问题，这样就达到了模块化的目的
-
-### 常见布局
-
-布局的基本方案：基于盒模型，依赖position属性+float属性+display属性定位
-
-#### 三列布局
-
-左右定宽，中间自适应，五种方法
-
-利用表格（table/table-cell）布局、利用浮动（float）布局
-
-利用栅格（grid）布局、利用绝对定位（absolute）布局
-
-利用弹性和（flex-box）布局
-
-html页面
-
-```html
-<body>
-  <section id="container">
-    <!--注意！！.left和.right谁在前都可以，但是.center必须在它俩后面-->
-    <aside class="left">left(定宽)</aside>
-    <aside class="right">right(定宽)</aside>
-    <main class="center">center(宽度自适应)</main>
-  </section>
-</body>
-```
-
-css布局
-
-```css
-/***CSS***/
-.left {
-    width: 200px;
-    height: 100vh;
-    background: #61daa5;
-    /* 左侧左浮动 */
-    float: left;
-}
-.right {
-    width: 200px;
-    height: 100vh;
-    background: #ffa7e9;
-    /* 右侧右浮动 */
-    float: right;
-}
-.center {
-    height: 100vh;
-    background: #78a5f1;
-    /* 多出10px，是给左中右三栏留出10px间距 */
-    margin-left: 210px;
-    margin-right: 210px;
-}
-```
-
-https://caogongzi.gitee.io/2019/04/02/three-columns-layout/
-
-#### 两列布局
-
-与三列布局类似，一栏定宽，一栏自适应，也有五种实现方案
-
-
-
-4.dispaly:flex,右边设置flex：1
-
-角度单位有四种
-
-deg度数，一个圆共360度，grad梯度，一个圆共400梯度，rad弧度，一个圆共2n弧度，turn转、圈，一个圆共1转，
-
-
-
-#### 品字布局
-
-```html
-<!doctype html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <title>品字布局</title>
-  <style>
-    * {
-        margin: 0;
-        padding: 0;
-      }
-      div {
-        width: 100%;
-        height: 100px;
-        background: red;
-        font-size: 40px;
-        line-height: 100px;
-        color: #fff;
-        text-align: center;
-      }
-      .div1 {
-        margin: 0 auto 0;
-      }
-      .div2 {
-        background: green;
-        float: left;
-        width: 50%;
-      }
-      .div3 {
-        background: blue;
-        float: left;
-        width: 50%;
-      }
-  </style>
-</head>
-
-<body>
-  <div class="div1">1</div>
-  <div class="div2">2</div>
-  <div class="div3">3</div>
-</body>
-</html>
-```
-
-
-
-### 常见图形
-
-使用css绘制斜线、椭圆、三角形、圆形、扇形、梯形
-
-斜线
-
-用伪元素画一条直线，然后旋转
-
-```css
-<div></div>
-div{
-  div{
-  position:relative;
-  margin:50px auto;
-  width:100px;
-  height:100px;
-  box-sizing:border-box;
-  border:1px solid #333;  
-  // background-color:#333;
-  line-height:120px;
-  text-indent:5px;
-}
-
-div::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  width:100%;
-  height:50px;
-  box-sizing:border-box;
-  border-bottom:1px solid deeppink;
-  transform-origin:bottom center;
-  // transform:rotateZ(45deg) scale(1.414);
-  animation:slash 5s infinite ease;
-}
-
-@keyframes slash{
-  0%{
-    transform:rotateZ(0deg) scale(1);
-  }
-  30%{
-    transform:rotateZ(45deg) scale(1);
-  }
-  60%{
-    transform:rotateZ(45deg) scale(1.414);
-  }
-  100%{
-    transform:rotateZ(45deg) scale(1.414);
-  }
-}
-}
-```
-
-或者
-
-```css
-div{
-  position:relative;
-  margin:50px auto;
-  width:100px;
-  height:100px;
-  box-sizing:border-box;
-  border:1px solid #333;  
-  line-height:120px;
-  text-indent:5px;
-  background:
-  linear-gradient(45deg, transparent 49.5%, deeppink 49.5%, deeppink 50.5%, transparent 50.5%);
-}
-```
-
-先建立三角形，然后用白色小三角形遮挡，可以用剪裁clip-path或者伪元素
-
-```css
-
-```
-
-圆形
-
-```css
-.circle{
-  border-radius:50%;
-  width:80px;
-  height:80px;
-  background:#666;
-}
-```
-
-三角形
-
-```css
-.tri-angle{
-   width:0px;
-   height:0px;
-   border-left:50px solid transparent;
-   border-right:50px solid transparent;
-   border-bottom:100px solid red;
-}
-```
-
-扇形
-
-```css
-
-```
-
-梯形
-
-```css
-
-```
-
-#### 房子
-
-```html
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>CSS样式»</title>
-<style>
-.border-up{
-    width: 0;
-    height: 0;
-    border-left: 150px solid transparent;
-    border-right: 150px solid transparent;
-    border-bottom:150px solid #333;
-    position: relative;
-    margin: 50px auto;
-
-    background-image:linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44  0),
-    linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44 0);
-    background-size:30px 30px;
-    background-position:0 0,15px 15px;
-}
-.border-up span{
-    display: block;
-    width: 0;height: 0;
-    border-left: 147px solid transparent;
-    border-right: 145px solid transparent;
-    border-bottom: 147px solid #F0981C;
-    position: absolute;left: -147px;
-    top: 1px;
-}
-.div3{
-    width:40px;
-    height:40px;
-    background-color:transparent;
-    float:left;
-}
-.div-border1{
-    border-top:solid 1px;
-    border-left:solid 1px;
-    border-bottom:solid 1px;
-}
-.div-border2{
-    border-top:solid 1px;
-    border-right:solid 1px;
-    border-left:solid 1px;
-    border-bottom:solid 1px;
-}
-.div-border3{
-    border-left:solid 1px;
-    border-bottom:solid 1px;
-}
-.div-border4{
-    border-right:solid 1px;
-    border-left:solid 1px;
-    border-bottom:solid 1px;
-}
-.div{
-    width:120px;
-    height:40px;
-    top:56px;
-    margin-left:-45px;
-    z-index: 99999;
-    position:relative;
-}
-.chimney{
-    background-image:linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44  0),
-    linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44 0);
-    background-size:30px 30px;
-    background-position:0 0,15px 15px;
-    width: 30px;
-    height: 80px;
-    border:  1px solid;
-    margin-left:  40px;
-    margin-top:  -30px;
-}
-.house{
- 		width: 240px;
-    height: 200px;
-    border: 1px solid;
-    background-color: #FFFFFF;
-    margin-left: -122px;
-    margin-top: 56px;
-}
-</style>
-</head>
-<body>
-<div class="border-up">
-		<span></span>
-		<div class="div">
-      <div class="div3 div-border1"></div>
-      <div class="div3 div-border2"></div>
-      <div class="div3 div-border3"></div>
-      <div class="div3 div-border4"></div>
-    </div>
-    <div class="chimney" style=""></div>
-    <div class="house"></div>
-</div>
-</body>
-</html>
-```
-
-
-
-#### 伪类时间轴
-
-```html
-<div class="message_item">
-    <div class="message_time">2020-05-13 19:11</div>
-    <sapn class="message_circle"></sapn>
-</div>
-<div class="message_item">
-    <div class="message_time">2020-05-13 19:10</div>
-    <sapn class="message_circle"></sapn>
-</div>
-```
-
-样式
-
-```css
-.message_item{
-    height: 145px;
-    width: 300px;
-    padding-left: 12px;
-    border-left: 1px solid #979797;
-    position: relative;
-}
-.message_time{
-    height: 17px;
-    line-height: 17px;
-    font-size: 12px;
-    margin-bottom: 12px;
-}
-.message_time:before{
-    content: '';
-    display: block;
-    width: 2px;
-    height: 93%;
-    margin-top: 25px;
-    background: #00D1E3;
-    position: absolute;
-    left: 30%;
-    top: 10px;
-}
-.message_circle{
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background-color: #547ABD;
-    border-radius: 50%;
-    left: -4px;
-    top: 5px;
-}
-```
-
-#### 容量球效果
-
-```html
-<div class="box">
-    <div class="circular">
-        <div class="content">
-        </div>
-        <span class="num">40%</span>
-    </div>
-</div>
-```
-
-样式
-
-```css
-.box{
-    height: 500px;
-    padding-top: 100px;
-    padding-left: 200px;
-}
-.circular{
-    height: 100px;
-    width: 100px;
-    border: 2px solid #4682B4;
-    border-radius: 50%;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: relative;
-}
-.num{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 30;
-    transform: translate(-50%,-50%);
-}
-.content{
-    position: absolute;
-    height: 30px;
-    width: 100px;
-    background: #4682B4;
-    bottom: 0px;
-}
-.content::after, .content::before{
-    content: "";
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    top: 0;
-    left: 50%;
-    background-color: rgba(255, 255, 255, .7);
-    border-radius: 40% 42% 40% 41%;
-    transform: translate(-50%, -100%) rotate(0);
-    animation: rotate 8s linear infinite;
-    z-index: 10;
-}
-.content::after{
-    border-radius: 42% 40% 41% 40%;
-    background-color: rgba(255, 255, 255, .9);
-    transform: translate(-50%, -100%) rotate(0);
-    animation: rotate 8s linear -5s infinite;
-    z-index: 20;
-}
-
-@keyframes rotate {
-    50% {
-        transform: translate(-50%, -103%) rotate(180deg);
-    } 100% {
-        transform: translate(-50%, -100%) rotate(360deg);
-    }
-}
-```
-
-#### 卡券效果
-
-```html
-<html>
-<link tyep="css/text">
-  .coupon {
-     width:300px;
-     height:100px;
-     line-height:100px;
-     margin:50px auto;
-     text-align:center;
-     position:relative;
-     background:radial-gradient(circle at right bottom,transparent 10px,#FFFFFF 0) top right /50% 51px no-repeat
-                radial-gradient(circle at left bottom,transparent 10px,#FFFFFF 0) top left /50% 51px no-repeat
-                radial-gradient(circle at right top,transparent 10px,#FFFFFF 0) bottom right /50% 51px no-repeat
-                radial-gradient(circle at left top,transparent 10px,#FFFFFF 0) bottom left /50% 51px no-repeat
-     filter:drop-shadow(2px 2px 2px rgba(0,0,0,0.2))
-  }
-  .coupon span {
-     display:inline-block;
-     vertical-align:middle;
-     margin-right:10px;
-     color:red;
-     font-size:50px;
-     font-weight:400;
-  }
-</link>
-<body>
-   <p class="coupon">
-      <span>400</span>
-   </p>
-</body>
-</html>
-```
-
-#### 虚线框
-
-```html
-<html>
-<link type="text/css">
-.dotted-line {
-  width:800px;
-  margin:auto;
-  padding:20px;
-  border:1px dashed transparent;
-  background:linear-gradient(white,white) padding-box,repeat-linear-gradient(-45deg,red 0,#ccc 0.25em,white 0,white 0.75em);
-} 
-</css>
-<body>
-  <p class="dotted-line">庭院深深，不知有多深？杨柳依依，飞扬起片片烟雾，一重重帘幕不知道有多少层</p>
-</body>
-</html>
-```
-
-
-
-### 响应式布局CSS
-
-1.在网页头部加上viewport元标签
-
-```html
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
-```
-
-2.不使用绝对宽度
-
-
-
-3.流式布局
-
-[float](http://designshack.net/articles/css/everything-you-never-knew-about-css-floats/)的好处是，如果宽度太小，放不下两个元素，后面的元素会自动滚动到前面元素的下方，不会在水平方向overflow（溢出），避免了水平滚动条的出现。
-
-绝对定位（`position: absolute`）的使用，也要非常小心。
-
-4.选择加载CSS
-
-自适应网页的核心就是CSS引入的Media Query模块
-
-自动检测屏幕宽度，然后加载相应的CSS文件
-
-实例
-
-```html
-<link rel="stylesheet" type="text/css" media="screen and (max-device-width: 400px)" href="tinyScreen.css"/>
-<link rel="stylesheet" type="text/css" media="screen and (min-width: 400px) and (max-device-width: 600px)" href="smallScreen.css"/>
-```
-
-上面的代码意思是，如果屏幕宽度小于400像素（max-device-width: 400px），就加载tinyScreen.css文件。
-
-如果屏幕宽度在400像素到600像素之间，则加载smallScreen.css文件。
-
-或者，在同一个CSS文件中利用@media的属性也能选择性加载样式
-
-```css
-@media 
-screen and (max-device-width: 400px) 
-{ .column 
-  {float: none;width: auto;} 
-  #sidebar { 
-    display: none'
-  }
-}
-```
-
-5.图片的自适应
-
-添加属性
-
-```css
-img { max-width: 100%;}
-```
-
-这行代码对于大多数嵌入网页的视频也有效，所以可以写成：`img, object { max-width: 100%;}`
-
-#### 各自的优缺点
-
-响应式的优缺点：
-
-优点：兼容性好，@media在ie9上是支持的，pc端和mobile是一套代码，不用分开
-
-缺点：要写的css比另外两个多很多，而且各个断点都要做好。css样式要稍微大点的话更麻烦
-
-Rem的优缺点：
-
-优点：能维持整体的布局效果，移动端兼容性好，不用写多个css代码，而且还可以使用@media进行优化
-
-缺点：开头要引入一段js，单位都要改成rem，计算rem比较麻烦，可以引用预处理器，但是增加了编译过程。PC和mobile要分开
-
-设置viewport的width：
-
-优点：与Rem相同，而且不用写rem，直接使用px，更加快捷
-
-缺点：效果可能没rem好，图片会相对模糊，而且无法使用@media进行断点，不同size的手机上显示高度差距可能会相差很大
 
 
 
@@ -832,23 +361,174 @@ z-index设为0和没有设置z-index的节点在同一层级内没有高低之�
 
 7.堆叠顺序为正的子元素 z-index: <positive integer>; position: relative(or absolute or fixed)
 
+**`pointer-events`** CSS 属性指定在什么情况下 (如果有) 某个特定的图形元素可以成为鼠标事件的 [target](https://developer.mozilla.org/en-US/docs/Web/API/Event/target)
+
+
+
+/* Keyword values */
+pointer-events: auto;
+pointer-events: none;
+pointer-events: visiblePainted; /* SVG only */
+pointer-events: visibleFill;    /* SVG only */
+pointer-events: visibleStroke;  /* SVG only */
+pointer-events: visible;        /* SVG only */
+pointer-events: painted;        /* SVG only */
+pointer-events: fill;           /* SVG only */
+pointer-events: stroke;         /* SVG only */
+pointer-events: all;            /* SVG only */
+
+### 包含块
+
+
+
 ### 盒模型
 
 当对一个文档进行布局（lay out）的时候，浏览器的渲染引擎会根据标准之一的 **CSS 基础框盒模型**（**CSS basic box model**），将所有元素表示为一个个矩形的盒子（box）。CSS 决定这些盒子的大小、位置以及属性（例如颜色、背景、边框尺寸…）
 
-每个盒子有四个边界，由外到内分别是：*外边框边界* *Margin Edge*、*边框边界* *Border Edge*、*内边距边界* *Padding Edge*、*内容边界* *Content edge*、、、。
+每个盒子有四个边界，由外到内分别是：*外边框边界* *Margin Edge*、*边框边界* *Border Edge*、*内边距边界* *Padding Edge*、*内容边界* *Content edge*。
 
 Margin：元素边界外的距离
 
-Border：
+Border：边框
 
-Padding：元素边界外的距离
+Padding：元素边界内的距离
 
-Content：
+Content：内容
 
 margin、padding有四个距离，分别对应上 右 下 左。如果只有两个距离，是上下和左右
 
 距离设为负值时可以进行重叠
+
+盒模型分为IE盒模型和W3C标准盒模型。
+
+w3c盒模型中，元素的属性width,height只包含内容content，不包含border和padding。
+
+切换：使用css属性 box-sizing，默认为content-box，即标准盒模型，设为border-box则为IE盒模型
+
+#### 怪异盒模型
+
+IE盒模型中，元素的属性width,height包含border和padding，指的是content + padding + border。
+
+
+
+### 各种FC(格式化上下文)
+
+格式化上下文(Formatting Context)，指页面中一个渲染区域，拥有一套渲染规则，它决定了其子元素如何定位，以及与其他元素的相互关系和作用，那么css布局中格式化上下文有BFC、IFC、FFC、GFC。
+
+BFC
+
+BFC(Block formatting context)直译为"块级格式化上下文"。它规定了内部的Block-level Box如何布局，并且与这个区域外部毫不相干。
+
+内部的Box会在垂直方向上一个接一个的放置
+
+垂直方向上的距离由margin决定。
+
+每个元素的左外边距与包含块的左边界相接触（从左向右），即使浮动元素也是如此。
+
+BFC的区域不会与float的元素区域重叠
+
+特点：
+
+BFC是方形的，其他元素进不来，内部的元素也出不去
+
+IFC
+
+IFC(Inline Formatting Contexts)直译为"行内格式化上下文"，IFC的line box（线框）高度由其包含行内元素中最高的实际高度计算而来（不受到竖直方向的 padding/margin 影响)
+
+1、IFC中的line box一般左右都贴紧整个IFC，但是会因为float元素而扰乱。float元素会位于IFC与与line box之间，使得line box宽度缩短。
+
+2、IIFC中时不可能有块级元素的，当插入块级元素时（如p中插入div）会产生两个匿名块与div分隔开，即产生两个IFC，每个IFC对外表现为块级元素，与div垂直排列。
+
+**IFC的应用**
+
+1. 水平居中：当一个块要在环境中水平居中时，设置其为`inline-block`则会在外层产生`IFC`，通过`text-align`则可以使其水平居中。
+2. 垂直居中：创建一个`IFC`，用其中一个元素撑开父元素的高度，然后设置其`vertical-align:middle`，其他行内元素则可以在此父元素下垂直居中。
+
+GFC
+
+`GFC(GridLayout Formatting Contexts)`直译为"网格布局格式化上下文"，当为一个元素设置`display`值为`grid`的时候，此元素将会获得一个独立的渲染区域，我们可以通过在网格容器`（grid container）`上定义网格定义行`（grid definition rows）`和网格定义列`（grid definition columns）`属性各在网格项目`（grid item）`上定义网格行`（grid row）`和网格列`（grid columns）`为每一个网格项目`（grid item）`定义位置和空间。
+
+`GFC`将改变传统的布局模式，他将让布局从一维布局变成了二维布局。简单的说，有了`GFC`之后，布局不再局限于单个维度了。这个时候你要实现类似九宫格，拼图之类的布局效果显得格外的容易。
+
+FFC自适应格式化上下文)：
+
+FFC(Flex Formatting Contexts)直译为"自适应格式化上下文"，display值为flex或者inline-flex的元素将会生成自适应容器（flex container）。
+
+Flex Box 由伸缩容器和伸缩项目组成。通过设置元素的 display 属性为 flex 或 inline-flex 可以得到一个伸缩容器。设置为 flex 的容器被渲染为一个块级元素，而设置为 inline-flex 的容器则渲染为一个行内元素。
+
+伸缩容器中的每一个子元素都是一个伸缩项目。伸缩项目可以是任意数量的。伸缩容器外和伸缩项目内的一切元素都不受影响。简单地说，Flexbox 定义了伸缩容器内伸缩项目该如何布局。
+
+#### BFC的应用以及如何触发BFC
+
+清除浮动
+
+当父元素没有设置高度，且子元素为浮动元素的情况下，父元素会发生高度坍塌，上下边界重合，即浮动元素无法撑开父元素,子元素浮动后父元素失去高度
+
+```html
+<div class="parent">
+  <div class="child"></div>
+</div>
+
+<link type="text/css">
+.parent {
+	overflow: auto;
+	.child {
+		float: left;
+	}
+}
+</link>
+```
+
+浮动元素重叠
+
+浮动元素由于脱离文档流，第一个盒子堆到第二个盒子，此时可以给第二个盒子设置成BFC，就不会产生堆叠
+
+```html
+<div class="box1"></div>
+<div class="box2"></div>
+
+<link type="text/css">
+.box1 {
+	float: left;
+}
+.box2 {
+	overflow: hidden;
+}
+<link>
+```
+
+外边距重叠
+
+在标准文档流中，毗邻的两个或多个块级元素之间垂直方向的margin会合并成一个margin，会取两个元素margin最大的那一个，这就是外边距重叠。
+
+有三种情况会形成外边距重叠：同一层相邻元素之间、没有内容将父元素和后代元素分开、空的块级元素
+
+可以使用overflow: hidden产生一个BFC环境来解决该问题，或者将其放在不同的BFC容器中
+
+```html
+<div class="container">
+  <div></div>
+</div>
+<div class="container">
+  <div></div>
+</div>
+```
+
+触发BFC的方法：
+
+根元素
+
+浮动元素、绝对定位元素：设置元素的float不为none
+
+设置display为行内块元素、表格单元格、表格标题、弹性元素、网格元素
+
+overflow属性不为visible的元素（hidden、auto、scoll）
+
+contain值为layout、content、paint的元素
+
+多列元素（column-count不为auto的元素）、column-span为all的元素
+
+
 
 ### CSS选择器、权重问题
 
@@ -915,11 +595,28 @@ A B表示以A为祖先元素的B元素
 
 
 
-@media
+### @规则
 
-@media可用于基于一个或多个的媒体查询结果来选择应用样式表的部分
+一个 **at-rule** 是一个[CSS 语句，](https://developer.mozilla.org/en/CSS/Syntax#CSS_statements)以at符号开头, '`@`' (`U+0040 COMMERCIAL AT`), 后跟一个标识符，并包括直到下一个分号的所有内容, '`;`' (`U+003B SEMICOLON`), 或下一个CSS块，以先到者为准。
 
-@import指令
+- [`@charset`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@charset), 定义样式表使用的字符集.
+- [`@import`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@import), 告诉 CSS 引擎引入一个外部样式表.
+- [`@namespace`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@namespace), 告诉 CSS 引擎必须考虑XML命名空间。
+- 嵌套@规则, 是嵌套语句的子集,不仅可以作为样式表里的一个语句，也可以用在条件规则组里：
+  - [`@media`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media), 如果满足媒介查询的条件则条件规则组里的规则生效。
+  - [`@page`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@page), 描述打印文档时布局的变化.
+  - [`@font-face`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@font-face), 描述将下载的外部的字体。 
+  - [`@keyframes`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@keyframes), 描述 CSS 动画的中间步骤 . 
+  - [`@supports`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@supports), 如果满足给定条件则条件规则组里的规则生效。 
+  - [`@document`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@document), 如果文档样式表满足给定条件则条件规则组里的规则生效。
+
+@page 规则用于在打印文档时修改某些CSS属性。你不能用@page规则来修改所有的CSS属性，而是只能修改margin,orphans,widow 和 page breaks of the document。对其他属性的修改是无效的。
+
+:left: 需要和[@规则](https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule) [`@page`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@page) 配套使用, 对打印文档的左侧页设置CSS样式.
+
+:right: 必须与[@规则](https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule) [`@page`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@page) 一起配套使用，表示打印文档的所有右页
+
+:first: 描述的是：打印文档的时候，第一页的样式。
 
 
 
@@ -935,149 +632,83 @@ unset：属性从其父级继承，如果没有继承父级样式，则该属性
 
 all：修改所有元素或其父元素的属性为初始值，all属性用于重置所有属性，除了unicode-bidi和direction
 
-### 典型样式
-
-#### 元素、文本垂直水平居中
-
-三种方法：转换成表格、flex、css3transform
-
-1.转换成表格
-
-```css
-.container{
-  display:table-cell;
-  vertical-align:center;
-  text-align:center;
-}
-```
-
-2.flex布局
-
-```css
-.container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-```
-
-3.css3transform
-
-```css
-.container{
-  width: 100%;
-  height: 400px;
-  background: #eee;
-  position: relative;
-}
-.center{
-  background: blue;
-  position:absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-```
-
-
-
-垂直居中：容器元素设置`display:table-cell;vertical-align:middle`
-
-子元素宽度为父元素的一半且为正方形
-
-#### 元素高度始终为宽度的一半
-
-html
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>JS Bin</title>
-</head>
-<body>
-  <div class="father">
-    <div class="son"><span>A</span></div>
-  </div>
-</body>
-</html>
-```
-
-css样式
-
-```css
-.father{
-  overflow:hidden;
-  position: absolute;
-  left:20px;
-  right:20px;
-  top:50%;
-  transform: translateY(-50%);
-}
-
-.son{
-  height:0;
-  width:100%;
-  padding-top:50%;
-  background:pink;
-}
-
-span{
-  position:absolute;
-  top:50%;
-  left:50%; 
-  transform: translate(-50%,-50%);
-  font-size:10px;
-}
-```
-
-https://segmentfault.com/a/1190000011668865
-
-#### 字体渐变色
-
-
-
-```html
-<html>
-  <head>
-    <meta charset="utf-8">
-    <style>
-      span{
-        background: linear-gradient(to right,red,blue);
-        -webkit-background-clip:text;
-        color:transparent;
-      }
-    </style>
-  </head>
-  <body>
-    <span>前端渐变色</span>
-  </body>
-</html>
-```
-
 
 
 ### CSS3伪类、伪元素
 
 CSS伪类添加一些选择器的特殊效果,表示状态。
 
-比如a标签
+a标签的伪类
 
-a:link 未访问过的链接 a:visited 已访问过的链接 a:hover 鼠标划过链接 a:active 已选中的链接
-
-:first child :last child 父类的第一个子元素和最后一个子元素
-
-:first-letter :first-line 元素的第一个字母/第一行
-
-:before :after 在元素之前/之后插入内容
+a:link 未访问过的链接  a:visited 已访问过的链接  a:hover 鼠标划过链接  a:active 已选中的链接
 
 :lang 伪类使你有能力为不同的语言定义特殊的规则
 
 :active:伪类匹配被用户激活的元素
 
+:focus: 表示获得焦点的元素（如表单输入）。当用户点击或触摸元素或通过键盘的 “tab” 键选择它时会被触发。
+
+:focus-visible: 
+
+:focus-within: 表示一个元素获得焦点，或，该元素的后代元素获得焦点
+
+input标签的伪类
+
+:autofill:
+
+:enabled:**`enabled`** 表示任何被启用的（enabled）元素。如果一个元素能够被激活（如选择、点击或接受文本输入），或者能够获取焦点，则该元素是启用的。元素也有一个禁用的状态（disabled state），在被禁用时，元素不能被激活或获取焦点。
+
+:disabled:CSS [伪类](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes)表示任何被禁用的元素。如果一个元素不能被激活（如选择、点击或接受文本输入）或获取焦点，则该元素处于被禁用状态。元素还有一个启用状态（enabled state），在启用状态下，元素可以被激活或获取焦点。
+
+:read-only:表示元素不可被用户编辑的状态（如锁定的文本输入框）
+
+:read-write:代表一个元素（例如可输入文本的 input元素）可以被用户编辑
+
+:placeholder-shown: 在textarea或input元素显示 [placeholder text](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder) 时生效.
+
+:default
+
+:checked:表示任何处于选中状态的**radio**(`<input type="radio">`), **checkbox** (`<input type="checkbox">`) 或("select") 元素中的**option** HTML元素("option")
+
+:blank:选择用户输入为空的输入框，input或者textarea
+
+:required: 表示任意设置了[`required`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input#attr-required)属性的input、select或text元素。 这个伪类对于高亮显示在提交表单之前必须具有有效数据的字段非常有用。
+
+:optional:表示任意没有设置[`required`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input#attr-required)属性的input、select或text元素。
+
+:valid: 表示任意内容通过验证的input或其他form元素 .
+
+:invalid: 表示任意内容未通过验证的input或其他form元素 .
+
+:in-range:表示一个Input元素，其当前值处于属性 `min` 和 `max` 限定的范围内
+
+:out-of-range:表示一个Input元素，其当前值处于属性 `min` 和 `max` 限定的范围外
+
+:user-invalid:
+
+第三方伪类(现在大部分浏览器已默认支持)
+
+:first child :last child 父类的第一个子元素和最后一个子元素
+
+:empty: 选中没有子元素的元素
+
+`:only-child` 匹配没有任何兄弟元素的元素.
+
+:nth-child():选中第n个元素
+
+`:nth-of-type()`：针对具有一组兄弟节点的标签, 用 n 来筛选出在一组兄弟节点的位置
+
+:first-letter :first-line 元素的第一个字母/第一行
+
+:scope: 它表示作为选择器要匹配的参考点的元素。当从DOM API使用，`:scope` 匹配你调用API的元素。
+
+**`:not()`** 用来匹配不符合一组选择器的元素。由于它的作用是防止特定的元素被选中，它也被称为*反选伪类*
+
 伪元素
+
+::before
+
+::after
 
 :first-line 伪元素
 

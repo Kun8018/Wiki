@@ -44,7 +44,7 @@ jsx也就是js中写xml的意思
 
 
   ```react
- render (){
+render (){
    return {
        
    }
@@ -71,27 +71,25 @@ jsx元素就是调用react.createElement的语法糖。一般来说，使用了j
 
 安装包
 
-```Node
+```shell
 npm i react-router-dom --save
 ```
 
-
-
 创建react项目
 
-```node
+```shell
 npm install -g create-react-app
 ```
 
 使用create-react-app命令创建项目
 
-```node
+```shell
 create-react-app [项目名]
 ```
 
 启动项目
 
-```node
+```shell
 npm start 
 ```
 
@@ -155,9 +153,9 @@ Fragments减少不必要嵌套的组件:
 
 Refs：
 
-React.createRef
+React.createRef: `React.createRef` 创建一个能够通过 ref 属性附加到 React 元素的 [ref](https://zh-hans.reactjs.org/docs/refs-and-the-dom.html)。
 
-React.forwardRef
+React.forwardRef: `React.forwardRef` 会创建一个React组件，这个组件能够将其接受的 [ref](https://zh-hans.reactjs.org/docs/refs-and-the-dom.html) 属性转发到其组件树下的另一个组件中。
 
 Suspense:
 
@@ -522,386 +520,6 @@ try_files 主要解决的是，如果在一些目录下找不到 index.html， �
 
 
 
-## 组件
-
-react会将以小写字母开头的组件视为原生DOM标签，而组件名称必须以大写字母开口
-
-组件的定义方式
-
-以函数方式定义组件
-
-```jsx
-function Welcome(props){
-    return <h1>hello,{props.name}</h1>
-}
-```
-
-使用ES6的语法class定义组件
-
-```jsx
-class Welcome extends React.component{
-    render(){
-        return <h1>hello,{props.name}</h1>;
-    }
-}
-```
-
-引用组件
-
-组件可以在输出中引用其他组件。在React中通常会以组件的形式表示。
-
-组件被调用时可以携带参数，称为props，
-
-```jsx
-function Welcome(props){
-    return <h1>hello,{props.name}</h1>
-}
-
-function App(){
-    return (
-       <div>
-            <Welcome name="Sara" />
-            <Welcome name="Cahs" />
-            <Welcome name="hara" />
-        </div>
-    )
-}
-
-ReactDOM.render(
-    <App />
-    document.getElementById('root')
-)
-```
-
-### 受控组件与非受控组件
-
-如果组件的状态只能由用户控制，那么就是非受控组件，如果组件的状态可以由用户和通过代码两种方式控制，那么就是受控组件
-
-在React中没有类似于Vue中v-model的双向绑定功能。
-
-```react
-class TestComponent extends React.Component {
-  constructor (props){
-    super(props);
-    this.state = {username: 'lindaidai' }
-  }
-  render () {
-		return <input name="username" value={this.state.username} />
-  }
-}
-```
-
-受控组件的完整定义：
-
-在Html的表单元素中，它们通常自己维护一套state，并随着用户的数据自己进行UI上的更新，这种行为不被我们程序所控制。而如果将React的state属性和表单元素的值建立依赖关系，再通过onChange事件与setState()结合更新state属性，就能达到控制用户输入过程中表单发生的操作，被react以这种方式控制取值的表单输入元素就是受控组件
-
-```react
-class TestComponent extends React.Component {
-  constructor (props){
-    super(props);
-    this.state = {
-      username: 'lindaidai' 
-    }
-  }
-  onChange (e){
-    this.setState({
-      username: e.target.value
-    })
-  }
-  render () {
-		return <input name="username" value={this.state.username} 
-             onChange={(e)=> this.onChange(e)} />
-  }
-}
-```
-
-#### 封装组件为受控组件和非受控组件两种
-
-
-
-
-
-### 组件间通信
-
-父组件向子组件通讯: 父组件可以向子组件通过传 props 的方式，向子组件进行通讯
-
-子组件向父组件通讯: props+回调的方式,父组件向子组件传递props进行通讯，此props为作用域为父组件自身的函数，子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中
-
-兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信
-
-```jsx
-import React from "react";
-
-function Child1(props) {
-  return (
-    <div className="child">
-      <p>{`兄弟1接收到的文本：${props.fatherText}`}</p>
-    </div>
-  );
-}
-
-class Child2 extends React.Component {
-  state = { text: "兄弟2文本" };
-
-  //调用了父组件传入的 changeFatherText 方法
-  changeText = () => {
-    this.props.changeFatherText(this.state.text);
-  };
-
-  render() {
-    return (
-      <div className="child">
-        <button onClick={this.changeText}>点击更新兄弟1文本为兄弟2文本</button>
-      </div>
-    );
-  }
-}
-
-export default class Father extends React.Component {
-  // 初始化父组件的 state
-  state = {
-    text: "父组件的文本"
-  };
-
-  // 传给 Child2 组件按钮的监听函数，用于更新父组件 text 值（这个 text 值同时也是 Child1 的 props）
-  changeText = (newText) => {
-    this.setState({ text: newText });
-  };
-
-  // 渲染父组件
-  render() {
-    return (
-      <div className="father">
-        {/* 引入 Child1 组件，并通过 props 中下发具体的状态值 实现父-子通信 */}
-        <Child1 fatherText={this.state.text} />
-
-        {/* 引入 Child2 组件，并通过 props 中下发可传参的函数 实现子-父通信 */}
-        <Child2 changeFatherText={this.changeText} />
-      </div>
-    );
-  }
-}
-```
-
-跨层级通信: `Context`设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言,对于跨越多层的全局数据通过`Context`通信再适合不过
-
-全局状态管理工具: 借助Redux或者Mobx等全局状态管理工具进行通信,这种工具会维护一个全局状态中心Store,并根据不同的事件产生新的状态
-
-### context api
-
-组件间层层嵌套时，传props的过程中会产生大量的...props或者propName={this.props.propValue}，导致代码异常丑陋，比如exzzzzz
-
-```react
-<App>
-   <Switcher toggleState = {this.state.toggle}>
-       <Pannel toggleState = {props.toggleState}>
-           <div onClick={handleClick}>
-             {props.toggleState?'1':'0'}
-         	 </div>
-     		</Pannel>
-  </Switcher>
-</App>
-```
-
-引入context api代码
-
-简易版,通过provide的value传值，通过consumer的props接收值
-
-```react
-import React,{createContext} from 'react'
-
-const {Provider,Consumer} = createContext('color');
-
-class DeliverComponent extends React.component{
-  state = {
-    color:'orange',
-    handleClick:() =>{
-      this.setState({ color:'red'})
-    }
-  }
-  render(){
-    return (
-      <Provider value= {this.state}>
-         <MidComponent/>
-      </Provider>
-    )
-  }
-}
-
-const MidComponent = () => <Receiver />
-
-const Receiver = () =>(
-    <Consumer>
-      {({color,handleClick}) =>
-  		<div style ={{color}} onClick={()=>{handleClick()}}>
-       hello,world
-      </div>}
-    </Consumer>
-)
-
-const App =()=> <DeliverComponent/>
-
-export default App;
-```
-
-复杂版
-
-引入context api，创建provider和consumer
-
-```react
-//togglecontext.js
-import React,{createContext} from 'react'
-//创建上下文
-const ToggleContext = createContext({
-  toggle:true,
-  handleToggle:()=>{}
-})
-
-//创建provider
-export class ToggleProvider extends React.component{
-  state = {
-    toggle:true,
-    handleToggle:this.handleToggle
-  }
-
-  render() {
-    return (
-      <ToggleContext.Provider value={this.state}>
-        {this.props.children}
-      </ToggleContext.Provider>
-    )
-  }
-}
-//创建consumer
-export const ToggleConsumer = ToggleContext.Consumer
-```
-
-通过provider包裹组件传递value值可以使组件共享provider中的state，通过consumer获取props进行渲染
-
-```react
-import React from 'react';
-import {ToggleProvider,ToggleConsumer} from './ToggleContext'
-
-function App(){
-  return (
-    <ToggleProvider>
-       <Switcher></Switcher>
-    </ToggleProvider>
-  )
-}
-
-const Switcher = () =>{
-  return <Pannel/>
-}
-
-const Pannel = () =>{
-  return (
-    <ToggleConsumer>
-      {({toggle.handleToggle})=>
-         <div onClick={()=>handleToggle()}>
-         {toggle?'1':'0'}
-    		</div>
-      }
-    </ToggleConsumer>
-  )
-}
-
-export default App
-```
-
-### ref、OnRef与forwardRef
-
-Onref通过props将子组件的组件实例当作参数，通过回调传到父组件，然后在父组件就可以拿到子组件的实例了，拿到实例就可以调用它的方法了
-
-```react
-import Son from './son'
-
-class Father extends React.Component {
-  sonRef = (ref) => {
-    this.child = ref
-  }
-  
-  render() {
-    return (
-      <div>
-         <Son onRef={this.sonRef}/>
-      </div>
-    )
-  }
-}
-```
-
-ref可以直接获得dom信息,非受控组件可以采用这种方式获取值而不进行其他操作
-
-```react
-import React,{ Component } from 'react'
-
-export class UnControl extends Component {
-  constructor (props) {
-		super(props);
-    this.inputRef = React.createRef();
-  }
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('input内的值为',this.inputRef.current.value);
-  }
-  render () {
-    return (
-    	<form onSubmit={e => this.handleSubmit(e)}>
-        <input defaultValue="lindaidai" ref={this.inputRef}/>
-        <input type="submit" value="提交"/>
-      </form>
-    )
-  }
-}
-```
-
-forwardRef多用于Ref 转发。Ref 转发是一项将 [ref](https://zh-hans.reactjs.org/docs/refs-and-the-dom.html) 自动地通过组件传递到其一子组件的技巧。对于大多数应用中的组件来说，这通常不是必需的。但其对某些组件，尤其是可重用的组件库是很有用的。
-
-Ref 转发是一个可选特性，其允许某些组件接收 `ref`，并将其向下传递（换句话说，“转发”它）给子组件。
-
-```react
-const FancyButton = React.forwardRef((props, ref) => (
-  <button ref={ref} className="FancyButton">
-    {props.children}
-  </button>
-));
-
-// 你可以直接获取 DOM button 的 ref：
-const ref = React.createRef();
-<FancyButton ref={ref}>Click me!</FancyButton>;
-```
-
-
-
-
-
-### 列表组件
-
-使用key时，不能使用数组的index作为列表组件的key
-
-使用index作为key的列表，向列表中添加或删除某些项时可能导致错误的显示。因为key是连接真实DOM的标识，当更改后的key与更改前的key相同时，react会认为前后的组件是相同的，但其实这两项并不一样
-
-### Constructor
-
-class组件中有constructor构造函数，有两个目的
-
-1.初始化this.state
-
-2.函数方法绑定到实例
-
-```react
-constructor(props) {
-  super(props);
-  this.state = { counter: 0 };
-  this.handleClick = this.handleClick.bind(this)
-}
-```
-
-使用箭头函数则不需要将事件在constructor中绑定
-
-
-
 ## State与生命周期
 
 与props不同，state是组件内的私有数据，且完全受控于当前组件。
@@ -1263,14 +881,6 @@ constructor(props){
 
 通过箭头函数和function.prototype.bind实现
 
-## Ref属性
-
-ref是react提供的属性，通过它我们可以访问DOM节点或者组件
-
-```
-
-```
-
 
 
 ## 条件渲染
@@ -1320,3 +930,6 @@ ReactDOM.render(
 
 
 
+### 三目运算符与&&的区别
+
+使用三目运算符进行计算时，如果组件中有副作用的函数会把两个组件全部计算完后再进行选择，而&&会进行断路，因此不必担心额外的副作用

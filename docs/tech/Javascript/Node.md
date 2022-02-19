@@ -215,6 +215,53 @@ undefined + 1 //NaN
 
 ### 运算符
 
+一元操作符
+
+delete 操作符
+
+**`delete` 操作符**用于删除对象的某个属性或者一个数组中某一个键值；如果没有指向这个属性的引用，那它最终会被释放。
+
+能使用 `delete` 删除各种各样的隐式声明， 但是被`var`声明的除外。
+
+如果 `delete` 操作成功，属性或者元素会变成 `undefined`。如果 `delete`可行会返回`true`，如果不成功返回`false`。
+
+删除数组中的元素时，数组的长度是不变的，例如删除`a[3]`, `a[4]`，`a[4]``和a[3]` 仍然存在变成了`undefined`。
+
+```javascript
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+delete trees[3];
+var y = 43;
+delete y;       // returns false (cannot delete if declared with var)
+x = 42;
+delete x;       // returns true (can delete if declared implicitly)
+```
+
+关系操作符
+
+in操作符
+
+如果所指定的**属性**确实存在于所指定的对象中，则会返回`true`
+
+```javascript
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+0 in trees;        // returns true
+3 in trees;        // returns true
+6 in trees;        // returns false
+"bay" in trees;    // returns false (you must specify the index number,not the value at that index)
+
+// Custom objects
+var mycar = {make: "Honda", model: "Accord", year: 1998};
+"make" in mycar;  // returns true
+"model" in mycar; // returns true
+
+// Predefined objects
+"PI" in Math;          // returns true
+var myString = new String("coral");
+"length" in myString;  // returns true
+```
+
+
+
 三元运算符
 
 三元条件运算符由问号（?）和冒号（:）组成，分隔三个表达式。如果问号前的表达式是true则返回第二个表达式的值，问号前的表达式为false时返回第三个表达式的值。
@@ -224,6 +271,10 @@ undefined + 1 //NaN
 == 相等 ===严格相等 严格相等符要求两个值相等且为同一种类型时才返回true，如果值相等类型不同也返回false。相等会把数据转换成相同类型再进行比较。
 
 NaN与任何值不相等，包括它自己。undefined`和`null`只有与自身比较，或者互相比较时，才会返回`true`；与其他类型的值比较时，结果都为`false
+
+```javascript
+[1] == [1]  //false
+```
 
 
 
@@ -274,59 +325,6 @@ javascript中的对象分为原生对象、内置对象和宿主对象三种。
 原生对象有17种，Object、function、Array、String、Boolean、Number、Date、RegExp、 Error、EvalError、RangeError、ReferenceError、SyntaxError、TypeError、URIError、Math 、Global.最后两种是内置对象，不可实例化。
 
 js中内置17个对象，常用的是array对象，date对象、正则表达式对象、string对象、global对象
-
-array（数组）对象
-
-​      Length：表示取得当前数组长度   push():数组末尾增加
-
-​      pop():数组末尾删除  ary1.concat(ary2):数组拼接 concat不传参时为克隆数组
-
-​      tostring():数组转成以逗号分隔的字符串 shift(): 移除数组中第一个元素
-
-​      Slice(start,end):返回数组中的一段          sort():对数组进行排序
-
-​      reverse():反转数组的排序                         tolocalstring():返回当前
-
-​      Unshift():添加到数组第一个元素
-
-​     遍历数组foreach：对数组中的每一项运行给定函数，还是原数组
-
-```javascript
-Array.foreach(function(value, index){
-          Console.log(index+":"+value)       
-        })          
-```
-
-​      映射到函数map：对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组  
-
-```JavaScript
-arr1=arr.map(function(value,index){
-
-      })            
-```
-
-过滤数组filter：给数组中的每一项运行给指定函数，返回满足过滤条件的组成新数组
-
-```javascript
-arr1=arr.filter(function(value,index){
-      return index%3==0||value>=9
-})
-```
-判断每一项every：every()判断数组每一项是否满足条件，返回布尔值，全部满足返回true
-
-```js
-var res = arr.every(function (value,index){
-			return value<20
-		});
-```
-
-判断有：数组中是否存在满足条件的项，只要有一项满足条件，就会返回true
-
-```js
-var res=arr.some(function (value,index){
-			return value<10;
-		});
-```
 
 math对象
 
@@ -585,6 +583,77 @@ obj.next = 5;
 `Object.freeze()`：冻结一个对象。
 
 `Object.isFrozen()`：判断一个对象是否被冻结。
+
+
+
+#### 数组对象
+
+实例属性
+
+length：表示取得当前数组长度  
+
+实例方法
+
+push() : 在数组末尾增加元素
+
+pop() : 数组末尾删除  
+
+concat(ary2):数组拼接 concat不传参时为克隆数组
+
+tostring():数组转成以逗号分隔的字符串 
+
+shift(): 移除数组中第一个元素
+
+unshift():添加到数组第一个元素
+
+slice(start,end):返回数组中的一段 
+
+splice(start, count, addElement1, addElement2)：方法用于删除原数组的一部分成员，并可以在删除的位置添加新的数组成员，返回值是被删除的元素。
+
+sort():对数组进行排序
+
+reverse():反转数组的排序                         
+
+tolocalstring():返回当前
+
+foreach：对数组中的每一项运行给定函数,没有返回值，只是根据原数组中的元素进行操作
+
+```javascript
+Array.foreach(function(value, index){
+  Console.log(index+":"+value)       
+})          
+```
+
+映射到函数map：对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组  
+
+```JavaScript
+arr1=arr.map(function(value,index){
+})            
+```
+
+过滤数组filter：给数组中的每一项运行给指定函数，返回满足过滤条件的组成新数组
+
+```javascript
+arr1=arr.filter(function(value,index){
+  return index % 3 == 0 || value >= 9
+})
+```
+
+判断每一项every：every()判断数组每一项是否满足条件，返回布尔值，全部满足返回true
+
+```javascript
+var res = arr.every(function (value,index){
+  return value < 20
+});
+```
+
+判断有：数组中是否存在满足条件的项，只要有一项满足条件，就会返回true
+
+```js
+var res=arr.some(function (value,index){
+  return value  < 10;
+});
+```
 
 
 
@@ -938,9 +1007,9 @@ JSON.stringify()的几种妙用:
 
 ```javascript
 let data = [
-{name:'echo'},
-{name:'听风是风'},
-{name:'天子笑'},
+  {name:'echo'},
+  {name:'听风是风'},
+  {name:'天子笑'},
 ],
 val = {name:'天子笑'};
 console.log(JSON.stringify(data).indexOf(JSON.stringify(val)) !== -1);
@@ -975,11 +1044,303 @@ setLocalStorage('demo',[1,2,3]);
 let  a = getLocalStorage('demo');//[1,2,3]
 ```
 
+eval函数
+
+除了JSON.parse可以将字符串转换为json，还可以使用eval函数。eval函数可以执行任意的JavaScript代码
+
+```javascript
+var testJson = '{ "name": "小强", "age": 16 }';
+//testJson=eval(testJson);//错误的转换方式
+testJson = eval("(" + testJson + ")");
+alert(testJson.name);
+```
+
+也可以自己写一个function将字符串转为json
+
+```javascript
+var jsonStr = '{"userName": "tiu","userAge": 26,"isMale": true}';
+var json = (new Function("return " + jsonStr))();
+```
 
 
 
+### 数组对象的研究
+
+数组是无类型的，数组元素可以是任意类型，同一个数组中的元素也可能是不同类型
+
+数组是动态的：可以根据需要增长或者缩短
+
+数组可能是稀疏的： 数组元素的索引不一定是连续的
+
+数组即使设置了初始长度，但是其超出长度之外的值依然可以显示，而且js中的数组再定义时可以不设长度
+
+那么设置数组长度的意义是什么？
+
+如果设置了数组长度，那么代码在执行时会在初始化的时候就给数据分配一个空间，以后每次给数组赋值就会更快。反之如果没有设置长度，代码在每次执行赋值时会先给数组增加长度，分配空间，降低运行速度。 d
+
+#### 各方法返回值汇总
+
+返回数值：push()、unshift()、indexof()
+
+返回字符串：join()
+
+返回布尔值：includes()、every()、some()、findindex()
+
+返回新数组：pop()、shift()、sort()、reverse()、concat()、slice()、fill()、map()、filter()、find()\ reduce()
+
+没有返回值：foreach()
+
+不改变原数组：slice()、include()、indexof()、findindex()、、、、
+
+改变原数组：sort()、reverse()、splice()、fill()、map()、filter()、reduce()、push()、pop()、
+
+#### 数组常见操作
+
+1. 在指定位置删除或者添加元素：splice方法，改变原数组
+
+```javascript
+var a = ['a', 'b', 'c', 'd', 'e', 'f'];
+a.splice(4, 2) // ["e", "f"]
+a // ["a", "b", "c", "d"]
+
+var a = ['a', 'b', 'c', 'd', 'e', 'f'];
+a.splice(4, 2, 1, 2) // ["e", "f"]
+a // ["a", "b", "c", "d", 1, 2]
+```
+
+还可以使用delete方法，但是delete方法只能将原位置变为undefined，不能自动改变数组长度
+
+```javascript
+delete arr[index]
+```
+
+2. 从对象数组中提取对象的指定属性为数组
+
+```javascript
+objArray = [ { foo: 1, bar: 2}, { foo: 3, bar: 4}, { foo: 5, bar: 6} ];
+
+var result = objArray.map(a => a.foo)
+```
 
 
 
+#### 数组sort方法
 
+##### 排序方法
+
+sort方法默认是按照字典的顺序排的，也就是先转换成字符串，然后在进行从小到大排序,而不是直接按照大小进行排序
+
+```javascript
+['d', 'c', 'b', 'a'].sort()
+// ['a', 'b', 'c', 'd']
+
+[4, 3, 2, 1].sort()
+// [1, 2, 3, 4]
+
+[10111, 1101, 111].sort()
+// [10111, 1101, 111]
+```
+
+如果想让`sort`方法按照自定义方式排序，可以传入一个函数作为参数。该函数本身接受两个参数，表示进行比较的两个数组成员。如果该函数的返回值大于`0`，表示第一个成员排在第二个成员后面；其他情况下，都是第一个元素排在第二个元素前面。
+
+自定义的排序函数应该返回数值，否则不同的浏览器可能有不同的实现，不能保证结果都一致。
+
+##### 稳定性
+
+
+
+#### reduce方法
+
+##### 对象中的某属性求和
+
+```javascript
+//值数组
+var sum = [0, 1, 2, 3].reduce(function (accumulator, currentValue) {
+  return accumulator + currentValue;
+}, 0);// 和为 6
+
+//对象数组
+var initialValue = 0;
+var sum = [{x: 1}, {x:2}, {x:3}].reduce(function (accumulator, currentValue) {
+    return accumulator + currentValue.x;
+},initialValue)
+
+console.log(sum) // logs 6
+```
+
+##### 将二维数组/多维数组转化为1维
+
+```javascript
+//将二维数组转化为一维
+let arr = [[0, 1], [2, 3], [4, 5]]
+let newArr = arr.reduce((pre,cur)=>{
+    return pre.concat(cur)
+},[])
+console.log(newArr); // [0, 1, 2, 3, 4, 5]
+
+//将多维数组转化为一维
+let arr = [[0, 1], [2, 3], [4,[5,6,7]]]
+const newArr = function(arr){
+   return arr.reduce((pre,cur)=>pre.concat(Array.isArray(cur)?newArr(cur):cur),[])
+}
+console.log(newArr(arr)); //[0, 1, 2, 3, 4, 5, 6, 7]
+```
+
+##### 一维数组转为二维数组
+
+```javascript
+function oneTransTwo(source, num) {
+      return source.reduce((v, item, index) => {
+        let r = null;
+        if (index % num === 0) {
+          r = [...v, [JSON.parse(JSON.stringify(item))]];
+        } else {
+          v[v.length - 1].push(item);
+          r = v;
+        }
+        return r;
+      }, []);
+};
+```
+
+##### 数组去重
+
+```javascript
+//数组去重
+let arr = [1,2,3,4,4,1]
+let newArr = arr.reduce((pre,cur)=>{
+    if(!pre.includes(cur)){
+      return pre.concat(cur)
+    }else{
+      return pre
+    }
+},[])
+console.log(newArr);// [1, 2, 3, 4]
+```
+
+##### 计算每个元素出现的次数
+
+```javascript
+//计算数组中每个元素出现的次数
+let names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'];
+let nameNum = names.reduce((pre,cur)=>{
+  if(cur in pre){
+    pre[cur]++
+  }else{
+    pre[cur] = 1 
+  }
+  return pre
+},{})
+console.log(nameNum); //{Alice: 2, Bob: 1, Tiff: 1, Bruce: 1}
+```
+
+##### 按属性分类
+
+```javascript
+var people = [
+  { name: 'Alice', age: 21 },
+  { name: 'Max', age: 20 },
+  { name: 'Jane', age: 20 }
+];
+
+function groupBy(objectArray, property) {
+  return objectArray.reduce(function (acc, obj) {
+    var key = obj[property];
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(obj);
+    return acc;
+  }, {});
+}
+
+var groupedPeople = groupBy(people, 'age');
+// groupedPeople is:
+// {
+//   20: [
+//     { name: 'Max', age: 20 },
+//     { name: 'Jane', age: 20 }
+//   ],
+//   21: [{ name: 'Alice', age: 21 }]
+// }
+```
+
+##### 按属性去重
+
+```javascript
+let array = array.reduce(function (item, next) {
+        obj[next.id] ? '' : obj[next.id] = true && item.push(next);
+        return item;
+ }, []);
+ 
+console.log(array)
+```
+
+##### 按顺序执行promise
+
+```javascript
+function runPromiseInSequence(arr, input) {
+  return arr.reduce(
+    (promiseChain, currentFunction) => promiseChain.then(currentFunction),
+    Promise.resolve(input)
+  );
+}
+
+// promise function 1
+function p1(a) {
+  return new Promise((resolve, reject) => {
+    resolve(a * 5);
+  });
+}
+
+// promise function 2
+function p2(a) {
+  return new Promise((resolve, reject) => {
+    resolve(a * 2);
+  });
+}
+
+// function 3  - will be wrapped in a resolved promise by .then()
+function f3(a) {
+ return a * 3;
+}
+
+// promise function 4
+function p4(a) {
+  return new Promise((resolve, reject) => {
+    resolve(a * 4);
+  });
+}
+
+const promiseArr = [p1, p2, f3, p4];
+runPromiseInSequence(promiseArr, 10)
+  .then(console.log);   // 1200
+```
+
+##### 功能型函数管道
+
+```javascript
+// Building-blocks to use for composition
+const double = x => x + x;
+const triple = x => 3 * x;
+const quadruple = x => 4 * x;
+
+// Function composition enabling pipe functionality
+const pipe = (...functions) => input => functions.reduce(
+    (acc, fn) => fn(acc),
+    input
+);
+
+// Composed functions for multiplication of specific values
+const multiply6 = pipe(double, triple);
+const multiply9 = pipe(triple, triple);
+const multiply16 = pipe(quadruple, quadruple);
+const multiply24 = pipe(double, triple, quadruple);
+
+// Usage
+multiply6(6); // 36
+multiply9(9); // 81
+multiply16(16); // 256
+multiply24(10); // 240
+```
 

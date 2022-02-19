@@ -1,1192 +1,1380 @@
 ---
-title: JavaScript开发（六）-TS开发
-date: 2021-01-21 21:40:33
+title: JavaScript开发（五）
+date: 2021-01-19 21:40:33
 categories: IT
-tags: IT，Web
+tags: IT，Web,Node
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/typescript.jpg
+thumbnail: http://cdn.kunkunzhang.top/es6.png
 ---
 
-万万没想到会来到第六篇，第六篇写TypeScript。
+第五篇注重ES6
 
 <!--more-->
 
-## Typescript
+## ES6
 
-Typescript是JavaScript的超集，主要提供了**类型系统**和**对 ES6 的支持**，它由 Microsoft 开发，代码[开源于 GitHub](https://github.com/Microsoft/TypeScript) 上。
+### ES6简介
 
-Typescript的优势：
+ES6与JavaScript的关系
 
-Typescript增加了代码的可读性。
+JavaScript 的创造者 Netscape 公司，决定将 JavaScript 提交给标准化组织 ECMA，希望这种语言能够成为国际标准。次年，ECMA 发布 262 号标准文件（ECMA-262）的第一版，规定了浏览器脚本语言的标准，并将这种语言称为 ECMAScript，这个版本就是 1.0 版。
 
-- 类型系统实际上是最好的文档，大部分的函数看看类型的定义就可以知道如何使用了
-- 可以在编译阶段就发现大部分错误，这总比在运行时候出错好
-- 增强了编辑器和 IDE 的功能，包括代码补全、接口提示、跳转到定义、重构等
+因此，ECMAScript 和 JavaScript 的关系是，前者是后者的规格，后者是前者的一种实现（另外的 ECMAScript 方言还有 JScript 和 ActionScript）。日常场合，这两个词是可以互换的。
 
-TypeScript 非常包容
+ES6与ES5
 
-- TypeScript 是 JavaScript 的超集，`.js` 文件可以直接重命名为 `.ts` 即可
-- 即使不显式的定义类型，也能够自动做出[类型推论](https://ts.xcatliu.com/basics/type-inference.html)
-- 可以定义从简单到复杂的几乎一切类型
-- 即使 TypeScript 编译报错，也可以生成 JavaScript 文件
-- 兼容第三方库，即使第三方库不是用 TypeScript 写的，也可以编写单独的类型文件供 TypeScript 读取
+EMCA的标准委员会决定，标准在每年的 6 月份正式发布一次，作为当年的正式版本。接下来的时间，就在这个版本的基础上做改动，直到下一年的 6 月份，草案就自然变成了新一年的版本。这样一来，就不需要以前的版本号了，只要用年份标记就可以了。
 
-Typescript的劣势：
+ES6 的第一个版本，就这样在 2015 年 6 月发布了，正式名称就是《ECMAScript 2015 标准》（简称 ES2015）。2016 年 6 月，小幅修订的《ECMAScript 2016 标准》（简称 ES2016）如期发布，这个版本可以看作是 ES6.1 版，因为两者的差异非常小（只新增了数组实例的`includes`方法和指数运算符），基本上是同一个标准。2017 年 6 月发布 ES2017 标准。
 
-- 有一定的学习成本，需要理解接口（Interfaces）、泛型（Generics）、类（Classes）、枚举类型（Enums）等前端工程师可能不是很熟悉的概念
-- 短期可能会增加一些开发成本，毕竟要多写一些类型的定义，不过对于一个需要长期维护的项目，TypeScript 能够减少其维护成本
-- 集成到构建流程需要一些工作量
-- 可能和一些库结合的不是很完美
+ES6 既是一个历史名词，也是一个泛指，含义是 5.1 版以后的 JavaScript 的下一代标准，涵盖了 ES2015、ES2016、ES2017 等等，而 ES2015 则是正式名称，特指该年发布的正式版本的语言标准。
 
-### 安装和使用
+**考虑到未来所有的代码，其实都是运行在模块之中，ES6 实际上把整个语言升级到了严格模式。**
 
-使用typescript编写的文件以ts为文件后缀，用typescript编写react时以tsx为文件后缀。
+### let、const与块级作用域 
 
-安装typescript的命令行工具
+const声明一个只读的常量，一旦声明，常量的值就不能修改
 
-```shell
-npm install -g typescript
+let和const只在声明的块级作用域内有效
+
+const和let声明的变量不可重复声明
+
+const变量一旦声明，就必须**立即初始化**，不能留到以后赋值，只声明不赋值就会报错
+
+```javascript
+const foo
+// SyntaxError: Missing initializer in const declaration
 ```
 
-以上命令会在全局环境下安装tsc命令，安装完成后可以在任何地方执行tsc命令
+const声明Object或者Array时，只是已经声明的对象属性不能变化，但是对象和数组仍然可变，可以添加新的属性或者值，如果想要对象不变，使用object.freeze冻结对象
 
-编译typescript文件
+const声明的对象，虽然属性可变，但是内存地址不可变
 
-```shell
-tsc hello.ts
+暂时性死区
+
+
+
+ES5中只有全局作用域和函数作用域，ES6新增了块级作用域，用{}表示。
+
+```javascript
+function f1() {
+  let n = 5;
+  if (true) {
+    let n = 10;
+  }
+  console.log(n) //5
+}
 ```
 
-如果想要用typescript写node文件，则需要引入第三方声明文件：
+块级作用域的出现使得获得广泛应用的匿名立即执行函数表达式(匿名IIFE)不再必要了
 
-```shell
-npm install @types/node --save-dev
+ES5中规定，函数只能在顶层作用域和函数作用域中声明，不能在块级作用域中声明
+
+ES6中中明确规定允许在块级作用域声明函数，函数声明语句类似于let，只能在块级作用域中引用
+
+在const/let变量声明之前调用变量会报错，在var变量声明之前调用会返回undefined
+
+#### 定义不可变对象
+
+1.使用object.freeze冻结对象
+
+2.使用 es6 （Object.defineProperty()） 修改对象属性的属性描述符
+
+```javascript
+let obj = {
+  name: 'test',
+};
+
+Object.defineProperty(obj, 'name', {
+  writable: false,
+  enumerable: true,
+  configurable: true,
+});
+
+obj.name = 'xxx';
+
+console.log(obj.name);
 ```
 
-简单的编译示例：
+3.使用proxy代理 get,set 方法，实现不可变
 
-hello.ts
+```javascript
+//使用属性代理
+const handler = {
+  get: function(target, key) {
+    return target[key];
+  },
+  set: function(target, key, value) {
+    if (key === 'name') return;
+    target[key] = value;
+  },
+};
+
+let p = {
+  name: 'test',
+};
+
+p = new Proxy(p, handler);
+
+p.age = 29;
+p.name = 'cjl';
+console.log(p.age);
+console.log(p.name);
+```
+
+
+
+### proxy
+
+Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。
+
+Proxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写。
+
+方法：
+
+`get`方法用于拦截某个属性的读取操作，可以接受三个参数，依次为目标对象、属性名和 proxy 实例本身（严格地说，是操作行为所针对的对象），其中最后一个参数可选。
+
+`set`方法用来拦截某个属性的赋值操作，可以接受四个参数，依次为目标对象、属性名、属性值和 Proxy 实例本身，其中最后一个参数可选。
+
+`has`方法用来拦截`HasProperty`操作，即判断对象是否具有某个属性时，这个方法会生效。典型的操作就是`in`运算符。`has`方法可以接受两个参数，分别是目标对象、需查询的属性名。
+
+`deleteProperty`方法用于拦截`delete`操作，如果这个方法抛出错误或者返回`false`，当前属性就无法被`delete`命令删除。
+
+`defineProperty()`方法拦截了`Object.defineProperty()`操作。
+
+`getOwnPropertyDescriptor()`方法拦截`Object.getOwnPropertyDescriptor()`，返回一个属性描述对象或者`undefined`。
+
+`getPrototypeOf()`方法主要用来拦截获取对象原型。具体来说，拦截下面这些操作。
+
+- `Object.prototype.__proto__`
+- `Object.prototype.isPrototypeOf()`
+- `Object.getPrototypeOf()`
+- `Reflect.getPrototypeOf()`
+- `instanceof`
+
+`isExtensible()`方法拦截`Object.isExtensible()`操作。
+
+`ownKeys()`方法用来拦截对象自身属性的读取操作。具体来说，拦截以下操作。
+
+- `Object.getOwnPropertyNames()`
+- `Object.getOwnPropertySymbols()`
+- `Object.keys()`
+- `for...in`循环
+
+`preventExtensions()`方法拦截`Object.preventExtensions()`。该方法必须返回一个布尔值，否则会被自动转为布尔值。
+
+`setPrototypeOf()`方法主要用来拦截`Object.setPrototypeOf()`方法。
+
+`Proxy.revocable()`方法返回一个可取消的 Proxy 实例。
+
+### Generator函数
+
+Generator 函数是 ES6 提供的一种异步编程解决方案，语法行为与传统函数完全不同。
+
+执行 Generator 函数会返回一个遍历器对象，也就是说，Generator 函数除了状态机，还是一个遍历器对象生成函数。返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态。
+
+Generator 函数是一个普通函数，形式上有两个特征。一是，`function`关键字与函数名之间有一个星号；二是，函数体内部使用`yield`表达式，定义不同的内部状态（`yield`在英语里的意思就是“产出”）。
+
+Generator 函数的调用方法与普通函数一样，也是在函数名后面加上一对圆括号。不同的是，调用 Generator 函数后，该函数并不执行，返回的也不是函数运行结果，而是一个指向内部状态的指针对象，也就是遍历器对象（Iterator Object）
+
+下一步，必须调用遍历器对象的`next`方法，使得指针移向下一个状态。也就是说，每次调用`next`方法，内部指针就从函数头部或上一次停下来的地方开始执行，直到遇到下一个`yield`表达式（或`return`语句）为止。换言之，Generator 函数是分段执行的，`yield`表达式是暂停执行的标记，而`next`方法可以恢复执行。
+
+```javascript
+function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
+}
+
+var hw = helloWorldGenerator();
+hw.next()
+// { value: 'hello', done: false }
+
+hw.next()
+// { value: 'world', done: false }
+
+hw.next()
+// { value: 'ending', done: true }
+
+hw.next()
+// { value: undefined, done: true }
+```
+
+`yield`表达式与`return`语句既有相似之处，也有区别。相似之处在于，都能返回紧跟在语句后面的那个表达式的值。区别在于每次遇到`yield`，函数暂停执行，下一次再从该位置继续向后执行，而`return`语句不具备位置记忆的功能。一个函数里面，只能执行一次（或者说一个）`return`语句，但是可以执行多次（或者说多个）`yield`表达式。正常函数只能返回一个值，因为只能执行一次`return`；Generator 函数可以返回一系列的值，因为可以有任意多个`yield`。从另一个角度看，也可以说 Generator 生成了一系列的值，这也就是它的名称的来历
+
+**next函数传参**
+
+`yield`表达式本身没有返回值，或者说总是返回`undefined`。`next`方法可以带一个参数，该参数就会被当作上一个`yield`表达式的返回值。
+
+next函数传参这个功能有很重要的语法意义。Generator 函数从暂停状态到恢复运行，它的上下文状态（context）是不变的。通过`next`方法的参数，就有办法在 Generator 函数开始运行之后，继续向函数体内部注入值。也就是说，可以在 Generator 函数运行的不同阶段，从外部向内部注入不同的值，从而调整函数行为。
+
+```javascript
+function* foo(x){
+var y =2*(yield (x +1));
+var z = yield (y /3);
+return(x + y + z);
+}
+var a = foo(5);
+a.next()// Object{value:6, done:false}
+a.next()// Object{value:NaN, done:false}
+a.next()// Object{value:NaN, done:true}
+var b = foo(5);
+b.next()// { value:6, done:false }
+b.next(12)// { value:8, done:false }
+b.next(13)// { value:42, done:true }
+//第二次运行next方法的时候不带参数，导致 y 的值等于2 * undefined（即NaN），除以 3 以后还是NaN，因此返回对象的value属性也等于NaN。第三次运行Next方法的时候不带参数，所以z等于undefined，返回对象的value属性等于5 + NaN + undefined，即NaN。
+
+//如果向next方法提供参数，返回结果就完全不一样了。上面代码第一次调用b的next方法时，返回x+1的值6；第二次调用next方法，将上一次yield表达式的值设为12，因此y等于24，返回y / 3的值8；第三次调用next方法，将上一次yield表达式的值设为13，因此z等于13，这时x等于5，y等于24，所以return语句的值等于42
+```
+
+由于`next`方法的参数表示上一个`yield`表达式的返回值，所以在第一次使用`next`方法时，传递参数是无效的。V8 引擎直接忽略第一次使用`next`方法时的参数，只有从第二次使用`next`方法开始，参数才是有效的。从语义上讲，第一个`next`方法用来启动遍历器对象，所以不用带有参数。
+
+如果想要第一次调用`next`方法时，就能够输入值，可以在 Generator 函数外面再包一层。
+
+```javascript
+function wrapper(generatorFunction){
+returnfunction(...args){
+    let generatorObject = generatorFunction(...args);
+    generatorObject.next();
+return generatorObject;
+};
+}
+const wrapped = wrapper(function*(){
+  console.log(`First input: `);
+	return'DONE';
+});
+wrapped().next('hello!')
+// First input: hello!
+```
+
+
+
+
+
+为了防止手动遍历generator函数，js提供co函数库操作generator函数
+
+
+
+generator最大的特点是交出函数的执行权，即暂停执行，异步操作需要暂停的地方使用yield注明，此处引入协程的概念。
+
+进程有变量隔离，自动切换运行上下文
+
+线程没有变量隔离，自动切换运行上下文
+
+协程不进行变量隔离，不自动切换运行上下文
+
+### async函数
+
+async可以理解为generator+promise的语法糖，async可以看作是多个异步操作包装成的一个promise对象，而await命令是内部.then的语法糖
+
+async对generator的改进体现在以下四点：
+
+1.内置执行器。generator需要co模块或者调用next方法才能执行，而async函数自带执行器可以向普通函数一样。
+
+2.更好的语义。比起generator的yield和*，async和await更直接
+
+3.更广的适用性。yield命令返回的是promise对象或者thunk函数，而await后面可以是promise对象或者任意原始类型（数值、字符串、布尔值等），方便操作。
+
+4.返回值是promise。generator的返回值是iterator对象，而async返回的是promise对象，可以用.then方法指定下一步的操作。
+
+asnyc函数如果不跟await直接return会返回一个promise对象，
 
 ```typescript
-function sayHello(person: string) {
-    return 'Hello, ' + person;
+async function :<Promise Number> {
+  return 1213
 }
-
-let user = 'Tom';
-console.log(sayHello(user));
 ```
 
-执行
+错误处理
 
-```shell
-tsc hello.ts
-```
-
-编译生成的hello.js文件
+await后面跟promise对象时，可能会reject，此时将await写在try里
 
 ```javascript
-function sayHello(person) {
-    return 'Hello, ' + person;
+function getUsers() {
+    return $.ajax('https://github.com/users');  
 }
-var user = 'Tom';
-console.log(sayHello(user));
+
+async function getFirstUser() {
+    try {
+        let users = await getUsers();
+        return users[0].name;
+    } catch (err) {
+        return {
+          name: 'default user'
+        }
+    }
+}
 ```
 
-typeScript 中，使用 `:` 指定变量的类型，`:` 的前后有没有空格都可以。
+#### async与promise的区别
 
-### 模块@types
+async相比promise的优势:处理 then 的调用链，能够更清晰准确的写出代码
 
-[DefinitelyTyped](https://github.com/borisyankov/DefinitelyTyped) 是 TypeScript 最大的优势之一，社区已经记录了 90% 的顶级 JavaScript 库。你可以非常高效地使用这些库，而无须在单独的窗口打开相应文档以确保输入的正确性。
+async相比promise的劣势：
 
-你可以通过 `npm` 来安装使用 `@types`，例如为 `jquery` 添加声明文件：
+有多个接口的情况下，async/await是继发，也就是一个一个接口请求，promise.all是同步触发
 
-```shell
-npm install @types/jquery --save-dev
-```
+如果多个异步代码没有依赖性却使用了 await 会导致性能上的降低，代码没有依赖性的话，完全可以使用 Promise.all 的方式。
 
-安装完之后，不需要特别的配置，你就可以像使用模块一样使用它：
-
-```ts
-import * as $ from 'jquery';
-
-// 现在你可以此模块中任意使用$了 :)
-```
-
-### 编译上下文tsconfig.json
-
-编译上下文算是一个比较花哨的术语，可以用它来给文件分组，告诉 TypeScript 哪些文件是有效的，哪些是无效的。除了有效文件所携带信息外，编译上下文还包含有正在被使用的编译选项的信息。定义这种逻辑分组，一个比较好的方式是使用 `tsconfig.json` 文件。
-
-在项目的根目录下创建一个空 JSON 文件。通过这种方式，TypeScript 将 会把此目录和子目录下的所有 .ts 文件作为编译上下文的一部分，它还会包含一部分默认的编译选项。
-
-你可以通过 `compilerOptions` 来定制你的编译选项：
+async同步触发写法
 
 ```javascript
-{
-  "compilerOptions": {
+// 写法一
+let [foo, bar] = await Promise.all([getFoo(), getBar()]);
 
-    /* 基本选项 */
-    "target": "es5",                       // 指定 ECMAScript 目标版本: 'ES3' (default), 'ES5', 'ES6'/'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'
-    "module": "commonjs",                  // 指定使用模块: 'commonjs', 'amd', 'system', 'umd' or 'es2015'
-    "lib": [],                             // 指定要包含在编译中的库文件
-    "allowJs": true,                       // 允许编译 javascript 文件
-    "checkJs": true,                       // 报告 javascript 文件中的错误
-    "jsx": "preserve",                     // 指定 jsx 代码的生成: 'preserve', 'react-native', or 'react'
-    "declaration": true,                   // 生成相应的 '.d.ts' 文件
-    "sourceMap": true,                     // 生成相应的 '.map' 文件
-    "outFile": "./",                       // 将输出文件合并为一个文件
-    "outDir": "./",                        // 指定输出目录
-    "rootDir": "./",                       // 用来控制输出目录结构 --outDir.
-    "removeComments": true,                // 删除编译后的所有的注释
-    "noEmit": true,                        // 不生成输出文件
-    "importHelpers": true,                 // 从 tslib 导入辅助工具函数
-    "isolatedModules": true,               // 将每个文件作为单独的模块 （与 'ts.transpileModule' 类似）.
+// 写法二
+let fooPromise = getFoo();
+let barPromise = getBar();
+let foo = await fooPromise;
+let bar = await barPromise;
+```
 
-    /* 严格的类型检查选项 */
-    "strict": true,                // 启用所有严格类型检查选项
-    "noImplicitAny": true,         // 在表达式和声明上有隐含的 any类型时报错
-    "strictNullChecks": true,      // 启用严格的 null 检查
-    "noImplicitThis": true,        // 当 this 表达式值为 any 类型的时候，生成一个错误
-    "alwaysStrict": true,                  // 以严格模式检查每个模块，并在每个文件里加入 'use strict'
+反过来，如果是有依赖性的接口，那么async的语法更直观更符合语义
 
-    /* 额外的检查 */
-    "noUnusedLocals": true,            // 有未使用的变量时，抛出错误
-    "noUnusedParameters": true,        // 有未使用的参数时，抛出错误
-    "noImplicitReturns": true,         // 并不是所有函数里的代码都有返回值时，抛出错误
-    "noFallthroughCasesInSwitch": true,// 报告 switch 语句的 fallthrough 错误。（即，不允许 switch 的 case 语句贯穿）
 
-    /* 模块解析选项 */
-    "moduleResolution": "node",            // 选择模块解析策略： 'node' (Node.js) or 'classic' (TypeScript pre-1.6)
-    "baseUrl": "./",                       // 用于解析非相对模块名称的基目录
-    "paths": {},                           // 模块名到基于 baseUrl 的路径映射的列表
-    "rootDirs": [],                        // 根文件夹列表，其组合内容表示项目运行时的结构内容
-    "typeRoots": [],                       // 包含类型声明的文件列表
-    "types": [],                           // 需要包含的类型声明文件名列表
-    "allowSyntheticDefaultImports": true,  // 允许从没有设置默认导出的模块中默认导入。
 
-    /* Source Map Options */
-    "sourceRoot": "./",               // 指定调试器应该找到 TypeScript 文件而不是源文件的位置
-    "mapRoot": "./",                  // 指定调试器应该找到映射文件而不是生成文件的位置
-    "inlineSourceMap": true,          // 生成单个 soucemaps 文件，而不是将 sourcemaps 生成不同的文件
-    "inlineSources": true,            // 将代码与 sourcemaps 生成到一个文件中，要求同时设置了 --inlineSourceMap 或 --sourceMap 属性
+### 新增class类
 
-    /* 其他选项 */
-    "experimentalDecorators": true,        // 启用装饰器
-    "emitDecoratorMetadata": true          // 为装饰器提供元数据的支持
+JavaScript 语言中，生成实例对象的传统方法是通过构造函数。
+
+ES6 提供了更接近传统语言的写法，引入了 Class（类）这个概念，作为对象的模板。通过`class`关键字，可以定义类。
+
+基本上，ES6 的`class`可以看作只是一个语法糖，它的绝大部分功能，ES5 都可以做到，新的`class`写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。
+
+`constructor`方法是类的默认方法，通过`new`命令生成对象实例时，自动调用该方法。一个类必须有`constructor`方法，如果没有显式定义，一个空的`constructor`方法会被默认添加。
+
+类的实例
+
+使用new命令生成类的实例,类的所有实例共享一个原型对象。
+
+```javascript
+class Point {
+  constructor() {}
+}
+
+var p1 = new Point(2,3);
+var p2 = new Point(3,2);
+
+p1.__proto__ === p2.__proto__//Point.prototype ==Point.prototype
+```
+
+在“类”的内部可以使用`get`和`set`关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为。
+
+```javascript
+class MyClass {
+  constructor() {
+    // ...
+  }
+  get prop() {
+    return 'getter';
+  }
+  set prop(value) {
+    console.log('setter: '+value);
   }
 }
+
+let inst = new MyClass();
+
+inst.prop = 123;
+// setter: 123
+
+inst.prop
+// 'getter'
 ```
 
-### 数据类型与对象类型
 
-typescript包含javascript的五种基本数据类型和ES6中声明的symbol，唯一的区别是在声明变量时需指明变量类型。
 
-除此之外，typescript有新添加的类型
+类相当于实例的原型，所有在类中定义的方法，都会被实例继承。如果在一个方法前，加上`static`关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。静态方法可以与非静态方法重名。
 
-#### 字符串字面量类型
+每一个对象都有`__proto__`属性，指向对应的构造函数的`prototype`属性。Class 作为构造函数的语法糖，同时有`prototype`属性和`__proto__`属性，因此同时存在两条继承链。
 
-字符串字面量类型用来约束取值只能是某几个字符串中的一个。
+（1）子类的`__proto__`属性，表示构造函数的继承，总是指向父类。
 
-```typescript
-type EventNames = 'click' | 'scroll' | 'mousemove';
-function handleEvent(ele: Element, event: EventNames) {
-    // do something
+（2）子类`prototype`属性的`__proto__`属性，表示方法的继承，总是指向父类的`prototype`属性。
+
+#### Super关键字
+
+`super`作为函数调用时，代表父类的构造函数。ES6 要求，子类的构造函数必须执行一次`super`函数。
+
+`super`作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
+
+#### Mixin模式
+
+Mixin 指的是多个对象合成一个新的对象，新对象具有各个组成成员的接口。
+
+用最简单的实现实现Mix如下
+
+```javascript
+const a = {
+  a: 'a'
+};
+const b = {
+  b: 'b'
+};
+const c = {...a, ...b}; // {a: 'a', b: 'b'}
+```
+
+
+
+
+
+
+
+### 新增数据类型和数据结构
+
+ES6 引入了一种新的原始数据类型`Symbol`，表示独一无二的值。它是 JavaScript 语言的第七种数据类型。
+
+
+
+
+
+ES6 提供了新的数据结构 Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。
+
+`Set`本身是一个构造函数，用来生成 Set 数据结构。
+
+WeakSet 结构与 Set 类似，也是不重复的值的集合。但是，它与 Set 有两个区别。
+
+WeakSet 的成员只能是对象，而不能是其他类型的值。
+
+WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中。
+
+Map
+
+JavaScript 的对象（Object），本质上是键值对的集合（Hash 结构），但是传统上只能用字符串当作键。这给它的使用带来了很大的限制。
+
+ES6 提供了 Map 数据结构。它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。也就是说，Object 结构提供了“字符串—值”的对应，Map 结构提供了“值—值”的对应，是一种更完善的 Hash 结构实现。如果你需要“键值对”的数据结构，Map 比 Object 更合适。
+
+Map类型的属性和方法
+
+属性
+
+`size`属性返回 Map 结构的成员总数。
+
+`set`方法设置键名`key`对应的键值为`value`，然后返回整个 Map 结构。如果`key`已经有值，则键值会被更新，否则就新生成该键。
+
+`get`方法读取`key`对应的键值，如果找不到`key`，返回`undefined`。
+
+`has`方法返回一个布尔值，表示某个键是否在当前 Map 对象之中。
+
+`Map.prototype.delete(key)`方法删除某个键，返回`true`。如果删除失败，返回`false`。
+
+`Map.prototype.clear()`方法清除所有成员，没有返回值。
+
+方法
+
+- `Map.prototype.keys()`：返回键名的遍历器。
+- `Map.prototype.values()`：返回键值的遍历器。
+- `Map.prototype.entries()`：返回所有成员的遍历器。
+- `Map.prototype.forEach()`：遍历 Map 的所有成员。
+
+WeakMap
+
+`WeakMap`结构与`Map`结构类似，也是用于生成键值对的集合。
+
+WeakMap与Map的区别有两点。
+
+1.`WeakMap`只接受对象作为键名（`null`除外），不接受其他类型的值作为键名。
+
+2.`WeakMap`的键名所指向的对象，不计入垃圾回收机制。
+
+`WeakMap`只有四个方法可用：`get()`、`set()`、`has()`、`delete()`。
+
+weakmap的用途：
+
+1.将DOM 节点作为键名。获取dom节点后，每当发生`click`事件，就更新一下状态。我们将这个状态作为键值放在 WeakMap 里，对应的键名就是这个节点对象。一旦这个 DOM 节点删除，该状态就会自动消失，不存在内存泄漏风险。
+
+2.WeakMap 的另一个用处是部署私有属性。
+
+#### Map数据结构实现
+
+Map底层使用hash+链表结构实现保证插入顺序
+
+```javascript
+function MyMap() {
+  this.init();
 }
 
-handleEvent(document.getElementById('hello'), 'scroll');  // 没问题
-handleEvent(document.getElementById('world'), 'dblclick'); // 报错，event 不能为 'dblclick'
-
-// index.ts(7,47): error TS2345: Argument of type '"dblclick"' is not assignable to parameter of type 'EventNames'.
-```
-
-#### 任意类型
-
-任意值（Any）用来表示允许赋值为任意类型。如果是 `any` 类型，则允许被赋值为任意类型。
-
-```typescript
-let myFavoriteNumber: any = 'seven';
-myFavoriteNumber = 7;
-```
-
-在任意值上访问任何属性都是允许的.如果变量在声明时未指定其类型，则被识别为任意类型。
-
-#### 联合类型
-
-联合类型（Union Types）表示取值可以为多种类型中的一种。
-
-```typescript
-let myFavoriteNumber: string | number;
-myFavoriteNumber = 'seven';
-myFavoriteNumber = 7;
-```
-
-上面的代码将myFavoriteNumber定义为字符串或者数值型，在不同的语句可以切换不同的类型，但不允许是定义以外的类型。
-
-联合类型使用 `|` 分隔每个类型。当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们只能访问此联合类型的所有类型里共有的属性或方法。
-
-联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型,并使用该类型
-
-```typescript
-let myFavoriteNumber: string | number;
-myFavoriteNumber = 'seven';
-console.log(myFavoriteNumber.length); // 5
-myFavoriteNumber = 7;
-console.log(myFavoriteNumber.length); // 编译时报错
-
-// index.ts(5,30): error TS2339: Property 'length' does not exist on type 'number'.
-```
-
-#### 交叉类型
-
-交叉类型可以把现有的类型组合起来得到新的类型，从而拥有全部的属性，表示为A & B
-
-实例
-
-```typescript
-interface IPerson {
-  name: string;
-  age:number;
+Mymap.prototype.init = function() {
+  this.tong = new Array(8);
+  for(var i=0;i<8;i++) {
+    this.tong[i] = new Object();
+    this.tong[i].next = null;
+  }
 }
 
-interface IStudent {
-  grade:number;
+//添加数据。
+Mymap.prototype.set = function (key, value) {
+    var index = this.hash(key);        //获取到当前设置的key设置到那个位置上
+    var TempBucket = this.tong[index]; //获取当前位置的对象
+    while (TempBucket.next) {          //遍历如果当前对象链接的下一个不为空
+        if (TempBucket.next.key == key) {  //如果要设置的属性已经存在，覆盖其值。
+            TempBucket.next.value = value;
+            return;                          //return ,不在继续遍历
+        } else {
+            TempBucket = TempBucket.next;  //把指针指向下一个对象。
+        }
+ 
+    }
+    TempBucket.next = {  //对象的next是null ,添加对象。
+        key: key,
+        value: value,
+        next: null
+    }
+};
+
+//查询数据
+Mymap.prototype.get = function (key) {
+    var index = this.hash(key);
+    var TempBucket = this.tong[index];
+    while(TempBucket){
+        if(TempBucket.key == key){
+            return TempBucket.value;
+        }else{
+            TempBucket = TempBucket.next;
+        }
+    }
+    return undefined;
 }
 
-const getBio = (user:IPerson & IStudent) =>{
-  return `His name is ${user.name},i am ${user.age} and Grade ${user.grade}` 
+//删除数据
+Mymap.prototype.delete = function(key){
+    var index = this.hash(key);
+    var TempBucket = this.tong[index];
+    while(TempBucket){
+        if(TempBucket.next.key == key){
+            TempBucket.next = TempBucket.next.next;
+            return true;
+        }else{
+            TempBucket = TempBucket.next;
+        }
+    }
 }
-
-getBio({name:'joi',age:12,grade:6})
-```
-
-交叉类型是两个类型的并集
-
-#### 条件类型
-
-条件类型指的是
-
-
-
-类型别名
-
-类型别名用来给一个类型起个新名字，常用于联合类型
-
-```typescript
-type Name = string;
-type NameResolver = () => string;
-type NameOrResolver = Name | NameResolver;
-function getName(n: NameOrResolver): Name {
-    if (typeof n === 'string') {
-        return n;
+//看当前属性是否存在
+Mymap.prototype.has = function(key){
+    var index = this.hash(key);
+    var TempBucket = this.tong[index];
+    while(TempBucket){
+        if(TempBucket.key == key){
+            return true;
+        }else{
+            TempBucket = TempBucket.next;
+        }
+    }
+    return false
+}
+//清空这个map
+Mymap.prototype.clear = function(){
+    this.init();
+}
+//使设置的属性平均分配到每个位置上，使得不会某个链条过长。
+Mymap.prototype.hash = function (key) {
+    var index = 0;
+    if (typeof key == "string") {
+        for (var i = 0; i < 3; i++) {
+            index = index + isNaN(key.charCodeAt(i)) ? 0 : key.charCodeAt(i);
+        }
+    }
+    else if (typeof key == 'object') {
+        index = 0;
+    }
+    else if (typeof key == 'number') {
+        index = isNaN(key) ? 7 : key;
     } else {
-        return n();
+        index = 1;
     }
-}
-```
-
-类型断言
-
-类型断言可以
-
-- 联合类型可以被断言为其中一个类型
-- 父类可以被断言为子类
-- 任何类型都可以被断言为 any
-- any 可以被断言为任何类型
-
-要使得 `A` 能够被断言为 `B`，只需要 `A` 兼容 `B` 或 `B` 兼容 `A` 即可
-
-类型推论
-
-如果定义的时候有赋值，typescript会自动推测出一个类型；
-
-如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 `any` 类型而完全不被类型检查;
-
-```typescript
-//定义时有赋值，自动推测出类型，之后赋值为别的类型会报错
-let myFavoriteNumber = 'seven';
-myFavoriteNumber = 7;
-
-// index.ts(2,1): error TS2322: Type 'number' is not assignable to type 'string'.
-//定义时无赋值，类型为any，不会报错
-let myFavoriteNumber;
-myFavoriteNumber = 'seven';
-myFavoriteNumber = 7;
-```
-
-
-
-### 泛型
-
-泛型（Generics）是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性。
-
-```typescript
-function createArray<T>(length: number, value: T): Array<T> {
-    let result: T[] = [];
-    for (let i = 0; i < length; i++) {
-        result[i] = value;
-    }
-    return result;
+ 
+    return index % 8;
 }
 
-createArray<string>(3, 'x'); // ['x', 'x', 'x']
-```
-
-在函数名后添加 `<T>`，其中 `T` 用来指代任意输入的类型，然后在后面的输入 `value: T` 和输出 `Array<T>` 中即可使用了。
-
-接着在调用的时候，可以指定它具体的类型为 `string`。或者也可以不手动指定，而让类型推论自动推算出来
-
-也可以指定泛型的默认类型，这样如果调用时没用指定类型，则使用默认类型
-
-```typescript
-//在function中指定默认类型，在调用时没有指定的话即为默认类型
-function createArray<T = string>(length: number, value: T): Array<T> {
-    let result: T[] = [];
-    for (let i = 0; i < length; i++) {
-        result[i] = value;
-    }
-    return result;
-}
-createArray(3, 'x'); // ['x', 'x', 'x']
-```
-
-定义泛型时，也可以一次定义多个泛型类型参数，
-
-```typescript
-function swap<T, U>(tuple: [T, U]): [U, T] {
-    return [tuple[1], tuple[0]];
-}
-
-swap([7, 'seven']); // ['seven', 7]
-```
-
-虽然泛型没有指定数据结构，但是可以通过接口规定泛型的属性和方法，传入参数时进行属性校验，在内部操作时也可以直接操作属性而不会出现没有属性或者方法报错的情况。此外参数之间也可以互相继承。
-
-```typescript
-interface Lengthwise {
-    length: number;
-}
-
-function loggingIdentity<T extends Lengthwise>(arg: T): T {
-    console.log(arg.length);
-    return arg;
-}
-```
-
-泛型接口与泛型类
-
-泛型还可以用于定义接口和类
-
-```typescript
-interface CreateArrayFunc<T> {
-    (length: number, value: T): Array<T>;
-}
-
-let createArray: CreateArrayFunc<any>;
-createArray = function<T>(length: number, value: T): Array<T> {
-    let result: T[] = [];
-    for (let i = 0; i < length; i++) {
-        result[i] = value;
-    }
-    return result;
-}
-
-createArray(3, 'x'); // ['x', 'x', 'x']
-
-class GenericNumber<T> {
-    zeroValue: T;
-    add: (x: T, y: T) => T;
-}
-
-let myGenericNumber = new GenericNumber<number>();
-myGenericNumber.zeroValue = 0;
-myGenericNumber.add = function(x, y) { return x + y; };
+var map = new Mymap();    //使用构造函数的方式实例化map
 ```
 
 
 
-### 新增基本类型
+### 新增模块化
 
-元组
+历史上，JavaScript 一直没有模块（module）体系，无法将一个大程序拆分成互相依赖的小文件，再用简单的方法拼装起来。其他语言都有这项功能，比如 Ruby 的`require`、Python 的`import`，甚至就连 CSS 有`@import`，但是 JavaScript 任何这方面的支持都没有，这对开发大型的、复杂的项目形成了巨大障碍。
 
-数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。
+在 ES6 之前，社区制定了一些模块加载方案，最主要的有 CommonJS 和 AMD 两种。前者用于服务器，后者用于浏览器。ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，完全可以取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。
 
+模块功能主要由两个命令构成：`export`和`import`。`export`命令用于规定模块的对外接口，`import`命令用于输入其他模块提供的功能。
 
+一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。如果你希望外部能够读取模块内部的某个变量，就必须使用`export`关键字输出该变量。
 
-枚举
+`export`命令除了输出变量，还可以输出函数或类（class）。
 
-枚举（Enum）类型用于取值被限定在一定范围内的场景，比如一周只能有七天，颜色限定为红绿蓝等。
+`export`语句输出的接口，与其对应的值是动态绑定关系，即通过该接口，可以取到模块内部实时的值。
 
-never
+`export`命令可以出现在模块的任何位置，只要处于模块顶层就可以。如果处于块级作用域内，就会报错，下一节的`import`命令也是如此。这是因为处于条件代码块之中，就没法做静态优化了，违背了 ES6 模块的设计初衷。
 
-never是typescript的底层类型，他常用于
+使用`export`命令定义了模块的对外接口以后，其他 JS 文件就可以通过`import`命令加载这个模块。
 
-1.不会有返回值的函数
+如果想为输入的变量重新取一个名字，`import`命令要使用`as`关键字，将输入的变量重命名。
 
-2.总是抛出错误的函数
+`import`命令输入的变量都是只读的，因为它的本质是输入接口。也就是说，不允许在加载模块的脚本里面，改写接口。
 
-#### never与void、any、unknown的区别：
+`import`后面的`from`指定模块文件的位置，可以是相对路径，也可以是绝对路径。如果不带有路径，只是一个模块名，那么必须有配置文件，告诉 JavaScript 引擎该模块的位置。
 
-任意未明确声明类型并切无法推导出类型的值都默认为any类型，any是检测弱，兼容性问题解决方案。
+`import`命令具有提升效果，会提升到整个模块的头部，首先执行。
 
-当一个函数返回空值时，它的返回值为 void 类型，但是，当一个函数永不返回时（或者总是抛出错误），它的返回值为 never 类型。
+`import`是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。如果多次重复执行同一句`import`语句，那么只会执行一次，而不会执行多次。
 
-void 类型可以被赋值（在 strictNullChecking 为 false 时），但是除了 never 本身以外，其他任何类型不能赋值给 never。
+除了指定加载某个输出值，还可以使用整体加载，即用星号（`*`）指定一个对象，所有输出值都加载在这个对象上面。
 
-unknown相对于any，任意类型都可以赋值给unknow，但是不可对其进行任何访问操作（仅仅为类型安全，any操作访问也安全）
+从前面的例子可以看出，使用`import`命令的时候，用户需要知道所要加载的变量名或函数名，否则无法加载。但是，用户肯定希望快速上手，未必愿意阅读文档，去了解模块有哪些属性和方法。
 
+为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到`export default`命令，为模块指定默认输出。
 
+上面代码是一个模块文件`export-default.js`，它的默认输出是一个函数。
 
-### 工具泛型
+`export default`命令用于指定模块的默认输出。显然，一个模块只能有一个默认输出，因此`export default`命令只能使用一次。所以，import命令后面才不用加大括号，因为只可能唯一对应`export default`命令。
 
-`keyof` 可以用来取得一个对象接口的所有 `key` 值.in 则可以遍历枚举类型
+其他模块加载该模块时，`import`命令可以为该匿名函数指定任意名字。
 
-```typescript
-interface Foo {
-  name: string;
-  age: number
-}
-type T = keyof Foo // -> "name" | "age"
+#### Js模块化方案对比
 
-type Keys = "a" | "b"
-type Obj =  {
-  [p in Keys]: any
-} // -> { a: any, b: any }
-```
+模块化这个话题在ES6之前不存在，因此也被诟病为早期Javascript开发全局污染和依赖管理混乱的源头
 
-`keyof` 产生联合类型, `in` 则可以遍历枚举类型, 所以他们经常一起使用
+`require`是运行时加载模块，`import`命令无法取代`require`的动态加载功能。
 
-#### partial
-
-Partial 作用是将传入的属性变为可选项.
-首先我们需要理解两个关键字 `keyof` 和 `in`, `keyof` 可以用来取得一个对象接口的所有 `key` 值.
-
-```typescript
-type Partial<T> = { [P in keyof T]?: T[P] };
-```
-
-#### required
-
-Required 的作用是将传入的属性变为必选项, 源码如下
-
-```typescript
-type Required<T> = { [P in keyof T]-?: T[P] };
-```
-
-#### readonly(只读)
-
-typescript类型系统允许在一个接口中使用readonly来标记属性，也就是只读的方式，不可预期的改变是很糟糕的。
-
-可以在接口、类中用此方法定义
-
-```typescript
-type Readonly<T> = { readonly [P in keyof T]: T[P] };
-```
-
-#### Mutable
-
-将 T 的所有属性的 readonly 移除,
-
-```typescript
-type Mutable<T> = {
-  -readonly [P in keyof T]: T[P]
-}
-```
-
-
-
-#### record
-
-将 K 中所有的属性的值转化为 T 类型
-
-```typescript
-type Record<K extends keyof any, T> = { [P in K]: T };
-```
-
-#### pick
-
-从 T 中取出 一系列 K 的属性
-
-```typescript
-type Pick<T, K extends keyof T> = { [P in K]: T[P] };
-```
-
-#### omit
-
-用之前的 Pick 和 Exclude 进行组合, 实现忽略对象某些属性功能, 
-
-```typescript
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
-
-// 使用
-type Foo = Omit<{name: string, age: number}, 'name'> // -> { age: number }
-```
-
-#### exclude
-
-Exclude 的作用是从 T 中找出 U 中没有的元素, 换种更加贴近语义的说法其实就是从T 中排除 U
-
-```typescript
-type T = Exclude<1 | 2, 1 | 3> // -> 2
-```
-
-#### extract
-
-Extract 的作用是提取出 T 包含在 U 中的元素, 换种更加贴近语义的说法就是从 T 中提取出 U
-
-```typescript
-type Extract<T, U> = T extends U ? T : never;
-```
-
-#### infer关键字与Returntype
-
-官方类型库中提供了ReturnType可以获取方法的返回类型，实例
-
-```typescript
-type stringPromiseReturnType = ReturnType<typeof stringPromise>;
-```
-
-Returntype的定义如下
-
-```typescript
-type ReturnType<T extends (...args:any) => any >= T extends(...args:any)=> infer R?R:any;
-```
-
-利用infer反解promise中的泛型
-
-```typescript 
-type PromiseType<T> = (args:any[]) => Promise<T>;
-type UnPromisify<T> = T extends PromiseType<infer U>? U:never
-```
-
-也可以解析函数入参的类型
-
-```typescript
-type VariadicFn<A extends 
-```
-
-
-
-```typescript
-type FunctionReturnType<T> = T extends (...args: any[]) => infer R ? R : T;
-
-type Foo = FunctionReturnType<() => void>;  // void
-type Bar = FunctionReturnType<(name: string) => string>; // string
-type Buz = FunctionReturnType<(name: string, other: string) => boolean>; // boolean
-```
-
-
-
-
-
-### 接口
-
-在面向对象语言中，接口（Interfaces）是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类（classes）去实现（implement）。
-
-接口中可以包含确定属性、可选属性、任意属性、只读属性四种属性
-
-确定属性是指变量由接口生成时，接口中的确定属性不能多，也不能少；
-
-可选属性在接口中规定后，在变量中可以写可以不写；
-
-任意属性是指在接口定义时允许变量自定义属性，这时要在接口中定义任意属性；任意属性的类型必须是确定属性和可选属性的母集，且一个接口只能使用一个任意属性，如果接口中有多个类型的属性，则可以在任意属性中使用联合类型：
-
-只读属性是指对象中的一些字段只能在创建的时候被赋值，那么可以用 `readonly` 定义只读属性。
-
-typescript使用接口（Interfaces）来定义对象的类型。接口是对行为的抽象，而具体如何行动需要由类（classes）去实现（implement）。
-
-```typescript
-interface Person {
-    name: string;
-    age: number;
-}
-
-let tom: Person = {
-    name: 'Tom',
-    age: 25
-};
-```
-
-上面的代码中，我们定义了一个接口 `Person`，接着定义了一个变量 `tom`，它的类型是 `Person`。这样，我们就约束了 `tom` 的形状必须和接口 `Person` 一致。
-
-一般情况下，定义的变量比接口少了一些属性是不允许的，多一些属性也是不允许的，会报错：
-
-```typescript
-let tom: Person = {
-    name: 'Tom'
-};
-// index.ts(6,5): error TS2322: Type '{ name: string; }' is not assignable to type 'Person'.
-let tom: Person = {
-    name: 'Tom',
-    age: 25,
-    gender: 'male'
-};
-// index.ts(9,5): error TS2322: Type '{ name: string; age: number; gender: string; }' is not assignable to type 'Person'.
-```
-
-可以设置可选属性、任意属性、只读属性。
-
-可选属性为接口定义而对象可以不引用，
-
-任意属性是接口不指定而对象可以添加，
-
-只读属性是接口定义后在对象第一次初始化时添加，其后不能更改。
-
-利用可选属性可以进行部分继承
-
-```typescript
-interface Person {
-    readonly id: number;
-    name: string;
-    age?: number;  // age为可选属性
-    [propName: string]: any;
-}
-
-let tom: Person = {
-    id: 89757,
-    name: 'Tom',
-    gender: 'male'
-};
-```
-
-接口除了定义变量，还可以在类中使用，用来实现类的共性接口
-
-
-
-接口可以继承接口，可以继承父接口的所有方法
-
-
-
-接口还可以继承类，
-
-#### 接口注意事项
-
-接口(interface)定义了“公共(public)”契约(Contract)，因此在接口(interface)上具有`protected`或`private`访问修饰符没有任何意义，更多的是实现细节
-
-使用read-only访问修饰符
-
-```typescript
-interface IModuleMenuItem {
-     readonly name : string;
-}
-
-class ModuleMenuItem implements IModuleMenuItem {
-    public readonly name : string;
-
-    constructor() {
-        name = "name";
-    }
-}
-```
-
-#### 接口和类的区别
-
-接口只规定类的形状，也就是类具有哪些属性和方法，不具体实现这些属性和方法
-
-实例
-
-```typescript
-interface ContentInterface{
-  //定义方法名称和返回类型
-  getContent():String;
-}
-//可以使用不同的方式实现
-class Article implements ContentInterface{
-   public function getContent():String{
-     return 'i am a article'
-   }
-}
-
-class Passage implements ContentInterface{
-   public function getContent():String{
-     return 'i am a passage'
-   }
-}
-
-class News implements ContentInterface{
-  //没有实现getContent方法会报错
-}
-
-let a = new Article();
-let p = new Passage();
-
-print(a)
-print(p)
-```
-
-### 类class
-
-TypeScript 除了实现了所有 ES6 中的类的功能以外，还添加了一些新的用法。
-
-类的相关概念
-
-- 类（Class）：定义了一件事物的抽象特点，包含它的属性和方法
-- 对象（Object）：类的实例，通过 `new` 生成
-- 面向对象（OOP）的三大特性：封装、继承、多态
-- 封装（Encapsulation）：将对数据的操作细节隐藏起来，只暴露对外的接口。外界调用端不需要（也不可能）知道细节，就能通过对外提供的接口来访问该对象，同时也保证了外界无法任意更改对象内部的数据
-- 继承（Inheritance）：子类继承父类，子类除了拥有父类的所有特性外，还有一些更具体的特性
-- 多态（Polymorphism）：由继承而产生了相关的不同的类，对同一个方法可以有不同的响应。比如 `Cat` 和 `Dog` 都继承自 `Animal`，但是分别实现了自己的 `eat` 方法。此时针对某一个实例，我们无需了解它是 `Cat` 还是 `Dog`，就可以直接调用 `eat` 方法，程序会自动判断出来应该如何执行 `eat`
-- 存取器（getter & setter）：用以改变属性的读取和赋值行为
-- 修饰符（Modifiers）：修饰符是一些关键字，用于限定成员或类型的性质。比如 `public` 表示公有属性或方法
-- 抽象类（Abstract Class）：抽象类是供其他类继承的基类，抽象类不允许被实例化。抽象类中的抽象方法必须在子类中被实现
-- 接口（Interfaces）：不同类之间公有的属性或方法，可以抽象成一个接口。接口可以被类实现（implements）。一个类只能继承自另一个类，但是可以实现多个接口
-
-类的属性和方法
-
-
-
-类的继承
-
-
-
-TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 `public`、`private` 和 `protected`。
-
-- `public` 修饰的属性或方法是公有的，可以在任何地方被访问到，默认所有的属性和方法都是 `public` 的
-- `private` 修饰的属性或方法是私有的，不能在声明它的类的外部访问，在子类中也是不允许访问的。该类不允许被继承或者实例化：
-- `protected` 修饰的属性或方法是受保护的，它和 `private` 类似，区别是它在子类中也是允许被访问的，且该类只允许被继承，不能被实例化
-
-`abstract` 用于定义抽象类和其中的抽象方法。抽象类是不允许被实例化的，抽象类中的抽象方法必须被子类实现：
-
-
-
-### 声明语句与声明文件、声明合并
-
-假如我们想使用第三方库 jQuery，一种常见的方式是在 html 中通过 `<script>` 标签引入 jQuery，然后就可以使用全局变量 `$` 或 `jQuery` 了。
-
-但是在 ts 中，编译器并不知道 `$` 或 `jQuery` 是什么东西[1](https://github.com/xcatliu/typescript-tutorial/tree/master/examples/declaration-files/01-jquery)：
-
-这时，我们需要使用 `declare var` 来定义它的类型
-
-通常我们会把声明语句放到一个单独的文件（`jQuery.d.ts`）中，这就是声明文件。声明文件必需以 `.d.ts` 为后缀。一般来说，ts 会解析项目中所有的 `*.ts` 文件，当然也包含以 `.d.ts` 结尾的文件。所以当我们将 `jQuery.d.ts` 放到项目中时，其他所有 `*.ts` 文件就都可以获得 `jQuery` 的类型定义了。
-
-假如仍然无法解析，那么可以检查下 `tsconfig.json` 中的 `files`、`include` 和 `exclude` 配置，确保其包含了 `jQuery.d.ts` 文件。
-
-TS可以在编译时自动生成.d.ts文件，只需要在tsconfig.json配置文件中开启即可
-
-```json
-{
-  "compilerOptions": {
-    "declaration": true
-  }
-}
-```
-
-一般只有三种情况需要手动定义声明文件：
-
-1.通过script标签引入第三方库
-
-2.使用的第三方npm包没有提供声明文件
-
-3.自己团队内比较优秀的js库或者插件，为了提升开发体验
-
-声明文件只是对类型的定义，不能赋值
-
-如果定义了同名的函数、类、接口，typescript会自动合并。接口的属性和方法都支持合并
-
-```typescript
-interface Alarm{
-  price: number;
-  alert(s:string):string;
-};
-interface Alarm{
-  weight: number;
-  alert(s:string,n:number):string;
-}
-//相当于
-interface Alarm{
-  price: number;
-  alert(s:string):string;
-  weight: number;
-  alert(s:string,n:number):string;
-}
-```
-
-合并时属性可以重复，但是不能有冲突，否则会报错。
-
-```typescript
-interface Alarm{
-  price: number;
-};
-interface Alarm{
-  price: number;//可以
-  weight: number;
-};
-interface Alarm{
-  price: string;//报错
-}
-```
-
-类的合并和接口的合并类似
-
-对于没有提供声明文件的npm包，可以创建一个types目录，来管理自己写的声明文件，同时在配置文件tsconfig.json中的paths和baseUrl配置
-
-```json
-{
-  "compilerOptions": {
-    "module": "commonjs",
-    "baseUrl": "./",
-    "paths": {"*":["types/*"]}
-  }
-}
-```
-
-npm包的声明文件主要有以下几种语法
-
-```typescript
-export const/let
-export namespace
-export default
-export = 
-```
-
-
-
-
-
-### 代码检查
-
-#### Es-lint
-
-安装es-lint
-
-```shell
-npm install --save-dev eslint
-```
-
-由于 ESLint 默认使用 [Espree](https://github.com/eslint/espree) 进行语法解析，无法识别 TypeScript 的一些语法，故我们需要安装 [`@typescript-eslint/parser`](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser)，替代掉默认的解析器，别忘了同时安装 `typescript`：
-
-```shell
-npm install --save-dev typescript @typescript-eslint/parser
-```
-
-接下来需要安装对应的插件 [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin) 它作为 eslint 默认规则的补充，提供了一些额外的适用于 ts 语法的规则。
-
-```shell
-npm install --save-dev @typescript-eslint/eslint-plugin
-```
-
-创建自己的规则
-
-ESLint 需要一个配置文件来决定对哪些规则进行检查，配置文件的名称一般是 `.eslintrc.js` 或 `.eslintrc.json`。
-
-当运行 ESLint 的时候检查一个文件的时候，它会首先尝试读取该文件的目录下的配置文件，然后再一级一级往上查找，将所找到的配置合并起来，作为当前被检查文件的配置。
+commonjs加载时，是整体加载如模块的所有方法，再生成对象，例如
 
 ```javascript
-module.exports = {
-    parser: '@typescript-eslint/parser',
-    plugins: ['@typescript-eslint'],
-    rules: {
-        // 禁止使用 var
-        'no-var': "error",
-        // 优先使用 interface 而不是 type
-        '@typescript-eslint/consistent-type-definitions': [
-            "error",
-            "interface"
-        ]
-    }
-}
+// CommonJS模块
+let { stat, exists, readfile } = require('fs');
+
+// 等同于
+let _fs = require('fs');
+let stat = _fs.stat;
+let exists = _fs.exists;
+let readfile = _fs.readfile;
 ```
 
-执行检查
+上面代码的实质是整体加载`fs`模块（即加载`fs`的所有方法），生成一个对象（`_fs`），然后再从这个对象上面读取 3 个方法。这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。
 
-我们的项目源文件一般是放在 `src` 目录下，所以需要将 `package.json` 中的 `eslint` 脚本改为对一个目录进行检查。由于 `eslint` 默认不会检查 `.ts` 后缀的文件，所以需要加上参数 `--ext .ts`：
+上面代码的实质是从`fs`模块加载 3 个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。当然，这也导致了没法引用 ES6 模块本身，因为它不是对象。
+
+由于 ES6 模块是编译时加载，使得静态分析成为可能。有了它，就能进一步拓宽 JavaScript 的语法，比如引入宏（macro）和类型检验（type system）这些只能靠静态分析实现的功能。
+
+commonjs
+
+弥补JavaScript在服务器端缺少模块化机制，NodeJS、webpack都是基于该规范开发
+
+**特点**：
+
+ 所有代码都运行在独立的模块作用域，不会污染全局作用域
+
+模块可以多次加载，但是只会在第一次加载时运行，然后运行结果就会被缓存，以后再加载就读取缓存结果，要想让模块再次运行就必须清除缓存
+
+模块加载的顺序按照在代码中出现的顺序
+
+**优点**：服务器端模块重用，NPM中模块包多，有将近20万个。
+
+**缺点：**
+
+无法在编译阶段确认产物，且可以在代码中随意使用require，比如全局、函数、if/else条件语句中等等
+
+加载模块是同步的，只有加载完成后才能执行后面的操作，也就是当要用到该模块了，现加载现用，不仅加载速度慢，而且还会导致性能、可用性、调试和跨域访问等问题。Node.js主要用于服务器编程，加载的模块文件一般都存在本地硬盘，加载起来比较快，不用考虑异步加载的方式，因此,CommonJS规范比较适用。然而，这并不适合在浏览器环境，同步意味着阻塞加载，浏览器资源是异步加载的，因此有了AMD CMD解决方案。
+
+此外，ES6 模块输出的是值的引用，输出接口动态绑定，而 CommonJS 输出的是值的拷贝
+
+AMD与requirejs
+
+commonJS规范很好，但是不适用于浏览器环境，于是有了AMD和CMD两种方案。AMD全称Asynchronous Module Definition，即异步模块定义。它采用异步方式加载模块，
 
 ```javascript
-{
-    "scripts": {
-        "eslint": "eslint src --ext .ts"
-    }
+define("module", ["dep1", "dep2"], function(d1, d2) {
+  return someExportedValue;
+});
+require(["module", "../file"], function(module, file) { /* ... */ });
+```
+
+AMD草案的作者以RequireJS实现了AMD规范，所以一般说AMD是RequireJS
+
+CMD
+
+CMD全称Common Module Definition，是Sea.js所推广的一个模块化方案的输出。SeaJS与RequireJS并称，作者为阿里的玉伯
+
+与AMD的主要区别：
+1.对于依赖的模块，AMD是提前执行，CMD是延迟执行。不过RequereJS从2.0开始也改成可以延迟执行，CMD推崇as lazy as possible。延迟执行的意思是只有到require时依赖模块才执行
+
+2.CMD推崇依赖就近，AMD推崇依赖前置
+
+Common Module Definition 规范和 AMD 很相似，尽量保持简单，并与 CommonJS 和 Node.js 的 Modules 规范保持了很大的兼容性。
+
+```javascript
+
+define(function(require, exports, module) {
+  var $ = require('jquery');
+  var Spinning = require('./spinning');
+  exports.doSomething = ...
+  module.exports = ...
+})
+```
+
+UMD，全称Universal Module Definition，即通用模块规范，既然CommonJS和AMD风格一样流行，就需要一个统一浏览器端和非浏览器端的模块化方案的规范
+
+UMD的实现很简单：
+
+先判断是否支持AMD(define是否存在)，存在则使用AMD方式加载模块
+
+再判断是否支持Nodejs模块格式(exports是否存在)，存在则使用Nodejs模块格式
+
+前两个都不存在，则将模块公开到全局(window或者global)
+
+ES6 Modules
+
+以上这些都是社区提供的方案，历史上Javascript一直没有模块化系统，直到ES6在语言标准的层面实现了它。
+
+CommonJS和AMD模块都只能在运行时确定模块的依赖关系，以及输入输出的变量，而ES6的设计思想是尽可能静态化，在编译时就能确定这些东西。
+
+**总结**
+
+AMD依赖前置，提前执行，语法是define，require
+
+CMD依赖就近，延迟执行，语法是define，seajs。use 。延迟执行的意思是只有到require时依赖模块才执行
+
+Commonjs首次执行会被缓存，再次加载只返回缓存结果，require返回的值时输出值的拷贝，对于引用类型是浅拷贝
+
+#### 循环加载
+
+“循环加载”（circular dependency）指的是，`a`脚本的执行依赖`b`脚本，而`b`脚本的执行又依赖`a`脚本。
+
+```javascript
+// a.js
+var b = require('b');
+
+// b.js
+var a = require('a');
+```
+
+通常，“循环加载”表示存在强耦合，如果处理不好，还可能导致递归加载，使得程序无法执行，因此应该避免出现。
+
+但是实际上，这是很难避免的，尤其是依赖关系复杂的大项目，很容易出现`a`依赖`b`，`b`依赖`c`，`c`又依赖`a`这样的情况。这意味着，模块加载机制必须考虑“循环加载”的情况。
+
+在commonjs中，循转引用会只输出循环引用之前执行的部分，不能代表整个代码的执行逻辑，
+
+```javascript
+// a.js
+exports.done = false;
+var b = require('./b.js');
+console.log('在 a.js 之中，b.done = %j', b.done);
+exports.done = true;
+console.log('a.js 执行完毕');
+
+// b.js
+exports.done = false;
+var a = require('./a.js');
+console.log('在 b.js 之中，a.done = %j', a.done);
+exports.done = true;
+console.log('b.js 执行完毕');
+
+// main.js
+var a = require('./a.js');
+var b = require('./b.js');
+console.log('在 main.js 之中, a.done=%j, b.done=%j', a.done, b.done);
+
+// 在 b.js 之中，a.done = false
+// b.js 执行完毕
+// 在 a.js 之中，b.done = true
+// a.js 执行完毕
+// 在 main.js 之中, a.done=true, b.done=true
+```
+
+总之，CommonJS 输入的是被输出值的拷贝，不是引用。由于 CommonJS 模块遇到循环加载时，返回的是当前已经执行的部分的值，而不是代码全部执行后的值，两者可能会有差异。所以，输入变量的时候，必须非常小心。
+
+ES6 处理“循环加载”与 CommonJS 有本质的不同。ES6 模块是动态引用，如果使用`import`从一个模块加载变量（即`import foo from 'foo'`），那些变量不会被缓存，而是成为一个指向被加载模块的引用，需要开发者自己保证，真正取值的时候能够取到值。
+
+```javascript
+// a.mjs
+import {bar} from './b';
+console.log('a.mjs');
+console.log(bar);
+export let foo = 'foo';
+
+// b.mjs
+import {foo} from './a';
+console.log('b.mjs');
+console.log(foo);
+export let bar = 'bar';
+
+//执行a.mjs以后会报错，foo变量未定义
+```
+
+ES6 循环加载的处理方式：首先，执行`a.mjs`以后，引擎发现它加载了`b.mjs`，因此会优先执行`b.mjs`，然后再执行`a.mjs`。接着，执行`b.mjs`的时候，已知它从`a.mjs`输入了`foo`接口，这时不会去执行`a.mjs`，而是认为这个接口已经存在了，继续往下执行。执行到第三行`console.log(foo)`的时候，才发现这个接口根本没定义，因此报错。
+
+解决这个问题的方法，就是让`b.mjs`运行的时候，`foo`已经有定义了。这可以通过将`foo`写成函数来解决。
+
+```javascript
+// a.mjs
+import {bar} from './b';
+console.log('a.mjs');
+console.log(bar());
+function foo() { return 'foo' }
+export {foo};
+
+// b.mjs
+import {foo} from './a';
+console.log('b.mjs');
+console.log(foo());
+function bar() { return 'bar' }
+export {bar};
+```
+
+因为函数具有提升作用，在执行`import {bar} from './b'`时，函数`foo`就已经有定义了，所以`b.mjs`加载的时候不会报错。这也意味着，如果把函数`foo`改写成函数表达式，也会报错。
+
+### 遍历器Iterator
+
+JavaScript 原有的表示“集合”的数据结构，主要是数组（`Array`）和对象（`Object`），ES6 又添加了`Map`和`Set`。这样就有了四种数据集合，用户还可以组合使用它们，定义自己的数据结构，比如数组的成员是`Map`，`Map`的成员是对象。这样就需要一种统一的接口机制，来处理所有不同的数据结构。
+
+遍历器（Iterator）就是这样一种机制。它是一种接口，为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署 Iterator 接口，就可以完成遍历操作（即依次处理该数据结构的所有成员）。
+
+Iterator 的遍历过程是这样的。
+
+（1）创建一个指针对象，指向当前数据结构的起始位置。也就是说，遍历器对象本质上，就是一个指针对象。
+
+（2）第一次调用指针对象的`next`方法，可以将指针指向数据结构的第一个成员。
+
+（3）第二次调用指针对象的`next`方法，指针就指向数据结构的第二个成员。
+
+（4）不断调用指针对象的`next`方法，直到它指向数据结构的结束位置。
+
+#### for...of
+
+ES6 借鉴 C++、Java、C# 和 Python 语言，引入了`for...of`循环，作为遍历所有数据结构的统一的方法。
+
+一个数据结构只要部署了`Symbol.iterator`属性，就被视为具有 iterator 接口，就可以用`for...of`循环遍历它的成员。也就是说，`for...of`循环内部调用的是数据结构的`Symbol.iterator`方法。
+
+`for...of`循环可以使用的范围包括数组、Set 和 Map 结构、某些类似数组的对象（比如`arguments`对象、DOM NodeList 对象）、后文的 Generator 对象，以及字符串。
+
+JavaScript 原有的`for...in`循环，只能获得对象的键名，不能直接获取键值。ES6 提供`for...of`循环，允许遍历获得键值。
+
+对于普通的对象，`for...of`结构不能直接使用，会报错，必须部署了 Iterator 接口后才能使用。但是，这样情况下，`for...in`循环依然可以用来遍历键名。
+
+```javascript
+for (let e in es6) {
+  console.log(e);
+}
+// edition
+// committee
+// standard
+
+for (let e of es6) {
+  console.log(e);
+}
+// TypeError: es6[Symbol.iterator] is not a function
+
+var arr = ['a', 'b', 'c', 'd'];
+
+for (let a in arr) {
+  console.log(a); // 0 1 2 3
+}
+
+for (let a of arr) {
+  console.log(a); // a b c d
 }
 ```
 
-此时执行 `npm run eslint` 即会检查 `src` 目录下的所有 `.ts` 后缀的文件。
+`for...in`循环有几个缺点。
 
-在 VSCode 中集成 ESLint 检查[§](https://ts.xcatliu.com/engineering/lint.html#在-vscode-中集成-eslint-检查)
+- 数组的键名是数字，但是`for...in`循环是以字符串作为键名“0”、“1”、“2”等等。
+- `for...in`循环不仅遍历数字键名，还会遍历手动添加的其他键，甚至包括原型链上的键。
+- 某些情况下，`for...in`循环会以任意顺序遍历键名。
 
-在编辑器中集成 ESLint 检查，可以在开发过程中就发现错误，甚至可以在保存时自动修复错误，极大的增加了开发效率。
+总之，`for...in`循环主要是为遍历对象而设计的，不适用于遍历数组。
 
-要在 VSCode 中集成 ESLint 检查，我们需要先安装 ESLint 插件，点击「扩展」按钮，搜索 ESLint，然后安装即可。
+`for...of`循环相比上面几种做法，有一些显著的优点。
 
-VSCode 中的 ESLint 插件默认是不会检查 `.ts` 后缀的，需要在「文件 => 首选项 => 设置 => 工作区」中（也可以在项目根目录下创建一个配置文件 `.vscode/settings.json`），添加以下配置：
+- 有着同`for...in`一样的简洁语法，但是没有`for...in`那些缺点。
+- 不同于`forEach`方法，它可以与`break`、`continue`和`return`配合使用。
+- 提供了遍历所有数据结构的统一操作接口。
 
-```json
-{
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        "typescript"
-    ],
-    "typescript.tsdk": "node_modules/typescript/lib"
-}
-```
+### 装饰器
 
-此时打开ts文件，在错误处就会有提示
+装饰器不能用于函数，因为会存在函数提升
 
-#### Prettier 
 
-ESLint 包含了一些代码格式的检查，比如空格、分号等。但前端社区中有一个更先进的工具可以用来格式化代码，那就是 [Prettier](https://prettier.io/)。
 
-Prettier 聚焦于代码的格式化，通过语法分析，重新整理代码的格式，让所有人的代码都保持同样的风格。
+### Reflect
 
-安装Prettier
+`Reflect`对象与`Proxy`对象一样，也是 ES6 为了操作对象而提供的新 API。`Reflect`对象的设计目的有这样几个。
 
-```shell
-npm install --save-dev prettier
-```
+将`Object`对象的一些明显属于语言内部的方法（比如`Object.defineProperty`），放到`Reflect`对象上。现阶段，某些方法同时在`Object`和`Reflect`对象上部署，未来的新方法将只部署在`Reflect`对象上。也就是说，从`Reflect`对象上可以拿到语言内部的方法。
 
-然后创建一个 `prettier.config.js` 文件，里面包含 Prettier 的配置项。Prettier 的配置项很少，这里我推荐大家一个配置规则，作为参考：
+修改某些`Object`方法的返回结果，让其变得更合理。比如，`Object.defineProperty(obj, name, desc)`在无法定义属性时，会抛出一个错误，而`Reflect.defineProperty(obj, name, desc)`则会返回`false`。
+
+让`Object`操作都变成函数行为。某些`Object`操作是命令式，比如`name in obj`和`delete obj[name]`，而`Reflect.has(obj, name)`和`Reflect.deleteProperty(obj, name)`让它们变成了函数行为。
+
+`Reflect`对象的方法与`Proxy`对象的方法一一对应，只要是`Proxy`对象的方法，就能在`Reflect`对象上找到对应的方法。这就让`Proxy`对象可以方便地调用对应的`Reflect`方法，完成默认行为，作为修改行为的基础。也就是说，不管`Proxy`怎么修改默认行为，你总可以在`Reflect`上获取默认行为。
+
+`Reflect`对象一共有 13 个静态方法。
+
+`Reflect.get`方法查找并返回`target`对象的`name`属性，如果没有该属性，则返回`undefined`。
+
+`Reflect.set`方法设置`target`对象的`name`属性等于`value`。
+
+`Reflect.has`方法对应`name in obj`里面的`in`运算符。
+
+`Reflect.deleteProperty`方法等同于`delete obj[name]`，用于删除对象的属性。
+
+`Reflect.construct`方法等同于`new target(...args)`，这提供了一种不使用`new`，来调用构造函数的方法。
+
+`Reflect.getPrototypeOf`方法用于读取对象的`__proto__`属性，对应`Object.getPrototypeOf(obj)`。
+`Reflect.setPrototypeOf`方法用于设置目标对象的原型（prototype），对应`Object.setPrototypeOf(obj, newProto)`方法。它返回一个布尔值，表示是否设置成功。
+
+`Reflect.apply`方法等同于`Function.prototype.apply.call(func, thisArg, args)`，用于绑定`this`对象后执行给定函数。
+
+
+
+### 对象扩展
+
+#### Object对象的扩展
+
+`Object.assign()`方法用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象（target）
+
+`Object.assign()`方法实行的是浅拷贝，而不是深拷贝。也就是说，如果源对象某个属性的值是对象，那么目标对象拷贝得到的是这个对象的引用。
+
+super关键字
+
+`this`关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字`super`，指向当前对象的原型对象。
+
+
+
+#### math对象的扩展
+
+
+
+#### Number对象的扩展
+
+
+
+#### 数组对象的扩展
+
+`Array.from`方法用于将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括 ES6 新增的数据结构 Set 和 Map）。
+
+`Array.of`方法用于将一组值，转换为数组。
+
+数组实例的`find`方法，用于找出第一个符合条件的数组成员。它的参数是一个回调函数，所有数组成员依次执行该回调函数，直到找出第一个返回值为`true`的成员，然后返回该成员。如果没有符合条件的成员，则返回`undefined`。
+
+数组实例的`findIndex`方法的用法与`find`方法非常类似，返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回`-1`。
+
+`fill`方法使用给定值，填充一个数组。
+
+`Array.prototype.includes`方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的`includes`方法类似。
+
+`Array.prototype.flat()`用于将嵌套的数组“拉平”，变成一维的数组。该方法返回一个新数组，对原数据没有影响。数组的成员有时还是数组。`flat()`默认只会“拉平”一层，如果想要“拉平”多层的嵌套数组，可以将`flat()`方法的参数写成一个整数，表示想要拉平的层数，默认为1。
+
+如果不管有多少层嵌套，都要转成一维数组，可以用`Infinity`关键字作为参数。
+
+如果原数组有空位，`flat()`方法会去掉空位。
+
+`flatMap()`方法对原数组的每个成员执行一个函数（相当于执行`Array.prototype.map()`），然后对返回值组成的数组执行`flat()`方法。该方法返回一个新数组，不改变原数组。
+
+
+
+#### 字符串对象的扩展
+
+`String.raw()`方法。该方法返回一个斜杠都被转义（即斜杠前面再加一个斜杠）的字符串，往往用于模板字符串的处理方法。
+
+`String.includes()`：返回布尔值，表示是否找到了参数字符串。
+
+`String.startsWith()`：返回布尔值，表示参数字符串是否在原字符串的头部。
+
+`String.endsWith()`：返回布尔值，表示参数字符串是否在原字符串的尾部。
+
+`String.repeat()`方法返回一个新字符串，表示将原字符串重复`n`次。
+
+如果某个字符串不够指定长度，会在头部或尾部补全。`padStart()`用于头部补全，`padEnd()`用于尾部补全。
+
+`trimStart()`和`trimEnd()`这两个方法。它们的行为与`trim()`一致，`trimStart()`消除字符串头部的空格，`trimEnd()`消除尾部的空格。它们返回的都是新字符串，不会修改原始字符串。
+
+#### 函数对象扩展
+
+ES6允许使用箭头定义函数
+
+箭头函数的存在是为了方便在很多地方执行小函数的情况。比如foreach、settimeout等，这种情况下我们并不想离开当前上下文，这时就使用箭头函数。
 
 ```js
-// prettier.config.js or .prettierrc.js
-module.exports = {
-    printWidth: 100,  		   // 一行最多 100 字符
-    tabWidth: 4,      			 // 使用 4 个空格缩进
-    useTabs: false,  				 // 不使用缩进符，而使用空格
-    semi: true,      			   // 行尾需要有分号
-    singleQuote: true,			 // 使用单引号
-    quoteProps: 'as-needed', // 对象的 key 仅在必要时用引号
-    jsxSingleQuote: false,   // jsx 不使用单引号，而使用双引号
-    trailingComma: 'none',   // 末尾不需要逗号
-    bracketSpacing: true,    // 大括号内的首尾需要空格
-    jsxBracketSameLine: false,// jsx 标签的反尖括号需要换行
-    arrowParens: 'always',   // 箭头函数，只有一个参数的时候，也需要括号
-    rangeStart: 0,           // 每个文件格式化的范围是文件的全部内容
-    rangeEnd: Infinity,
-    requirePragma: false,    // 不需要写文件开头的 @prettier
-    insertPragma: false,     // 不需要自动在文件开头插入 @prettier
-    proseWrap: 'preserve',   // 使用默认的折行标准
-    htmlWhitespaceSensitivity: 'css',// 根据显示样式决定 html 要不要折行
-    endOfLine: 'lf'          // 换行符使用 lf
+// 箭头函数,包含一个name参数
+let fun = (name) => {
+    // 函数体
+    return `Hello ${name} !`;
+};
+// 等同于
+let fun = function (name) {
+    // 函数体
+    return `Hello ${name} !`;
 };
 ```
 
-#### Es-lint支持tsx
+没有参数时使用空括号，有多个参数时用逗号隔开
 
-如果需要同时支持对 tsx 文件的检查，则需要对以上步骤做一些调整：
+箭头函数没有this、`arguments`、`super`、`new.target`，全部指向外层函数的对应变量，所以也就不能用`call()`、`apply()`、`bind()`这些方法去改变`this`的指向。
 
-安装 eslint-plugin-react
+不可以当作构造函数，也就是说，不可以使用`new`命令，否则会抛出一个错误。
 
-```shell
-npm install --save-dev eslint-plugin-react
-```
+（3）不可以使用`arguments`对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。
 
-在package.json和vscode的插件中添加配置
+（4）不可以使用`yield`命令，因此箭头函数不能用作 Generator 函数。
 
-```json
-{
-    "scripts": {
-        "eslint": "eslint src --ext .ts,.tsx"
-    }
+ES6 引入 rest 参数（形式为`...变量名`），用于获取函数的多余参数，
+
+##### 箭头函数与普通函数的区别
+
+1.语法更加简洁清晰
+
+2.箭头函数不会创建自己的this。箭头函数没有自己的`this`，它会捕获自己在**定义时**（注意，是定义时，不是调用时）所处的**外层执行环境的`this`**，并继承这个`this`值。所以，箭头函数中`this`的指向在它被定义的时候就已经确定了，之后永远不会改变。.call()/.apply()/.bind()也无法改变箭头函数中this的指向
+
+3.箭头函数没有原型prototype，没有自己的arguments，在箭头函数中访问`arguments`实际上获得的是外层局部（函数）执行环境中的值。
+
+实例
+
+```js
+function outer(val1, val2) {
+    let argOut = arguments;
+    console.log(argOut);    // ①
+    let fun = () => {
+        let argIn = arguments;
+        console.log(argIn);     // ②
+        console.log(argOut === argIn);  // ③
+    };
+    fun();
 }
+outer(111, 222);
+//1、2处的输出相同，为111，222，3处输出为true
 ```
+
+4.箭头函数不能作为构造函数使用，不能用作Generator函数，不能使用yeild关键字、new关键字
+
+箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
+
+##### 箭头函数vsbind
+
+箭头函数没有创建任何绑定，箭头函数只是没有this，this的查找与常规变量的搜索方式完全相同：在外部词法环境中查找
+
+。bind创建了一个函数参数的绑定版本
+
+##### 尾调用与尾递归(非常重要)
+
+尾调用时函数式编程的一个重要概念，本身非常简单，就是某个函数在最后一步调用另一个函数
 
 ```javascript
+
+```
+
+函数调用时会在内存中形成一个调用记录，又称调用帧，保存调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用帧上方还会形成一个B的调用帧，等到B运行结束之后，将结果返回到A，B的调用帧才会消失。如果函数B内部还调用函数C，那就还有一个C的调用帧，以此类推，所有的调用帧就形成一个调用栈
+
+尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用帧，因为调用位置、内部变量信息等不会被再用到，只有直接用内层函数的调用帧，取代外层函数的调用帧就可以
+
+这个就叫做尾调用优化，只保留内层函数的调用帧。如果所有的函数都是尾调用，那么完全可以做到每次调用时调用帧只有一项，这将大大节省内存，这就是尾调用的意义
+
+函数调用自身的过程，称为递归。递归非常耗费内存，因为需要同时保存成千上百个调用帧，很容易发生栈溢出错误。但是对于尾递归来说，由于只存在一个调用帧，所以永远也不会发生栈溢出错误。
+
+比如常见的斐波那契数列的非尾递归写法
+
+```javascript
+function Fibonacci(n) {
+  if (n<=1) {
+    return n
+  }
+  return Fibonacci(n-1) + Fibonacci(n-2)
+}
+
+Fibonacci(10) //89
+Fibonacci(100) // 超时
+Fibonacci(1000) // 超时
+```
+
+尾递归优化之后的代码
+
+```javascript
+function Fibonacci2(n,ac=1,ac2=1) {
+  if (n<=1) {
+    return ac2
+  }
+  return Fibonacci(n-1,ac2,ac1+ac2)
+}
+Fibonacci2(100) //89
+Fibonacci2(1000) //89
+Fibonacci2(10000) //infinite
+```
+
+尾调用的意义非常重大，因此ES6规定所有ECMA的实现都必须采用尾调用优化
+
+递归本质上是一种循环操作，但是纯粹的函数式编程没有循环操作命令，所有的循环都通过递归实现，这就是尾递归对这些语言的重要意义
+
+尾递归调用要注意的问题
+
+尾递归调用不能使用函数中的其他变量，因此写的时候要注意写法
+
+通常是在另一个函数中调用递归函数，这样去实现避免中间变量
+
+```javascript
+//阶乘函数，用普通递归函数实现
+function factorial(n) {
+  if (n == 1){
+    return 1
+  }
+  return n * factorial(n-1);
+}
+
+factorial(5)
+//用尾调用实现
+function factorial(n,total) {
+  if(n == 1) return total;
+  return factorial(n-1,n*total);
+}
+
+factorial(5,1)
+//用嵌套尾调用实现，参数更简单
+function tailFactorial(n,total) {
+  if(n == 1) return total;
+  return tailFactorial(n-1,n*total);
+}
+
+function factorial(n) {
+  return tailFactorial(n,1);
+}
+factorial(5)
+```
+
+也可以用函数科里化实现
+
+#### 解构赋值与扩展运算符
+
+ES6允许按照一定模式从对象和数组中提取值，对变量进行赋值，称为解构
+
+数组解构
+
+```javascript
+// 解构不成功时为undefined
+let [a,b,c] = [1,2,3] //a:1,b:2,c:3
+let [,,third] = ["foo","bar","baz"] //third: baz
+let [x,,y] = [1,2,3] //x:1,y:3
+let [head,...tail] = [1,2,3,4] //head:1,tail:[2,3,4]
+let [x,y,...z] = ['a'] //x:'a',y:undefined,z:[]
+
+// 不完全解构
+let [x,y] = [1,2,3] //x:1,y:2
+let [a,[b],d] = [1,[2,3],4] //a:1,b:2,d:4
+
+```
+
+对象解构
+
+```javascript
+//对象与数组的不同是，数组的元素是按次序排列的，变量的取值由位置决定，而对象的属性没有次序，必须同名才能取到正确的值
+let { foo, bar } = {foo:'aaa',bar:'bbb'}; //foo “aaa”，bar “bbb”
+let { baz } = {foo:'aaa',bar:'bbb'} // undefined
+
+//将现有对象的方法赋值到某个变量上去
+let { log,sin,cos } = Math;
+
+// 先找同名的属性值，再赋给对应的变量，所以真正被赋值的是后者而不是前者
+let { foo:baz } = {foo:'aaa',bar:'bbb'}, //baz:'aaa',foo:error,not defined
+
+//嵌套解构
+let obj = {
+  p: ['hello',{y: 'world'}]
+}
+let {p:[x,{y}]} = obj; //x：hello y：world p：undefined
+let {p,p:[x,{y}]} = obj; // x：helle y：world p “helle ，y world
+```
+
+字符串解构
+
+```javascript
+const [a,b,c,d,e] = 'hello',
+```
+
+数值和布尔值的解构赋值
+
+```javascript
+let {toString: s} = 123;
+
+let {toString: s} = true;
+```
+
+函数参数的解构赋值
+
+```javascript
+function add([x,y]){
+  return x+y
+}
+add([1,2])
+
+[[1,2],[3,4]].map(([a,b])=> a + b) //[3,7]
+```
+
+解构赋值的应用
+
+1.变量交换
+
+```javascript
+let x=1;let y=2;
+[x,y] = [y,x]
+```
+
+2.从函数返回多个值
+
+```javascript
+function example(){
+  return {
+    foo: 1,
+    bar: 2
+  }
+}
+let { foo,bar } = example();
+```
+
+3.函数参数定义
+
+```javascript
+//
+function f({x,y,z}) {...}
+f({z:3,y:2,x:1})
+// 
+function f([x,y,z]) {...}
+f([1,2,3])
+```
+
+4.提取JSON数据
+
+```javascript
+let jsonData = {
+  id:42;
+  status: "OK",
+  data: [867, 5309]
+}
+
+let { id,status, data:number} = jsonData //id,status,number
+```
+
+5.输入模块的指定方法。解构赋值能使输入语句变得十分清晰
+
+```javascript
+const { SourceMapConsumer, SourceNode } = require("source-map")
+```
+
+其他：函数参数默认值、遍历Map结构
+
+解构赋值和扩展运算符都是浅拷贝
+
+扩展运算符使用object
+
+扩展运算符（spread）是三个点（`...`）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
+
+ 该运算符主要用于函数调用时使用，用于将数组的每个元素转化为逐个参数。
+
+扩展运算符与正常的函数参数可以结合使用，非常灵活。
+
+
+
+### 模版字符串
+
+传统的 JavaScript 语言，输出模板使用jquery通常是这样写的
+
+```javascript
+$('#result').append(
+  'There are <b>' + basket.count + '</b> ' +
+  'items in your basket, ' +
+  '<em>' + basket.onSale +
+  '</em> are on sale!'
+);
+```
+
+ES6引入了模板字符串简化了写法
+
+```javascript
+$('#result').append(`
+  There are <b>${basket.count}</b> items
+   in your basket, <em>${basket.onSale}</em>
+  are on sale!
+`);
+```
+
+### ES6与ES5转码
+
+[Babel](https://babeljs.io/) 是一个广泛使用的 ES6 转码器，可以将 ES6 代码转为 ES5 代码，从而在老版本的浏览器执行。这意味着，你可以用 ES6 的方式编写程序，又不用担心现有环境是否支持。
+
+安装Babel
+
+```shell
+npm install --save-dev @babel/core
+```
+
+配置文件babelrc
+
+Babel 的配置文件是`.babelrc`，存放在项目的根目录下。使用 Babel 的第一步，就是配置这个文件。
+
+该文件用来设置转码规则和插件，基本格式如下。
+
+```babelrc
 {
-    "files.eol": "\n",
-    "editor.tabSize": 4,
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "eslint.autoFixOnSave": true,
-    "eslint.validate": [
-        "javascript",
-        "javascriptreact",
-        {
-            "language": "typescript",
-            "autoFix": true
-        },
-        {
-            "language": "typescriptreact",
-            "autoFix": true
-        }
+  "presets": [],
+  "plugins": []
+}
+```
+
+`presets`字段设定转码规则，官方提供以下的规则集，你可以根据需要安装。
+
+```shell
+# 最新转码规则
+$ npm install --save-dev @babel/preset-env
+
+# react 转码规则
+$ npm install --save-dev @babel/preset-react
+```
+
+然后，将这些规则加入`.babelrc`。
+
+```
+{
+    "presets": [
+      "@babel/env",
+      "@babel/preset-react"
     ],
-    "typescript.tsdk": "node_modules/typescript/lib"
-}
-```
-
-#### style-lint
-
-
-
-
-
-
-
-### 对Node的支持
-
-想用typescript写nodejs，需要引入第三方声明文件
-
-```shell
-npm install @type/node --save
-```
-
-https://ts.xcatliu.com/basics/type-of-function.html
-
-
-
-### ts简单辨析
-
-#### type与interface的区别
-
-type与interface都用于描述一个对象或函数
-
-一般来说，如果不清楚什么时候用interface/type，能用 interface 实现，就用 interface , 如果不能就用 type 。
-
-相同点：
-
-拓展与交叉
-
-interface 可以 extends， 但 type 是不允许 extends 和 implement 的，但是 type 可以通过交叉类型 实现 interface 的 extend 行为，并且两者并不是相互独立的，也就是说 interface 可以 extends type, type 也可以 与 interface 类型交叉 。
-
-```typescript
-//interface使用extends继承，type可以通过交叉类型继承
-interface Name { 
-  name: string; 
-}
-interface User extends Name { 
-  age: number; 
-}
-
-type Name = { 
-  name: string; 
-}
-type User = Name & { age: number  };
-//interface与type混合extends与交叉
-type Name = { 
-  name: string; 
-}
-interface User extends Name { 
-  age: number; 
-}
-
-interface Name { 
-  name: string; 
-}
-type User = Name & { 
-  age: number; 
-}
-```
-
-不同点：
-
-interface可以声明合并，type不行
-
-```typescript
-interface User {
-  name: string
-  age: number
-}
-
-interface User {
-  sex: string
-}
-
-/*
-User 接口为 {
-  name: string
-  age: number
-  sex: string 
-}
-*/
-```
-
-type可以声明基本类型别名，联合类型，元组等类型，还可以使用 typeof 获取实例的类型进行赋值，interface不行
-
-```typescript
-// 基本类型别名
-type Name = string
-
-// 联合类型
-interface Dog {
-    wong();
-}
-interface Cat {
-    miao();
-}
-
-type Pet = Dog | Cat
-
-// 具体定义数组每个位置的类型
-type PetList = [Dog, Pet]
-
-// 获取类型进行赋值
-let div = document.createElement('div');
-type B = typeof div
-
-
-```
-
-
-
-### npm run tsc
-
-
-
-### WebAssembly-AssemblyScript
-
-AssemblyScript定义了一个TypeScript的子集，意在帮助TS背景的同学，通过标准的JavaScript API来完成到wasm的编译，从而消除语言的差异，让程序猿可以快乐的编码。
-
-AssemblyScript项目主要分为三个子项目：
-
-- [AssemblyScript](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fassemblyscript)：将TypeScript转化为wasm的主程序
-- [binaryen.js](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fbinaryen.js)：AssemblyScript主程序转化为wasm的底层实现，依托于[binaryen](https://link.juejin.cn?target=http%3A%2F%2Fgithub.com%2FWebAssembly%2Fbinaryen)库，是对binaryen的TypeScript封装。
-- [wast.js](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fwabt.js)：AssemblyScript主程序转化为wasm的底层实现，依托于[wast](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FWebAssembly%2Fwabt)库，是对wast的TypeScript封装。
-
-首先安装assemblyScript
-
-```shell
-git clone https://github.com/AssemblyScript/assemblyscript.git
-cd assemblyscript
-npm install
-npm link
-```
-
-在node的项目中添加wasm命令
-
-```json
- "scripts": {
-    "build": "npm run build:untouched && npm run build:optimized",
-    "build:untouched": "asc assembly/module.ts -t dist/module.untouched.wat -b dist/module.untouched.wasm --validate --sourceMap --measure",
-    "build:optimized": "asc assembly/module.ts -t dist/module.optimized.wat -b dist/module.optimized.wasm --validate --sourceMap --measure --optimize"
+    "plugins": []
  }
 ```
 
+Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API，比如`Iterator`、`Generator`、`Set`、`Map`、`Proxy`、`Reflect`、`Symbol`、`Promise`等全局对象，以及一些定义在全局对象上的方法（比如`Object.assign`）都不会转码。
 
+举例来说，ES6 在`Array`对象上新增了`Array.from`方法。Babel 就不会转码这个方法。如果想让这个方法运行，可以使用`core-js`和`regenerator-runtime`(后者提供generator函数的转码)，为当前环境提供一个垫片。
 
-```sh
-npm install --save @assemblyscript/loader
-npm install --save-dev assemblyscript
-```
-
-初始化node-modules
+安装
 
 ```shell
-npx asinit .
+npm install --save-dev core-js regenerator-runtime
 ```
 
-构建
+然后在脚本头部加入如下代码
+
+```javascript
+import 'core-js';
+import 'regenerator-runtime/runtime';
+// 或者
+require('core-js');
+require('regenerator-runtime/runtime);
+```
+
+`@babel/node`模块的`babel-node`命令，提供一个支持 ES6 的 REPL 环境。它支持 Node 的 REPL 环境的所有功能，而且可以直接运行 ES6 代码。
+
+安装
 
 ```shell
-npm run asbuild
+npm install --save-dev @babel/node
 ```
 
+执行`babel-node`就进入 REPL 环境。
 
+`@babel/register`模块改写`require`命令，为它加上一个钩子。此后，每当使用`require`加载`.js`、`.jsx`、`.es`和`.es6`后缀名的文件，就会先用 Babel 进行转码。
 
+```shell
+npm install --save-dev @babel/register
+```
 
+使用时，必须首先加载`@babel/register`。
 
-### js调用wasm
-
-对于JavaScript调用wasm，一般采用如下步骤：
-
-1. 加载wasm的字节码。
-2. 将获取到字节码后转换成 ArrayBuffer，只有这种结构才能被正确编译。编译时会对上述ArrayBuffer进行验证。验证通过方可编译。编译后会通过Promise resolve一个 WebAssembly.Module。
-3. 在获取到 module 后需要通过 WebAssembly.Instance API 去同步的实例化 module。
-4. 上述第2、3步骤可以用instaniate 异步API等价代替。
-5. 之后就可以和像使用JavaScript模块一样调用了。
-
-
-
-### 学习资源
-
-深入理解typescript：https://jkchao.github.io/typescript-book-chinese/
-
-typescript入门教程：https://ts.xcatliu.com/basics/type-of-function.html
-
-ts中文手册：https://typescript.bootcss.com/
+Babel 提供一个[REPL 在线编译器](https://babeljs.io/repl/)，可以在线将 ES6 代码转为 ES5 代码。转换后的代码，可以直接作为 ES5 代码插入网页运行。
 

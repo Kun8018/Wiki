@@ -1,796 +1,766 @@
 ---
-title: React（二）
+title: React
 date: 2020-06-02 21:40:33
 categories: IT
 tags: IT，Web,Node，React
 toc: true
-thumbnail: 
+thumbnail: http://cdn.kunkunzhang.top/react.png
 ---
 
 ​      前端框架，快速开发页面，函数式编程，与后端api快速搭建
 
 <!--more-->
 
-## purecomponent
+## 组件
 
-当使用component时，父组件的props或者state更新时，无论子组件的state、props是否更新，都会触发子组件的更新，这会造成很多没必要的render，浪费很多性能。pureComponent的优点在于，在shouldcomponentUpdate只进行浅层比较，只要外层对象没有变化，就不会触发render，也就是不需要开发者使用shouldComponentUpdate就可使用简单的判断来提升性能
+react会将以小写字母开头的组件视为原生DOM标签，而组件名称必须以大写字母开口
 
-缺点：
+组件的定义方式
 
-由于进行的时浅比较，可能由于深层的数据不一致导致产生错误的否定判断，从而导致页面得不到更新
-
-不适合用于在含有多层嵌套对象的state和props中，一般是作为展示组件来使用。因为对于数组和对象等引用类型，需要引用不同才会渲染
-
-尤其是当遇到复杂组件时，可以将一个组件拆分成多个pureComponent，以这种方式来实现复杂数据结构，以期达到节省不必要渲染的目的，如表单、复杂列表、文本域等
-
-如果props和state每次都会变，建议使用Component
-
-父组件是pureComponent时，子组件无论是purecomponent或者component都不影响，因为父组件不会重新渲染，
-
-父组件是Component时，子组件是component时每次都会重新渲染，子组件是purecomponent时，props不变时不会重新渲染
-
-
-
-### 与React.memo、usememo的区别
-
-reacr.memo控制函数组件的重新渲染，reacr.purecomponent控制类组件的重新渲染
-
-使用时将函数组件传递给react.memo函数就可以
-
-实例
-
-```react
-const Funcomponent = () =>{
-  return (
-     <div>
-     hiya!i am a functional component!
-     </div>
-  )
-}
-const MemoFuncComponent = React.memo(Funcomponent)
-```
-
-React.memo返回英国纯组件MemoFuncComponent，jsx中将标记次组件，每当组件的props和state发生变化时，react会检查上一个props和state与下一个pros和state是否相等，不相等重新渲染，相等则不会重新渲染
-
-类组件中即成purecomponent实现
-
-```react
-import React from 'react'
-class TestC extends React.PureComponent{
-   constructor(props){
-     super(props);
-     this.state = {
-       conut: 0
-     }
-   }
-  
-  render(){
-    return(
-      <div>
-        {this.state.count}
-        <button onClick={()=>this.setState({count:1})}>
-          click me
-        </button>
-      </div>
-    )
-  }
-}
-```
-
-### prop使用嵌套对象
-
-使用immutable属性。
-
-
-
-## Hook
-
-Https://juejin.cn/post/6844903985338400782
-
-Hook是react16.8新增的特性，可以在不编写class 的情况下使用state和其他react特性，reactnative从0.59版本开始支持hook。
-
-### hook出现的原因以及解决的问题
-
-Class component 劣势
-
-1. 状态逻辑难复用：在组件之间复用状态逻辑很难，可能要用到 render props （渲染属性）或者 HOC（高阶组件），但无论是渲染属性，还是高阶组件，都会在原先的组件外包裹一层父容器（一般都是 div 元素），导致层级冗余 趋向复杂难以维护：
-2. 在生命周期函数中混杂不相干的逻辑（如：在 componentDidMount 中注册事件以及其他的逻辑，在 componentWillUnmount 中卸载事件，这样分散不集中的写法，很容易写出 bug ） 类组件中到处都是对状态的访问和处理，导致组件难以拆分成更小的组件
-3. this 指向问题：父组件给子组件传递函数时，必须绑定 this
-
-Hook不能在class中使用，只能在函数组件中，为函数组件勾入react state及生命周期等函数
-
-react内置的hook有以下
-
-基础hook：useState、useEffect、useContext
-
-额外的hook：useReducer、useCallback、useMemo、useRef、useLayoutEffect、useDebugValue、useImperativeHandle
-
-### Hooks中对应class生命周期
-
-constructor：函数组件不需要构造函数，可以直接调用useState来初始化State，如果代价比较昂贵可以穿一个函数给useState
-
-getDerivedStateFromProps：改为在渲染时安排一次更新
-
-shouldComponentUpdate：使用React.memo替代
-
-使用react.memo包裹一个组件对props进行浅比较
-
-```javascript
-const Button = React.memo((props)=>{
-  // component
-})
-```
-
-react.memo不比较state，因为没有单一的state对象进行比较，可以用usememo优化子节点
-
-render：函数组件本身就有
-
-componentDidMount、componentDidUpdate、componentWillUnmount：通过使用UseEffect的不同方式可以分别表达这些生命周期
-
-getSnapshotBeforeUpdate、ComponentDidCatch、getDerivedFromError：目前还没有这些方法的等价写法
-
-
-
-### useState
-
-实例
+以函数方式定义组件
 
 ```jsx
-import React,{useState} from 'react';
+function Welcome(props){
+    return <h1>hello,{props.name}</h1>
+}
+```
 
-function Example() {
-    const [count,setCount] = useState(0);
-    
+使用ES6的语法class定义组件
+
+```jsx
+class Welcome extends React.component{
+    render(){
+        return <h1>hello,{props.name}</h1>;
+    }
+}
+```
+
+引用组件
+
+组件可以在输出中引用其他组件。在React中通常会以组件的形式表示。
+
+组件被调用时可以携带参数，称为props，
+
+```jsx
+function Welcome(props){
+    return <h1>hello,{props.name}</h1>
+}
+
+function App(){
     return (
-     <div>
-        <p>you click {count} times</p>
-        <button onClick={()=> setCount(count + 1)}>
-        click    
-        </button>
-     </div>
+       <div>
+            <Welcome name="Sara" />
+            <Welcome name="Cahs" />
+            <Welcome name="hara" />
+        </div>
     )
 }
-```
-
-上述useState方法定义了一个state变量count，并给他初始化的值0。通过setCount方法更新当前count的值。
-
-调用count时不需要绑定this直接调用，更新count时也直接调用setCount方法
-
-usestate定义state时返回一个有两个值的数组，第一个是当前state，第二个是更新state的函数，
-
-count与setCount与class中的this.state.count和this.setstate类似，唯一的区别是需要成对地获取他们。
-
-如果初始化state时需要复杂计算，可以调用函数，此函数只在初次渲染时被调用
-
-```jsx
-const [state,setState] = useState(() => {
-    const initialState= someExpensiveComputation(props);
-    return initialState;
-})
-```
-
-count与setCount与class中的this.state.count和this.setstate类似，唯一的区别是需要成对地获取他们。
-
-可以同时声明多个state变量
-
-```jsx
-function ExamplewithManyStates(){
-    const [age,setAge] = usestate(42);
-    const [fruit,setFruit] = usestate('banana');
-    const [todos,setTodos] = usestate([{text:'学习'}]);
-}
-```
-
-Hook只能在函数最外层调用，不要在循环、条件判断或者子函数中调用
-
-#### useState与setState的异同
-
-setState会自动合并，不同的useState不会
-
-
-
-### useEffect和useLayoutEffect
-
-对于class中的生命周期函数，为了能在函数组件中使用类似功能，使用useEffect方法，它相当于componentDidMount、componentDidupdate、componentWillUnmount三个函数的组合
-
-```jsx
-
-```
-
-useEffect默认情况下会在第一次渲染之后和每次更新之后都会执行。
-
-useEffect在全部渲染完毕后才会执行，而useLayoutEffect会在浏览器layout之后，painting之前执行
-
-为了用户体验，一般先使用useEffect
-
-使用步骤：
-
-1. 作为 componentDidMount 使用，第二个参数为空数组 `[]`
-2. 作为 componentDidUpdate 使用，第二个参数为指定依赖
-3. 作为 componentWillUnmount 使用，通过 return
-
-```react
-const BlinkyRender = () => {
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    document.querySelector('#x').innerText = `value: 1000`
-  }, [value]);
-
-  return (
-    <div id="x" onClick={() => setValue(0)}>value: {value}</div>
-  );
-};
 
 ReactDOM.render(
-  <BlinkyRender />,
-  document.querySelector("#root")
-);
+    <App />
+    document.getElementById('root')
+)
 ```
 
-清除effect
+### 组件APi
 
-通常，组件卸载时需要清除 effect 创建的诸如订阅或计时器 ID 等资源。要实现这一点，`useEffect` 函数需返回一个清除函数。
+在React中，组件以函数声明或者以Class方式声明。以Class方式声明时通常需要从React.Compoenent中继承。
 
-为防止内存泄漏，清除函数会在组件卸载前执行。另外，如果组件多次渲染（通常如此），则**在执行下一个 effect 之前，上一个 effect 就已被清除**。
+React.Compoenent提供了生命周期api，因为生命周期的使用方式比较重要，这将在后文中介绍，这里首先介绍除了生命周期之外的其他API。
 
+forceupdate：component.forceUpdate(callback)
 
+默认情况下，当组件的 state 或 props 发生变化时，组件将重新渲染。如果 `render()` 方法依赖于其他数据，则可以调用 `forceUpdate()` 强制让组件重新渲染。
 
-useEffect与useLayoutEffect区别：
+调用 `forceUpdate()` 将致使组件调用 `render()` 方法，此操作会跳过该组件的 `shouldComponentUpdate()`。但其子组件会触发正常的生命周期方法，包括 `shouldComponentUpdate()` 方法。如果标记发生变化，React 仍将只更新 DOM。
 
-`useEffect` 是异步执行的，而`useLayoutEffect`是同步执行的。
+通常你应该避免使用 `forceUpdate()`，尽量在 `render()` 中使用 `this.props` 和 `this.state`。
 
-`useEffect` 的执行时机是浏览器完成渲染之后，而 `useLayoutEffect` 的执行时机是浏览器把内容真正渲染到界面之前，和 `componentDidMount` 等价。
+错误处理api
 
-最好把操作 dom 、动画的相关操作放到 `useLayouteEffect` 中去，避免导致闪烁。
+static getDerivedStateFromError(error)
 
-### useReducer
+此生命周期会在后代组件抛出错误后被调用。 它将抛出的错误作为参数，并返回一个值以更新 state
 
-useState内部就是靠useReducer实现的。
+componentDidCatch(error, info)
 
-useReducer可以理解为是用来代替 Redux 的，或者说，是一个加强版的 `useState`。
+此生命周期在后代组件抛出错误后被调用。 它接收两个参数：
 
-使用步骤：
+1. `error` —— 抛出的错误。
+2. `info` —— 带有 `componentStack` key 的对象，
 
-1.创建初始值initialState
+`componentDidCatch()` 会在“提交”阶段被调用，因此允许执行副作用。 它应该用于记录错误之类的情况：
 
-2.创建所有操作reduce(state,action)
-
-3.传给useReducer，得到读和写api
-
-4.调用，写({type: '操作类型'})
-
-```js
-const initial = {
-  n: 0
-};
-
-const reducer = (state, action) => {
-  if (action.type === "add") {
-    return { n: state.n + action.number };
-  } else if (action.type === "multi") {
-    return { n: state.n * 2 };
-  } else {
-    throw new Error("unknown type");
+```react
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
   }
-};
 
-function App() {
-  const [state, dispatch] = useReducer(reducer, initial);
-  const { n } = state;
-  const onClick = () => {
-    dispatch({ type: "add", number: 1 });
-  };
-  const onClick2 = () => {
-    dispatch({ type: "add", number: 2 });
-  };
-  return (
-    <div className="App">
-      <h1>n: {n}</h1>
-
-      <button onClick={onClick}>+1</button>
-      <button onClick={onClick2}>+2</button>
-    </div>
-  );
-}
-```
-
-### useContext
-
-接受一个context对象，并返回该context的当前值，用于在函数组件之间共享状态
-
-使用方法：
-
-1.使用C=createContext(initial)创建上下文
-
-2.使用<C.provider>圈定作用域
-
-3.在作用域内使用 `useContext(C)` 来使用上下文
-
-```react
-const C = createContext(null);
-
-function App() {
-  console.log("App 执行了");
-  const [n, setN] = useState(0);
-  return (
-    <C.Provider value={{ n, setN }}>
-      <div className="App">
-        <Baba />
-      </div>
-    </C.Provider>
-  );
-}
-
-function Baba() {
-  const { n, setN } = useContext(C);
-  return (
-    <div>
-      我是爸爸 n: {n} <Child />
-    </div>
-  );
-}
-
-function Child() {
-  const { n, setN } = useContext(C);
-  const onClick = () => {
-    setN(i => i + 1);
-  };
-  return (
-    <div>
-      我是儿子 我得到的 n: {n}
-      <button onClick={onClick}>+1</button>
-    </div>
-  );
-}
-```
-
-`useContext(MyContext)` 相当于 class 组件中的 `static contextType = MyContext` 或者 `<MyContext.Consumer>`。
-
-`useContext(MyContext)` 只是让你能够*读取* context 的值以及订阅 context 的变化。你仍然需要在上层组件树中使用 `<MyContext.Provider>` 来为下层组件*提供* context。
-
-### usecallback与useMemo
-
-**useMemo**
-
-返回一个缓存值。
-
-useMemo是一种缓存机制提速，当他的依赖未发生改变时就不会触发重新计算，与vue中computed类似
-
-使用语法：useMemo(()=> fn,deps)
-
-把创建函数和依赖项数组作为参数传入useMemo，它只会在某个依赖项改变时才重新计算memoized值。如果没有提供依赖项数组，useMemo在每次渲染时都会计算新的值
-
-**useCallback**
-
-返回一个缓存函数。把内联回调函数及依赖数组作为参数传入useCallback，它将返回该回调函数u的memorized版本，该回调函数仅在某个依赖项改变时才会更新，在组件中使用usecallback可以避免非必要渲染
-
-useCallback（fn，dep）相当于useMemo（（）=》fn，deps）
-
-useMemo与usecallback的区别：`useMemo`可以缓存所有对象，`useCallback`只能缓存函数。
-
-`useCallback(x => log(x), [m])` 等价于 `useMemo(() => x => log(x), [m])`
-
-
-
-### useRef与useImperativeHandle
-
-useRef
-
-主要作用是创建一个数据的引用，并让这个数据在 render 过程中始终**保持不变**。
-
-基本语法： `const count = useRef(0)`，读取用 `count.current`
-
-```react
-export function ReactEcharts(props) {
-  const {option, loading} = props
-  const container = useRef(null)
-  const chart = useRef(null)
-
-  useEffect(() => {
-    const width = document.documentElement.clientWidth
-    const c = container.current
-    console.log(c)
-    c.style.width = `${width - 20}px`
-    c.style.height = `${(width - 20) * 1.2}px`
-    chart.current = echarts.init(c, 'dark')
-
-  }, []) // [] - mounted on first time
-
-  useEffect(() => {
-    chart.current.setOption(option)
-  }, [option]) // when option change 类似 vue 的 watch
-
-  useEffect(() => {
-    if (loading) chart.current.showLoading()
-    else chart.current.hideLoading()
-  }, [loading])
-  return (
-    <div ref={container}/>
-  )
-}
-```
-
-useImperativeHandle
-
-useImperativeHandle可以让你在使用ref时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用ref这样的命令式代码，useImperativeHandle应当与forwardRef一起使用
-
-```react
-function FancyInput(props,ref){
-	const inputRef = useRef();
-  useImperativeHandle(ref,()=>({
-    focus:()=>{
-      inputRef.current.focus();
-    }
-  }));
-  return <input ref={inputRef} />
-}
-
-FancyInput = forwardRef(FancyInput)
-```
-
-### useDebugValue
-
-
-
-### 自定义hook混用
-
-可以把不同的hook按照实际的需求混合起来，封装成一个新的函数使用
-
-```react
-const useList = () => {
-  const [list, setList] = useState(null);
-  useEffect(() => {
-    ajax("/list").then(list => {
-      setList(list);
-    });
-  }, []); // [] 确保只在第一次运行
-  return {
-    list: list,
-    setList: setList
-  };
-};
-export default useList;
-```
-
-### hook的使用规则
-
-hook有以下使用规则：
-
-1. 不要在循环，条件或嵌套函数中调用 Hook
-2. 确保总是在你的 React 函数的最顶层调用他们。
-3. 顺序调用。遵守这条规则，你就能确保 Hook 在每一次渲染中都按照同样的顺序被调用。这让 React 能够在多次的 useState 和 useEffect 调用之间保持 hook 状态的正确。
-
-在单个组件中可以使用多个 State Hook 或 Effect Hook，但是React 怎么知道哪个 state 对应哪个 `useState`？答案是 React 靠的是 Hook 调用的顺序。因为我们的示例中，Hook 的调用顺序在每次渲染中都是相同的，所以它能够正常工作。只要 Hook 的调用顺序在多次渲染之间保持一致，React 就能正确地将内部 state 和对应的 Hook 进行关联。
-
-如果在语句中使用hook
-
-```javascript
- // 🔴 在条件语句中使用 Hook 违反第一条规则
-  if (name !== '') {
-    useEffect(function persistForm() {
-      localStorage.setItem('formData', name);
-    });
+  static getDerivedStateFromError(error) {
+    // 更新 state 使下一次渲染可以显降级 UI
+    return { hasError: true };
   }
-```
 
-在第一次渲染中 `name !== ''` 这个条件值为 `true`，所以我们会执行这个 Hook。但是下一次渲染时我们可能清空了表单，表达式值变为 `false`。此时的渲染会跳过该 Hook，Hook 的调用顺序发生了改变：
-
-```javascript
-useState('Mary')           // 1. 读取变量名为 name 的 state（参数被忽略）
-// useEffect(persistForm)  // 🔴 此 Hook 被忽略！
-useState('Poppins')        // 🔴 2 （之前为 3）。读取变量名为 surname 的 state 失败
-useEffect(updateTitle)     // 🔴 3 （之前为 4）。替换更新标题的 effect 失败
-```
-
-React 不知道第二个 `useState` 的 Hook 应该返回什么。React 会以为在该组件中第二个 Hook 的调用像上次的渲染一样，对应的是 `persistForm` 的 effect，但并非如此。从这里开始，后面的 Hook 调用都被提前执行，导致 bug 的产生。
-
-#### 为什么不能在条件语句和循环语句中使用hook
-
-react hook执行时以数组的结构执行，按顺序执行，如果使用条件语句就会出现缺少某一个hook，然后出现错位导致错误。
-
-循环语句也是一样，不能绝对保证hook的执行顺序。如果非要在循环中使用，可以使用react官方的lint
-
-### Hook的闭包陷阱(useEffect中定时器的使用，过期闭包)
-
-闭包陷阱就是在React Hook进行开发时，通过useState定义的值拿到的都不是最新的值
-
-上代码
-
-```react
-const App = () =>{
-   const [count,setCount] = useState(0)
-   useEffect(()=>{
-     const timeId = setInterval(()=>{
-        setCount(count+1)
-     },1000)
-     return ()=>{clearInterval(timeId)}
-   },[])
-   return (
-      <span>{count}</span>
-   )
-}
-```
-
-上面的代码中，count并不会和理想中一样每过一秒自动+1并更新DOM，而是从0变成1后，console打印出的count一直是设立的默认值0
-
-因为useEffect的依赖数组是空数组，那setInterval里面的count是通过闭包取得的值，他读取到的第一次的count，并且useEffect并没有更新，因为每次都是0
-
-如果去掉useEffect的依赖数组可以解决这个问题，然而会造成每次App组件渲染都会运行useEffect里面的函数，就会造成不必要的浪费和隐藏的bug
-
-#### 解决方案
-
-**使用setstate回调**
-
-把setCount(count+1)改成setCount(count=>count+1)，函数式更新
-
-它允许我们指定state如何改变而不引用当前的state，因为回调函数中的参数是最新的count值
-
-**使用useReducer代替**
-
-把setCount改成useReducer的dispatch，因为useReducer的dispatch的身份永远是稳定的。即使reducer函数是定义在函数内部且依赖props
-
-```react
-const setCountReducer = (state,action)=>{
-   switch(action.type){
-     case 'add':
-       return state+action.value 
-     case 'minus':
-       return state-action.value
-     default: 
-       return state
-   }
-}
-
-const App = () =>{
-  const [count,dispatch] = useReducer(setCountReducer,0)
-  useEffect(()=>{
-    const timeId = setInterval(()=>{
-      dispatch({type:'add',value:1})
-    },1000)
-    return ()=> clearInterval(timeId)
-  },[])
-  return (
-     <span>{count}</span>
-  )
-} 
-```
-
-**使用useRef存储变量**
-
-通过useRef生成的对象默认都是{current:{}},每次组件重新渲染时，他也是同一个对象的引用，不会因为组件的重新渲染导致取得闭包的对象引用，因此它不仅可以绑定DOM，也可以绑定任意我们想绑定的数据
-
-改造代码如下
-
-```react
-const App = () =>{
-  const [count,setCount] = useState(0)
-  const countRef = useRef()
-  countRef.current = count
-  useEffect(()=>{
-    const timeId = setInterval(()=>{
-      setCount(countRef.current+1)
-    },1000)
-    return ()=> clearInterval(timeId)
-  },[])
-  return (
-     <span>{countRef.current}</span>
-  )
-}
-```
-
-#### 其他会导致闭包陷阱的情况
-
-异步函数
-
-使用setInterval和setTimeout函数时，内部的变量读取的是异步函数在运行时组件处在闭包情况下的当前值，因为在异步函数内部的数据并不会在dom更新之后更新为新的值，他们的变量引用已经不是同一个了
-
-上代码
-
-```react
-const App = ()=>{
-  const [count,setCount] = useState(0)
-  const consoleCount = ()=>{
-    const timeId = setTimeout(()=>{
-       console.log(count)
-    },2000)
-    return ()=> clearTimeout(timeId)
+  componentDidCatch(error, info) {
+    // "组件堆栈" 例子:
+    //   in ComponentThatThrows (created by App)
+    //   in ErrorBoundary (created by App)
+    //   in div (created by App)
+    //   in App
+    logComponentStackToMyService(info.componentStack);
   }
-  return (
-    <div>
-      <span>{count}</span>
-      <button onClick={()=>setCount(count+1)}>按我加1</button>
-      <button onClick={consoleCount}>输出count</button>
-    </div>
-  )
-}
-```
-
-先点击三次加1按钮，把count变成3，然后点击输出按钮，此时再点击加1按钮，可以看到输出的count还是3，即输出的count是旧值
-
-dom监听函数事件中的匿名函数
-
-```react
-const App = () =>{
-    const [count,setCount] = useState(0)
-    const consoleCount = ()=>{
-      console.log(count)
-    }
-    useEffect(()=>{
-      window.addEventListener('scroll',consoleCount)
-      return ()=>{
-         window.removeEventListener('scroll',consoleCount)
-      }
-    },[])
   
+  render() {
+    if (this.state.hasError) {
+      // 你可以渲染任何自定义的降级  UI
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+如果发生错误，你可以通过调用 `setState` 使用 `componentDidCatch()` 渲染降级 UI，但在未来的版本中将不推荐这样做。 可以使用静态 `getDerivedStateFromError()` 来处理降级渲染。
+
+### 受控组件与非受控组件
+
+受控和非受控
+
+名词[“受控”](https://zh-hans.reactjs.org/docs/forms.html#controlled-components)和[“非受控”](https://zh-hans.reactjs.org/docs/uncontrolled-components.html)通常用来指代表单的 inputs，但是也可以用来描述数据频繁更新的组件。用 props 传入数据的话，组件可以被认为是**受控**（因为组件被父级传入的 props 控制）。数据只保存在组件内部的 state 的话，是**非受控**组件（因为外部没办法直接控制 state）。
+
+当一个派生 state 值也被 `setState` 方法更新时，这个值就不是一个单一来源的值了。
+
+
+
+如果组件的状态只能由用户控制，那么就是非受控组件，如果组件的状态可以由用户和通过代码两种方式控制，那么就是受控组件
+
+在React中没有类似于Vue中v-model的双向绑定功能。
+
+```react
+class TestComponent extends React.Component {
+  constructor (props){
+    super(props);
+    this.state = {username: 'lindaidai' }
+  }
+  render () {
+		return <input name="username" value={this.state.username} />
+  }
+}
+```
+
+受控组件的完整定义：
+
+在Html的表单元素中，它们通常自己维护一套state，并随着用户的数据自己进行UI上的更新，这种行为不被我们程序所控制。而如果将React的state属性和表单元素的值建立依赖关系，再通过onChange事件与setState()结合更新state属性，就能达到控制用户输入过程中表单发生的操作，被react以这种方式控制取值的表单输入元素就是受控组件
+
+```react
+class TestComponent extends React.Component {
+  constructor (props){
+    super(props);
+    this.state = {
+      username: 'lindaidai' 
+    }
+  }
+  onChange (e){
+    this.setState({
+      username: e.target.value
+    })
+  }
+  render () {
+		return <input name="username" value={this.state.username} 
+             onChange={(e)=> this.onChange(e)} />
+  }
+}
+```
+
+#### 受控组件注意事项
+
+受控组件中有时会有派生state，即state的状态是根据props的值来进行变化
+
+不建议将props直接复制到state中
+
+最常见的误解就是 `getDerivedStateFromProps` 和 `componentWillReceiveProps` 只会在 props “改变”时才会调用。实际上只要父级重新渲染时，这两个生命周期函数就会重新调用，不管 props 有没有“变化”。所以，在这两个方法内直接复制（*unconditionally*）props 到 state 是不安全的。**这样做会导致 state 后没有正确渲染**。
+
+错误使用1：在componentWillReceiveProps中直接使用prop初始化state
+
+```react
+class EmailInput extends Component {
+  state = { email: this.props.email };
+
+  render() {
+    return <input onChange={this.handleChange} value={this.state.email} />;
+  }
+
+  handleChange = event => {
+    this.setState({ email: event.target.value });
+  };
+
+  componentWillReceiveProps(nextProps) {
+    // 这会覆盖所有组件内的 state 更新！
+    // 不要这样做。
+    this.setState({ email: nextProps.email });
+  }
+}
+```
+
+乍看之下还可以。 state 的初始值是 props 传来的，当在 `<input>` 里输入时，修改 state。但是如果父组件重新渲染，我们输入的所有东西都会丢失！([查看这个示例](https://codesandbox.io/s/m3w9zn1z8x))，即使在重置 state 前比较 `nextProps.email !== this.state.email` 仍然会导致更新。
+
+这个小例子中，使用 `shouldComponentUpdate` ，比较 props 的 email 是不是修改再决定要不要重新渲染。但是在实践中，一个组件会接收多个 prop，任何一个 prop 的改变都会导致重新渲染和不正确的状态重置。加上行内函数和对象 prop，创建一个完全可靠的 `shouldComponentUpdate` 会变得越来越难。[这个示例展示了这个情况](https://codesandbox.io/s/jl0w6r9w59)。而且 `shouldComponentUpdate` 的最佳实践是用于性能提升，而不是改正不合适的派生 state。
+
+错误使用1：在componentWillReceiveProps中比较前后两次props再初始化state
+
+```react
+class EmailInput extends Component {
+  state = {
+    email: this.props.email
+  };
+
+  componentWillReceiveProps(nextProps) {
+    // 只要 props.email 改变，就改变 state
+    if (nextProps.email !== this.props.email) {
+      this.setState({
+        email: nextProps.email
+      });
+    }
+  }
+  
+  // ...
+}
+```
+
+现在组件只会在 prop 改变时才会改变。
+
+但是仍然有个问题。想象一下，如果这是一个密码输入组件，拥有同样 email 的两个账户进行切换时，这个输入框不会重置（用来让用户重新登录）。因为父组件传来的 prop 值没有变化！这会让用户非常惊讶，因为这看起来像是帮助一个用户分享了另外一个用户的密码，
+
+建议1:把组件包装成完全可控的组件
+
+```react
+function EmailInput(props) {
+  return <input onChange={props.onChange} value={props.email} />;
+}
+```
+
+建议2：为了在不同的页面切换不同的值，我们可以使用 `key` 这个特殊的 React 属性。当 `key` 变化时， React 会[创建一个新的而不是更新一个既有的组件](https://zh-hans.reactjs.org/docs/reconciliation.html#keys)。 Keys 一般用来渲染动态列表，但是这里也可以使用。
+
+每次 ID 更改，都会重新创建 `EmailInput` ，并将其状态重置为最新的 `defaultEmail` 值。([点击查看这个模式的演示](https://codesandbox.io/s/6v1znlxyxn)) 使用此方法，不用为每次输入都添加 `key`，在整个表单上添加 `key` 更有位合理。每次 key 变化，表单里的所有组件都会用新的初始值重新创建。
+
+```react
+class EmailInput extends Component {
+  state = { email: this.props.defaultEmail };
+
+  handleChange = event => {
+    this.setState({ email: event.target.value });
+  };
+
+  render() {
+    return <input onChange={this.handleChange} value={this.state.email} />;
+  }
+}
+
+<EmailInput
+  defaultEmail={this.props.user.email}
+  key={this.props.user.id}
+/>
+```
+
+https://zh-hans.reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
+
+#### 封装组件为受控组件和非受控组件两种
+
+
+
+
+
+### 组件间通信
+
+父组件向子组件通讯: 父组件可以向子组件通过传 props 的方式，向子组件进行通讯
+
+子组件向父组件通讯: props+回调的方式,父组件向子组件传递props进行通讯，此props为作用域为父组件自身的函数，子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中
+
+兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信
+
+```jsx
+import React from "react";
+
+function Child1(props) {
+  return (
+    <div className="child">
+      <p>{`兄弟1接收到的文本：${props.fatherText}`}</p>
+    </div>
+  );
+}
+
+class Child2 extends React.Component {
+  state = { text: "兄弟2文本" };
+
+  //调用了父组件传入的 changeFatherText 方法
+  changeText = () => {
+    this.props.changeFatherText(this.state.text);
+  };
+
+  render() {
     return (
-       <div style={{height:'400vh'}}>
-         <span>{count}</span>
-        <button onClick={()=>setCount(count+1)}>按我加1</button>
-      <button onClick={consoleCount}>输出count</button>
+      <div className="child">
+        <button onClick={this.changeText}>点击更新兄弟1文本为兄弟2文本</button>
       </div>
-    )
-}
-```
-
-可以看到不管页面怎么滚动，输出的count永远是0。因为addEventListener只在useEffect初始化的时候进行了绑定，执行函数的时候，count读取的是绑定函数时的旧值
-
-使用useRef()存储实例变量也能解决这两个问题，也是react官方推荐的方法。
-
-### 使用react hooks如何让下面的子组件只render一次
-
-使用useRef保存子组件状态，当父组件更新时，直接更新ref值，当子组件click时，在更新ref值后，再调用一次update触发子组件渲染
-
-```react
-import React,{useEffect,useMemo,useState,useRef} from 'react'
-function A(){
-   const [count,setCount] = useState(0);
-   
-   return (
-      <div>
-        <p>我是父组件</p>
-        <p>父组件的count是{count}</p>
-        <button>click</button>
-        <B count={count}/>
-      </div>
-   );
+    );
+  }
 }
 
-const B = React.memo(({count:}{count:number})=>{
-  const numberRef = useRef(0);
-  const [,update] = useState({});
-  const updateNumber = () =>{
-    numberRef.current++;
-    update({});
+export default class Father extends React.Component {
+  // 初始化父组件的 state
+  state = {
+    text: "父组件的文本"
   };
-  
-  useMemo(()=>{
-    numberRef.current = count;
-  },[count])
-  
-  console.log('子组件Render')
-  
-  return(
-     <div>
-       <p>我是子组件</p>
-       <p>子组件的number是{numberRef.current}</p>
-       <button onClick={updateNumber}>click</button>
-     </div>
-  )
-})
+
+  // 传给 Child2 组件按钮的监听函数，用于更新父组件 text 值（这个 text 值同时也是 Child1 的 props）
+  changeText = (newText) => {
+    this.setState({ text: newText });
+  };
+
+  // 渲染父组件
+  render() {
+    return (
+      <div className="father">
+        {/* 引入 Child1 组件，并通过 props 中下发具体的状态值 实现父-子通信 */}
+        <Child1 fatherText={this.state.text} />
+
+        {/* 引入 Child2 组件，并通过 props 中下发可传参的函数 实现子-父通信 */}
+        <Child2 changeFatherText={this.changeText} />
+      </div>
+    );
+  }
+}
 ```
 
-## Hook
+跨层级通信: `Context`设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言,对于跨越多层的全局数据通过`Context`通信再适合不过
 
-### Hook调用异步接口写法
+全局状态管理工具: 借助Redux或者Mobx等全局状态管理工具进行通信,这种工具会维护一个全局状态中心Store,并根据不同的事件产生新的状态
+
+### context api
+
+组件间层层嵌套时，传props的过程中会产生大量的...props或者propName={this.props.propValue}，导致代码异常丑陋，比如exzzzzz
 
 ```react
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+<App>
+   <Switcher toggleState = {this.state.toggle}>
+       <Pannel toggleState = {props.toggleState}>
+           <div onClick={handleClick}>
+             {props.toggleState?'1':'0'}
+         	 </div>
+     		</Pannel>
+  </Switcher>
+</App>
+```
 
-function App() {
-  const [data, setData] = useState({ products: [{
-    productId: '123',
-    productName: 'macbook'
-  }] });
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError,setIsError] = useState(false);
-  
-  useEffect(()=> {
-    const fetchData = async()=> {
-      setIsError(false);
-      setIsLoading(true);
-      
-      try {
-        const result = await axios (
-        	'https://c.com/api/products?date=today',
-        )
-        setData(result.data);
-      }catch(e){
-        setIsError(true);
-      }
-      
-      setIsLoading(false);
+引入context api代码
+
+简易版,通过provide的value传值，通过consumer的props接收值
+
+```react
+import React,{createContext} from 'react'
+
+const {Provider,Consumer} = createContext('color');
+
+class DeliverComponent extends React.component{
+  state = {
+    color:'orange',
+    handleClick:() =>{
+      this.setState({ color:'red'})
     }
-    fetchData();
-  },[]);
-  
-  return (
-  	<div>
-      { isError && <div></div>}
-      { isLoading ? (
-      	<div>Loading...</div>
-      ):(
-      	<ul>
-        	{data.products.map(i=> (
-          	<li key="{i.productId}">
-              {i.productName}
-            </li>
-          ))}
-        </ul>
-      )};
-    </div>
-  )
+  }
+  render(){
+    return (
+      <Provider value= {this.state}>
+         <MidComponent/>
+      </Provider>
+    )
+  }
 }
+
+const MidComponent = () => <Receiver />
+
+const Receiver = () =>(
+    <Consumer>
+      {({color,handleClick}) =>
+  		<div style ={{color}} onClick={()=>{handleClick()}}>
+       hello,world
+      </div>}
+    </Consumer>
+)
+
+const App =()=> <DeliverComponent/>
 
 export default App;
 ```
 
-也可以使用立即执行函数
+复杂版
+
+引入context api，创建provider和consumer
 
 ```react
-const MyFunctionnalComponent: React.FC = props => {
-  useEffect(()=>{
-    (async function anyNameFunction() {
-      await loadContent();
-    })();
-  },[]);
-  return <div></div>
+//togglecontext.js
+import React,{createContext} from 'react'
+//创建上下文
+const ToggleContext = createContext({
+  toggle:true,
+  handleToggle:()=>{}
+})
+
+//创建provider
+export class ToggleProvider extends React.component{
+  state = {
+    toggle:true,
+    handleToggle:this.handleToggle
+  }
+
+  render() {
+    return (
+      <ToggleContext.Provider value={this.state}>
+        {this.props.children}
+      </ToggleContext.Provider>
+    )
+  }
 }
+//创建consumer
+export const ToggleConsumer = ToggleContext.Consumer
+```
+
+通过provider包裹组件传递value值可以使组件共享provider中的state，通过consumer获取props进行渲染
+
+```react
+import React from 'react';
+import {ToggleProvider,ToggleConsumer} from './ToggleContext'
+
+function App(){
+  return (
+    <ToggleProvider>
+       <Switcher></Switcher>
+    </ToggleProvider>
+  )
+}
+
+const Switcher = () =>{
+  return <Pannel/>
+}
+
+const Pannel = () =>{
+  return (
+    <ToggleConsumer>
+      {({toggle.handleToggle})=>
+         <div onClick={()=>handleToggle()}>
+         {toggle?'1':'0'}
+    		</div>
+      }
+    </ToggleConsumer>
+  )
+}
+
+export default App
+```
+
+### ref、OnRef与forwardRef
+
+在典型的 React 数据流中，props 是父组件与子组件交互的唯一方式。要修改一个子组件，你需要使用新的 props 来重新渲染它。但是，在某些情况下，你需要在典型数据流之外强制修改子组件/元素
+
+适合使用 refs 的情况：
+
+- 管理焦点，文本选择或媒体播放。
+- 触发强制动画。
+- 集成第三方 DOM 库。
+
+ref 的值根据节点的类型而有所不同：
+
+- 当 ref 属性用于 HTML 元素时，构造函数中使用 React.createRef() 创建的 ref 接收底层 DOM 元素作为其 current 属性。
+- 当 ref 属性用于自定义 class 组件时，ref 对象接收组件的挂载实例作为其 current 属性。
+- 默认情况下，你不能在函数组件上使用 ref 属性（可以在函数组件内部使用），因为它们没有实例：
+  - 如果要在函数组件中使用 ref，你可以使用 forwardRef（可与 useImperativeHandle 结合使用）
+  - 或者可以将该组件转化为 class 组件。
+
+父组件通过ref可以拿到子组件的方法和属性
+
+```react
+import React, { Component, Fragment } from "react";
+import UncontrolledEmailInput from "./UncontrolledEmailInput";
+
+export default class AccountsList extends Component {
+  inputRef = React.createRef();
+
+  state = {
+    selectedIndex: 0
+  };
+
+  handleChange = index => {
+    this.setState({ selectedIndex: index }, () => {
+      const selectedAccount = this.props.accounts[index];
+      this.inputRef.current.resetEmailForNewUser(selectedAccount.email);
+    });
+  };
+render() {
+    const { accounts } = this.props;
+    const { selectedIndex } = this.state;
+    const selectedAccount = accounts[selectedIndex];
+    return (
+      <Fragment>
+        <h1>
+          This demo illustrates resetting an uncontrolled component with an
+          instance method
+        </h1>
+        <blockquote>First, make an edit to the account "One" email.</blockquote>
+        <UncontrolledEmailInput
+          defaultEmail={selectedAccount.email}
+          ref={this.inputRef}
+        />
+        <blockquote>Next, select account "Two" below.</blockquote>
+        <p>
+          Accounts:
+          {this.props.accounts.map((account, index) => (
+            <label key={account.id}>
+              <input
+                type="radio"
+                name="account"
+                checked={selectedIndex === index}
+                onChange={() => this.handleChange(index)}
+              />{" "}
+              {account.name}
+            </label>
+          ))}
+        </p>
+        <p>
+          Even though both accounts have the same "committed" email, toggling
+          between the two properly resets the "draft" email state. Read the
+          inline comments in <code>UncontrolledEmailInput.js</code> to learn
+          why.
+        </p>
+      </Fragment>
+    );
+  }
+}
+/// 子组件
+import React, { Component } from "react";
+
+// This is an example of an "uncontrolled" component.
+// We call it this because the component manages its own "draft" state.
+export default class UncontrolledEmailInput extends Component {
+  // Default the "draft" email to the value passed in via props.
+  state = {
+    email: this.props.defaultEmail
+  };
+
+  // Imperative method to reset "draft" email state.
+  // Call this method using a component ref.
+  resetEmailForNewUser(defaultEmail) {
+    this.setState({ email: defaultEmail });
+  }
+
+  handleChange = event => {
+    this.setState({ email: event.target.value });
+  };
+
+  render() {
+    return (
+      <label>
+        Email: <input onChange={this.handleChange} value={this.state.email} />
+      </label>
+    );
+  }
+}
+```
+
+Onref通过props将子组件的组件实例当作参数，通过回调传到父组件，然后在父组件就可以拿到子组件的实例了，拿到实例就可以调用它的方法了
+
+```react
+import Son from './son'
+
+class Father extends React.Component {
+  sonRef = (ref) => {
+    this.child = ref
+  }
+  
+  render() {
+    return (
+      <div>
+         <Son onRef={this.sonRef}/>
+      </div>
+    )
+  }
+}
+```
+
+ref可以直接获得dom信息,非受控组件可以采用这种方式获取值而不进行其他操作
+
+```react
+import React,{ Component } from 'react'
+
+export class UnControl extends Component {
+  constructor (props) {
+		super(props);
+    this.inputRef = React.createRef();
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('input内的值为',this.inputRef.current.value);
+  }
+  render () {
+    return (
+    	<form onSubmit={e => this.handleSubmit(e)}>
+        <input defaultValue="lindaidai" ref={this.inputRef}/>
+        <input type="submit" value="提交"/>
+      </form>
+    )
+  }
+}
+```
+
+forwardRef多用于Ref 转发。Ref 转发是一项将 [ref](https://zh-hans.reactjs.org/docs/refs-and-the-dom.html) 自动地通过组件传递到其一子组件的技巧。对于大多数应用中的组件来说，这通常不是必需的。通常不建议这样做，因为它会打破组件的封装，但它偶尔可用于触发焦点或测量子 DOM 节点的大小或位置。但其对某些组件，尤其是可重用的组件库是很有用的。
+
+Ref 转发是一个可选特性，其允许某些组件接收 `ref`，并将其向下传递（换句话说，“转发”它）给子组件。
+
+```react
+const FancyButton = React.forwardRef((props, ref) => (
+  <button ref={ref} className="FancyButton">
+    {props.children}
+  </button>
+));
+
+// 你可以直接获取 DOM button 的 ref：
+const ref = React.createRef();
+<FancyButton ref={ref}>Click me!</FancyButton>;
+```
+
+#### ref的其他用法
+
+16.3之前可以通过字符或者回调函数两个方式获取ref
+
+```react
+// string ref
+class MyComponent extends React.Component {
+  componentDidMount() {
+    this.refs.myRef.focus();
+  }
+
+  render() {
+    return <input ref="myRef" />;
+  }
+}
+
+// callback ref
+class MyComponent extends React.Component {
+  componentDidMount() {
+    this.myRef.focus();
+  }
+
+  render() {
+    return <input ref={(ele) => {
+      this.myRef = ele;
+    }} />;
+  }
+}
+```
+
+string ref 就已被诟病已久，React 官方文档中如此声明：`"如果你目前还在使用 this.refs.textInput 这种方式访问 refs ，我们建议用回调函数或 createRef API 的方式代替。"`
+
+吐槽内容主要有以下几点:
+
+1. string ref 不可组合。 例如一个第三方库的父组件已经给子组件传递了 ref，那么我们就无法在在子组件上添加 ref 了。 另一方面，回调引用没有一个所有者，因此您可以随时编写它们。
+
+2. string ref 的所有者由当前执行的组件确定。 这意味着使用通用的“渲染回调”模式（例如react），错误的组件将拥有引用（它将最终在react上而不是您的组件定义renderRow）
+3. string ref 不适用于Flow之类的静态分析。 Flow不能猜测框架可以使字符串ref“出现”在react上的神奇效果，以及它的类型（可能有所不同）。 回调引用比静态分析更友好。
+4. string ref 强制React跟踪当前正在执行的组件。 这是有问题的，因为它使react模块处于有状态，并在捆绑中复制react模块时导致奇怪的错误。在 reconciliation 阶段，React Element 创建和更新的过程中，ref 会被封装为一个闭包函数，等待 commit 阶段被执行，这会对 React 的性能产生一些影响。
+
+而callback ref则一直可以。React 将在组件挂载时，会调用 ref 回调函数并传入 DOM 元素，当卸载时调用它并传入 null。在 componentDidMount 或 componentDidUpdate 触发前，React 会保证 refs 一定是最新的。
+
+如果 ref 回调函数是以内联函数的方式定义的，在更新过程中它会被执行两次，第一次传入参数 null，然后第二次会传入参数 DOM 元素。这是因为在每次渲染时会创建一个新的函数实例，所以 React 清空旧的 ref 并且设置新的。通过将 ref 的回调函数定义成 class 的绑定函数的方式可以避免上述问题，但是大多数情况下它是无关紧要的。
+
+16.3之后class组件中有了createRef，相比于之前的ref使用方式，优点：
+
+- 相对于 callback ref 而言 React.createRef 显得更加直观，避免了 callback ref 的一些理解问题。
+
+React.createRef 的缺点：
+
+1. 性能略低于 callback ref
+2. 能力上仍逊色于 callback ref，例如上一节提到的组合问题，createRef 也是无能为力的。
+
+
+
+### 列表组件
+
+使用key时，不能使用数组的index作为列表组件的key
+
+使用index作为key的列表，向列表中添加或删除某些项时可能导致错误的显示。因为key是连接真实DOM的标识，当更改后的key与更改前的key相同时，react会认为前后的组件是相同的，但其实这两项并不一样
+
+### Constructor
+
+class组件中有constructor构造函数，有两个目的
+
+1.初始化this.state
+
+2.函数方法绑定到实例
+
+```react
+constructor(props) {
+  super(props);
+  this.state = { counter: 0 };
+  this.handleClick = this.handleClick.bind(this)
+}
+```
+
+使用箭头函数则不需要将事件在constructor中绑定
+
+### props默认值
+
+对于函数组件，设置函数的defaultprops属性
+
+```react
+ import React from 'react'
+
+ function About (props) {
+   const { name, age } = props
+     return (
+       <div>
+         <p>{ name }</p>
+         <p>{ age }</p>
+       </div>
+     )
+ }
+
+ About.defaultProps = {
+   name: 'ReoNa',
+   age: 22
+ }
+ 
+ export default About
+```
+
+对于类组件，我们直接定义 `static defaultProps`设置默认值
+
+```react
+ import React, { Component } from 'react'
+ 
+ class Header extends Component {
+ 
+   static defaultProps = {
+     name: 'Aimyon',
+     age: 25
+   }
+ 
+   render () {
+     const { name, age } = this.props
+     return (
+       <div>
+         <p>{ name }</p>
+         <p>{ age }</p>
+       </div>
+     )
+   }
+ }
+ 
+ export default Header
 ```
 
 
 
-## Hook包
-
-### react-use
-
-
-
-### react-router
-
-useHistory useLocation useParams useRouteMatch 
-
-```react
-import {
-  useHistory,
-  useLocation,
-  useParams,
-  useRouteMatch,
-} from "react-router-dom"
-
-function HomeButton() {
-  let history = useHistory();
-  function haddleClick() {
-    history.push("/home");
-  }
-  
-  function usePageViews() {
-      let location = useLocation();
-    	React.useEffect(()=>{
-        ga.send(["pageview", location.pathname]);
-      },[location])
-  }
-  
-  let { slug } = useParams();
-  return <div>Now showing post {slug}</div>
-  
-  let match = useRouteMatch("/blog/:slug")
-  const match = useRouteMatch({
-    path: "/BLOG/:slug",
-    strict: true,
-    sensitive: true
-  })
-}
-```
+## HOC与render Props
 

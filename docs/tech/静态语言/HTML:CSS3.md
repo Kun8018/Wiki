@@ -17,9 +17,903 @@ thumbnail: http://cdn.kunkunzhang.top/css3.png
 
 <!--more-->
 
-## CSS
+## 响应式布局CSS
 
-### 滚动条样式
+1.在网页头部加上viewport元标签
+
+```html
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+```
+
+width：控制viewport的大小，可以指定具体的大小或者特殊值，如device-width
+
+height：与width相对应，指定高度
+
+initial-scale：初始缩放比例，也即是当页面第一次load的时候缩放比例
+
+maximum-scale：允许用户缩放到的最大比例
+
+minimum-scale：允许用户缩放到的最小比例
+
+user-scalable：用户是否可以手动缩放
+
+2.不使用绝对宽度
+
+
+
+3.流式布局
+
+[float](http://designshack.net/articles/css/everything-you-never-knew-about-css-floats/)的好处是，如果宽度太小，放不下两个元素，后面的元素会自动滚动到前面元素的下方，不会在水平方向overflow（溢出），避免了水平滚动条的出现。
+
+绝对定位（`position: absolute`）的使用，也要非常小心。
+
+4.选择加载CSS
+
+自适应网页的核心就是CSS引入的Media Query模块
+
+自动检测屏幕宽度，然后加载相应的CSS文件
+
+实例
+
+```html
+<link rel="stylesheet" type="text/css" media="screen and (max-device-width: 400px)" href="tinyScreen.css"/>
+<link rel="stylesheet" type="text/css" media="screen and (min-width: 400px) and (max-device-width: 600px)" href="smallScreen.css"/>
+```
+
+上面的代码意思是，如果屏幕宽度小于400像素（max-device-width: 400px），就加载tinyScreen.css文件。
+
+如果屏幕宽度在400像素到600像素之间，则加载smallScreen.css文件。
+
+或者，在同一个CSS文件中利用@media的属性也能选择性加载样式
+
+```css
+@media 
+screen and (max-device-width: 400px) 
+{ .column 
+  {float: none;width: auto;} 
+  #sidebar { 
+    display: none'
+  }
+}
+```
+
+5.图片的自适应
+
+添加属性
+
+```css
+img { max-width: 100%;}
+```
+
+这行代码对于大多数嵌入网页的视频也有效，所以可以写成：`img, object { max-width: 100%;}`
+
+### rem与屏幕宽度的换算
+
+rem是CSS3中新增的度量单位，全称是“ font size of the root element”，翻译过来是根元素字体大小，所以它其实是一个相对于html的相对单位。
+
+下面的代码我们将屏幕的 1/15 大小（px）复制给 html 标签的 font-size 属性。此时，在任何尺寸的屏幕上，屏幕尺寸（px）的 1/15 px 都等于 1rem 的大小。即：在任何尺寸的屏幕上，只要给元素设置值相同的 rem，则在所有尺寸的屏幕上该元素所占屏幕宽度的比例是一样的，所占比例一样，就适配了所有尺寸的屏幕。
+
+```html
+// 在 html 文件的 head 标签中
+<script type="text/javascript">
+  (function(){
+    var html = document.documentElement;
+    // 获取屏幕宽度（px）
+    var hWidth = html.getBoundingClientRect().width;
+    // 设置 html 标签的 font-size 大小为 hWidth/15
+    html.style.fontSize = hWidth/15 + 'px';
+  })()
+</script>
+```
+
+在less中设置
+
+```less
+// 在 less 中
+/* 定义变量@r：750/15 */
+@r:50rem; 
+div {
+  width: 100/@r;
+  height: 200/@r;
+}
+```
+
+
+
+### 各自的优缺点
+
+响应式的优缺点：
+
+优点：兼容性好，@media在ie9上是支持的，pc端和mobile是一套代码，不用分开
+
+缺点：要写的css比另外两个多很多，而且各个断点都要做好。css样式要稍微大点的话更麻烦
+
+Rem的优缺点：
+
+优点：能维持整体的布局效果，移动端兼容性好，不用写多个css代码，而且还可以使用@media进行优化
+
+缺点：开头要引入一段js，单位都要改成rem，计算rem比较麻烦，可以引用预处理器，但是增加了编译过程。PC和mobile要分开
+
+设置viewport的width：
+
+优点：与Rem相同，而且不用写rem，直接使用px，更加快捷
+
+缺点：效果可能没rem好，图片会相对模糊，而且无法使用@media进行断点，不同size的手机上显示高度差距可能会相差很大
+
+## 常见布局
+
+布局的基本方案：基于盒模型，依赖position属性+float属性+display属性定位
+
+### 三列布局
+
+左右定宽，中间自适应，五种方法
+
+利用表格（table/table-cell）布局、利用浮动（float）布局
+
+利用栅格（grid）布局、利用绝对定位（absolute）布局
+
+利用弹性和（flex-box）布局
+
+html页面
+
+```html
+<body>
+  <section id="container">
+    <!--注意！！.left和.right谁在前都可以，但是.center必须在它俩后面-->
+    <aside class="left">left(定宽)</aside>
+    <aside class="right">right(定宽)</aside>
+    <main class="center">center(宽度自适应)</main>
+  </section>
+</body>
+```
+
+css布局
+
+```css
+/***CSS***/
+.left {
+    width: 200px;
+    height: 100vh;
+    background: #61daa5;
+    /* 左侧左浮动 */
+    float: left;
+}
+.right {
+    width: 200px;
+    height: 100vh;
+    background: #ffa7e9;
+    /* 右侧右浮动 */
+    float: right;
+}
+.center {
+    height: 100vh;
+    background: #78a5f1;
+    /* 多出10px，是给左中右三栏留出10px间距 */
+    margin-left: 210px;
+    margin-right: 210px;
+}
+```
+
+https://caogongzi.gitee.io/2019/04/02/three-columns-layout/
+
+### 两列布局
+
+与三列布局类似，一栏定宽，一栏自适应，也有五种实现方案
+
+Flex
+
+```html
+<body>
+  <div id='parent'>
+    <div id="left">左列定宽</div>
+  	<div id="right">右列自适应</div>
+  </div>
+</body>
+<css>
+#parent {
+	width: 100%;
+  height: 400px;
+  display: flex;
+}
+#left {
+	width: 200px;
+  background: blue;
+}
+#green {
+	flex: 1;
+  background: green
+}
+</css>
+```
+
+Grid
+
+```html
+<body>
+  <div id='parent'>
+    <div id="left">左列定宽</div>
+  	<div id="right">右列自适应</div>
+  </div>
+</body>
+<css>
+#parent {
+	width: 100%;
+  height: 400px;
+  display: grid;
+  grid-template-columns: 200px auto;
+}
+#left {
+  background: blue;
+}
+#right {
+	background: green;  
+}
+</css>
+```
+
+table布局
+
+```html
+<body>
+  <div id='parent'>
+    <div id="left">左列定宽</div>
+  	<div id="right">右列自适应</div>
+  </div>
+</body>
+<css>
+#parent {
+  width: 100%;
+  height: 400px;
+  display: table;
+}
+#left, #right {
+	display: table-cell;
+}
+#left {
+	width: 200px;
+  background-color: blue;
+}
+#right {
+	background-color: green;  
+}
+</css>
+```
+
+float
+
+```html
+<body>
+  <div id="left">左列定宽</div>
+  <div id="right">右列自适应</div>
+</body>
+<css>
+#left {
+  float: left;
+  width: 200px;
+  height: 400px;
+  background-color: blue;
+}
+#right {
+  float: right;
+  margin-left: 200px;
+  background-color: green;
+}
+</css>
+```
+
+绝对定位
+
+```html
+<body>
+  <div id='parent'>
+    <div id="left">左列定宽</div>
+  	<div id="right">右列自适应</div>
+  </div>
+</body>
+<css>
+#parent {
+	position: relavtive;  
+}
+#left {
+	position: absolute; 
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 400px;
+}
+#right {
+	position: absolute;
+  left: 200px;
+  top: 0;
+  height: 400px;
+}
+</css>
+```
+
+角度单位有四种
+
+deg度数，一个圆共360度，grad梯度，一个圆共400梯度，rad弧度，一个圆共2n弧度，turn转、圈，一个圆共1转，
+
+
+
+### 品字布局
+
+```html
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>品字布局</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+      }
+      div {
+        width: 100%;
+        height: 100px;
+        background: red;
+        font-size: 40px;
+        line-height: 100px;
+        color: #fff;
+        text-align: center;
+      }
+      .div1 {
+        margin: 0 auto 0;
+      }
+      .div2 {
+        background: green;
+        float: left;
+        width: 50%;
+      }
+      .div3 {
+        background: blue;
+        float: left;
+        width: 50%;
+      }
+  </style>
+</head>
+
+<body>
+  <div class="div1">1</div>
+  <div class="div2">2</div>
+  <div class="div3">3</div>
+</body>
+</html>
+```
+
+## 典型样式
+
+### 元素、文本垂直水平居中
+
+三种方法：转换成表格、flex、css3transform
+
+1.转换成表格
+
+```css
+.container{
+  display:table-cell;
+  vertical-align:center;
+  text-align:center;
+}
+```
+
+2.flex布局
+
+```css
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+```
+
+3.css3transform
+
+```css
+.container{
+  width: 100%;
+  height: 400px;
+  background: #eee;
+  position: relative;
+}
+.center{
+  background: blue;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+```
+
+
+
+垂直居中：容器元素设置`display:table-cell;vertical-align:middle`
+
+子元素宽度为父元素的一半且为正方形
+
+### 元素高度始终为宽度的一半
+
+html
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <div class="father">
+    <div class="son"><span>A</span></div>
+  </div>
+</body>
+</html>
+```
+
+css样式
+
+```css
+.father{
+  overflow:hidden;
+  position: absolute;
+  left:20px;
+  right:20px;
+  top:50%;
+  transform: translateY(-50%);
+}
+
+.son{
+  height:0;
+  width:100%;
+  padding-top:50%;
+  background:pink;
+}
+
+span{
+  position:absolute;
+  top:50%;
+  left:50%; 
+  transform: translate(-50%,-50%);
+  font-size:10px;
+}
+```
+
+https://segmentfault.com/a/1190000011668865
+
+### 字体渐变色
+
+html
+
+```html
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      span{
+        background: linear-gradient(to right,red,blue);
+        -webkit-background-clip:text;
+        color:transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <span>前端渐变色</span>
+  </body>
+</html>
+```
+
+## 常见图形
+
+使用css绘制斜线、椭圆、三角形、圆形、扇形、梯形
+
+斜线
+
+用伪元素画一条直线，然后旋转
+
+```css
+<div></div>
+div{
+  div{
+  position:relative;
+  margin:50px auto;
+  width:100px;
+  height:100px;
+  box-sizing:border-box;
+  border:1px solid #333;  
+  // background-color:#333;
+  line-height:120px;
+  text-indent:5px;
+}
+
+div::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:50px;
+  box-sizing:border-box;
+  border-bottom:1px solid deeppink;
+  transform-origin:bottom center;
+  // transform:rotateZ(45deg) scale(1.414);
+  animation:slash 5s infinite ease;
+}
+
+@keyframes slash{
+  0%{
+    transform:rotateZ(0deg) scale(1);
+  }
+  30%{
+    transform:rotateZ(45deg) scale(1);
+  }
+  60%{
+    transform:rotateZ(45deg) scale(1.414);
+  }
+  100%{
+    transform:rotateZ(45deg) scale(1.414);
+  }
+}
+}
+```
+
+或者
+
+```css
+div{
+  position:relative;
+  margin:50px auto;
+  width:100px;
+  height:100px;
+  box-sizing:border-box;
+  border:1px solid #333;  
+  line-height:120px;
+  text-indent:5px;
+  background:
+  linear-gradient(45deg, transparent 49.5%, deeppink 49.5%, deeppink 50.5%, transparent 50.5%);
+}
+```
+
+先建立三角形，然后用白色小三角形遮挡，可以用剪裁clip-path或者伪元素
+
+```css
+
+```
+
+圆形
+
+```css
+.circle{
+  border-radius:50%;
+  width:80px;
+  height:80px;
+  background:#666;
+}
+```
+
+三角形
+
+```css
+.tri-angle{
+   width:0px;
+   height:0px;
+   border-left:50px solid transparent;
+   border-right:50px solid transparent;
+   border-bottom:100px solid red;
+}
+```
+
+扇形
+
+```css
+
+```
+
+梯形
+
+```css
+
+```
+
+### 房子
+
+```html
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS样式»</title>
+<style>
+.border-up{
+    width: 0;
+    height: 0;
+    border-left: 150px solid transparent;
+    border-right: 150px solid transparent;
+    border-bottom:150px solid #333;
+    position: relative;
+    margin: 50px auto;
+
+    background-image:linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44  0),
+    linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44 0);
+    background-size:30px 30px;
+    background-position:0 0,15px 15px;
+}
+.border-up span{
+    display: block;
+    width: 0;height: 0;
+    border-left: 147px solid transparent;
+    border-right: 145px solid transparent;
+    border-bottom: 147px solid #F0981C;
+    position: absolute;left: -147px;
+    top: 1px;
+}
+.div3{
+    width:40px;
+    height:40px;
+    background-color:transparent;
+    float:left;
+}
+.div-border1{
+    border-top:solid 1px;
+    border-left:solid 1px;
+    border-bottom:solid 1px;
+}
+.div-border2{
+    border-top:solid 1px;
+    border-right:solid 1px;
+    border-left:solid 1px;
+    border-bottom:solid 1px;
+}
+.div-border3{
+    border-left:solid 1px;
+    border-bottom:solid 1px;
+}
+.div-border4{
+    border-right:solid 1px;
+    border-left:solid 1px;
+    border-bottom:solid 1px;
+}
+.div{
+    width:120px;
+    height:40px;
+    top:56px;
+    margin-left:-45px;
+    z-index: 99999;
+    position:relative;
+}
+.chimney{
+    background-image:linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44  0),
+    linear-gradient(45deg,#a95f44  26%,transparent 0,transparent 75%,#a95f44 0);
+    background-size:30px 30px;
+    background-position:0 0,15px 15px;
+    width: 30px;
+    height: 80px;
+    border:  1px solid;
+    margin-left:  40px;
+    margin-top:  -30px;
+}
+.house{
+ 		width: 240px;
+    height: 200px;
+    border: 1px solid;
+    background-color: #FFFFFF;
+    margin-left: -122px;
+    margin-top: 56px;
+}
+</style>
+</head>
+<body>
+<div class="border-up">
+		<span></span>
+		<div class="div">
+      <div class="div3 div-border1"></div>
+      <div class="div3 div-border2"></div>
+      <div class="div3 div-border3"></div>
+      <div class="div3 div-border4"></div>
+    </div>
+    <div class="chimney" style=""></div>
+    <div class="house"></div>
+</div>
+</body>
+</html>
+```
+
+
+
+### 伪类时间轴
+
+```html
+<div class="message_item">
+    <div class="message_time">2020-05-13 19:11</div>
+    <sapn class="message_circle"></sapn>
+</div>
+<div class="message_item">
+    <div class="message_time">2020-05-13 19:10</div>
+    <sapn class="message_circle"></sapn>
+</div>
+```
+
+样式
+
+```css
+.message_item{
+    height: 145px;
+    width: 300px;
+    padding-left: 12px;
+    border-left: 1px solid #979797;
+    position: relative;
+}
+.message_time{
+    height: 17px;
+    line-height: 17px;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+.message_time:before{
+    content: '';
+    display: block;
+    width: 2px;
+    height: 93%;
+    margin-top: 25px;
+    background: #00D1E3;
+    position: absolute;
+    left: 30%;
+    top: 10px;
+}
+.message_circle{
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #547ABD;
+    border-radius: 50%;
+    left: -4px;
+    top: 5px;
+}
+```
+
+### 容量球效果
+
+```html
+<div class="box">
+    <div class="circular">
+        <div class="content">
+        </div>
+        <span class="num">40%</span>
+    </div>
+</div>
+```
+
+样式
+
+```css
+.box{
+    height: 500px;
+    padding-top: 100px;
+    padding-left: 200px;
+}
+.circular{
+    height: 100px;
+    width: 100px;
+    border: 2px solid #4682B4;
+    border-radius: 50%;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+}
+.num{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 30;
+    transform: translate(-50%,-50%);
+}
+.content{
+    position: absolute;
+    height: 30px;
+    width: 100px;
+    background: #4682B4;
+    bottom: 0px;
+}
+.content::after, .content::before{
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: 0;
+    left: 50%;
+    background-color: rgba(255, 255, 255, .7);
+    border-radius: 40% 42% 40% 41%;
+    transform: translate(-50%, -100%) rotate(0);
+    animation: rotate 8s linear infinite;
+    z-index: 10;
+}
+.content::after{
+    border-radius: 42% 40% 41% 40%;
+    background-color: rgba(255, 255, 255, .9);
+    transform: translate(-50%, -100%) rotate(0);
+    animation: rotate 8s linear -5s infinite;
+    z-index: 20;
+}
+
+@keyframes rotate {
+    50% {
+        transform: translate(-50%, -103%) rotate(180deg);
+    } 100% {
+        transform: translate(-50%, -100%) rotate(360deg);
+    }
+}
+```
+
+### 卡券效果
+
+```html
+<html>
+<link tyep="css/text">
+  .coupon {
+     width:300px;
+     height:100px;
+     line-height:100px;
+     margin:50px auto;
+     text-align:center;
+     position:relative;
+     background:radial-gradient(circle at right bottom,transparent 10px,#FFFFFF 0) top right /50% 51px no-repeat
+                radial-gradient(circle at left bottom,transparent 10px,#FFFFFF 0) top left /50% 51px no-repeat
+                radial-gradient(circle at right top,transparent 10px,#FFFFFF 0) bottom right /50% 51px no-repeat
+                radial-gradient(circle at left top,transparent 10px,#FFFFFF 0) bottom left /50% 51px no-repeat
+     filter:drop-shadow(2px 2px 2px rgba(0,0,0,0.2))
+  }
+  .coupon span {
+     display:inline-block;
+     vertical-align:middle;
+     margin-right:10px;
+     color:red;
+     font-size:50px;
+     font-weight:400;
+  }
+</link>
+<body>
+   <p class="coupon">
+      <span>400</span>
+   </p>
+</body>
+</html>
+```
+
+### 虚线框
+
+```html
+<html>
+<link type="text/css">
+.dotted-line {
+  width:800px;
+  margin:auto;
+  padding:20px;
+  border:1px dashed transparent;
+  background:linear-gradient(white,white) padding-box,repeat-linear-gradient(-45deg,red 0,#ccc 0.25em,white 0,white 0.75em);
+} 
+</css>
+<body>
+  <p class="dotted-line">庭院深深，不知有多深？杨柳依依，飞扬起片片烟雾，一重重帘幕不知道有多少层</p>
+</body>
+</html>
+```
+
+### 圆点
+
+```css
+.circle {
+	width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+```
+
+## 滚动条样式
 
 webkit下滚动条主要有7个属性：
 
@@ -81,7 +975,9 @@ Scrollbar-track-color：滚动条背景颜色
 
 Https://segmentfault.com/a/1190000012800450
 
-### 字体
+
+
+## 字体
 
  在不同操作系统、不同游览器里面默认显示的字体是不一样的，并且相同字体在不同操作系统里面渲染的效果也不尽相同，
 
@@ -116,546 +1012,3 @@ font-family:"PingFang SC",
 ```
 
 字体族大体上分为两类：`sans-serif（无衬线体）`和`serif（衬线体）`，一般非衬线字体在显示器中的显示效果会比较好，一般非衬线字体在显示器中的显示效果会比较好，
-
-### CSS动画
-
-css中动画的原理是从一套css样式变到另一套css样式
-
-变形（tansform）
-
-属性
-
-rotate:以中心为原点旋转一定角度，分为rotate()、rotateX()、rotateY()、rotateZ()、rotate3D()
-
-skew:扭曲，分为skew(x,y),skewX(x),skewY(x)
-
-Scale:缩放，分为scale(x,y),scaleX(x),scaleY(y)、scaleZ(z)、scale3D(z)
-
-translate:位移，分为translateX(),translateY(),translateZ(),translate3D()
-
-Matrix:变换综合应用，矩阵变换
-
-
-
-过渡动画transition
-
-类似于hero动画，在同一元素的两种样式之间添加过渡动画
-
-`transition-property`：指定哪个或哪些 CSS 属性用于过渡。只有指定的属性才会在过渡中发生动画，其它属性仍如通常那样瞬间变化。
-
-`transition-duration`指定过渡的时长。或者为所有属性指定一个值，或者指定多个值，为每个属性指定不同的时长。
-
-`transition-timing-function`指定一个函数，定义属性值怎么变化。
-
-`transition-delay`指定延迟，即属性开始变化时与过渡开始发生时之间的时长。
-
-
-
-动画
-
-Animation
-
-animation是css3新添加的属性，用来为元素实现动画效果。animation无法单独承担动画的效果，需要承载动画的另一个属性-@keyframes，@keyframes定义的动画并不直接执行，需要借助animation来运转
-
-通过百分比来规定动画中发生改变的时间。0%表示动画开始的时间，50%表示动画执行到一半的时间，100%表示动画结束的时间。百分比后的花括号动画在该节点要达到的效果。也可以用关键字表示节点，from表示0%，to表示100%
-
-实例
-
-```css
-@keyframes animationname{
-  keyframes-selector {
-    css-style
-  }
-}
-/*定义mymove动画，定义0%、25%、50%、75%、100%五个阶段的样式*/
-@keyframes mymove {
-  0%{top:0px; background:red; width:100px; -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);}
-  25%{top:200px;}
-  50%{top:100px;}
-  75%{top:200px;}
-  100%{top:200px; background:yellow; width:300px;-webkit-transform:        rotate(360deg);transform: rotate(360deg);}
-}
-/*在load-border中引入mymove animation，定义线性与非线性、循环等属性*/
-.load-border {
-    width: 120px;
-    height: 120px;
-    background: url(../images/loading_icon.png) no-repeat center center;
-    -webkit-animation: mymove 1.4s infinite linear;
-    animation: mymove 1.4s infinite linear; 
-}
-```
-
-使用时为了兼容不同浏览器，可以加上-webkit-、-o-、-ms-、-moz-、-khtml-等前缀
-
-#### hover动画
-
-上浮
-
-下浮
-
-前后翻转
-
-左右翻转
-
-
-
-
-
-#### js实现css动画
-
-纯css animation或者transform的动画，js不好进行控制，因此可以使用js生成基于element.animate的动画，以便使用web animate api和其他事件(如点击按钮)进行互动。
-
-```javascript
-//像css keyframes一样，先定义关键帧
-var boxframes = [
-  {
-    transform:'tranlateX(0)',
-    background:'red',
-    borderRadius:0
-  },
-  {
-    transform:'translateX(45vw) scale(.5)',
-    background:'orange',
-    borderRadius:0
-  },
-  {
-    transform:'translateX(90vw)',
-    background:'green',
-    borderRadius:'50%'
-  }
-]
-//获取要执行动画的DOM
-var boxref = document.getElementById("box")
-//在该DOM上通过element.animate api执行动画
-var boxanimation = boxref.animate(boxframes,
- {
-  duration: 5000,//动画执行时长
-  fill:'both',
-  easing:'linear',
-  iterations:'Infinity',
-})
-```
-
-其他对动画的操作通过动画对象实现
-
-实例对象的属性：
-
-```javascript
-boxanimation.currentTime:获取或设置动画的当前时间值
-boxanimation.effect：获取或设置动画的目标效果
-boxanimation.id 用于表示动画的字符串
-boxanimation.playbackRate:用于获取或设置动画回放速率的整数，1表示支持，0表示暂停，2表示双倍，-1表示反向
-boxanimation.ready：
-boxanimation.finish：
-boxanimation.startTime：
-boxanimation.timeline：
-```
-
-实例对象的方法：
-
-```javascript
-boxanimation.cancel() //取消动画
-boxanimation.finish()  //立即完成一个动画
-boxanimation.pause()  //暂停动画
-boxanimation.play()   //播放动画
-boxanimation.reverse()  //颠倒动画的方向，反向播放
-```
-
-实例对象的事件
-
-```javascript
-//当动画取消时触发
-boxanimation.cancle = function(){
-  boxanimation.reverse();
-}
-//当动画完成时触发
-boxanimation.finish = function(){
-  boxanimation.reverse();
-}
-```
-
-#### 监测动画掉帧的方法
-
-Chrome dev tool中Timeline的Frame模块
-
-地址栏输入“chrome:flags”搜索“fps”，将FPS计数器开启，浏览器重启后右上角会实时显示帧速率
-
-### 滚动视差的实现
-
-`background-attachment`：如果指定了 `background-image` ，那么 `background-attachment` 决定背景是在视口中固定的还是随着包含它的区块滚动的。
-
-属性：
-
-`scroll`：表示背景相对于元素本身固定， 而不是随着它的内容滚动。
-
-`local`：表示背景相对于元素的内容固定。如果一个元素拥有滚动机制，背景将会随着元素的内容滚动， 并且背景的绘制区域和定位区域是相对于可滚动的区域而不是包含他们的边框。
-
-`Fixed`:
-
-
-
-### 浏览器兼容性问题
-
-使用css时加上-webkit-、-o-、-ms-、-moz-、-khtml-等前缀
-
-### GPU加速
-
-现代的浏览器通常会有两个重要的执行线程，这两个线程协同工作来渲染一个网页：主线程和合成线程
-
-一般情况下，主线程负责运行JavaScript，计算HTML元素的CSS样式，页面的布局，将元素绘制到一个或者多个位图，将这些位图交给合成线程
-
-合成线程负责通过GPU将位图绘制到屏幕上，通知主线程更新页面中可见或即将变成可见的部分的位图，计算出页面中哪部分时可见的，计算出当你滚动页面时哪部分是即将变成可见的，当你滚动页面时即将相应的页面移动到可视区域
-
-CSS animation、transforms以及transitions不会自动开启GPU加速，而是由浏览器缓慢的软件渲染引擎来执行。但是像Chrome、Firefox、Safari和最新的Opera都支持硬件加速。我们需要手动触发。
-
-浏览器会在元素的3D变换时开启，对于没有3D变换的效果，可以使用translateZ(0)来骗过浏览器，开启硬件加速
-
-```css
-.cube{
-  -webkit-transform:translateZ(0);
-  -moz-transform:translateZ(0);
-  -ms-transform:translateZ(0);
-  -o-transform:translateZ(0);
-  transform:translateZ(0);
-}
-```
-
-在chrome和safari中使用translateZ开启GPU加速后可能会有页面闪烁的问题，使用下面的代码修复此情况
-
-```javascript
-.cube{
-  -webkit-backface-visibility:hidden;  
-  -moz-backface-visibility:hidden;
-  -ms-backface-visibility:hidden;
-  backface-visibility:hidden;
-  
-  -webkit-perspective:1000;
-  -moz-perspective:1000;
-  -ms-perspective:1000;
-  perspective:1000;
-}
-```
-
-在webkit的浏览器中使用另一个行之有效的方法
-
-```css
-.cube{
-  -webkit-transform:translate3d(0,0,0);  
-  -moz-transform:translate3d(0,0,0);
-  -ms-transform:translate3d(0,0,0);
-  transform:translate3d(0,0,0);
-}
-```
-
-原生的移动端应用总是可以很好地应用GPU，这就是它比网页应用表现更好的原因，硬件加速在移动端尤其有用，因为它可以有效地减少资源地利用
-
-适合使用transform3d或者translateZ开启GPU硬件加速的使用范围：
-
-- 使用很多大尺寸图片(尤其是PNG24)进行动画的时候
-
-- 页面有很多大尺寸图片并且进行了CSS缩放处理，页面可以滚动时
-
-- 使用background-size：cover设置大尺寸背景图，并且页面可以滚动时
-
-- 编写大量DOM元素进行CSS动画时(transition/transform/keyframes/absTop/left)
-
-- 使用很多PNG图片拼接成CSS Sprite时
-
-GPU缺点：
-
-GPU增加了内存的使用，而且它会减少移动端电池的使用寿命，所以确保需要时使用
-
-### SCSS
-
-**[Sass](https://link.zhihu.com/?target=http%3A//sass-lang.com/)**是成熟、稳定、强大的**CSS预处理器**，**SCSS**是**Sass3**版本当中引入的新语法特性，完全兼容CSS3的同时继承了**Sass**强大的动态功能。
-
-[Scss](https://sass-lang.com/) 是 CSS 的扩展， 在保证兼容性的基础上， 允许使用变量、 嵌套、 混合、 导入等特性， 在编写大量的 CSS 文件时很有帮助。
-
-Scss 是 CSS3 的扩展， 在 CSS3 的基础上， 添加了下面几个重要的特性。
-
-支持使用变量
-
-Scss 支持使用 `$` 符号来定义变量， 支持的变量类型有 `数字（可带单位）`、 `字符串` 、`颜色` 以及 `布尔值`、数组list、对象map、函数function 等，
-
-css支持两种类型的字符串，使用单/双引号的和没有使用引号的。css可以自动识别两种字符串。
-
-```scss
-$font-stack:    Helvetica, sans-serif;
-$primary-color: #333;
-
-body {
-  font: 100% $font-stack;
-  color: $primary-color;
-}
-```
-
-loader生成的css文件为
-
-```css
-body {
-  font: 100% Helvetica, sans-serif;
-  color: #333;
-}
-```
-
-更为直观的嵌套语法
-
-```scss
-nav {
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  li { display: inline-block; }
-
-  a {
-    display: block;
-    padding: 6px 12px;
-    text-decoration: none;
-  }
-}
-```
-
-输出的css文件为
-
-```css
-nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-nav li {
-  display: inline-block;
-}
-
-nav a {
-  display: block;
-  padding: 6px 12px;
-  text-decoration: none;
-}
-```
-
-支持导入其他文件
-
-```scss
-// _reset.Scss
-html,
-body,
-ul,
-ol {
-   margin: 0;
-  padding: 0;
-}
-
-/* base.Scss */
-@import 'reset';
-
-body {
-  font-size: 100% Helvetica, sans-serif;
-  background-color: #efefef;
-}
-```
-
-输出的css格式为
-
-```css
-html, body, ul, ol {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: #efefef;
-  font-size: 100% Helvetica, sans-serif;
-}
-```
-
-继承
-
-```scss
-.message {
-  border: 1px solid #ccc;
-  padding: 10px;
-  color: #333;
-}
-
-.success {
-  @extend .message;
-  border-color: green;
-}
-
-.error {
-  @extend .message;
-  border-color: red;
-}
-
-.warning {
-  @extend .message;
-  border-color: yellow;
-}
-```
-
-输出的css文件为
-
-```css
-.message, .success, .error, .warning {
-  border: 1px solid #cccccc;
-  padding: 10px;
-  color: #333;
-}
-
-.success {
-  border-color: green;
-}
-
-.error {
-  border-color: red;
-}
-
-.warning {
-  border-color: yellow;
-}
-```
-
-分部
-
-以下划线开头的文件 (`_partial.Scss`) 不会被输出， 可以被导入到其它文件。
-
-支持运算符
-
-scss支持加减乘除等基本运算符
-
-```scss
-.container { width: 100%; }
-
-article[role="main"] {
-  float: left;
-  width: 600px / 960px * 100%;
-}
-
-aside[role="complimentary"] {
-  float: right;
-  width: 300px / 960px * 100%;
-}
-```
-
-输出css文件为
-
-```css
-.container {
-  width: 100%;
-}
-
-article[role="main"] {
-  float: left;
-  width: 62.5%;
-}
-
-aside[role="complimentary"] {
-  float: right;
-  width: 31.25%;
-}
-```
-
-#### scss与sass、less的区别
-
-Sass(Syntactically Awesome Stylesheet)是一种动态样式语言，比css多出很多功能(如变量、嵌套、运算、混入、继承、颜色处理、函数等等)。
-
-但是sass属于缩排语法，对于习惯CSS前端写法的来说很不直观，因此sass的语法进行了改良，sass 3就变成了scss。scss是css语法的拓展，用{}取代了缩进
-
-Less也是一种动态样式语言，对Css赋予了动态语言的特性，比如变量、继承、运算、函数，less既可以在客户端上运行，也可以在服务端运行
-
-scss与less的区别
-
-1.编译环境不一样
-
-scss是在服务端处理的，以前是Ruby，现在是Dart-Scss或者Node-Scss，而less是需要引入less.js来处理less代码输出css到浏览器，也可以在开发服务器将less语法编译成css再输出css到生产包目录，也有在线编译工具
-
-2.变量符不一样
-
-less是@，scss是$
-
-3.输出设置。Less没有输出设置，Scss提供四种输出设置
-
-nested：嵌套缩进的css代码
-
-Expanded：展开的多行代码
-
-compact:简洁格式的css代码
-
-compressed：压缩后的css代码
-
-4.Scss支持条件语句if{}else{}循环语句for{}循环等等，而less不支持
-
-5.引用外部css文件
-
-scss使用@import引用外部文件，如果不想编译生成同名的css文件，命名必须以_开头，scss会认为该文件是一个引用文件，不会将其编译为同名的css文件
-
-less的引用与css的@import没什么差异
-
-6.scss和less的工具库不同
-
-Less有UI组件库Bootstrap，Bootstrap的样式文件部分源码就是less写的
-
-Scss有工具库Compass，Compass与Scss的关系就像JQuery与JavaScript，封装了一系列有用的模块和模版，补充强化了Scss的功能
-
-7.安装体验不同
-
-使用npm或者yarn安装less很容易，而scss没有翻墙的话容易安装失败
-
-总结：
-
-less和scss都是css的强化版本，scss比less强大，是一种真正的编程语言，而less相对清晰明了，易于上手，对编译环境要求宽松。编译scss一般要安装ruby，ruby官网国内访问不了，所以更倾向于选择less
-
-
-
-#### less转化成css的过程（lessloader、cssloader）
-
-less配置
-
-```javascript
-{
-  module: {
-    rules: [
-      {
-        test: /\.less$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'less-loader',
-        ],
-      },
-    ],
-  },
-}
-```
-
-涉及到3个loader：less-loader、css-loader、style-loader
-
-Less-loader的作用就是将less代码转译为浏览器可以识别的CSS代码。
-
-Css-loader的作用主要是解析css文件中的@import和url语句，处理css-modules，并将结果作为一个js模块返回。
-
-经过css-loader的转译，我们已经得到了完整的css样式代码，style-loader的作用就是将结果以style标签的方式插入DOM树中。
-
-但css-loader返回的不是css样式代码的文本，而是一个js模块的代码，将这些js代码直接放进style标里显然是不行的。
-
-style-loader的设计思路：
-
-- css-loader返回的样式只能通过其js模块的运行时得到，故使用`require`语句取得
-- normal方法实际上什么都没做，在pitch方法里`中断loader链的执行`，再以inline方式调用了后方的loader来加载当前的less文件
-- 如果将pitch中的实现放到normal方法里，就会造成loader链执行两遍
-- 如果requestPath中没有'!!'前缀，就会造成loader链被无限循环调用
-
-style-loader的实现逻辑比较绕，也是一个比较经典的`pitch`应用，理解了它的原理，就可以是说对loader的调用链、执行顺序和模块化输出等有了一个比较全面的认识。
-
-
-
-
-
-
-

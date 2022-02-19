@@ -29,9 +29,20 @@ thumbnail: http://cdn.kunkunzhang.top/html.jpeg
 
 混杂模式又称怪异模式或兼容模式，是指浏览器用自己的方式解析代码，即使用一种比较宽松的向后兼容的方式来显示页面
 
+```html
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0.1 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml111.dtd"
+```
+
 HTML5 没有 DTD ，因此也就没有严格模式与混杂模式的区别，HTML5 有相对宽松的语法，实现时，已经尽可能大的实现了向后兼容。（ HTML5 没有严格和混杂之分）
 
 DOCTYPE不存在或格式不正确会让文档以混杂模式呈现
+
+```html
+<!DOCTYPE html>
+```
+
+
 
 ### 头部标签
 
@@ -45,12 +56,135 @@ charset：声明文档的字符编码。其值必须是与ASCII大小写无关�
 
 name和content：`name` 和 `content` 属性可以一起使用，以名-值对的方式给文档提供元数据，其中 name 作为元数据的名称，content 作为元数据的值。
 
-**`http-equiv`**
+Name的属性值：
+
+```html
+<meta name="Generator" content="">
+```
+
+Generator用以说明生成工具
+
+```html
+<meta name="KEYWords" content="">
+```
+
+Keywords用以向搜索引擎说明网页的关键字
+
+```html
+<meta name="description" content="">
+```
+
+description用来向搜索引擎说明站点的主要内容
+
+```html
+<meta name="author" content="">
+```
+
+author用来向搜索引擎说明站点的制作作者
+
+```html
+<meta name="Robots" content="all|none|index|noindex|follow|nofollow"/>
+```
+
+robots属性用来告诉搜索引擎是否可以被检索
+
+all：文件将被检索，且页面上的连接可以被查询
+
+none:文件将不被检索，且页面上的连接不可以被查询
+
+index：文件将被检索，
+
+follow：页面上的连接可以被查询
+
+noindex：文件将不被检索，但页面上的连接可以被查询
+
+nofollow：文件将不被检索，但页面上的连接可以被查询
+
+**`http-equiv`**的属性值
+
+```html
+<meta http-equiv="Expires" content="Mon,12 May 2001 00:20:00">
+```
+
+Expires可以用于设置网页的过期时间，一旦过期则必须到服务器上重新调用。需要注意的是必须使用GMT时间格式
+
+```html
+<meta http-equiv="Pragma" content="no-cache">
+```
+
+Pragma用于设定禁止浏览器从本地机的缓存中调阅页面内容，设定后一旦离开网页就无法从Cache中调出
+
+```html
+<meta http-equiv="Refresh" content="n;url=http://yourlink">
+```
+
+refresh用于让网页在指定的时间内跳转到指定页面
+
+```html
+<meta http-equiv="set-cookie" content="Mon,12 May 2001 00:20:00">
+```
+
+Set-cookie用于cookie设定，如果网页过期，则存盘的cookie将被删除。需要注意的是也是使用GMT时间格式
+
+```html
+<meta http-equiv="windows-Target" content="_top">
+```
+
+强调页面在当前窗口中医独立页面展示，可以防止自己的页面被别人当作一个iframe调用
+
+```html
+<meta http-equiv="Page-Enter" content="revealTrans(duration=10,transition=50)">
+<meta http-equiv="Page-Exit" content="revealTrans(duration=20,transition=6)">
+```
+
+用于设定进入和离开页面的特殊效果，这个功能即FrontPage中的网页过渡，不过所加的网页不能是一个iframe页面
+
+
 
 属性定义了一个编译指示指令。这个属性叫做 `**http-equiv**(alent)` 是因为所有允许的值都是特定HTTP头部的名称`content-type`
 如果使用这个属性，其值必须是"`text/html; charset=utf-8`"。注意：该属性只能用于 [MIME type](https://wiki.developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) 为 `text/html` 的文档，不能用于MIME类型为XML的文档。
 
 `itemprop` 属性，`meta` 元素提供用户定义的元数据。
+
+
+
+Property的属性值：
+
+og是一种新的http头部标记，即Open Graph Protocol，为了提高站外内容的传播效率，2010年F8会议上，Facebook开放了一套开放内容协议，即open graph protocol，任何网页只要遵守该协议，SNS就能从页面上提取最有效的信息并呈现给用户。目前之中协议被SNS网站如fb等采用
+
+```html
+<meta property="og:type" content="video"/>
+<meta property="og:title" content="video"/>
+<meta property="og:image" content="video"/>
+<meta property="og:url" content="video"/>
+<meta property="og:locale" content="video"/>
+<meta property="og:description" content="video"/>
+<meta property="fb:app_id" content="video"/>
+```
+
+Og:url:页面的权威链接，此标签是未加修饰的网址，没有会话变量、用户识别参数或者计数器
+
+Og:image:分享网址时所显示的图片
+
+og:type：内容的媒体类型，此标签会影响网页内容在动态消息的显示方式，如果不指定类型则默认为website
+
+og:locale：资源的区域设置，默认为en_US
+
+Og:title:文章的标题，不包含任何品牌，例如网址名称
+
+Og:description:内容的简单描述，通常为2-4个句子
+
+fb:app_id:要使用fb成效分析，则将应用编号添加到主页中
+
+
+
+facebook调试器：https://developers.facebook.com/tools/debug
+
+
+
+外链图标
+
+
 
 #### link标签
 
@@ -62,11 +196,14 @@ name和content：`name` 和 `content` 属性可以一起使用，以名-值对�
 
 注意：书签bookmark的png分辨率不能太小，否则显示不了效果
 
-网页小图标、外链图标
+网页小图标
 
 ```html
 <link rel="shortcut icon" href="favicon">
+<link rel="bookmark" href="/favicon.ico" type="image/x-icon" />
 ```
+
+
 
 
 
@@ -150,7 +287,15 @@ loadScript("after.js")
 
 ### 常见HTML标签属性
 
-html连接：<a>标签：target属性规定在何处打开链接文档。浏览器会根据target的属性值去打开与其命名或名称相符的 框架<frame>或者窗口.
+html连接：<a>标签：target属性规定在何处打开链接文档。浏览器会根据target的属性值去打开与其命名或名称									相符的 
+
+​									download属性：同源情况下，添加download属性，点击a标签后会下载文件，            									download=""可以指定下载文件名
+
+​									href：链接，如果是下载文本文件，在href的链接尾部加入"?response-content-type=application/octet-stream",如"http://oss-cdn.nebula-graph.com.cn/package/2.0.1/nebula-graph-2.0.1.el8.x86_64.rpm?response-content-type=application/octet-stream"
+
+​										如果href是mailto链接，chrome会提示不安全，添加target="_top"可以消除
+
+框架<frame>或者窗口.
 
 ​             _blank:在新窗口中打开被链接文档。
 
@@ -179,6 +324,23 @@ Html表单：<form>标签用于为用户输入表单。form标签能包含input�
 ​                               enctype属性规定表单的编码方式，默认空格改为+号
 
 ​                                target属性规定在何处打开action中的url，与<a>标签的target属性相同，有_blank、_self、_top等
+
+#### 自定义属性
+
+html5允许在标签上自定义属性data-*，通过这样的方式可以进行数据存放。使用data-*可以解决自定义属性混乱无管理的现状
+
+```html
+<div id="test" data-age="24">
+  Click Here
+</div>
+
+<script>
+var test = document.getElementById('test');
+test.dataset.my = 'Byron';
+</script>
+```
+
+
 
 ### 自闭合标签与闭合标签的区别
 
@@ -263,7 +425,7 @@ css3 动画节点 animation
 
 触发重排一定会触发重绘。
 
-重排的优化：
+#### 重排的优化：
 
 减少重排范围：以局部布局的形式组织html结构，尽可能小的影响重排的范围。
 
@@ -345,6 +507,16 @@ html<aside>定义页面的侧边栏内容
 ```
 
 使用li标签时默认前面会有小圆点marker，添加 list-style:none去除
+
+#### strong/b、em/i标签区别
+
+strong与b标签，em和i标签的效果样式没有区别，并且都是行元素。strong和b标签默认都是字体加粗的效果，em和i默认都是文字斜体的效果。
+
+`b标签`仅仅只是给文字添加了加粗样式，属于UI层面的处理，除此之外没有任何意义。你甚至就可以把它看作是加了`font-size:bold`的css样式的span标签。
+
+`strong标签`则是侧重于标签语义化，它是在告诉浏览器这是一段重点强调的内容。只不过它的默认样式恰好也是加粗。
+
+针对SEO（搜索引擎优化），strong标签与b标签相比更被搜索引擎重视，内容更容易被抓取到。同理，em标签也是语义化标签，而i标签只是仅仅加了斜体样式，并且em标签对SEO来说也更加友好。
 
 #### meta属性
 
@@ -477,6 +649,38 @@ javascript加载后会立即执行，同时会阻塞后面的资源加载。（j
 
 因为如果脚本的内容是获取元素的样式，宽高等CSS控制的属性，浏览器是需要计算的，也就是依赖于CSS。浏览器无法感知脚本内容到底是什么，为避免样式获取错误，因而只好等前面所有的样式下载完后，再执行JS。也就是说，**如果有外链css，那么js的执行时需要等待外链css下载完**。
 
+
+
+### 用div实现textarea
+
+```html
+<!DOCTYPE html>
+<head>
+  <title>textarea with div</title>
+  <style>
+    .editdiv {
+      border: 1px solid #a0b3d6;
+      width: 500px;
+      min-height: 200px;
+      font-size: 14px;
+      padding: 40px;
+      color: #333;
+      outline: 0;
+    }
+    .editdiv:empty::before {
+      content: attr(placeholder);
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="editdiv" contenteditable="true" placeholder="input content">   
+  </div>
+</body>
+```
+
+
+
 ### canvas绘图
 
 canvas本身没有绘图能力，是图形的容器，必须使用脚本来完成实际的绘图任务。
@@ -525,6 +729,35 @@ drawImage()//在画布上绘制图片或视频
 <div class="gcse-search"></div>
 <script async src="https://cse.google.com/cse.js?cx=de1f4d876bf449124"></script>
 ```
+
+
+
+### 在html中添加GA
+
+事件跟踪代码有四个值
+
+Category：字符串、必须，指定事件的目录
+
+Action：字符串、必须，指定GA统计分析交互的行为
+
+Label：字符串、非必须，指定GA中交互行为的标签
+
+Value：数值、非必须，非负数
+
+```html
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-8888-7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {dataLayer.push(arguments)};
+  gtag('js',new Date());
+  gtag('config','UA-8888-7')
+</script>
+<li
+    onclick="gtag('event','Link Click',{event_category: 'Engagement',event_label: 'start via Nav'})"
+    ></li>
+```
+
+
 
 
 
@@ -578,85 +811,4 @@ drawImage()//在画布上绘制图片或视频
 ```
 
 
-
-## CSS
-
-### 常见CSS属性
-
-**背景图片**
-
-background-img:
-
-Background-repeat:重复背景图片
-
-background-size：设定背景图片的尺寸
-
-属性值：length：可以指定图像的宽度和高度，第一个值是宽度，第二个值是高度。如果只设置第一个值，第二个值默认为auto
-
-​				百分比：以父元素的百分比来设置图片的宽度和高度的，第一个值是宽度，第二个值是高度，如果只设置一个值，那么第二个值默认是auto
-
-​				cover：把背景图片放到足够大，以使背景图片完全覆盖背景区域
-
-​				contain：把图像扩展至最大尺寸，以使宽度和高度
-
-
-
-
-
-#### flex布局高度
-
-设置height：auto属性
-
-**横向滚动**
-
-white-space: nowrap;//不分行
-
-Overflow-x: scroll//开启横向滚动
-
-Overflow-y:hidden//纵向滚动关闭
-
-filter: grayscale(100%);//适用于一键变灰等功能
-
-**display**: block：可以定义宽度和高度。块元素占用了全部宽度，在前后都是换行符。
-
-​               inline：此元素会被显示为内联元素，元素前后没有换行符,不强制换行。内联元素无法定义宽高。
-
-​               none：不显示
-
-​               inherit：从父元素继承display属性
-
-​               Inline-block:行内块元素
-
-​              flex：
-
-​               Table-cell:会作为一个表格单元格显示
-
-其中**flex**是未来布局的首选方案，意为弹性布局，灵活性较大，任何一个容器都可以指定为flex布局。定义为flex之后可以添加其他附带6个属性在该容器上
-
-```css
-flex-direction:row | row-reverse | column | column-reverse;/*决定主轴的方向（即项目的排列方向）,row（默认值）：主轴为水平方向，起点在左端。row-reverse：主轴为水平方向，起点在右端。column：主轴为垂直方向，起点在上沿。column-reverse：主轴为垂直方向，起点在下沿。。*/
-flex-wrap:nowrap | wrap | wrap-reverse;/*默认情况下，项目都排在一条线（又称"轴线"）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。nowrap（默认）：不换行。wrap：换行，第一行在上方。wrap-reverse：换行，第一行在下方。*/
-flex-flow
-justify-content:flex-start | flex-end | center | space-between | space-around;/*justify-content属性定义了项目在主轴上的对齐方式。flex-start（默认值）：左对齐.flex-end：右对齐.center： 居中.space-between：两端对齐，项目之间的间隔都相等。space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。*/
-align-items:flex-start | flex-end | center | baseline | stretch;/*align-items属性定义项目在交叉轴上如何对齐。flex-start：交叉轴的起点对齐。flex-end：交叉轴的终点对齐。center：交叉轴的中点对齐。baseline: 项目的第一行文字的基线对齐。stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。*/
-align-content:flex-start | flex-end | center | space-between | space-around | stretch;/*align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。flex-start：与交叉轴的起点对齐。flex-end：与交叉轴的终点对齐。center：与交叉轴的中点对齐。space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。stretch（默认值）：轴线占满整个交叉轴。
-space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。*/
-```
-
-还有6个属性作为flex容器的子容器的属性
-
-```css
-order: <integer>;/*order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。*/
-flex-grow: <number>; /* default 0 flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。*/
-flex-shrink: <number>; /* default 1 flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。*/
-align-self: auto | flex-start | flex-end | center | baseline | stretch;/* align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。*/
-flex-basis: <length> | auto; /* default auto flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。*/
-flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]/*flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。*/
-```
-
-flex一般是0或1.
-
-默认是块元素的例子：<p>、<h1>、<div>、<ul>
-
-默认是内联元素的例子：<span>、<a>、<input>、<img>、
 

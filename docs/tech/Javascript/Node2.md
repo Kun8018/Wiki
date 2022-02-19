@@ -93,11 +93,43 @@ window实例方法
 
 `window.requestAnimationFrame()`方法跟`setTimeout`类似，都是推迟某个函数的执行。不同之处在于，`setTimeout`必须指定推迟的时间，`window.requestAnimationFrame()`则是推迟到浏览器下一次重流时执行，执行完才会进行下一次重绘。重绘通常是 16ms 执行一次，不过浏览器会自动调节这个速率，比如网页切换到后台 Tab 页时，`requestAnimationFrame()`会暂停执行。
 
-如果某个函数会改变网页的布局，一般就放在`window.requestAnimationFrame()`里面执行，这样可以节省系统资源，使得网页效果更加平滑。因为慢速设备会用较慢的速率重流和重绘，而速度更快的设备会有更快的速率。
+requestAnimationFrame采用系统时间间隔，保持最佳绘制效率，不会因为间隔时间过短，造成过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅，让各种网页动画效果能够有一个统一的刷新机制，从而节省系统资源，提高系统性能，改善视觉效果。
+
+如果某个函数会改变网页的布局，一般就放在`window.requestAnimationFrame()`里面执行，这样可以节省系统资源，使得网页效果更加平滑。因为慢速设备会用较慢的速率重流和重绘，而速度更快的设备会有更快的速率。requestAnimationFrame会把每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率
+在隐藏或不可见的元素中，requestAnimationFrame将不会进行重绘或回流，这当然就意味着更少的CPU、GPU和内存使用量
+requestAnimationFrame是由浏览器专门为动画提供的API，在运行时浏览器会自动优化方法的调用，并且如果页面不是激活状态下的话，动画会自动暂停，有效节省了CPU开销
 
 `window.requestIdleCallback()`跟`setTimeout`类似，也是将某个函数推迟执行，但是它保证将回调函数推迟到系统资源空闲时执行。也就是说，如果某个任务不是很关键，就可以使用`window.requestIdleCallback()`将其推迟执行，以保证网页性能。
 
-它跟`window.requestAnimationFrame()`的区别在于，后者指定回调函数在下一次浏览器重排时执行，问题在于下一次重排时，系统资源未必空闲，不一定能保证在16毫秒之内完成；`window.requestIdleCallback()`可以保证回调函数在系统资源空闲时执行。
+它跟`window.requestAnimationFrame()`的区别在于，后者指定回调函数在下一次浏览器重排时执行，问题在于下一次重排时，系统资源未必空闲，不一定能保证在16毫秒之内完成； `window.requestIdleCallback()`可以保证回调函数在系统资源空闲时执行。
+
+##### 获取当前动画fps
+
+requestAnimationFrame的回调函数执行次数通常与浏览器屏幕刷新次数相匹配，而利用这个API实现动画的原理就是回调函数内再次调用requestAnimationFrame，所以页面不断重绘时，然后检测1秒内requestAnimationFrame调用的次数，就是当前的FPS
+
+```html
+<script>
+  let num = 0
+  let height = 0
+  let frame = 0
+  window.onload = () => {
+    let animationHeight = () => {
+      document.getElementById('div').style.height = (++height) + 'px'
+      if (height < 1000) {
+        frame++
+        requestAnimationFrame(animationHeight)
+      }
+    }
+    // 每秒钟输出当前帧数
+    setInterval(() => {
+      console.log(frame)
+      frame = 0
+    }, 1000)
+    requestAnimationFrame(animationHeight)
+  }
+
+</script>
+```
 
 事件
 
@@ -630,19 +662,116 @@ mousemove、mouseout 这样的事件，虽然有事件冒泡，但是只能不�
 
 对于事件代理(事件委托）来说，在事件捕获或者事件冒泡阶段处理并没有明显的优劣之分，但是由于事件冒泡的事件流模型被所有主流的浏览器兼容，从兼容性角度来说还是建议大家使用事件冒泡模型。
 
+#### 表单事件
+
+input事件
+
+`input`事件当`<input>`、`<select>`、`<textarea>`的值发生变化时触发。对于复选框（`<input type=checkbox>`）或单选框（`<input type=radio>`），用户改变选项时，也会触发这个事件。另外，对于打开`contenteditable`属性的元素，只要值发生变化，也会触发`input`事件。
+
+`input`事件的一个特点，就是会连续触发，比如用户每按下一次按键，就会触发一次`input`事件
+
+该事件跟`change`事件很像，不同之处在于`input`事件在元素的值发生变化后立即发生，而`change`在元素失去焦点时发生，而内容此时可能已经变化多次。也就是说，如果有连续变化，`input`事件会触发多次，而`change`事件只在失去焦点时触发一次
+
+change事件
+
+`change`事件当`<input>`、`<select>`、`<textarea>`的值发生变化时触发。它与`input`事件的最大不同，就是不会连续触发，只有当全部修改完成时才会触发，另一方面`input`事件必然伴随`change`事件。具体来说，分成以下几种情况。
+
+- 激活单选框（radio）或复选框（checkbox）时触发。
+- 用户提交时触发。比如，从下列列表（select）完成选择，在日期或文件输入框完成选择。
+- 当文本框或`<textarea>`元素的值发生改变，并且丧失焦点时触发。
+
+`select`事件
+
+当在`<input>`、`<textarea>`里面选中文本时触发
+
+选中的文本可以通过`event.target`元素的`selectionDirection`、`selectionEnd`、`selectionStart`和`value`属性拿到。
+
+valid事件
+
+用户提交表单时，如果表单元素的值不满足校验条件，就会触发`invalid`事件
+
+reset、submit事件
+
+这两个事件发生在表单对象`<form>`上，而不是发生在表单的成员上。
+
+`reset`事件当表单重置（所有表单成员变回默认值）时触发。
+
+`submit`事件当表单数据向服务器提交时触发。注意，`submit`事件的发生对象是`<form>`元素，而不是`<button>`元素，因为提交的是表单，而不是按钮
+
+
+
 #### 鼠标事件
 
+鼠标点击事件
+
+- `click`：按下鼠标（通常是按下主按钮）时触发。
+- `dblclick`：在同一个元素上双击鼠标时触发。
+- `mousedown`：按下鼠标键时触发。
+- `mouseup`：释放按下的鼠标键时触发。
+
+鼠标移动事件
+
+`mousemove`：当鼠标在一个节点内部移动时触发。当鼠标持续移动时，该事件会连续触发。为了避免性能问题，建议对该事件的监听函数做一些限定，比如限定一段时间内只能运行一次
+
+`mouseover`事件和`mouseenter`事件，都是鼠标进入一个节点时触发。两者的区别是，`mouseenter`事件只触发一次，而只要鼠标在节点内部移动，`mouseover`事件会在子节点上触发多次
+
+`mouseout`事件和`mouseleave`事件，都是鼠标离开一个节点时触发。两者的区别是，在父元素内部离开一个子元素时，`mouseleave`事件不会触发，而`mouseout`事件会触发
 
 
-键盘事件
 
 
 
-进度事件
+#### 键盘事件
 
+键盘事件由用户击打键盘触发，主要有`keydown`、`keypress`、`keyup`三个事件，它们都继承了`KeyboardEvent`接口。
 
+- `keydown`：按下键盘时触发。
+- `keypress`：按下有值的键时触发，即按下 Ctrl、Alt、Shift、Meta 这样无值的键，这个事件不会触发。对于有值的键，按下时先触发`keydown`事件，再触发这个事件。
+- `keyup`：松开键盘时触发该事件。
 
-拖动事件
+如果用户一直按键不松开，就会连续触发键盘事件，触发的顺序如下。
+
+1. keydown
+2. keypress
+3. keydown
+4. keypress
+5. ...（重复以上过程）
+6. keyup
+
+`KeyboardEvent`接口用来描述用户与键盘的互动。这个接口继承了`Event`接口，并且定义了自己的实例属性和实例方法
+
+- `KeyboardEvent.altKey`：是否按下 Alt 键
+- `KeyboardEvent.ctrlKey`：是否按下 Ctrl 键
+- `KeyboardEvent.metaKey`：是否按下 meta 键（Mac 系统是一个四瓣的小花，Windows 系统是 windows 键）
+- `KeyboardEvent.shiftKey`：是否按下 Shift 键
+
+#### 进度事件
+
+进度事件用来描述资源加载的进度，主要由 AJAX 请求、`<img>`、`<audio>`、`<video>`、`<style>`、`<link>`等外部资源的加载触发，继承了`ProgressEvent`接口。它主要包含以下几种事件。
+
+- `abort`：外部资源中止加载时（比如用户取消）触发。如果发生错误导致中止，不会触发该事件。
+- `error`：由于错误导致外部资源无法加载时触发。
+- `load`：外部资源加载成功时触发。
+- `loadstart`：外部资源开始加载时触发。
+- `loadend`：外部资源停止加载时触发，发生顺序排在`error`、`abort`、`load`等事件的后面。
+- `progress`：外部资源加载过程中不断触发。
+- `timeout`：加载超时时触发。
+
+`ProgressEvent`接口主要用来描述外部资源加载的进度，比如 AJAX 加载、`<img>`、`<video>`、`<style>`、`<link>`等外部资源加载。进度相关的事件都继承了这个接口
+
+`ProgressEvent()`构造函数接受两个参数。第一个参数是字符串，表示事件的类型，这个参数是必须的。第二个参数是一个配置对象，表示事件的属性，该参数可选。配置对象除了可以使用`Event`接口的配置属性，还可以使用下面的属性，所有这些属性都是可选的。
+
+- `lengthComputable`：布尔值，表示加载的总量是否可以计算，默认是`false`。
+- `loaded`：整数，表示已经加载的量，默认是`0`。
+- `total`：整数，表示需要加载的总量，默认是`0`。
+
+`ProgressEvent`具有对应的实例属性。
+
+- `ProgressEvent.lengthComputable`
+- `ProgressEvent.loaded`
+- `ProgressEvent.total`
+
+#### 拖动事件
 
 拖拉（drag）指的是，用户在某个对象上按下鼠标键不放，拖动它到另一个位置，然后释放鼠标键，将该对象放在那里。
 

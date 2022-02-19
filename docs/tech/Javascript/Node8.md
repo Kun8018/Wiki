@@ -1,883 +1,1103 @@
 ---
-title: NodeJs开发（二）
-date: 2021-01-20 21:40:33
+title: JavaScript开发（七）-TS开发（二）
+date: 2021-01-21 21:40:33
 categories: IT
-tags: IT，Web,Node
+tags: IT，Web
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/nodejs.png
+thumbnail: http://cdn.kunkunzhang.top/typescript.jpg
 ---
 
-Javascript第八篇，NodeJs第二篇，注重Node后端开发。
+万万没想到会来到第七篇，第七篇主要对TypeScript的应用作一些说明和示例，算进阶篇。
 
 <!--more-->
 
-## Node运行原理
+## 工具泛型
 
-### 运行原理
+### Key/Keyof
 
-Node.js 被分为了四层，分别是 `应用层`、`V8引擎层`、`Node API层` 和 `LIBUV层`。
+`keyof` 可以用来取得一个对象接口的所有 `key` 值.in 则可以遍历枚举类型
 
-应用层： 即 JavaScript 交互层，常见的就是 Node.js 的模块，比如 http，fs
+```typescript
+interface Foo {
+  name: string;
+  age: number
+}
+type T = keyof Foo // -> "name" | "age"
 
-V8引擎层： 即利用 V8 引擎来解析JavaScript 语法，进而和下层 API 交互
-
-NodeAPI层： 为上层模块提供系统调用，一般是由 C 语言来实现，和操作系统进行交互 。
-
-LIBUV层： 是跨平台的底层封装，实现了 事件循环、文件操作等，是 Node.js 实现异步的核心
-
-### 事件循环
-
-node事件循环与浏览器循环是不同的
-
-当Node.js启动时会初始化`event loop`, 每一个`event loop`都会包含按如下顺序六个循环阶段：
-
-1.**`timers` 阶段**: 这个阶段执行 `setTimeout(callback)` 和 `setInterval(callback)` 预定的 callback, timer指定一个下限时间而不是准确时间，在达到这个下限时间后执行回调。在指定时间过后，timers会尽可能早地执行回调，但系统调度或者其它回调的执行可能会延迟它们。
-
-2.**`I/O callbacks` 阶段**: 此阶段执行某些系统操作的回调，例如TCP错误的类型。 例如，如果TCP套接字在尝试连接时收到 ECONNREFUSED，则某些* nix系统希望等待报告错误。 这将操作将等待在==I/O回调阶段==执行;
-
-3.**`idle, prepare` 阶段**: 仅node内部使用;
-
-4.**`poll` 阶段**: 
-
-获取新的I/O事件, 例如操作读取文件等等，适当的条件下node将阻塞在这里;
-
-如果 poll 队列不空，event loop会遍历队列并同步执行回调，直到队列清空或执行的回调数到达系统上限；
-
-如果 poll 队列为空，则发生以下两件事之一：
-
-如果代码已经被setImmediate()设定了回调, event loop将结束 poll 阶段进入 check 阶段来执行 check 队列（里面的回调 callback）。
-
-如果代码没有被setImmediate()设定回调，event loop将阻塞在该阶段等待回调被加入 poll 队列，并立即执行。setImmediate() 实际上是一个特殊的timer，跑在event loop中一个独立的阶段。它使用`libuv`的API 来设定在 poll 阶段结束后立即执行回调。
-
-5.**`check` 阶段**: 执行 `setImmediate()` 设定的callbacks，check阶段在poll阶段之后;
-
-6.**`close callbacks` 阶段**: 比如 `socket.on(‘close’, callback)` 的callback会在这个阶段执行;如果一个 socket 或 handle 被突然关掉，close事件将在这个阶段被触发，否则将通过process.nextTick()触发
-
-日常开发的绝大部分异步任务都在timers、poll、check这3个阶段处理的
-
-### Node事件循环与浏览器事件循环的区别
-
-在浏览器环境中，microtask任务队列是每个macrotask执行完之后执行，而在Nodejs中microtask在事件循环的各个阶段之间执行
-
-
-
-### setimmediate与settimeout
-
-两者非常相似，区别在于调用时机不同：
-
-setimmediate设计在poll阶段完成时执行，即check阶段；
-
-setTimeout设计在poll阶段为空闲时，且设定事件达到后执行，但它在timer阶段执行
-
-但当二者在异步i/o callback内部调用时，总是先执行setimmediate，再执行setTimeout
-
-```javascript
-setTimeout(function(){
-  console.log('timeout')
-},0);
-
-setImmediate(function() {
-  console.log('immediate')
-})
-//setTimeout可能先执行也可能后执行
-const fs = require('fs')
-
-fs.readFile(_filename,()=>{
-  setTimeout(function(){
-    console.log('timeout')
-  },0);
-
-	setImmediate(function() {
-    console.log('immediate')
-  })
-})
-//setImmediate总是先于setTimeout
+type Keys = "a" | "b"
+type Obj =  {
+  [p in Keys]: any
+} // -> { a: any, b: any }
 ```
 
-### process.nextTick
+`keyof` 产生联合类型, `in` 则可以遍历枚举类型, 所以他们经常一起使用
 
-这个函数是独立于Event Loop之外的，有自己的队列，当每个阶段完成时，如果存在nextTick队列就清空队列中的所有回调函数，并且优先于其他microtask执行
+keyof配合泛型使用
 
+```typescript
+interface IProps<T> {
+    tableProps: Pick<TableProps<T>, keyof TableProps<T>>;
+}
+```
 
+keyof配合typeof使用
 
-## 常用方法
-
-### sleep函数
-
-阻塞主线程，
-
-```javascript
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(() => resolve(), ms));
+```typescript
+const defaultProps = {
+    name: '张三',
+    age: 18
 }
 
-await sleep(5000);
+const selfKey: keyof typeof defaultProps = 'name'; // right
+const selfKey: keyof typeof defaultProps = 'age'; // right
+const selfKey: keyof typeof defaultProps = 'other'; // error
+```
+
+### partial
+
+Partial 作用是将传入的属性变为可选项.
+首先我们需要理解两个关键字 `keyof` 和 `in`, `keyof` 可以用来取得一个对象接口的所有 `key` 值.
+
+```typescript
+type Partial<T> = { [P in keyof T]?: T[P] };
+```
+
+### required
+
+Required 的作用是将传入的属性变为必选项, 源码如下
+
+```typescript
+type Required<T> = { [P in keyof T]-?: T[P] };
+```
+
+### readonly(只读)
+
+typescript类型系统允许在一个接口中使用readonly来标记属性，也就是只读的方式，不可预期的改变是很糟糕的。
+
+可以在接口、类中用此方法定义
+
+```typescript
+type Readonly<T> = { readonly [P in keyof T]: T[P] };
+```
+
+### Mutable
+
+将 T 的所有属性的 readonly 移除,
+
+```typescript
+type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
+}
+```
+
+### record
+
+将 K 中所有的属性的值转化为 T 类型
+
+```typescript
+type Record<K extends keyof any, T> = { [P in K]: T };
+```
+
+### pick
+
+从 T 中取出 一系列 K 的属性
+
+```typescript
+type Pick<T, K extends keyof T> = { [P in K]: T[P] };
+```
+
+### omit
+
+用之前的 Pick 和 Exclude 进行组合, 实现忽略对象某些属性功能, 
+
+```typescript
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+
+// 使用
+type Foo = Omit<{name: string, age: number}, 'name'> // -> { age: number }
+```
+
+### exclude
+
+Exclude 的作用是从 T 中找出 U 中没有的元素, 换种更加贴近语义的说法其实就是从T 中排除 U
+
+```typescript
+type T = Exclude<1 | 2, 1 | 3> // -> 2
+```
+
+### extract
+
+Extract 的作用是提取出 T 包含在 U 中的元素, 换种更加贴近语义的说法就是从 T 中提取出 U
+
+```typescript
+type Extract<T, U> = T extends U ? T : never;
+```
+
+### NonNullable<T>
+
+排除T为null或者undefined的情况
+
+```typescript
+type T = NonNullable<string | string[] | null | undefined>; //string | string[] 
 ```
 
 
 
+### infer关键字与Returntype
 
+官方类型库中提供了ReturnType可以获取方法的返回类型，实例
 
-## 功能模块
-
-### commander.js
-
-前端开发node cli 必备技能。
-
-安装
-
-```shell
-npm install commander
+```typescript
+type stringPromiseReturnType = ReturnType<typeof stringPromise>;
 ```
 
-api
+Returntype的定义如下
+
+```typescript
+type ReturnType<T extends (...args:any) => any >= T extends(...args:any)=> infer R?R:any;
+```
+
+利用infer反解promise中的泛型
+
+```typescript 
+type PromiseType<T> = (args:any[]) => Promise<T>;
+type UnPromisify<T> = T extends PromiseType<infer U>? U:never
+```
+
+也可以解析函数入参的类型
+
+```typescript
+type VariadicFn<A extends 
+```
+
+
+
+```typescript
+type FunctionReturnType<T> = T extends (...args: any[]) => infer R ? R : T;
+
+type Foo = FunctionReturnType<() => void>;  // void
+type Bar = FunctionReturnType<(name: string) => string>; // string
+type Buz = FunctionReturnType<(name: string, other: string) => boolean>; // boolean
+```
+
+
+
+## 函数重载与方法重载
+
+js 因为是动态类型，本身不需要支持重载，直接对参数进行类型判断即可，但是ts为了保证类型安全，支持了函数签名的类型重载
+
+如在JavaScript中：
 
 ```javascript
-var program = require('commander');
- 
-program
-    .name("intl helper");
-    .version('0.0.1')
-    .parse(process.argv);
-    
-//执行结果：
-node index.js -V
- 
-0.0.1
-//如果希望程序响应-v选项而不是-V选项，
-//只需使用与option方法相同的语法将自定义标志传递给version方法
-program
-  .version('0.0.1', '-v, --version')
+function add(x, y) {
+  return x + y;
+}
+
+add(1, 2); // 3
+add("1", "2"); //"12"
 ```
 
-commander.js中命令行有两种可变性，一个叫做`option`，意为选项。一个叫做`command`，意为命令。
+由于 TypeScript 是 JavaScript 的超集，因此以上的代码可以直接在 TypeScript 中使用，但当 TypeScript 编译器开启 `noImplicitAny` 的配置项时，以上代码会提示以下错误信息：
 
-常用api
-
-`version`
-
-用法： `.version('x.y.z')`
-
-用于设置命令程序的版本号，
-
-`option`
-
-用户：`.option('-n, --name <name>', 'your name', 'GK')`
-
-- 第一个参数是选项定义，分为短定义和长定义。用|，,， 连接。
-  - 参数可以用`<>`或者`[]`修饰，前者意为必须参数，后者意为可选参数。
-- 第二个参数为选项描述
-- 第三个参数为选项参数默认值，可选。
-
-`command`
-
-用法：`.command('init <path>', 'description')`
-
-- `command`的用法稍微复杂，原则上他可以接受三个参数，第一个为命令定义，第二个命令描述，第三个为命令辅助修饰对象。
-- 第一个参数中可以使用`<>`或者`[]`修饰命令参数
-- 第二个参数可选。
-  - 当没有第二个参数时，commander.js将返回`Command`对象，若有第二个参数，将返回原型对象。
-  - 当带有第二个参数，并且没有显示调用`action(fn)`时，则将会使用子命令模式。
-  - 所谓子命令模式即，`./pm`，`./pm-install`，`./pm-search`等。这些子命令跟主命令在不同的文件中。
-- 第三个参数一般不用，它可以设置是否显示的使用子命令模式。
-
-`description`
-
-用法：`.description('command description')`
-
-用于设置命令的描述
-
-用法：`.action(fn)`
-
-用于设置命令执行的相关回调。`fn`可以接受命令的参数为函数形参，顺序与`command()`中定义的顺序一致。
-
-`parse`
-
-用法：`program.parse(process.argv)`
-
-此api一般是最后调用，用于解析`process.argv`。
-
-`outputHelp`
-
-用法：`program.outputHelp()`
-
-一般用于未录入参数时自动打印帮助信息。
-
-### inquire
-
-`Inquirer.js`可以理解成就是给输入命令行的用户提供一个好看的界面，提供一下功能：
-
-- 有错误反馈；
-- 向用户提问；
-- 解析输入；
-- 校验回答；
-- 能在用户输入的时候提供友好的提示。
-
-安装
-
-```shell
-yarn add inquirer --save-dev
+```typescript
+Parameter 'x' implicitly has an 'any' type.
+Parameter 'y' implicitly has an 'any' type.
 ```
 
-Inquirer 提供`prompt`对象，该对象中提供配置项，`then`会在用户回答完所有问题后执行，`catch`则是报出异常：
+该信息告诉我们参数 x 和参数 y 隐式具有 `any` 类型。为了解决这个问题，我们可以为参数设置一个类型。因为我们希望 `add` 函数同时支持 string 和 number 类型，因此我们可以定义一个 `string | number` 联合类型，然后在函数中使用
 
-prompt是一个对象数组，对象主要包含以下几种配置：
+```typescript
+type Combinable = string | number;
 
-type： 类型，主要类型有input、number、confirm、list、rawlist、expand、checkbox、password、editor；
-
-name：可以理解成当前回答的变量名；
-
-message：问题描述；
-
-default：问题的默认值；
-
-choice：问题选项；
-
-validate：回答的校验器；
-
-filter：回答的过滤器；
-
-transformer：接收用户输入，回答散列和选项标志，并返回一个转换后的值显示给用户。
-
-when：是否应该问这个问题
-
-PageSize：控制选项显示的个数，就是是否当前最多显示多少个选项，如果超过则需要向下才能显示更多；
-
-prefix：更改默认的前缀消息。
-
-suffix：更改默认后缀消息。
-
-askAnswered：如果答案已经存在，就必须提出问题。
-
-loop：是否启用列表循环。
-
-```javascript
-var inquirer = require('inquirer');
-inquirer.prompt([
-  {
-    type: 'list',
-    name: 'preset',
-    message: 'Please pick a preset:',
-    choices: ['default(babel, eslint)', 'Manually select feature'],
-    filter: function(val){
-      return val.toLowerCase();
-    }
-  },
-  {
-    type: 'input',
-    name: 'key',
-    message: "input the text key:",
-  },
-  {
-  type: 'checkbox',
-  name: 'features',
-  message: 'Checkout the feature needed for you project:',
-  choices: [{
-    name: 'Babel',
-  }, {
-    name: 'TypeScript',
-  },{
-    name: 'Progressive Web App (PWA) Support',
-  }, {
-    name: 'Router',
-  },{
-    name: 'Vuex',
-  }, {
-    name: 'CSS Pre-processors',
-  }, {
-    name: 'Linter / Formatter',
-  }, {
-    name: 'Unit Testing',
-  }, {
-    name: 'E2E Testing',
-  }],
-  pageSize: 9,
-  validate: function(answer){
-    if(answer.length < 1){
-      return 'You must choose at least one topping.';
-    }
-
-    return true;
+function add(a: Combinable, b: Combinable) {
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
   }
-}]).then(answers => {
-  console.log(JSON.stringify(answers, null, '  '));
-}).catch(error => {
-  console.log(error);
-})
+  return a + b;
+}
 ```
 
-### chalk
+但是此时如果在结果中使用字符串函数会报错
 
-`chalk` 包的作用是修改控制台中字符串的样式，包括：
+```typescript
+const result = add('semlinker', ' kakuqo');
+result.split(' ');
 
-1. 字体样式(加粗、隐藏等)
-2. 字体颜色
-3. 背景颜色
-
-使用
-
-```javascript
-const chalk = require('chalk');
-console.log(chalk.red.bold.bgWhite('Hello World'));
+// Property 'split' does not exist on type 'Combinable'.
+// Property 'split' does not exist on type 'number'.
 ```
 
+`Combinable` 和 `number` 类型的对象上并不存在 `split` 属性。这时我们就可以利用 TypeScript 提供的函数重载。
 
+函数重载或方法重载是使用相同名称和不同参数数量或类型创建多个方法的一种能力。
 
-### process
-
-[progress ](https://www.npmjs.com/package/progress)是现在最常用的 `npm` 包用来渲染进度条。
-
-```shell
-npm install --save progress
-```
-
-使用
-
-```javascript
-var ProgressBar = require('progress');
-
-var bar = new ProgressBar(':bar', { total: 10 });
-var timer = setInterval(function () {
-  bar.tick();
-  if (bar.complete) {
-    console.log('\ncomplete\n');
-    clearInterval(timer);
+```typescript
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: string, b: number): string;
+function add(a: number, b: string): string;
+function add(a: Combinable, b: Combinable) {
+  // type Combinable = string | number;
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
   }
-}, 100);
-```
-
-
-
-### http-proxy-middleware包
-
-http-proxy-middleware用于把请求转发到其他服务器的中间件
-
-安装
-
-```shell
-npm install --save-dev http-proxy-middleware
-```
-
-使用
-
-```javascript
-import express from 'express'
-import { createProxyMiddleware } from 'http-proxy-middleware';
-
-app.use(
-	'/api-metrics/*',
-  createProxyMiddleware({
-    target: '192.168.8.8:9090',
-    pathRewrite: {
-			'api-metrics': '/api/v1',
-    },
-    changeOrigin: true,
-  })
-)
-```
-
-
-
-### history fallback包
-
-
-
-```javascript
-import history from 'connect-history-api-fallback'
-import express from 'express'
-
-const app = express()
-
-app.use(history())
-```
-
-
-
-
-
-### 文件包
-
-安装
-
-```shell
-npm install fs-extra
-```
-
-文件包可以替代原生的node fs模块，实现更强大的文件处理功能。
-
-导入
-
-```javascript
-const fs = require('fs-extra')
-```
-
-异步拷贝文件
-
-```javascript
-// Async with promises:
-fs.copy('/tmp/myfile', '/tmp/mynewfile')
-  .then(() => console.log('success!'))
-  .catch(err => console.error(err))
-
-// Sync:
-try {
-  fs.copySync('/tmp/myfile', '/tmp/mynewfile')
-  console.log('success!')
-} catch (err) {
-  console.error(err)
+  return a + b;
 }
 ```
 
+方法重载是指在同一个类中方法同名，参数不同（参数类型不同、参数个数不同或参数个数相同时参数的先后顺序不同），调用时根据实参的形式，选择与它匹配的方法执行操作的一种技术。所以类中成员方法满足重载的条件是：在同一个类中，方法名相同且参数列表不同。
 
-
-
-
-### node-rsa
-
-在node中使用rsa算法
-
-安装
-
-```shell
-npm install node-rsa
-```
-
-使用
-
-```javascript
-const NodeRSA = require("node-rsa")
-
-const key = new NodeRSA({ b:2048 }) //2048 密钥长度
-ket.setOptions({ encryptionSchema: 'pkcs1' }); //指定加密格式，不改格式的话可能会报错
-
-
-```
-
-
-
-### pino
-
-安装
-
-```shell
-npm install pino
-```
-
-使用
-
-```javascript
-const logger = require('pino')()
-
-logger.info('hello world')
-
-const child = logger.child({ a: 'property' })
-child.info('hello child!')
-```
-
-
-
-
-
-### 转码包
-
-node默认支持utf8、base64、binary，如果要请求或处理GBK或者Gb2312页面或文件就需要转码
-
-安装iconv-lite
-
-```shell
-npm install iconv-lite --save 
-```
-
-引入
-
-```javascript
-const iconv = require('iconv-lite')
-```
-
-在原来的输出语句中加入解码函数就可以
-
-```javascript
-console.log('stdout'+iconv.decode(data,'GBK'))
-```
-
-
-
-### Graphql
-
-安装依赖
-
-```js
-npm install apollo-server@2.13.1 graphql@14.6.0  type-graphql@0.17.6
-```
-
-引入
-
-```js
-import "reflect-metadata"
-import {buildSchema,ObjectType,Field,ID,Resolver,Query} from "type-graphql";
-import {ApolloServer} from "apollo-server";
-```
-
-后端定义schema和resolver
-
-```js
-@ObjectType()
-class Post{
-    @Field(type => ID)
-    id: string;
-
-    @Field()
-    created: Data;
-
-    @Field()
-    content: String;
+```typescript
+class Calculator {
+  add(a: number, b: number): number;
+  add(a: string, b: string): string;
+  add(a: string, b: number): string;
+  add(a: number, b: string): string;
+  add(a: Combinable, b: Combinable) {
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
+  }
+    return a + b;
+  }
 }
 
-@Resolver(Post)
-class PostResolver {
-    @Query(returns => [Post])
-    async posts(): Promise<Post[]>{
-        return [
-           {
-              id:"0",
-              created: new Date(),
-              content:'aaa'
-            },
-            {
-              id:"1",
-              created: new Date(),
-              content:'bbb'
-            },
-            {
-              id:"2",
-              created: new Date(),
-              content:'ccc'
-            },
+const calculator = new Calculator();
+const result = calculator.add('Semlinker', ' Kakuqo');
+```
+
+当 TypeScript 编译器处理函数重载时，它会查找重载列表，尝试使用第一个重载定义。 如果匹配的话就使用这个。 因此，在定义重载的时候，一定要把最精确的定义放在最前面。另外在 Calculator 类中，`add(a: Combinable, b: Combinable){ }` 并不是重载列表的一部分，因此对于 add 成员方法来说，我们只定义了四个重载方法。
+
+## 声明语句与声明文件、声明合并
+
+假如我们想使用第三方库 jQuery，一种常见的方式是在 html 中通过 `<script>` 标签引入 jQuery，然后就可以使用全局变量 `$` 或 `jQuery` 了。
+
+但是在 ts 中，编译器并不知道 `$` 或 `jQuery` 是什么东西[1](https://github.com/xcatliu/typescript-tutorial/tree/master/examples/declaration-files/01-jquery)：
+
+这时，我们需要使用 `declare var` 来定义它的类型
+
+通常我们会把声明语句放到一个单独的文件（`jQuery.d.ts`）中，这就是声明文件。声明文件必需以 `.d.ts` 为后缀。一般来说，ts 会解析项目中所有的 `*.ts` 文件，当然也包含以 `.d.ts` 结尾的文件。所以当我们将 `jQuery.d.ts` 放到项目中时，其他所有 `*.ts` 文件就都可以获得 `jQuery` 的类型定义了。
+
+假如仍然无法解析，那么可以检查下 `tsconfig.json` 中的 `files`、`include` 和 `exclude` 配置，确保其包含了 `jQuery.d.ts` 文件。
+
+TS可以在编译时自动生成.d.ts文件，只需要在tsconfig.json配置文件中开启即可
+
+```json
+{
+  "compilerOptions": {
+    "declaration": true
+  }
+}
+```
+
+一般只有三种情况需要手动定义声明文件：
+
+1.通过script标签引入第三方库
+
+2.使用的第三方npm包没有提供声明文件
+
+3.自己团队内比较优秀的js库或者插件，为了提升开发体验
+
+声明文件只是对类型的定义，不能赋值
+
+声明文件有全局的类型声明和局部的类型声明两种。
+
+`.d.ts` 里面，没有使用 `import`、`export`，默认是全局的。全局的类型声明在项目的任何地方都可以直接使用，无需引入。但是要特别注意类型命名冲突。在 `.d.ts` 文件中，只要有一个类型定义使用了 `export`，那这个声明文件就会变成模块化的。想要使用里面的类型定义，需要先通过 `import` 的方式将其引入才行。
+
+以react的ts声明文件为例
+
+```typescript
+// @types/react/index.d.ts
+ 
+export = React;
+export as namespace React;
+
+declare namespace React {
+    type ReactType<P = any> = ElementType<P>;
+    ...
+}
+```
+
+导出的都是以一个以原库同名的命名空间。引用库时相当于也把它的类型声明也引进来了，当然在使用的时候，会自动提示
+
+对于没有提供声明文件的npm包，可以创建一个types目录，来管理自己写的声明文件，同时在配置文件tsconfig.json中的paths和baseUrl配置
+
+```json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {"*":["types/*"]}
+  }
+}
+```
+
+npm包的声明文件主要有以下几种语法
+
+```typescript
+export const/let
+export namespace
+export default
+export = 
+```
+
+### 复用公共的接口/类型
+
+对于那些同一个类型，可能会在项目中的其它地方用到的，复用类型是一个不错的选择
+
+全局的类型：直接放在最外层的 `global.d.ts` 或者 `typing.d.ts`中，不使用 `export` 导出
+
+模块级的类型。在每个功能模块下，定义一个 `index.d.ts` 文件。在这个文件中写需要复用的类型定义。再通过 `export` 的方式将其导出。在需要使用类型的地方，再通过 `import` 导入使用。
+
+- `antd` 在每个独立的模块文件夹下面多了一个`index.d.ts`，见 `node_modules/antd/lib` 下面
+- `react-bulma-components 1.1k` 在每个独立的模块文件夹下面多了一个`index.d.ts`
+- `swiper` - `27.6k star`，公共的单独放于 `types` 文件夹里面，其它的和文件同级，添加 `文件名.d.ts` 文件
+
+```typescript
+// typing.d.ts 全局的
+
+interface IObject {
+    [name: string]: any;
+}
+
+declare type IResponse = {
+    total: number;
+    list: IObject[];
+}
+
+// index.d.ts 局部的
+export type IRecord = {
+    id: number;
+    name: string;
+    hasBrother: boolean;
+}
+
+export type INewRecord = IRecord & {
+    num: number;
+}
+
+// person.tsx
+// IRecord, INewRecord 需要引入才能使用
+import { IRecord, INewRecord } from 'index.d';
+
+// IResponse 直接使用
+const res: IResponse = await api.get('****');
+
+const newList: INewRecord = IResponse.list.map((item: IRecord) => ({ ...item, num: Math.random() }))
+```
+
+
+
+## 命名空间
+
+在 JavaScript 使用命名空间时， 这有一个常用的、方便的语法：
+
+```javascript
+(function(something) {
+  something.foo = 123;
+})(something || (something = {}));
+
+console.log(something);
+// { foo: 123 }
+
+(function(something) {
+  something.bar = 456;
+})(something || (something = {}));
+
+console.log(something); // { foo: 123, bar: 456 }
+```
+
+在确保创建的变量不会泄漏至全局命名空间时，这种方式在 JavaScript 中很常见。当基于文件模块使用时，你无须担心这点，但是该模式仍然适用于一组函数的逻辑分组。因此 TypeScript 提供了 `namespace` 关键字来描述这种分组，
+
+```typescript
+namespace Utility {
+  export function log(msg) {
+    console.log(msg);
+  }
+  export function error(msg) {
+    console.log(msg);
+  }
+}
+
+// usage
+Utility.log('Call me');
+Utility.error('maybe');
+```
+
+值得注意的一点是，命名空间是支持嵌套的。因此，你可以做一些类似于在 `Utility` 命名空间下嵌套一个命名空间 `Messaging` 的事情。
+
+
+
+## 一些特殊用法
+
+### typeof与类型别名混用
+
+```typescript
+const defaultProps = {
+    name: '张三',
+    age: 18,
+    score: 722,
+}
+
+type IProps = typeof defaultProps & {
+    favorite: [string];
+}
+
+等价于：
+
+type IProps = {
+    name: string;
+    age: number;
+    score: number;
+    favorite: [string];
+}
+```
+
+### promise类型
+
+在异步操作时常常会使用async函数，函数调用时会return一个promise对象，可以使用then方法添加回调函数
+
+```typescript
+interface IResponse<T> {
+  message: string,
+  result: T,
+  success: boolean,
+}
+  
+async function getResult (): Promise<IResponse<number[]>> {
+  return {
+    message: 'success',
+    result: [1,2,3],
+    success: true
+  }
+}
+
+getResult()
+	.then(result => {
+		console.log(result.result)
+	})
+```
+
+
+
+### 动态分配属性
+
+在 JavaScript 中，我们可以很容易地为对象动态分配属性，但是在typescript中直接给对象添加属性会报错，这个时候需要使用一种宽松的属性对象
+
+```typescript
+let developer = {};
+developer.name = "semlinker";
+
+//Property 'name' does not exist on type '{}'.(2339) 
+interface LooseObject {
+  [key: string]: any
+}
+
+let developer: LooseObject = {};
+developer.name = "semlinker";
+```
+
+
+
+### 索引签名
+
+JavaScript 在一个对象类型的索引签名上会隐式调用 `toString` 方法，而在 TypeScript 中，为防止初学者砸伤自己的脚（我总是看到 stackoverflow 上有很多 JavaScript 使用者都会这样。），它将会抛出一个错误。
+
+```typescript
+const obj = {
+  toString() {
+    return 'Hello';
+  }
+};
+
+const foo: any = {};
+
+// ERROR: 索引签名必须为 string, number....
+foo[obj] = 'World';
+
+// FIX: TypeScript 强制你必须明确这么做：
+foo[obj.toString()] = 'World';
+```
+
+声明索引签名
+
+```typescript
+const foo: {
+  [index: string]: { message: string };
+} = {};
+
+// 储存的东西必须符合结构
+// ok
+foo['a'] = { message: 'some message' };
+
+// Error, 必须包含 `message`
+foo['a'] = { messages: 'some message' };
+
+// 读取时，也会有类型检查
+// ok
+foo['a'].message;
+
+// Error: messages 不存在
+foo['a'].messages;
+```
+
+当你声明一个索引签名时，所有明确的成员都必须符合索引签名
+
+```typescript
+// ok
+interface Foo {
+  [key: string]: number;
+  x: number;
+  y: number;
+}
+
+// Error
+interface Bar {
+  [key: string]: number;
+  x: number;
+  y: string; // Error: y 属性必须为 number 类型
+}
+```
+
+索引签名的嵌套
+
+```typescript
+interface NestedCSS {
+  color?: string;
+  nest?: {
+    [selector: string]: NestedCSS;
+  };
+}
+
+const example: NestedCSS = {
+  color: 'red',
+  nest: {
+    '.subclass': {
+      color: 'blue'
+    }
+  }
+}
+
+const failsSliently: NestedCSS {
+  colour: 'red'  // TS Error: 未知属性 'colour'
+}
+```
+
+### 空值合并运算符
+
+??
+
+### 非空断言操作符
+
+非空断言操作符会从变量中移除 undefined 和 null，在变量后面添加一个 ! 就会忽略 undefined 和 null
+
+```typescript
+function simpleExample(a: number | undefined) {
+   const b: number = a; // 报错，COMPILATION ERROR: undefined is not assignable to number.
+   const c: number = a!; // OK
+}
+```
+
+这种操作符在传递可选props、后端加载数据或者ref取dom时会使用比较频繁，因为这三种情况需要等浏览器加载dom或者组件，值可能为空，如果不使用非空断言操作符，这些情况需要手动添加undefined｜null类型或者使用if/三目运算符进行判断，比较麻烦
+
+```typescript
+const ScrolledInput = () => {
+   const ref = React.createRef<HTMLInputElement>();
+
+   // const goToInput = () => ref.current.scrollIntoView(); //compilation error: ref.current is possibly null
+   const goToInput = () => ref.current!.scrollIntoView();
+   return (
+       <div>
+           <input ref={ref}/>
+           <button onClick={goToInput}>Go to Input</button>
+       </div>
+   );
+};
+```
+
+
+
+## 代码检查
+
+### Es-lint
+
+安装es-lint
+
+```shell
+npm install --save-dev eslint
+```
+
+由于 ESLint 默认使用 [Espree](https://github.com/eslint/espree) 进行语法解析，无法识别 TypeScript 的一些语法，故我们需要安装 [`@typescript-eslint/parser`](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser)，替代掉默认的解析器，别忘了同时安装 `typescript`：
+
+```shell
+npm install --save-dev typescript @typescript-eslint/parser
+```
+
+接下来需要安装对应的插件 [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin) 它作为 eslint 默认规则的补充，提供了一些额外的适用于 ts 语法的规则。
+
+```shell
+npm install --save-dev @typescript-eslint/eslint-plugin
+```
+
+创建自己的规则
+
+ESLint 需要一个配置文件来决定对哪些规则进行检查，配置文件的名称一般是 `.eslintrc.js` 或 `.eslintrc.json`。
+
+当运行 ESLint 的时候检查一个文件的时候，它会首先尝试读取该文件的目录下的配置文件，然后再一级一级往上查找，将所找到的配置合并起来，作为当前被检查文件的配置。
+
+```javascript
+module.exports = {
+    parser: '@typescript-eslint/parser',
+    plugins: ['@typescript-eslint'],
+    rules: {
+        // 禁止使用 var
+        'no-var': "error",
+        // 优先使用 interface 而不是 type
+        '@typescript-eslint/consistent-type-definitions': [
+            "error",
+            "interface"
         ]
     }
 }
 ```
 
-运行项目，在localhost:4444打开graphql的playground进行测试
+执行检查
 
-### 剪贴板的使用
-
-使用第三方包，安装
-
-```js
-npm install clipboard-polyfill
-```
-
-引用
-
-```js
-import clipboard from "clipboard-polyfill"
-```
-
-实例
-
-```js
-clipboard.writeText("this");
-clipboard.readText().then(console.log,console.error);
-```
-
-### 终端二维码
-
-qrcode-terminal
-
-安装
-
-```shell
-npm install -D qrcode-terminal
-```
-
-使用
+我们的项目源文件一般是放在 `src` 目录下，所以需要将 `package.json` 中的 `eslint` 脚本改为对一个目录进行检查。由于 `eslint` 默认不会检查 `.ts` 后缀的文件，所以需要加上参数 `--ext .ts`：
 
 ```javascript
-const qrcode = require('qrcode-terminal')
-
-const url = 'https:www.baidu.com'
-
-qrcode.generate(url,{small:true},(qrcode)=> {
-  console.log(qrcode)
-})
-```
-
-
-
-### 判断设备信息
-
-使用navigator对象
-
-```js
-export function checkdevice() {
-  var browser = {
-    versions: (function() {
-      var u = navigator.userAgent,
-        app = navigator.appVersion;
-      return {
-        //移动终端浏览器版本信息
-        trident: u.indexOf("Trident") > -1, //IE内核
-        presto: u.indexOf("Presto") > -1, //opera内核
-        webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
-        gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或uc浏览器
-        iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
-        iPad: u.indexOf("iPad") > -1, //是否iPad
-        webApp: u.indexOf("Safari") == -1, //是否web应该程序，没有头部与底部
-      };
-    })(),
-    language: (navigator.browserLanguage || navigator.language).toLowerCase(),
-  };
-
-  if (browser.versions.mobile) {
-    //判断是否是移动设备打开。browser代码在下面
-    // 此时为移动端打开.跳转到移动站
-    // if(window.location.href.indexOf("ooo0o.com/mobile") != -1){
-    //     return;
-    // }else {
-    //     window.location.href = "https://www.ooo0o.com/mobile"
-    // }
-
-    var ua = navigator.userAgent.toLowerCase(); //获取判断用的对象
-    if (ua.match(/MicroMessenger/i) == "micromessenger") {
-      //在微信中打开
-      if (browser.versions.ios) {
-        return "weixinios";
-      } else {
-        return "weixin";
-      }
-    } else if (browser.versions.android) {
-      //是否在安卓浏览器打开
-
-      // alert('安卓手机中打开的');
-      /*window.location.href="https://jushizhibo.com/android/app-release.apk";*/
-      // window.open('https://jushizhibo.com/android/app-release.apk','_self')
-      return "anzhuo";
-    } else if (browser.versions.ios) {
-      //是否在IOS浏览器打开
-      // alert('IOS中打开的');
-      /*window.location.href="https://www.baidu.com";*/
-      // window.open('transparentfactory://xiangqingye','_self')
-      return "ios";
+{
+    "scripts": {
+        "eslint": "eslint src --ext .ts"
     }
-  } else {
-    //此时是非移动端,则跳转PC站
-    // alert('PC中打开的');
-    // if(window.location.href.indexOf("ooo0o.com/mobile") != -1){
-    //     window.location.href = "https://www.ooo0o.com"
-    // }
-    return "pc";
-  }
 }
 ```
 
-使用时导入
+此时执行 `npm run eslint` 即会检查 `src` 目录下的所有 `.ts` 后缀的文件。
 
-```js
-import {checkdevice}  from 'checkdevice.js'
-```
+在 VSCode 中集成 ESLint 检查[§](https://ts.xcatliu.com/engineering/lint.html#在-vscode-中集成-eslint-检查)
 
-### 七牛云的使用
+在编辑器中集成 ESLint 检查，可以在开发过程中就发现错误，甚至可以在保存时自动修复错误，极大的增加了开发效率。
 
-安装七牛包
+要在 VSCode 中集成 ESLint 检查，我们需要先安装 ESLint 插件，点击「扩展」按钮，搜索 ESLint，然后安装即可。
 
-```node
-npm install qiniu
-```
+VSCode 中的 ESLint 插件默认是不会检查 `.ts` 后缀的，需要在「文件 => 首选项 => 设置 => 工作区」中（也可以在项目根目录下创建一个配置文件 `.vscode/settings.json`），添加以下配置：
 
-新建文件，设置七牛云参数
-
-```js
-var bucket='',
-var imageUrl='',
-var accessKey = '',
-var secretKey = '',
-var mac = new qiniu.auth.digest.Mac(accessKey,secretKey);
-
-var option={
-    scope:bucket,
+```json
+{
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript"
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
 }
-var putPolicy= new qiniu.rs.PutPolicy(option)
-var uploadToken = putPolicy.uploadToken(mac);
 ```
 
-上传代码
+此时打开ts文件，在错误处就会有提示
+
+### Prettier 
+
+ESLint 包含了一些代码格式的检查，比如空格、分号等。但前端社区中有一个更先进的工具可以用来格式化代码，那就是 [Prettier](https://prettier.io/)。
+
+Prettier 聚焦于代码的格式化，通过语法分析，重新整理代码的格式，让所有人的代码都保持同样的风格。
+
+安装Prettier
+
+```shell
+npm install --save-dev prettier
+```
+
+然后创建一个 `prettier.config.js` 文件，里面包含 Prettier 的配置项。Prettier 的配置项很少，这里我推荐大家一个配置规则，作为参考：
 
 ```js
-var config = new qiniu.conf.Config()
-
-config.zone= qiniu.zone.Zone_z0;//选择七牛云的机房
-//是否使用https、是否使用cdn加速
-config.usehttpsDomain=true;
-config.useCdnDomain = true;
-
-var formUploader = new qiniu.form_up.FormUploader(config);
-var putExtra = new qiniu.form_up.PutExtra();
-var key = '';
-
-formUploader.putFile(uploadToken,key,path.resolve(pathName),putExtra,function(respErr,respBody,respInfo){
-       if(resqErr){
-         throw respErr;
-       }
-       if(respInfo.statusCode == 200){
-       console.log(respBody);
-       }else{
-           console.log(respInfo.statusCode);
-           console.log(respBody)
-       }                                                   });
-
+// prettier.config.js or .prettierrc.js
+module.exports = {
+    printWidth: 100,  		   // 一行最多 100 字符
+    tabWidth: 4,      			 // 使用 4 个空格缩进
+    useTabs: false,  				 // 不使用缩进符，而使用空格
+    semi: true,      			   // 行尾需要有分号
+    singleQuote: true,			 // 使用单引号
+    quoteProps: 'as-needed', // 对象的 key 仅在必要时用引号
+    jsxSingleQuote: false,   // jsx 不使用单引号，而使用双引号
+    trailingComma: 'none',   // 末尾不需要逗号
+    bracketSpacing: true,    // 大括号内的首尾需要空格
+    jsxBracketSameLine: false,// jsx 标签的反尖括号需要换行
+    arrowParens: 'always',   // 箭头函数，只有一个参数的时候，也需要括号
+    rangeStart: 0,           // 每个文件格式化的范围是文件的全部内容
+    rangeEnd: Infinity,
+    requirePragma: false,    // 不需要写文件开头的 @prettier
+    insertPragma: false,     // 不需要自动在文件开头插入 @prettier
+    proseWrap: 'preserve',   // 使用默认的折行标准
+    htmlWhitespaceSensitivity: 'css',// 根据显示样式决定 html 要不要折行
+    endOfLine: 'lf'          // 换行符使用 lf
+};
 ```
 
-https://segmentfault.com/a/1190000017064729
+### Es-lint支持tsx
 
-### 发邮件
+如果需要同时支持对 tsx 文件的检查，则需要对以上步骤做一些调整：
 
-导入模块Nodemailer
+安装 eslint-plugin-react
 
-```node
-npm install nodemailer
+```shell
+npm install --save-dev eslint-plugin-react
 ```
 
-使用方法(包官网https://nodemailer.com/)
+在package.json和vscode的插件中添加配置
 
-```js
-//引入包
-const nodemailer = require("nodemailer");
-
-//创建邮件请求对象（qq邮箱、163邮箱或其他）
-  let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",//邮箱服务器
-    port: 587,（端口号）
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: testAccount.user, // 账号
-      pass: testAccount.pass // 你的邮箱服务器请求密码
+```json
+{
+    "scripts": {
+        "eslint": "eslint src --ext .ts,.tsx"
     }
-  });
-  //所发送的邮件信息
-  let mailobj={
-    from: '"Fred Foo 👻" <foo@example.com>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>" // html body
-  }
-  //发送邮件
-  transporter.sendMail(mailobj);
-
-
+}
 ```
 
-### MD5加密包
+```javascript
+{
+    "files.eol": "\n",
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.autoFixOnSave": true,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        {
+            "language": "typescript",
+            "autoFix": true
+        },
+        {
+            "language": "typescriptreact",
+            "autoFix": true
+        }
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
+}
+```
 
-Js-md5
+### style-lint
 
 
 
-### http爬虫
 
 
 
-### node应用打包可执行文件
 
-pkg可以将node项目打包为一个单独的可执行文件，在未安装nodejs的机器上运行。支持win、linux等多系统
+## 对Node的支持
+
+想用typescript写nodejs，需要引入第三方声明文件
 
 ```shell
-npm install pkg --save-dev
+npm install @type/node --save
+```
+
+https://ts.xcatliu.com/basics/type-of-function.html
+
+
+
+## ts简单辨析
+
+### never与void、any、unknown的区别：
+
+任意未明确声明类型并切无法推导出类型的值都默认为any类型，any是检测弱，兼容性问题解决方案。
+
+当一个函数返回空值时，它的返回值为 void 类型，但是，当一个函数永不返回时（或者总是抛出错误），它的返回值为 never 类型。
+
+void 类型可以被赋值（在 strictNullChecking 为 false 时），但是除了 never 本身以外，其他任何类型不能赋值给 never。
+
+unknown相对于any，任意类型都可以赋值给unknow，但是不可对其进行任何访问操作（仅仅为类型安全，any操作访问也安全）
+
+```typescript
+let val:any
+
+let val_void:void = val;
+
+let val_undefined:undefined = val;
+let val_null:null = val;
+let val_number:number = val;
+
+let val: unknown;
+let val__unknown:unknown = val;
+// 报错:不能将类型“unknown”分配给类型“string”
+let val_string:string = val;
+// 报错:不能将类型“unknown”分配给类型“number”
+let val_number:number = val;
+// 报错:不能将类型“unknown”分配给类型“boolean”
+```
+
+但是unkown可以通过别的方式来缩小类型
+
+```typescript
+declare const maybe: unknown;
+
+if (maybe === true) {
+  // TypeScript knows that maybe is a boolean now
+  const aBoolean: boolean = maybe;
+  // So, it cannot be a string
+  const aString: string = maybe;
+Type 'boolean' is not assignable to type 'string'.
+}
+ 
+if (typeof maybe === "string") {
+  // TypeScript knows that maybe is a string
+  const aString: string = maybe;
+  // So, it cannot be a boolean
+  const aBoolean: boolean = maybe;
+Type 'string' is not assignable to type 'boolean'.
+}
 ```
 
 
 
+### 数字枚举与字符串枚举的区别
 
+我们可以使用字符串枚举或者数值枚举，
 
-### Node应用部署Docker 
+```typescript
+enum NoYes {
+  No,
+  Yes,
+}
 
-Docker允许你以应用程序所有的依赖打包成一个标准化的单元，这被称为一个容器，对于应用开发而言，一个容器就是一个蜕化到最基础的linux操作系统，一个镜像是你加载到容器中的软件
+enum NoYes {
+  No = 0,
+  Yes = 1,
+}
 
-在node app应用的目录下新建一个Dockerfile，编辑这个文件
-
-```dockerfile
-#从Docker站点获取相关镜像
-From node:12
-#在镜像中创建一个文件夹存放应用程序代码，这将是应用程序工作的目录
-WORKDIR /usr/src/app
-#安装应用程序的所有依赖
-COPY package*.json ./
-
-RUN npm install 
-#在Docker镜像中使用COPY命令绑定你的应用程序
-COPY . .
-#定义映射端口，如应用程序的端口为8080，则与docker的镜像做映射
-EXPOSE 8080
-#最后要定义运行时的CMD命令来运行应用程序，这里使用node serverjs启动服务器
-CMD ["node","server.js"]
+enum NoYes {
+  No = 'No',
+  Yes = 'Yes',
+}
 ```
 
-在dockerfile的同一个文件夹下创建.dockerignore文件，带有以下内容
 
-```dockerfile
-node_modules
-npm-debug.log
+
+### type与interface的区别
+
+type与interface都用于描述一个对象或函数, 两者都可以实现继承
+
+interface 可以 extends， 但 type 是不允许 extends 和 implement 的，但是 type 可以通过交叉类型 实现 interface 的 extend 行为，并且两者并不是相互独立的，也就是说 interface 可以 extends type, type 也可以 与 interface 类型交叉 。
+
+```typescript
+//interface使用extends继承，type可以通过交叉类型继承
+interface Name { 
+  name: string; 
+}
+interface User extends Name { 
+  age: number; 
+}
+
+type Name = { 
+  name: string; 
+}
+type User = Name & { age: number  };
+//interface与type混合extends与交叉
+type Name = { 
+  name: string; 
+}
+interface User extends Name { 
+  age: number; 
+}
+
+interface Name { 
+  name: string; 
+}
+type User = Name & { 
+  age: number; 
+}
 ```
 
-这将避免本地模块和调试日志被拷贝进入你的Docker镜像中，不会把镜像中安装的模块覆盖
+不同点：
 
-准备好之后就可以使用命令行构建和运行镜像
+interface可以声明合并，type不行
 
-进入dockerfile所在的目录，运行命令构建镜像
+```typescript
+interface User {
+  name: string
+  age: number
+}
+
+interface User {
+  sex: string
+}
+
+/*
+User 接口为 {
+  name: string
+  age: number
+  sex: string 
+}
+*/
+```
+
+对象、函数两者都适用，type可以声明基本类型别名，联合类型，元组等类型，还可以使用 typeof 获取实例的类型进行赋值，interface不行
+
+```typescript
+// 基本类型别名
+type Name = string
+
+// 联合类型
+interface Dog {
+    wong();
+}
+interface Cat {
+    miao();
+}
+
+type Pet = Dog | Cat
+
+// 具体定义数组每个位置的类型
+type PetList = [Dog, Pet]
+
+// 获取类型进行赋值
+let div = document.createElement('div');
+type B = typeof div
+```
+
+type 支持计算属性，生成映射类型,；interface 不支持。
+
+type 能使用 in 关键字生成映射类型, 内部使用了 for .. in。 具有三个部分：类型变量 K，它会依次绑定到每个属性。
+字符串字面量联合的 Keys，它包含了要迭代的属性名的集合。
+属性的结果类型。
+
+```typescript
+type Keys = "firstname" | "surname"
+
+type DudeType = {
+  [key in Keys]: string
+}
+
+const test: DudeType = {
+  firstname: "Pawel",
+  surname: "Grzybek"
+}
+
+// 报错
+//interface DudeType2 {
+//  [key in keys]: string
+//}
+```
+
+一般来说，如果不清楚什么时候用interface/type，能用 interface 实现，就用 interface , 如果不能就用 type 。
+
+### 元组与数组的区别
+
+数组的类型在[]前面, 元组的类型在[]内部。数组的类型规定数组全部的类型，而元组内部的类型是逐个指定的，也就是元组需要规定元素数量
+
+```typescript
+let arr:(number | string)[] = ['s',3,'a'];
+let arr:any[] = ['a',2,true];
+
+// let arr:[number] = [2,3,4];
+ let arr:[number] = [2]; // 这个时候才是对的！
+ let arr:[string,number] = ['a',1];
+// 报错:不能将类型“string”分配给类型“number”
+// let arr:[string,number] = [1,'d'];
+// any元组也需要规定元素数量
+let arr:[any,any,any] = ['s',2,true];
+```
+
+### 索引签名和工具类型Record的区别
+
+其实Record工具类型的本质就是索引签名，不同之处只是用法，仅仅需要继承就可以了，不需要再写一遍
+
+```typescript
+interface inf{
+    name:string;
+    age:number;
+    [k:string]:any;
+}
+
+interface inf extends Record<string,any>{
+    name:string;
+    age:number;
+}
+
+let obj:inf = {
+    name:'yiye',
+    age:33,
+    city:'foshan'
+}
+```
+
+
+
+## npm run tsc
+
+
+
+## WebAssembly-AssemblyScript
+
+AssemblyScript定义了一个TypeScript的子集，意在帮助TS背景的同学，通过标准的JavaScript API来完成到wasm的编译，从而消除语言的差异，让程序猿可以快乐的编码。
+
+AssemblyScript项目主要分为三个子项目：
+
+- [AssemblyScript](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fassemblyscript)：将TypeScript转化为wasm的主程序
+- [binaryen.js](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fbinaryen.js)：AssemblyScript主程序转化为wasm的底层实现，依托于[binaryen](https://link.juejin.cn?target=http%3A%2F%2Fgithub.com%2FWebAssembly%2Fbinaryen)库，是对binaryen的TypeScript封装。
+- [wast.js](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FAssemblyScript%2Fwabt.js)：AssemblyScript主程序转化为wasm的底层实现，依托于[wast](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2FWebAssembly%2Fwabt)库，是对wast的TypeScript封装。
+
+首先安装assemblyScript
 
 ```shell
-docker build -t <username>/node-web-app
+git clone https://github.com/AssemblyScript/assemblyscript.git
+cd assemblyscript
+npm install
+npm link
 ```
 
-构建之后就可以显示或者运行镜像
+在node的项目中添加wasm命令
 
-```dockerfile
-docker images
+```json
+ "scripts": {
+    "build": "npm run build:untouched && npm run build:optimized",
+    "build:untouched": "asc assembly/module.ts -t dist/module.untouched.wat -b dist/module.untouched.wasm --validate --sourceMap --measure",
+    "build:optimized": "asc assembly/module.ts -t dist/module.optimized.wat -b dist/module.optimized.wasm --validate --sourceMap --measure --optimize"
+ }
 ```
 
-使用-d模式以分离模式运行docker容器，使得容器在后台自助运行
 
-开关符-p在容器中把一个公共端口导向到私有的端口
+
+```sh
+npm install --save @assemblyscript/loader
+npm install --save-dev assemblyscript
+```
+
+初始化node-modules
 
 ```shell
-docker run -p 49160:8080 -d <username>/node-web-app
+npx asinit .
 ```
 
-## Node常见问题汇总
+构建
 
-
-
-### npm ERR! Maximum call stack size exceeded
-
-解决方法：全局更新npm
-
-```node
-npm install npm -g
+```shell
+npm run asbuild
 ```
 
-### core-js
 
-warning react-native > create-react-class > fbjs > core-js@1.2.7: core-js@<2.6.8 is no longer maintained. Please, upgrade to core-js@3 or at least to actual version of core-js@2
 
-旧包不在维护，安装新包，自动卸载旧版本
 
-```node
-npm install --save core-js@^3
-```
 
-注意：警告可能是由于你所安装的新包在使用旧版本的依赖所导致的警告，但是如果不是你自己开发的，你不能更改包的源码和依赖项，所以这种情况忽略警告吧
+## js调用wasm
+
+对于JavaScript调用wasm，一般采用如下步骤：
+
+1. 加载wasm的字节码。
+2. 将获取到字节码后转换成 ArrayBuffer，只有这种结构才能被正确编译。编译时会对上述ArrayBuffer进行验证。验证通过方可编译。编译后会通过Promise resolve一个 WebAssembly.Module。
+3. 在获取到 module 后需要通过 WebAssembly.Instance API 去同步的实例化 module。
+4. 上述第2、3步骤可以用instaniate 异步API等价代替。
+5. 之后就可以和像使用JavaScript模块一样调用了。
+
+
 
 ## 学习资源
 
-node问答：https://github.com/jimuyouyou/node-interview-questions
+typescript手册：https://www.typescriptlang.org/docs/handbook/
 
-https://javascript.ruanyifeng.com/
+深入理解typescript：https://jkchao.github.io/typescript-book-chinese/
 
-https://markpop.github.io/2014/10/29/NodeJs%E6%95%99%E7%A8%8B/
+typescript入门教程：https://ts.xcatliu.com/basics/type-of-function.html
 
-node包讲解：https://github.com/chyingp/nodejs-learning-guide
+ts中文手册：https://typescript.bootcss.com/
 
