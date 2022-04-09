@@ -1,5 +1,5 @@
 ---
-title: React（四）
+title: React（五）
 date: 2020-06-02 21:40:33
 categories: IT
 tags: IT，Web,Node，React
@@ -125,6 +125,68 @@ redux-logger
 redux-persist
 
 实现数据持久化，自动存入localStorage，配置略麻烦
+
+### Hooks
+
+react-edux最新版本([7.1](https://react-redux.js.org/api/hooks#using-hooks-in-a-react-redux-app)版本))也引入了Hooks风格的Api
+
+首先还是通过createStore将state存入store
+
+再通过Provider向子组件暴露store，通过store在父子组件之间共享状态
+
+子组件可以通过`useSelector`访问name
+
+也可以通过`useDispatch` 可以获取dispatch，几个子组件可以共享状态
+
+```react
+import React from "react";
+import { createStore } from "redux";
+import { Provider, useSelector, useDispatch } from "react-redux";
+
+const initialState = { num: 0 };
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "decrement":
+      return { ...state, num: state.num - 1 };
+    case "increment":
+      return { ...state, num: state.num + 1 };
+    default:
+    
+      return state;
+  }
+};
+
+const store = createStore(reducer, initialState);
+
+const ComponentUseReactRedux = () => {
+  return (
+    <div>
+      <h2>ComponentUseReactRedux</h2>
+      <Provider store={store}>
+        <ChildComponentUseReactRedux />
+      </Provider>
+    </div>
+  )
+}
+
+const ChildComponentUseReactRedux = () => {
+  const num = useSelector(state => state.num);
+  const dispatch = useDispatch();
+  return (
+    <div>
+      <h3>Using useSelector, useDispatch</h3>
+      Number: {num}
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+    </div>
+  );
+};
+
+export default ComponentUseReactRedux;
+```
+
+
 
 ### 文档
 

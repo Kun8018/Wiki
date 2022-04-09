@@ -1,5 +1,5 @@
 ---
-title: React（五）
+title: React（六）
 date: 2020-06-02 21:40:33
 categories: IT
 tags: IT，Web,Node，React
@@ -791,11 +791,56 @@ cd
 npm install -g umi
 ```
 
+Umi 中约定 `src/global.css` 为全局样式，如果存在此文件，会被自动引入到入口文件最前面
 
+比如用于覆盖样式，
 
+```less
+.ant-select-selection {
+  max-height: 51px;
+  overflow: auto;
+}
+```
 
+Umi 会自动识别 CSS Modules 的使用，你把他当做 CSS Modules 用时才是 CSS Modules
 
+```tsx
+// CSS Modules
+import styles from './foo.css';
 
+// 非 CSS Modules
+import './foo.css';
+```
+
+Umi 内置支持 less，不支持 sass 和 stylus，但如果有需求，可以通过 chainWebpack 配置或者 umi 插件的形式支持
+
+MFSU
+
+mfsu 是一种基于 webpack5 新特性 Module Federation 的打包提速方案。核心原理是将应用的依赖构建为一个 Module Federation 的 remote 应用，以免去应用热更新时对依赖的编译。
+
+因此，开启 mfsu 可以大幅减少热更新所需的时间。在生产模式，也可以通过提前编译依赖，大幅提升部署效率。
+
+### 开发阶段
+
+1. 初始化一个 umi 应用。
+2. 在 config.ts 中添加 `mfsu:{}`。
+3. `umi dev` 启动项目。在构建依赖时，会出现 MFSU 的进度条，此时应用可能会被挂起或显示依赖不存在，请稍等。
+4. 多人合作时，可以配置 `mfsu.development.output` 配置预编译依赖输出目录并添加到 git 中，在其他开发者启动时，就可以免去再次编译依赖的过程。
+
+#### 特性
+
+- 预编译：默认情况下，预编译将会将依赖构建到 `~/.umi/.cache/.mfsu` 下。并且使用了 webpack 缓存，减少再次编译依赖的时间。
+- diff：预编译时，会将本次的依赖信息构建到 `~/.mfsu/MFSU_CACHE.json` 中，用于依赖的 diff。
+- 持久化缓存：对于预编译依赖的请求，开启了`cache-control: max-age=31536000,immutable`，减少浏览器刷新拉取依赖的时间。
+
+### 构建阶段
+
+> warning: 由于预编译依赖实现了部分的 tree-shaking，不建议在打包大小敏感的项目中启用生产模式。
+
+1. 配置 config.ts：`mfsu.production = {}`以开启生产模式。
+2. 执行命令：`umi build`，默认情况下将会将生产依赖预编译到 `~/.mfsu-production` 中。
+3. umi 会将依赖外的产物构建到 `~/dist` 中，mfsu 再将生产预编译依赖移动到输出目录中。
+4. 使用 mfsu 生产模式，可以将 `~/.mfsu-production` 添加到 git 中。在部署时，仅编译应用文件，速度快到飞起。
 
 和creat-react-app的不同
 
@@ -804,6 +849,68 @@ create-react-app 是基于 webpack 的打包层方案，包含 build、dev、lin
 和nextjs的不同
 
 next.js 是个很好的选择，Umi 很多功能是参考 next.js 做的。要说有哪些地方不如 Umi，我觉得可能是不够贴近业务，不够接地气。比如 antd、dva 的深度整合，比如国际化、权限、数据流、配置式路由、补丁方案、自动化 external 方面等等一线开发者才会遇到的问题。
+
+### 约定式路由
+
+除配置式路由外，Umi 也支持约定式路由。约定式路由也叫文件路由，就是不需要手写配置，文件系统即路由，通过目录和文件及其命名分析出路由配置。
+
+**如果没有 routes 配置，Umi 会进入约定式路由模式**，然后分析 `src/pages` 目录拿到路由配置。
+
+动态路由
+
+约定 `[]` 包裹的文件或文件夹为动态路由。
+
+嵌套路由
+
+Umi 里约定目录下有 `_layout.tsx` 时会生成嵌套路由，以 `_layout.tsx` 为该目录的 layout。layout 文件需要返回一个 React 组件，并通过 `props.children` 渲染子组件。
+
+404路由
+
+约定 `src/pages/404.tsx` 为 404 页面，需返回 React 组件。
+
+权限路由
+
+通过指定高阶组件 `wrappers` 达成效果。
+
+### 页面跳转
+
+在 umi 里，页面之间跳转有两种方式：声明式和命令式。
+
+声明式
+
+通过Link使用，通常作为react 组件使用
+
+```react
+import { Link } from 'umi';
+
+export default () => (
+  <Link to="/list">Go to list page</Link>
+);
+```
+
+命令式
+
+通过history使用，在事件处理中调用
+
+```react
+import { history } from 'umi';
+
+function goToListPage() {
+  history.push('/list');
+}
+```
+
+
+
+
+
+### 一些api
+
+useIntl
+
+umi的useIntl是基于react-intl的。使用formatMessage api
+
+useRequest
 
 
 

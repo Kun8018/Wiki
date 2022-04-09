@@ -1,5 +1,5 @@
 ---
-title: React（二）
+title: React（三）
 date: 2020-06-02 21:40:33
 categories: IT
 tags: IT，Web,Node，React
@@ -527,11 +527,28 @@ export function ReactEcharts(props) {
 }
 ```
 
+useRef使用时报错不能将类型“MutableRefObject<HTMLDivElement | undefined>”分配给类型“LegacyRef | undefined”。
+
+原因：
+
+ 1.没赋初值
+
+2. useRef里面没写对类型
+
 useImperativeHandle
 
-useImperativeHandle可以让你在使用转发ref时自定义暴露给父组件的实例值。通过`useImperativeHandle`减少暴露给父组件获取的DOM元素属性，只暴露特定的操作
+useImperativeHandle可以让你在使用转发ref时自定义暴露给父组件的实例值。通过`useImperativeHandle`减少暴露给父组件获取的DOM元素属性，只暴露特定的操作，从而提升性能
 
 在大多数情况下，应当避免使用ref这样的命令式代码，useImperativeHandle应当与forwardRef一起使用
+
+useImperativeHandle的语法：useImperativeHandle(ref, createHandle, [deps])
+
+1. `ref`
+   需要被赋值的`ref`对象。
+2. `createHandle`：
+   `createHandle`函数的返回值作为`ref.current`的值。
+3. `[deps]`
+   依赖数组，依赖发生变化会重新执行`createHandle`函数。
 
 ```react
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
@@ -563,6 +580,43 @@ export default function ImperativeHandleDemo() {
   )
 }
 ```
+
+useImperativeHandle更常用的写法是
+
+```react
+type Props = {
+  content?: string;
+};
+
+type Instance = {
+  insertParam: (text: string, value: string) => void;
+};
+const Setting = React.forwardRef<
+  Instance,
+  Props
+>(function ContentSetting({ content }, ref) {
+	const itemRefs = React.useRef<(RichTextInputInstance | null)[]>([]);
+  useImperativeHandle(ref, () => ({
+    insertParam(text, value) {
+      const focusRef = itemRefs?.current?.[focusIndex as any];
+      focusRef?.insertParam(text, value);
+    },
+  }));
+  
+  return (
+  
+    <RichTextInput
+      placeholder={placeholder}
+      readOnly={readOnly}
+      ref={(inputRef) => (itemRefs.current[index] = inputRef)}
+      onFocus={() => handleFocus(index)}
+      className={classNames({ [styles.formReadOnly]: readOnly })}
+      singleLine={singleLine}
+      />)
+}
+```
+
+
 
 #### useRef与createRef的区别
 
@@ -701,6 +755,137 @@ const App = () =>{
 因为useEffect的依赖数组是空数组，那setInterval里面的count是通过闭包取得的值，他读取到的第一次的count，并且useEffect并没有更新，因为每次都是0
 
 如果去掉useEffect的依赖数组可以解决这个问题，然而会造成每次App组件渲染都会运行useEffect里面的函数，就会造成不必要的浪费和隐藏的bug
+
+#### 产生的原因
+
+React从react16之后，更换了fiber架构，引入了hooks。Fiber架构中，一个 Fiber节点就对应的是一个组件。对于 `classComponent` 而言，有 `state` 是一件很正常的事情，Fiber对象上有一个 `memoizedState` 用于存放组件的 `state`。ok，现在看 hooks 所针对的 `FunctionComponnet`。 无论开发者怎么折腾，一个对象都只能有一个 `state` 属性或者 `memoizedState`  属性，可是，谁知道可爱的开发者们会在 `FunctionComponent` 里写上多少个 `useState`，`useEffect` 等等 ? 所以，react用了链表这种数据结构来存储 `FunctionComponent` 里面的 hooks
+
+比如
+
+```react
+function App(){
+    const [count, setCount] = useState(1)
+    const [name, setName] = useState('chechengyi')
+    useEffect(()=>{
+        
+    }, [])
+    const text = useMemo(()=>{
+        return 'ddd'
+    }, [])
+}
+```
+
+在组件第一次渲染的时候，为每个hooks都创建了一个对象
+
+```typescript
+type Hook = {
+  memoizedState: any,
+  baseState: any,
+  baseUpdate: Update<any, any> | null,
+  queue: UpdateQueue<any, any> | null,
+  next: Hook | null,
+};
+```
+
+这个对象的`memoizedState`属性就是用来存储组件上一次更新后的 `state`,`next`毫无疑问是指向下一个hook对象。在组件更新的过程中，hooks函数执行的顺序是不变的，就可以根据这个链表拿到当前hooks对应的`Hook`对象，函数式组件就是这样拥有了state的能力。
+
+所以hooks不能写到if else语句中了。因为这样可能会导致顺序错乱，导致当前hooks拿到的不是自己对应的Hook对象。
+
+回到useEffect中闭包的问题。
+
+比如组件第一次渲染执行 `App()`，执行 `useState` 设置了初始状态为1，所以此时的 `count` 为1。然后执行了 `useEffect`，回调函数执行，设置了一个定时器每隔 1s 打印一次 `count`。
+
+接着想象如果 `click` 函数被触发了，调用 `setCount(2)` 肯定会触发react的更新，更新到当前组件的时候也是执行 `App()`，之前说的链表已经形成了哈，此时 `useState` 将 `Hook` 对象 上保存的状态置为2， 那么此时 `count` 也为2了。然后在执行 `useEffect` 由于依赖数组是一个空的数组，所以此时回调并不会被执行。
+
+ok，这次更新的过程中根本就没有涉及到这个定时器，这个定时器还在坚持的，默默的，每隔1s打印一次 `count`。 注意这里打印的 `count` ，是组件第一次渲染的时候 `App()` 时的 `count`， `count`的值为1，**因为在定时器的回调函数里面被引用了，形成了闭包一直被保存**
+
+所以useEffect或者useMemo依赖数组存在的意义，是react为了判定，在**本次更新**中，是否需要执行其中的回调函数，这里依赖了的num2，而num2改变了。回调函数自然会执行， 这时形成的闭包引用的就是最新的num1和num2，所以，自然能够拿到新鲜的值。问题的关键，在于回调函数执行的时机，闭包就像是一个照相机，把回调函数执行的那个时机的那些值保存了下来。
+
+
+useRef的原理
+
+初始化的 `useRef` 执行之后，返回的都是同一个对象。
+
+也就是说，在组件每一次渲染的过程中。 比如 `ref = useRef()` 所返回的都是同一个对象，每次组件更新所生成的`ref`指向的都是同一片内存空间， 那么当然能够每次都拿到最新鲜的值了。
+
+```react
+    /* 将这些相关的变量写在函数外 以模拟react hooks对应的对象 */
+	let isC = false
+	let isInit = true; // 模拟组件第一次加载
+	let ref = {
+		current: null
+	}
+
+	function useEffect(cb){
+		// 这里用来模拟 useEffect 依赖为 [] 的时候只执行一次。
+ 		if (isC) return
+		isC = true	
+		cb()	
+	}
+
+	function useRef(value){
+		// 组件是第一次加载的话设置值 否则直接返回对象
+		if ( isInit ) {
+			ref.current = value
+			isInit = false
+		}
+		return ref
+	}
+
+	function App(){
+		let ref_ = useRef(1)
+		ref_.current++
+		useEffect(()=>{
+			setInterval(()=>{
+				console.log(ref.current) // 3
+			}, 2000)
+		})
+	}
+
+		// 连续执行两次 第一次组件加载 第二次组件更新
+	App()
+	App()
+```
+
+另外的解决方式是，只要我们能保证每次组件更新的时候，`useState` 返回的是同一个对象的话？我们也能绕开闭包陷阱这个情景
+
+```react
+function App() {
+  // return <Demo1 />
+  return <Demo2 />
+}
+
+function Demo2(){
+  const [obj, setObj] = useState({name: 'chechengyi'})
+
+  useEffect(()=>{
+    setInterval(()=>{
+      console.log(obj)
+    }, 2000)
+  }, [])
+  
+  function handClick(){
+    setObj((prevState)=> {
+      var nowObj = Object.assign(prevState, {
+        name: 'baobao',
+        age: 24
+      })
+      console.log(nowObj == prevState)
+      return nowObj
+    })
+  }
+  return (
+    <div>
+      <div>
+        <span>name: {obj.name} | age: {obj.age}</span>
+        <div><button onClick={handClick}>click!</button></div>
+      </div>
+    </div>
+  )
+}
+```
+
+
 
 #### 解决方案
 
@@ -1134,6 +1319,14 @@ useBoolean
 ### react-hooks
 
 https://github.com/ecomfe/react-hooks
+
+
+
+### usehooks
+
+https://github.com/uidotdev/usehooks
+
+https://usehooks-ts.com/react-hook/use-window-size
 
 
 

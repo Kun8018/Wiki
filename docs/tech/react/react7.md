@@ -1,5 +1,5 @@
 ---
-title: React（四）
+title: React（七）
 date: 2020-06-02 21:40:33
 categories: IT
 tags: IT，Web,Node，React
@@ -48,6 +48,16 @@ yarn add @typescript-eslint/eslint-plugin @typescript-eslint/parser
   "typescriptreact"
 ]
 ```
+
+## Prettier
+
+
+
+## style-lint
+
+
+
+
 
 ## react的Ts写法
 
@@ -172,6 +182,84 @@ const App = () => {
 ## react库
 
 ### recomponse
+
+
+
+### loadable-components
+
+安装
+
+```react
+npm install @loadable/component
+```
+
+使用
+
+```react
+import loadable from '@loadable/component'
+
+const OtherComponent = loadable(() => import('./OtherComponent'))
+
+function MyComponent() {
+  return (
+    <div>
+      <OtherComponent />
+    </div>
+  )
+}
+```
+
+
+
+### react-media-recorder
+
+安装
+
+```shell
+npm i react-media-recorder
+```
+
+使用
+
+```react
+import { ReactMediaRecorder } from "react-media-recorder";
+
+const RecordView = () => (
+  <div>
+    <ReactMediaRecorder
+      video
+      render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+        <div>
+          <p>{status}</p>
+          <button onClick={startRecording}>Start Recording</button>
+          <button onClick={stopRecording}>Stop Recording</button>
+          <video src={mediaBlobUrl} controls autoPlay loop />
+        </div>
+      )}
+    />
+  </div>
+);
+
+import { useReactMediaRecorder } from "react-media-recorder";
+
+const RecordView = () => {
+  const {
+    status,
+    startRecording,
+    stopRecording,
+    mediaBlobUrl,
+  } = useReactMediaRecorder({ video: true });
+
+  return (
+    <div>
+      <p>{status}</p>
+      <button onClick={startRecording}>Start Recording</button>
+      <button onClick={stopRecording}>Stop Recording</button>
+      <video src={mediaBlobUrl} controls autoPlay loop />
+    </div>
+  );
+};
+```
 
 
 
@@ -415,8 +503,6 @@ npm install antd --save
 cnpm i antd -S
 ```
 
-
-
 在App.css文件中导入样式
 
 ```css
@@ -492,7 +578,195 @@ const checkTipVisible = (visible: boolean) => {
 </Tooltip>
 ```
 
+Form
 
+在form.item中可以使用shouldUpdate包一层，然后将Form传入item的回调函数中
+
+这样做
+
+1.可以在item中取到form的其他值，从而进行表单联动
+
+2.可以确保字段在更新时及时更新，相当于一次setState
+
+```react
+<Form.Item shouldUpdate>
+  {(form) => {
+    const branches = form.getFieldValue('branches') || [];
+    return (
+      <>
+      <Form.List name="branches">
+        {(fields, operation) => {
+          return (
+            <BranchSortTable
+              readonly={readonly}
+              data={branches}
+              fields={fields}
+              operation={operation}
+              />
+          );
+        }}
+      </Form.List>
+      </>
+    );
+  }}
+</Form.Item>
+```
+
+验证
+
+表单提交时对有rules的item要进行校验，比较繁琐的写法像这样
+
+```react
+const handleSubmit = async () => {
+  await form.validateFields();
+}
+```
+
+如果有单独的需要提前校验/接口校验的可以用validateFirst
+
+校验时可以用validator写
+
+```react
+<ProFormText
+  readonly={readOnly}
+  label={
+    <Text
+      style={{ maxWidth: 110 }}
+      ellipsis={{
+        tooltip: formatMessage({ id: 'FORM_LABEL_NODE_NAME' }),
+      }}
+      >
+      {formatMessage({ id: 'FORM_LABEL_NODE_NAME' })}
+    </Text>
+  }
+  required
+  validateFirst
+  name="name"
+  rules={[
+    {
+      required: true,
+      message: formatMessage({
+        id: 'FORM_LABEL_PLACEHOLDER_INPUT',
+      }),
+    },
+    {
+      validator: async (_rule, value) => {
+        if (!validateNameUnique(value, element.id)) {
+          throw formatMessage({
+            id: 'AUTO_FLOW_NAME_UNIQ_ERROR_MESSAGE',
+          });
+        }
+      },
+    },
+  ]}
+  fieldProps={{
+    placeholder: formatMessage({
+      id: 'AUTO_FLOW_LIMIT_CHAR_LENGTH_MESSAGE',
+    }),
+  }}
+  />
+```
+
+namePath
+
+在form.item的name中使用数组，能够把不同的表单放到同一个对象中，而不是普通的key-value
+
+```react
+<Form.Item
+  name={['a', 'select']}
+  options={listData as treeItemType[]}
+  readonly={isView}
+>
+</Form.Item>
+<Form.Item
+  name={['a', 'input']}
+  options={listData as treeItemType[]}
+  readonly={isView}
+>
+</Form.Item>
+```
+
+自定义表单组件
+
+表单组件不一定非要input、select，也可以自己通过form.item填充，取值的时候使用get和set就比较方便
+
+```react
+const handleChange = () => {
+  labelsForm.setFieldsValue({
+    tree: []
+  });
+}
+
+const FormTree: React.FC<{ value?: any }> = (value) => {
+  return (
+    <Tree
+      isDirectoryTree
+      searchAble
+      searchingMode="filter"
+      treeData={value.value || []}
+      onSelect={(selectKey, info) => {
+        setSelectId({ key: selectKey, title: info?.node.title });
+                    }}
+      />
+  );
+};
+
+<ProForm.Item name="tree" noStyle shouldUpdate>
+  <FormTree />
+</ProForm.Item>
+```
+
+
+
+Modal
+
+如果在Modal的content中使用国际化，需要使用Modal的hooks
+
+```react
+const [modal, contextHolder] = Modal.useModal();
+
+modal.info({
+        title: null,
+        icon: null,
+        okText: formatMessage({ id: 'ACTION_CONFIRM' }),
+        className: styles.deleteCheckModal,
+        content: (
+          <div>
+            <div className={styles.deleteCheckModalTitle}>
+              {formatMessage({ id: 'TIPS' })}
+            </div>
+            <div className={styles.deleteCheckModalTips}>
+              <InfoCircleFilled className="mr-6" />
+              {formatMessage({ id: 'CANOT_DELETE_TIPS' })}
+            </div>
+            <div className={styles.deleteCheckModalTable}>
+              <ProTable
+                pagination={false}
+                scroll={{ y: 200 }}
+                size="small"
+                dataSource={checkResult}
+              >
+                <ProTable.Column title="ID" dataIndex="id" width={100} />
+                <ProTable.Column
+                  title={formatMessage({ id: 'PLAN_NAME' })}
+                  dataIndex="name"
+                />
+              </ProTable>
+            </div>
+          </div>
+        ),
+      });
+
+return (
+	<>{contextHolder}</>
+)
+```
+
+
+
+TreeSelect
+
+triggerNode.props非公开api
 
 
 
@@ -524,7 +798,7 @@ Proform有很多ProFormFields 表单项组件。这些组件本质上是 Form.It
 
 ### Material-UI
 
-
+推出很久 很好用
 
 ### Elastic-UI
 
@@ -552,6 +826,14 @@ tailwind的公司开源的UI库
 
 
 
+### geist-ui
+
+
+
+### swr
+
+
+
 ### echarts-for-react
 
 安装
@@ -576,6 +858,69 @@ import ReactECharts from 'echarts-for-react';  // or var ReactECharts = require(
   opts={}
 />
 ```
+
+
+
+### @monaco-editor/react
+
+在页面内插入文本编辑器，可以提供代码高亮、错误提示等功能
+
+```shell
+npm install @monaco-editor/react 
+```
+
+使用
+
+```javascript
+import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
+
+function App() {
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    if (monaco) {
+      console.log("here is the monaco isntance:", monaco);
+    }
+  }, [monaco]);
+  
+  function handleEditorWillMount(monaco) {
+    // here is the monaco instance
+    // do something before editor is mounted
+    monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
+  }
+  
+  function handleEditorDidMount(editor, monaco) {
+    editorRef.current = editor; 
+  }
+  
+  function handleEditorChange(value, event) {
+    console.log("here is the current model value:", value);
+  }
+  
+  function showValue() {
+    alert(editorRef.current.getValue());
+  }
+
+  return (
+   <>
+     <button onClick={showValue}>Show value</button>
+     <Editor
+       height="90vh"
+       defaultLanguage="javascript"
+       defaultValue="// some comment"
+       beforeMount={handleEditorWillMount}
+       onMount={handleEditorDidMount}
+			 onChange={handleEditorChange}
+     />
+   </>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(<App />, rootElement);
+```
+
+
 
 
 
@@ -611,6 +956,7 @@ render() {
     'class1': true,
     'class2': this.props.isCompleted,
     'class3': !this.props.isCompleted
+    [a]: this.props.isCompleted
   });
   return (<div className={classStr}></div>);
 }
@@ -622,7 +968,7 @@ render() {
 
 Apollo是基于GraphQL的全栈解决方案集合，包括了apollo-client和apollo-server，从后端到前端提供了对应的lib使得开发GraphQL更加方便
 
-```js
+```toml
 apollo-boost 包含启动阿波罗客户端的所有依赖
 react-apollo 视图层面的集合
 graph-tag 解析查询语句
@@ -645,7 +991,7 @@ import { Mutation,MutationFunc } from 'react-apollo'
 
 
 
-```react
+```shell
 npm install @apollo/client graphql
 ```
 
@@ -1030,6 +1376,56 @@ const App = () => {
 
 
 
+### remotion
+
+用react写video
+
+使用
+
+```react
+import { useCurrentFrame } from "remotion";
+ 
+export const MyVideo = () => {
+  const frame = useCurrentFrame();
+ 
+  return (
+    <div
+      style={{
+        flex: 1,
+        textAlign: "center",
+        fontSize: "7em",
+      }}
+    >
+      The current frame is {frame}.
+    </div>
+  );
+};
+```
+
+配置帧数
+
+```react
+import { useVideoConfig } from "remotion";
+ 
+export const MyVideo = () => {
+  const { fps, durationInFrames, width, height } = useVideoConfig();
+ 
+  return (
+    <div
+      style={{
+        flex: 1,
+        textAlign: "center",
+        fontSize: "7em",
+       }}
+      >
+      This {width}px x {height}px video is {durationInFrames / fps} seconds long.
+    </div>
+  );
+};
+```
+
+
+
 ### uuid
 
 uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
@@ -1079,6 +1475,99 @@ if(getToken()){
   if(!uuid){
     sessionStorage.setItem('uuid',uuidv4());
   }
+}
+```
+
+
+
+### K-bar
+
+k-bar可以给react部署的站点提供一个舒服的搜索框样式
+
+安装
+
+```shell
+npm install kbar
+```
+
+使用
+
+```react
+import {
+  KBarProvider,
+  KBarPortal,
+  KBarPositioner,
+  KBarAnimator,
+  KBarSearch,
+  useMatches,
+  NO_GROUP
+} from "kbar";
+
+function MyApp() {
+  const actions = [
+    {
+      id: "blog",
+      name: "Blog",
+      shortcut: ["b"],
+      keywords: "writing words",
+      perform: () => (window.location.pathname = "blog"),
+    },
+    {
+      id: "contact",
+      name: "Contact",
+      shortcut: ["c"],
+      keywords: "email",
+      perform: () => (window.location.pathname = "contact"),
+    },
+  ]
+  
+  return (
+    <KBarProvider actions={actions}>
+      <KBarPortal> // Renders the content outside the root node
+        <KBarPositioner> // Centers the content
+          <KBarAnimator> // Handles the show/hide and height animations
+            <KBarSearch /> // Search input
+            <RenderResults />;
+          </KBarAnimator>
+        </KBarPositioner>
+      </KBarPortal>
+      <MyApp />
+    </KBarProvider>;
+  );
+}
+```
+
+自定义搜索结果样式
+
+```react
+import {
+  // ...
+  KBarResults,
+  useMatches,
+  NO_GROUP,
+} from "kbar";
+
+function RenderResults() {
+  const { results } = useMatches();
+
+  return (
+    <KBarResults
+      items={results}
+      onRender={({ item, active }) =>
+        typeof item === "string" ? (
+          <div>{item}</div>
+        ) : (
+          <div
+            style={{
+              background: active ? "#eee" : "transparent",
+            }}
+          >
+            {item.name}
+          </div>
+        )
+      }
+    />
+  );
 }
 ```
 
@@ -1342,6 +1831,12 @@ sticky上可以添加不同的属性
   ...
 </StickyContainer>
 ```
+
+
+
+### crypto-browserify
+
+加密
 
 
 

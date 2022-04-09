@@ -167,9 +167,7 @@ this.sibling = null; //指向右边第一个兄弟fiber节点
 
 
 
-**child、silbing、return**
-
-fiber对象的属性，这些属性指向其他fiber，表征当前工作单元的下一个工作单元，用于描述fiber的递归树结构。
+**child、silbing、return**fiber对象的属性，这些属性指向其他fiber，表征当前工作单元的下一个工作单元，用于描述fiber的递归树结构。
 
 child： 对应于父fiber节点的子fiber silbing： 对应于fiber节点的同类兄弟节点 return： 对应于fiber节点的父节点
 
@@ -186,6 +184,8 @@ workTag 类型，用于描述一个React元素的类型，即为上述fiber对�
 **stateNode**
 
 一个组件、一个DOM节点或其他跟fiber节点相关联的React元素的实例的引用。通常，我们可以说这个属性是用于保存与一个fiber相关联的本地状态。即上述fiber对象的 fiber.stateNode。
+
+
 
 #### 双缓存机制
 
@@ -919,7 +919,88 @@ function useToggle(initialValue) {
 }
 ```
 
+### React Node与React Element的区别
 
+在react的ts声明文件中有
+
+```typescript
+type ReactText = string | number;
+type ReactChild = ReactElement | ReactText;
+
+interface ReactNodeArray extends Array<ReactNode> {}
+type ReactFragment = {} | ReactNodeArray;
+type ReactNode = ReactChild | ReactFragment | ReactPortal | boolean | null | undefined;
+```
+
+ReactNode 是一个联合类型，其中的类型包括 ReactChild、ReactFragment、ReactPortal、boolean、null 以及 undefined。
+
+在 ReactNode 的联合类型中，ReactChild 这个类型也是一个联合类型，该类型为 ReactElement 或者 ReactText。
+
+也就是 ReactElement 这个类型只不过是 ReactNode 这个类型的一个子类型
+
+然后看一下ReactElement 这个类型
+
+```typescript
+interface ReactElement<P = any, T extends string | JSXElementConstructor<any> = string | JSXElementConstructor<any>> {
+        type: T;
+        props: P;
+        key: Key | null;
+    }
+```
+
+ReactElement是一个接口，其中有 type、props、key 这三个属性
+
+`JSX.Element` 通过执行 React.createElement 或是转译 JSX 获得
+
+```typescript
+const jsx = <div>hello</div>
+const ele = React.createElement("div", null, "hello");
+<p> // <- ReactElement = JSX.Element
+  <Custom> // <- ReactElement = JSX.Element
+    {true && "test"} // <- ReactNode
+  </Custom>
+</p>
+```
+
+JSX.Element 是一个 ReactElement，其 props 和 type 的泛型被设置为 any。之所以存在 JSX.Element 是因为不同的库实现 JSX 的方式不同，也就是说 JSX 是一个全局的命名空间，通过不同的库来设置，React 的设置如下：
+
+```typescript
+declare global {
+  namespace JSX {
+    interface Element extends React.ReactElement<any, any> { }
+  }
+}
+```
+
+可以得出 ReactElement 是 ReactNode 的一个子集。而在React 中 JSX.Element 和 ReactElement 是几乎等价的。在 React 中实现 JSX.Element 的方式就是 ReactElement
+
+这样子在写React高级组件的时候就可以使用React Element来实现对props类型的控制
+
+```react
+import React, {FunctionComponent, ReactElement } from 'react';
+
+const FatherComponent: React.FC<{children: ReactElement}> = ({children}) => {
+	const newChildren = React.cloneElement(children, {age: 18})
+  return <div> { newChildren }</div>
+}
+
+const SonComponent: React.FC<{name: string}> = (props) => {
+  console.log(props)
+  return <div>hello world</div>
+}
+
+const App: React.FC = () => {
+  return (
+  	<div>
+    	<FatherComponent>
+      	<SonComponent name={'hello world'}></SonComponent>
+      </FatherComponent>
+    </div>
+  )
+}
+
+export default App;
+```
 
 ## React优化
 

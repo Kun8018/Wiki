@@ -252,13 +252,11 @@ ReactDOMServer.renderToStaticNodeStream(element)
 
 
 
-## 构建路由
-
-
+## 路由react-router-dom
 
 安装包
 
-```node
+```shell
 npm i --save react-router-dom
 ```
 
@@ -323,12 +321,12 @@ export default About
 
 ```react
 <HashRouter>
-        <Link to="/home"></Link>
-        <Link to="/movie"></Link>
-        <Link to="/about"></Link>
-    <Route path="/home" compoent={} exact></Route>
-    <Route path="/movie/:type/:id" compoent={} exact></Route>
-    <Route path="/about" compoent={} exact></Route>
+  <Link to="/home"></Link>
+  <Link to="/movie"></Link>
+  <Link to="/about"></Link>
+  <Route path="/home" compoent={} exact></Route>
+  <Route path="/movie/:type/:id" compoent={} exact></Route>
+  <Route path="/about" compoent={} exact></Route>
 </HashRouter>
 ```
 
@@ -396,7 +394,7 @@ function router(){
 import {Redirect} from "react-router-dom"
 
 return {(
-<Router>
+		<Router>
         <Route path="/home" component={Home} />
         <Route path="/" render={
         ()=>(
@@ -414,6 +412,35 @@ export default router;
 ### 其他API
 
 RouteComponentProps
+
+
+
+Prompt
+
+跳转之前提示
+
+```react
+/**
+ * 使用Prompt的默认提示框阻止跳转
+ */
+import React, { Component } from 'react';
+import { Prompt, Link } from 'react-router-dom';
+
+export default class DefaultPrompt extends Component {
+  render() {
+    return (
+      <div>
+        <Link to="/function/message">跳转到function形式的message的页面</Link>
+        {/* when为true时表示阻止默认的跳转行为 */}
+        <Prompt when={true} message='确认离开此页面？' />
+        <h1>
+          使用Prompt的默认提示框阻止跳转
+        </h1>
+      </div>
+    )
+  }
+}
+```
 
 
 
@@ -435,7 +462,8 @@ import NotFound from './NotFound'
 class App extends Component{
     //此时才能获取this.props,包含（history, match, location）三个对象
     console.log(this.props);  //输出{match: {…}, location: {…}, history: {…}, 等}
-    render(){return (<div className='app'>
+    render(){return (
+        <div className='app'>
             <NavLink to='/one/users'>用户列表</NavLink>
             <NavLink to='/one/companies'>公司列表</NavLink>
             <Switch>
