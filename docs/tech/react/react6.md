@@ -1,1101 +1,1616 @@
 ---
-title: React（六）
+title: React（五）
 date: 2020-06-02 21:40:33
 categories: IT
-tags: IT，Web,Node，React
+tags:
+    - IT，Web,Node，React
 toc: true
-thumbnail: https://cdn.kunkunzhang.top/preact.jpeg
+thumbnail: https://cdn.kunkunzhang.top/redux.jpeg
 ---
 
-​      基于React的衍生库
+​      前端框架，快速开发页面，函数式编程，与后端api快速搭建
 
 <!--more-->
 
-## immutablejs
+## Redux
 
-Immutable数据就是一旦创建，就不能更改的数据。每当对Immutable对象进行修改的时候，就会返回一个新的Immutable对象，以此来保证数据的不可变
+Facebook 有一个 Flux 的实现，但是我们会使用 Redux 库。 它使用相同的原理，但是更简单一些。 Facebook 现在也使用 Redux 而不是原来的 Flux
 
-有人说 Immutable 可以给 React 应用带来数十倍的提升，也有人说 Immutable 的引入是近期 JavaScript 中伟大的发明，因为同期 React 太火，它的光芒被掩盖了。这些至少说明 Immutable 是很有价值的。
+### 基本概念
 
-Immutable的优点：
+redux中概念：
 
-1.降低复杂度，避免副作用
+Store:储存state的地方，通过createStore方法创建store
 
-2.节省内存。Immutable采用了结构共享机制，所以会尽量复用内存
+Action:应用中的各种操作或动作，不同的操作会改变相应的state状态
 
-3.方便回溯。Immutable每次修改都会创建新对象，且对象不变，那么变更记录就能够被保存下来。应用的状态变得可控、可追溯，方便撤销和重做功能的实现
+Reducer:按照action更新state
 
-4.函数式编程。Immutable本身就是函数式编程中的概念。纯函数式编程比面向对象更适用于前端开发，因为只要输入一致，输出必然是一致的，这样开发的组件更易于调试和组装
+Store.getState():获取整个状态数据对象
 
-5.丰富的API
+store.dispatch():分发Action
 
-JavaScript 中的对象一般是可变的（Mutable），因为使用了引用赋值，新的对象简单的引用了原始对象，改变新的对象将影响到原始对象，比如
+store.subscribe():设置监听函数，一旦state变化就会自动执行
 
-```javascript
-var obj = {
- a: 1,
- b: 2
-};var obj1 = obj;obj1.a = 999;
-obj.a //999
+以图书馆举例，react component就是一个要借书的用户，当你向图书馆借书时跟图书管理员说要什么书，这个语境就是Action Creators，图书馆的管理员就是store，负责数据状态的管理，图书馆收到请求后向图书系统中查询，这个系统就是Reducers。
+
+安装
+
+```js
+yarn add redux
 ```
 
-改变了obj1.a的值，同时也会更改到obj.a的值。
+新建reducer.js
 
-一般的解法就是使用「深拷贝」(deep copy)而非浅拷贝(shallow copy)，来避免被修改,但是这样造成了 CPU和内存的浪费.
+```js
 
-immutable可以很好地解决这些问题
+```
 
-Immutable Data 就是一旦创建，就不能再被更改的数据。对 Immutable 对象的任何修改或添加删除操作都会返回一个新的 Immutable 对象。Immutable 实现的原理是 Persistent Data Structure（持久化数据结构），也就是使用旧数据创建新数据时，要保证旧数据同时可用且不变。同时为了避免 deepCopy 把所有节点都复制一遍带来的性能损耗，Immutable 使用了 Structural Sharing（结构共享），即如果对象树中一个节点发生变化，只修改这个节点和受它影响的父节点，其它节点则进行共享。
+新建store.js
 
-Immutable 的几种数据类型：
+```js
+import { } from 'redux'
 
-- List: 有序索引集，类似JavaScript中的Array。
-- Map: 无序索引集，类似JavaScript中的Object。
-- OrderedMap: 有序的Map，根据数据的set()进行排序。
-- Set: 没有重复值的集合。
-- OrderedSet: 有序的Set，根据数据的add进行排序。
-- Stack: 有序集合，支持使用unshift（）和shift（）添加和删除。
-- Range(): 返回一个Seq.Indexed类型的集合，这个方法有三个参数，start表示开始值，默认值为0，end表示结束值，默认为无穷大，step代表每次增大的数值，默认为1.如果start = end,则返回空集合。
-- Repeat(): 返回一个vSeq.Indexe类型的集合，这个方法有两个参数，value代表需要重复的值，times代表要重复的次数，默认为无穷大。
-- Record: 一个用于生成Record实例的类。类似于JavaScript的Object，但是只接收特定字符串为key，具有默认值。
-- Seq: 序列，但是可能不能由具体的数据结构支持。
-- Collection: 是构建所有数据结构的基类，不可以直接构建。
+```
 
-方法：
+action.js
 
-fromJS()：
-
-`作用` : 将一个js数据转换为Immutable类型的数据 `用法` : `fromJS(value, converter)` `简介` : value是要转变的数据，converter是要做的操作。第二个参数可不填，默认情况会将数组准换为List类型，将对象转换为Map类型，其余不做操作。
-
-is()
-
-`作用` : 对两个对象进行比较 `用法` : `is(map1,map2)` `简介` : 和js中对象的比较不同，在js中比较两个对象比较的是地址，但是在Immutable中比较的是这个对象hashCode和valueOf，只要两个对象的hashCode相等，值就是相同的，避免了深度遍历，提高了性能
-
-### 在react中使用
-
-react中通常使用purecomponent进行props的浅比较，从而控制shouldComponentUpdate的返回值
-
-但是当传入prop或者state不止一层，或者传入的是Array和Object类型时，浅比较就失效了，当然也可以在shouldComponentUpdate中使用deepCopy和deepCompare来避免不必要的render，但是深拷贝和深比较都是非常消耗性能的，此时可以用Immutable来进行优化
-
-Immutable提供了简洁高效的判断数据是否变化的方法，只需===和is就能比较是否需要执行render，而这个操作几乎是零成本的，所以可以极大提高性能
-
-```react
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { is, Map } from 'immutable';
-
-class Caculator extends Component {
-  state = {
-    counter: Map({ number: 0})
-  }
-
-	handleClick = () => {
-    let amount = this.amount.value ? Number(this.amount.value): 0;
-    let counter = this.state.counter.update('number', val => val + amount);
-    this.setState({counter});
-  }
-
-	shouldComponentUpdate(nextProps={},nextState={}{
-    if(Object.keys[this.state].length !== Object.keys(nextState).length){
-    	return true;
-  	}
-  	for ( const key in nextState ) {
-    	if( !is(this.state[key], nextState[key])) {
-        return true;
-      }
-  	}    
-		return false
-  })
-  render() {
-    return (
-    	<div>
-      	<p>{ this.state.counter.get('number')}</p>
-        <input ref={input => this.amout = input} />
-        <button onClick="this.handleClick">+</button>
-      </div>
-    )
-  }
+```javascript
+const action = {
+   type:'ADD_TODO',
+   payload:'Learn Redux'
 }
-ReactDOM.render(
-	<Caculator/>,
-  document.getElementById('root')
+```
+
+监听
+
+```javascript
+import {createStore} from 'redux'
+const store = createStore(reducer);
+
+store.subscribe(listener)
+```
+
+action发出后reducer立即执行即为同步，一段时间后执行为异步
+
+对于异步，
+
+
+
+### React-redux
+
+react-redux提供connet方法，用于从UI组件生成容器组件，
+
+```javascript
+import {connet} from 'react-redux'
+
+const VisibleTodoList = connect(
+   mapStateToProps,
+   mapDispatchToProps
+)(TodoList)
+```
+
+connet生成容器之后，需要让容器组件拿到state对象，react-redux提供Provider组件让容器拿到state
+
+```javascript
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+
+render(
+	<Provider store= {store}>
+  	<App />
+  </Provider>
 )
 ```
 
-### 在redux中使用
+### 中间件
 
-可以使用redux-immutable中间件的方式实现redux与immutable搭配使用
+redux-saga
 
-建议把整个Redux的state树作为Immutable对象
-
-### 注意
-
-- 不要混合普通的JS对象和Immutable对象
-
-- 把整个Redux的state树作为Immutable对象
-
-- 除了展示组件，其他大部分组件都可以使用immutable对象提高效率
-
-- 少用toJS方法，这个方法非常耗费性能，它会深度遍历数据转换成JS对象
-
-- 你的Selector应该永远返回immutable对象
+功能类似redux-thunk，用于异步action，原理是通过generator函数，相比于thunk更复杂一些，集中处理了action，支持dispatch后的回调。
 
 
 
-## Immer.js
+redux-thunk
 
-[Immer](https://link.segmentfault.com/?enc=CsdrOwxqIW8RSSW4sJk%2FQg%3D%3D.FqvneTCQUrfuLPKN4RLTkOhn0oZZMia3QXrQd3%2BIa9SJvlwmvOimc9BvUKRgzh1i) 是 mobx 的作者写的一个 immutable 库，核心实现是利用 ES6 的 proxy，几乎以最小的成本实现了 js 的不可变数据结构，简单易用、体量小巧、设计巧妙，满足了我们对JS不可变数据结构的需求。
+用于异步action，允许你的action可以返回函数, 带有dispatch和getState两个参数, 在这个action函数里, 异步的dispatch action;
 
-核心概念：
 
-- currentState： 被操作对象的最初状态
-- draftState： 根据 currentState 生成的草稿状态，它是 currentState 的代理，对 draftState 所做的任何修改都将被记录并用于生成 nextState 。在此过程中，currentState 将不受影响
-- nextState：根据 draftState 生成的最终状态
-- produce： 生产，用来生成 nextState 或 producer 的函数
-- producer ：生产者，通过 produce 生成，用来生产 nextState ，每次执行相同的操作
-- recipe： 生产机器，用来操作 draftState 的函数
+
+redux-logger
+
+在控制台打印redux过程，类似的也可以按redux文档示范的中间件，但是感觉logger的颜色更好看
+
+
+
+redux-persist
+
+实现数据持久化，自动存入localStorage，配置略麻烦
+
+### Hooks
+
+react-edux最新版本([7.1](https://react-redux.js.org/api/hooks#using-hooks-in-a-react-redux-app)版本))也引入了Hooks风格的Api
+
+首先还是通过createStore将state存入store
+
+再通过Provider向子组件暴露store，通过store在父子组件之间共享状态
+
+子组件可以通过`useSelector`访问name
+
+也可以通过`useDispatch` 可以获取dispatch，几个子组件可以共享状态
+
+```react
+import React from "react";
+import { createStore } from "redux";
+import { Provider, useSelector, useDispatch } from "react-redux";
+
+const initialState = { num: 0 };
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "decrement":
+      return { ...state, num: state.num - 1 };
+    case "increment":
+      return { ...state, num: state.num + 1 };
+    default:
+    
+      return state;
+  }
+};
+
+const store = createStore(reducer, initialState);
+
+const ComponentUseReactRedux = () => {
+  return (
+    <div>
+      <h2>ComponentUseReactRedux</h2>
+      <Provider store={store}>
+        <ChildComponentUseReactRedux />
+      </Provider>
+    </div>
+  )
+}
+
+const ChildComponentUseReactRedux = () => {
+  const num = useSelector(state => state.num);
+  const dispatch = useDispatch();
+  return (
+    <div>
+      <h3>Using useSelector, useDispatch</h3>
+      Number: {num}
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+    </div>
+  );
+};
+
+export default ComponentUseReactRedux;
+```
+
+
+
+### 文档
+
+Https://cn.redux.js.org
+
+
+
+### redux-undo
+
+可以撤销redux的状态，便于管理redux中的state
+
+安装
+
+```shell
+npm install --save redux-undo
+```
 
 使用
 
 ```javascript
-import { produce } from 'immer'
+// Redux utility functions
+import { combineReducers } from 'redux';
+// redux-undo higher-order reducer
+import undoable from 'redux-undo';
 
-let nextState = produce(currentState, (draft) => {
-
+combineReducers({
+  counter: undoable(counter)
 })
-
-let producer = produce((draft) => {
-  draft.x = 2
-});
-let nextState = producer(currentState);
-
-currentState === nextState; // true
 ```
 
-patch布丁功能
-
-通过此功能，可以方便进行详细的代码调试和跟踪，可以知道 recipe 内的做的每次修改，还可以实现时间旅行
+action
 
 ```javascript
-import produce, { applyPatches } from "immer"
+import { ActionCreators } from 'redux-undo';
 
-let state = {
-  x: 1
-}
-
-let replaces = [];
-let inverseReplaces = [];
-
-state = produce(
-  state,
-  draft => {
-    draft.x = 2;
-    draft.y = 2;
-  },
-  (patches, inversePatches) => {
-    replaces = patches.filter(patch => patch.op === 'replace');
-    inverseReplaces = inversePatches.filter(patch => patch.op === 'replace');
-  }
-)
-
-state = produce(state, draft => {
-  draft.x = 3;
-})
-console.log('state1', state); // { x: 3, y: 2 }
-
-state = applyPatches(state, replaces);
-console.log('state2', state); // { x: 2, y: 2 }
-
-state = produce(state, draft => {
-  draft.x = 4;
-})
-console.log('state3', state); // { x: 4, y: 2 }
-
-state = applyPatches(state, inverseReplaces);
-console.log('state4', state); // { x: 1, y: 2 }
+store.dispatch(ActionCreators.undo()) // undo the last action
+store.dispatch(ActionCreators.redo()) // redo the last action
+ 
+store.dispatch(ActionCreators.jump(-2)) // undo 2 steps
+store.dispatch(ActionCreators.jump(5)) // redo 5 steps
+ 
+store.dispatch(ActionCreators.jumpToPast(index)) // jump to requested index in the past[] array
+store.dispatch(ActionCreators.jumpToFuture(index)) // jump to requested index in the future[] array
+ 
+store.dispatch(ActionCreators.clearHistory()) // Remove all items from past[] and future[] arrays
 ```
 
-### use-immer
+### redux-toolkit
 
-immer.js的hook写法
+**Redux工具包** 致力于成为编写 Redux 逻辑的标准方式。它最初是为了帮助解决有关 Redux 的三个常见问题而创建的：
 
-```javascript
-import React, { useCallback } from "react";
-import { useImmer } from "use-immer";
+- "配置一个 Redux store 过于复杂"
+- "做任何 Redux 的事情我都需要添加很多包"
+- "Redux 需要太多的样板代码"
 
-const TodoList = () => {
-  const [todos, setTodos] = useImmer([
-    {
-      id: "React",
-      title: "Learn React",
-      done: true
-    },
-    {
-      id: "Immer",
-      title: "Try Immer",
-      done: false
-    }
-  ]);
+包括以下api
 
-  const handleToggle = useCallback((id) => {
-    setTodos((draft) => {
-      const todo = draft.find((todo) => todo.id === id);
-      todo.done = !todo.done;
-    });
-  }, []);
+configureStore(): 包装 createStore 以提供简化的配置选项和良好的默认预设。它可以自动组合你的切片 reducers，添加您提供的任何 Redux 中间件，默认情况下包含 redux-thunk ，并允许使用 Redux DevTools 扩展。
 
-  const handleAdd = useCallback(() => {
-    setTodos((draft) => {
-      draft.push({
-        id: "todo_" + Math.random(),
-        title: "A new todo",
-        done: false
-      });
-    });
-  }, []);
-```
+createReducer(): 为 case reducer 函数提供 action 类型的查找表，而不是编写switch语句。此外，它会自动使用immer 库来让您使用普通的可变代码编写更简单的 immutable 更新，例如 state.todos [3] .completed = true 。
 
-### useImmerReducer
+createAction(): 为给定的 action type string 生成一个 action creator 函数。函数本身定义了 toString()，因此它可以用来代替 type 常量。
 
-```javascript
-import React, { useCallback } from "react";
-import { useImmerReducer } from "use-immer";
+createSlice(): 接受一个 reducer 函数的对象、分片名称和初始状态值，并且自动生成具有相应 action creators 和 action 类型的分片reducer。
 
-const TodoList = () => {
-  const [todos, dispatch] = useImmerReducer(
-    (draft, action) => {
-      switch (action.type) {
-        case "toggle":
-          const todo = draft.find((todo) => todo.id === action.id);
-          todo.done = !todo.done;
-          break;
-        case "add":
-          draft.push({
-            id: action.id,
-            title: "A new todo",
-            done: false
-          });
-          break;
-        default:
-          break;
-      }
-    },
-    [ /* initial todos */ ]
+createAsyncThunk: 接受一个 action type string 和一个返回 promise 的函数，并生成一个发起基于该 promise 的pending/fulfilled/rejected action 类型的 thunk。
+
+createEntityAdapter: 生成一组可重用的 reducers 和 selectors，以管理存储中的规范化数据
+createSelector 组件 来自 Reselect 库，为了易用再导出。
+
+## mobx
+
+mobx与redux相比：
+
+- 函数式 VS 面向对象
+- redux 需要 connect，也需要 Immutable Data，reducer，action，文件、代码量较多，概念也多。 mobx 直接引用对象组织，修改数据。
+- redux 数据流动很自然，任何 dispatch 都会导致广播，需要依据对象引用是否变化来控制更新粒度。mobx 数据流流动不自然，只有用到的数据才会引发绑定，局部精确更新，但免去了粒度控制烦恼。
+- redux 有时间回溯，每个 action 都被记录下来，可预测性，定位错误的优势。mobx 只有一份数据引用，不会有历史记录。
+- redux 引入中间件去解决异步操作，以及很多复杂的工作。mobx 没有中间件，数据改了就是改了，没有让你增加中间件的入口。
+
+为什么用mobx
+
+- 简单，概念，代码少
+- class 去定义、组织 store，数据、computed、action 定义到一块，结构更清晰，面向对象的思维更适合快速的业务开发
+- 某个 store 的引用不一定非在组件中才能取到，因为是对象，可以直接引用。比如在 constant.js 文件中可以定义一些来自 store 的变量。
+- 据说效率更高。mobx 会建立虚拟推导图 (virtual derivation graph)，保证最少的推导依赖
+
+### 基本概念
+
+Observable state
+
+给数据对象添加可观测的功能，支持任何数据结构。
+
+Computed values
+
+某个 state 发生变化时，需要自动计算的值。比如说单价变化，总价的计算
+
+Reactions
+
+Reactions 和 Computed 类似，都是 state 变化后触发。但它不是去计算值，而是会产生副作用，比如 console、网络请求、react dom 更新等。mobx 提供了三个函数用于自定义 reactions。
+
+Actions
+
+
+
+### mobx的object与map区别
+
+
+
+### mobx与redux的不同
+
+redux与mobx的相同点：
+
+1.统一维护管理状态应用
+
+2.某一状态只有一个可信状态数据来源store
+
+3.操作更新状态方式统一，并且可控，
+
+4.支持将store与React组件连接，如react-redux、mobx-react
+
+不同点：
+
+1.Redux更多的是遵循函数式编程思想，比如reducer就是一个纯函数，mobx设计更多偏向于面向对象编程和响应式编程，通常将状态包装成一个可观察对象，使用可观察对象的能力，一旦状态对象变更，就能自动获得更新
+
+2.redux总是将所有共享的应用数据集中在一个大的store中，而mobx则通常按模块将应用状态划分，在多个独立的store中管理
+
+3.Redux默认以Javascript原生对象存储数据，Mobx使用可观察对象，Redux需要手动追踪所有状态对象的变更，Mobx可以监听可观察对象，当其变更时自动触发监听。
+
+4.Redux中的对象通常是不可变的，我们不能直接操作状态对象，而总是在原来状态对象基础上返回一个新的状态对象，这样就能方便地返回应用上一状态，而mobx可以直接使用新值更新状态对象
+
+5.连接组件使用react-redux和mobx-react。react-redux中提供Provider负责将Store注入react应用，使用connect负责将store state注入容器组件，并选择特定状态作为容器组件props传递。在mobx-react中，使用Provider将所有store注入应用，使用inject将特定store注入特定组件，然后使用Observer保证组件能响应store中的可观察对象变更，即store更新
+
+mobx异步action不需要配置，redux则需要中间件redux-sage或者redux-thunk
+
+选择mobx可能的原因：
+
+1。学习成本低，不需要很多配置。
+
+2.面向对象编程。mobx支持面向对象编程，也支持函数式，redux只支持函数式
+
+3.模版代码少。
+
+不选择mobx可能的原因：
+
+1.过于自由
+
+2.可扩展性、可维护性。mobx不适用于大型项目，需要手动约定规范
+
+https://github.com/sunyongjian/blog/issues/28
+
+## Recoil
+
+`Recoil` 本身就是为了解决 `React` 全局数据流管理的问题，采用分散管理原子状态的设计模式。
+
+`Recoil` 提出了一个新的状态管理单位 `Atom`，它是可更新和可订阅的，当一个 `Atom` 被更新时，每个被订阅的组件都会用新的值来重新渲染。如果从多个组件中使用同一个 `Atom` ，所有这些组件都会共享它们的状态。
+
+可以把`Atom` 想象为为一组 `state` 的集合，改变一个 `Atom` 只会渲染特定的子组件，并不会让整个父组件重新渲染。
+
+使用 `Redux、Mobx` 当然可以，并没有什么问题，主要原因是它们本身并不是 `React` 库，我们是借助这些库的能力来实现状态管理。像 `Redux` 它本身虽然提供了强大的状态管理能力，但是使用的成本非常高，你还需要编写大量冗长的代码，另外像异步处理或缓存计算也不是这些库本身的能力，甚至需要借助其他的外部库。
+
+并且，它们并不能访问 `React` 内部的调度程序，而 `Recoil` 在后台使用 `React` 本身的状态，在未来还能提供并发模式这样的能力。
+
+使用实例
+
+初始化
+
+```react
+import React from 'react';
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState
+} from 'recoil';
+
+function App() {
+  return (
+    <RecoilRoot>
+      <CharacterCounter />
+    </RecoilRoot>
   );
 }
 ```
 
+定义状态
 
+`Atom` 是一种新的状态，但是和传统的 `state` 不同，它可以被任何组件订阅，当一个 `Atom` 被更新时，每个被订阅的组件都会用新的值来重新渲染。
 
-https://immerjs.github.io/immer/update-patterns
-
-## rxjs
-
-rxjs是一个库，它通过使用observable序列来编写异步和基于事件的程序。它提供了核心类型Observable，附属类型(observer、schedulers、subjects)和类似于数组的操作符(map、filter、reduce、every)等，这些操作符可以把异步事件作为集合来处理
-
-可以把rxjs当作用来处理事件的lodash
-
-rxjs中的基本概念：
-
-Observable(是一个可观察对象)：表示一个概念，这个概念是一个可调用的未来值或事件的集合
-
-Observer(观察者)：一个回调函数的集合，它指定如何监听由Observable提供的值
-
-Subscription(订阅)：表示Observable的执行，它主要用于取消Obervable的执行
-
-Operator(操作符)：
-
-Subject(主体)：
-
-Scheduler(调度器)：
-
-### 安装
-
-通过npm安装
-
-```shell
-npm install rxjs
-```
-
-通过es6或者commonjs导入
-
-```javascript
-var Rx = require('rxjs/Rx')
-import Rx from 'rxjs/Rx'
-
-Rx.observable.of(1,2,3)//等等
-```
-
-按需导入函数(可以减少打包体积)
-
-```javascript
-import { Observable } from 'rxjs/observable'
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/map'
-
-var Observable = require('rxjs/Observable').Observable
-require('rxjs/add/observable/of')
-require('rxjs/add/operator/map')
-
-Observable.of(1,2,3).map(x => x+ '!!!');//等等
-```
-
-### 注册事件
-
-常规写法
-
-```javascript
-var button = document.querySelector('button')
-button.addEventListener('click',()=> console.log('click'))
-```
-
-rxjs写法
-
-```javascript
-var button = document.querySelector('button')
-Rx.observable.fromEvent(button,'click')
-  .subscribe(()=> console.log('click'))
-```
-
-### 操作变量
-
-常规写法是非纯函数，状态管理较乱
-
-```javascript
-var count = 0;
-var button = document.querySelector('button')
-button.addEventListener('click',()=> console.log(`click ${{++count}}`))
-```
-
-Rxjs将应用状态隔离起来
-
-```javascript
-var button = document.querySelector('button')
-Rx.observable.fromEvent(button,'click')
-  .scan(count => count +1,0)
-  .subscribe(count => console.log(`click ${count}`))
-```
-
-其他对变量的操作函数
-
-```javascript
-//获取输入框
-var input = Rx.Observable.fromEvent(document.querySelector('input'),'input')
-
-//传递一个新值
-
-//传递两个新值
-input.plunk('target','value').pairwise()
-    .subsribe(value => console.log(value))
-
-//只通过唯一的值
-input.plunk('data').distinct()
-    .subsribe(value => console.log(value))
-
-//不传递重复值
-input.plunk('data').
-```
-
-### 观察者模式与迭代器模式
-
-Rxjs中包含两个基本概念：Observable和Observer
-
-Observable作为被观察者，是一个可调用的未来值或事件的集合，支持异步或者同步数据流
-
-Observer作为观察者，是一个回调函数的集合，他知道如何去监听由Observable提供的值
-
-Observer与Observable之间是观察者模式，Observer通过Observable提供的subscribe方法订阅，Observable通过Observer提供的next方法向Observer发布事件
-
-在Rxjs中，Observer除了有next方法来接收Observable的事件外，还提供了另外的两个方法：error方法和complete方法，来完成异常和完成状态，这个就是迭代器模式，类似于ES6中的Iterator遍历器
+定义atom
 
 ```react
-import { Observable } from 'rxjs'
-
-const observer = {
-  next: (value) => console.log(value);
-  error: err => console.error('Observer got an error' + err);
-	complete: () => console.log('Observer got a complete notification')
-}
-
-const observable = new Observable (function(observer) {
-  observer.next('a');
-  observer.next('b');
-  observer.complete();
-  
-  observer.next('c')
-})
-
-const subscription = observable.subscribe(observer)
+export const nameState = atom({
+  key: 'nameState',
+  default: 'ConardLi'
+});
 ```
 
+这种方式意味着你不需要像 `Redux` 那样集中定义状态，可以像 `Mobx` 一样将数据分散定义在任何地方。
 
+要创建一个 `Atom` ，必须要提供一个 `key` ，其必须在 `RecoilRoot` 作用域中是唯一的，并且要提供一个默认值，默认值可以是一个静态值、函数甚至可以是一个异步函数。
 
-### react使用
+订阅和更新状态
 
-在react中，在componentDidMount生命周期中订阅observable，在componentWillUnmount中取消订阅
+`Recoil` 采用 `Hooks` 方式订阅和更新状态，常用的是下面三个 API：
+
+`useRecoilState`：类似 useState 的一个 `Hook`，可以取到 `atom` 的值以及 `setter` 函
+
+`useSetRecoilState`：只获取 `setter` 函数，如果只使用了这个函数，状态变化不会导致组件重新渲染
+
+`useRecoilValue`：只获取状态
 
 ```react
-import messages from './someObservable'
-
-class Mycomponent extends ObservableComponent{
-  constructor(props){
-    super(props);
-    this.state = {message:[]};
-  }
-  componentDidMount(){
-    this.messages = messages
-       .scan(messages,messages) => [messages].concat(messages,[])
-       .subscribe(messages => this.setState({messages:messages}))
-  }
-  componentWillUnmount(){
-    this.messages.unsubscribe();
-  }
-  render() {
-    return (
-      <div>
-        <ul>
-           {this.state.messages.map(message => <li>{message.text}</li>)}
-        </ul>
-      </div>
-    );
-  }
+import { nameState } from './store'
+// useRecoilState
+const NameInput = () => {
+  const [name, setName] = useRecoilState(nameState);
+  const onChange = (event) => {
+   setName(event.target.value);
+  };
+  return <>
+   <input type="text" value={name} onChange={onChange} />
+   <div>Name: {name}</div>
+  </>;
 }
- 
-export default MyComponent;
+
+// useRecoilValue
+const SomeOtherComponentWithName = () => {
+  const name = useRecoilValue(nameState);
+  return <div>{name}</div>;
+}
+
+// useSetRecoilState  
+const SomeOtherComponentThatSetsName = () => {
+  const setName = useSetRecoilState(nameState);
+  return <button onClick={() => setName('Jon Doe')}>Set Name</button>;
+}
 ```
 
+派生状态
 
+`selector` 表示一段派生状态，它使我们能够建立依赖于其他 `atom` 的状态。它有一个强制性的 `get` 函数，其作用与 `redux` 的 `reselect` 或 `MobX` 的 `@computed` 类似。
 
-### Observables与promise
-
-单值与多值
-
-```javascript
-const numberPromise = new Promise((resolve) => {
-    resolve(5);
-    resolve(10)
+```react
+const lengthState = selector({
+  key: 'lengthState', 
+  get: ({get}) => {
+    const text = get(nameState);
+    return text.length;
+  },
 });
 
-numberPromise.then(value => console.log(value));  //. 5
-
-const Observable = require('rxjs/Observable').Observable;
-// observables的写法，使用 next 替代 promise 的 resolve， 用subscribe 取代then来订阅结果。
-const numberObservable = new Observable((observer) => {
-    observer.next(5);
-    observer.next(10);
-});
-
-numberObservable.subscribe(value => console.log(value));
-
-// 输出 5 10
+function NameLength() {
+  const length = useRecoilValue(charLengthState);
+  return <>Name Length: {length}</>;
+}
 ```
 
-执行机制：promise是立即执行，observable有subscribe才执行
+selector 是一个纯函数：对于给定的一组输入，它们应始终产生相同的结果（至少在应用程序的生命周期内）。这一点很重要，因为选择器可能会执行一次或多次，可能会重新启动并可能会被缓存。
 
-```javascript
-const promise = new Promise((resolve) => {
-    console.log('promise call')
-    resolve(1);
-    console.log('promise end')
-})
+异步状态
 
-// 执行这段代码 promise call 和 promise end 会立即执行
-const observable = new Observable(() => {
-    console.log('I was called!');
+`Recoil` 提供了通过数据流图将状态和派生状态映射到 `React` 组件的方法。真正强大的功能是图中的函数也可以是异步的。这使得我们可以在异步 `React` 组件渲染函数中轻松使用异步函数。使用 `Recoil` ，你可以在选择器的数据流图中无缝地混合同步和异步功能。只需从选择器 `get` 回调中返回 `Promise` ，而不是返回值本身。
+
+```react
+const userNameQuery = selector({
+  key: 'userName',
+  get: async ({get}) => {
+    const response = await myDBQuery({
+      userID: get(currentUserIDState),
+    });
+    return response.name;
+  },
 });
 
-// 此时并没有console
-
-// 只有 observable.subscribe(); 这个时候 I was called！才会被打印出来。
+function CurrentUserInfo() {
+  const userName = useRecoilValue(userNameQuery);
+  return <div>{userName}</div>;
+}
 ```
 
-promise不可取消，observables可取消
+`Recoil` 推荐使用 `Suspense`，`Suspense` 将会捕获所有异步状态，另外配合 `ErrorBoundary` 来进行错误捕获：
 
-```javascript
-const Observable = require('rxjs/Observable').Observable;
-
-const observable = new Observable((observer) => {
-    let i = 0;
-    const token = setInterval(() => {
-        observer.next(i++);
-    }, 1000);
-  
-    return () => clearInterval(token);
-});
-
-const subscription = observable.subscribe(value => console.log(value + '!'));
-
-setTimeout(() => {
-    subscription.unsubscribe();
-}, 5000)
-
-// 结果
-// 0!
-// 1!
-// 2!
-// 3!
+```react
+function MyApp() {
+  return (
+    <RecoilRoot>
+      <ErrorBoundary>
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <CurrentUserInfo />
+        </React.Suspense>
+      </ErrorBoundary>
+    </RecoilRoot>
+  );
+}
 ```
 
-observables可以被多次执行，promise 是比较激进的，在一个promise被创建的时候，他就已经执行了，并且不能重复的被执行了。
+`Recoil` 推崇的是分散式的状态管理，这个模式很类似于 `Mobx`，使用起来也感觉有点像 `observable + computed` 的模式，但是其 API 以及核心思想设计的又没有  `Mobx` 一样简洁易懂，反而有点复杂，对于新手上手起来会有一定成本。
 
-```javascript
-let time;
-const waitOneSecondPromise = new Promise((resolve) => {
-    console.log('promise call')
-    time = new Date().getTime();
-    setTimeout(() => resolve('hello world'), 1000);
-});
+在使用方式上完全拥抱了函数式的 `Hooks` 使用方式，并没有提供 `Componnent` 的使用方式，目前使用原生的 `Hooks API` 我们也能实现状态管理，我们也可以使用 `useMemo` 创造出派生状态，`Recoil` 的 `useRecoilState` 以及 `selector` 也比较像是对 `useContext、useMemo` 的封装。
 
-waitOneSecondPromise.then((value) => {console.log( '第一次', value, new Date().getTime() - time)});
+但是毕竟是 `Facebook` 官方推出的状态管理框架，其主打的是高性能以及可以利用 `React` 内部的调度机制，包括其承诺即将会支持的并发模式，这一点还是非常值得期待的。
 
-setTimeout(() => {
-    waitOneSecondPromise.then((value) => {console.log('第二次', value, new Date().getTime() - time)});   
-}, 5000)
+另外，其本身的分散管理原子状态的模式、读写分离、按需渲染、派生缓存等思想还是非常值得一学的
 
-// 输出结果是 promise call
-第一次 hello world 1007
-第二次 hello world 5006
+https://juejin.cn/post/6881493149261250568#heading-2
 
-```
+## Rematch
 
-observable
+https://rematchjs.org/docs
 
-```javascript
-const Observable = require('rxjs/Observable').Observable;
+rematch是基于redux的状态管理框架，但是比redux简便很多。
 
-let time;
-const waitOneSecondObservable = new Observable((observer) => {
-    console.log('I was called');
-    time = new Date().getTime();
-    setTimeout(() => observer.next('hey girl'), 1000);
-});
+rematch是没有boilerplate的Redux最佳实践，没有多余的action type，action creators、switch语句或者chunks
 
-waitOneSecondObservable.subscribe((value) => {console.log( '第一次', value, new Date().getTime() - time)});
+也就是说，rematch移除了redux中所需要的一些东西，并用更简单的方式替代了它们：
 
-setTimeout(() => {
-    waitOneSecondObservable.subscribe((value) => {console.log( '第二次', value, new Date().getTime() - time)});
-}, 5000)
+声明action类型、action创建函数、thunks、sagas、store配置、mapDispatchToProps
 
-// 输出
-I was called
-第一次 hey girl 1003
-I was called
-第二次 hey girl 1003
-```
-
-用observable已经可以实现多次订阅，但是这有时候可能不能符合我们的业务场景，在http请求中，我们可能希望只发一次请求，但是结果被多个订阅者共用。 Observables 本身没有提供这个功能，我们可以用 RxJS 这个库来实现，它有一个 share 的 operator
-
-```javascript
-const waitOneSecondObservable = new Observable((observer) => {
-    // 发送http请求
-});
-
-const sharedWaitOneSecondObservable = 
-    waitOneSecondObservable.share();
-
-sharedWaitOneSecondObservable.subscribe(doSomething);
-
-sharedWaitOneSecondObservable.subscribe(doSomethingElse);
-
-// 使用了share，虽然subscribe了多次，但是仅发送一次请求，share了结果。
-```
-
-promise是异步函数，而observable可以根据需求是否使用异步
-
-```javascript
-const promise = new Promise((resolve) => {
-    resolve(5);
-});
-
-promise.then(value => console.log(value + '!'));
-
-console.log('And now we are here.');
-
-// 
-And now we are here.
-5!
-const Observable = require('rxjs/Observable').Observable;
-
-const observable = new Observable((observer) => {
-    // observer.next(5);
-    setTimeout(() => {
-        observer.next(5);
-    })
-});
-
-observable.subscribe(value => console.log(value + '!'));
-console.log('And now we are here.');
-
-// 
-这个如果是直接next 5,则输出是  5！ -> And now we are here.
-采用setTimeout next 5， 则相反  And now we are here.-> 5！
-```
-
-rxjs中有一些操作符可以让监听强制为异步的方式，例如 observeOn。
-
-
-
-https://www.jianshu.com/p/273e7ab02fa1
-
-## cyclejs
-
-
-
-
-
-## 测试框架
-
-
-
-## Remix.js
-
-Remix由 React Router 原班团队打造，基于 TypeScript 与 React，内建 React Router V6 特性的全栈 Web 框架 Remix 正式开源。
-
-Remix 开源之后可以说是在 React 全栈框架领域激起千层浪，绝对可以算是 Next.js 的强劲对手。Remix 的特性如下：
-
-- 追求速度，然后是用户体验(UX)，支持任何 SSR/SSG 等
-- 基于 Web 基础技术，如 HTML/CSS 与 HTTP 以及 Web Fecth API，在绝大部分情况可以不依赖于 JavaScript 运行，所以可以运行在任何环境下，如 Web Browser、Cloudflare Workers、Serverless 或者 Node.js 等
-- 客户端与服务端一致的开发体验，客户端代码与服务端代码写在一个文件里，无缝进行数据交互，同时基于 TypeScript，类型定义可以跨客户端与服务端共用
-- 内建文件即路由、动态路由、嵌套路由、资源路由等
-- 干掉 Loading、骨架屏等任何加载状态，页面中所有资源都可以预加载(Prefetch)，页面几乎可以立即加载
-- 告别以往瀑布式(Waterfall)的数据获取方式，数据获取在服务端并行(Parallel)获取，生成完整 HTML 文档，类似 React 的并发特性
-- 提供开发网页需要所有状态，开箱即用；提供所有需要使用的组件，包括 <Links> 、<Link>、 <Meta> 、<Form> 、<Script/> ，用于处理元信息、脚本、CSS、路由和表单相关的内容
-- 内建错误处理，针对非预期错误处理的 <ErrorBoundary> 和开发者抛出错误处理的 <CatchBoundary>
-
-### 路由
-
-Remix 提供基于文件的路由，将读取数据、操作数据和渲染数据的逻辑都写在同一个路由文件里，方便一致性处理，这样可以跨客户端和服务端逻辑共享同一套类型定义。
-
-
-
-## Nextjs
-
-Https://juejin.cn/post/6844904017487724557
-
-`Next.js`是一个基于`React`的一个服务端渲染简约框架。它使用`React`语法，可以很好的实现代码的模块化，有利于代码的开发和维护
-
-Next的优点：
-
-- 默认服务端渲染模式，以文件系统为基础的客户端路由
-- 代码自动分隔使页面加载更快
-- 以页面为基础的简洁的客户端路由
-- 以`webpack`的热替换为基础的开发环境
-- 使用`React`的`JSX`和`ES6`的`module`，模块化和维护更方便
-- 可以运行在`Express`和其他`Node.js`的`HTTP` 服务器上
-- 可以定制化专属的`babel`和`webpack`配置
-
-创建next项目
+安装
 
 ```shell
-npm install --save react react-dom next
+npm install @rematch/core
 ```
 
-`Next.js`是从服务器生成页面，再返回给前端展示。`Next.js`默认从 `pages` 目录下取页面进行渲染返回给前端展示，并默认取 `pages/index.js` 作为系统的首页进行展示。注意，`pages` 是默认存放页面的目录，路由的根路径也是`pages`目录
+rematch中的概念：
 
-在pages目录下创建indexjs
+状态数据：state
+
+改变state：reducer
+
+异步action：effects with async/await
+
+如何触发reducer和effects：不需编写action type或者action creator，dispatch标准化了action
+
+创建state、model
+
+```react
+import { createModel } from '@rematch/core'
+
+export const count = createModel({
+  state:0,
+  reducer:{
+    upBy:(state,payload) => state + payload
+  },
+  effects:{
+    async asyncGetAppInfo() {
+      await console.log(2);
+    }
+  }
+})
+```
+
+在组件中使用
+
+```react
+import { connect } from 'react-redux'
+
+//Component
+
+const mapStateToProps = (state) =>({
+  count: state.count
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  countUpBy: dispatch.count.upBy
+})
+
+connect(mapStateToProps,mapDispatchToProps)(Component)
+```
+
+对比redux中
+
+先创建action type
+
+```react
+export const COUNT_UP_BY = 'COUNT_UP_BY'
+```
+
+再创建action creator
 
 ```javascript
-// next-Link用于引入文件
-import Link from 'next/link'
+import { COUNT_UP_BY } from '../types/counter'
 
-const Index = () => (
-  <div>
-    <Link href="/about">
-      <a>About Page</a>
-    </Link>
-    <p>Hello Next.js</p>
-  </div>
+export const countUpBy = (value) => ({
+  type: COUNT_UP_BY,
+  payload: value,
+})
+```
+
+创建reducer
+
+```react
+import { COUNT_UP_BY } from '../types/counter'
+
+const initialState = 0
+
+export default (state = initialState,action) => {
+  switch (action.type){
+    case COUNT_UP_BY:
+      return state + action.paylaod
+    default return state
+  }
+}
+```
+
+在模块中使用
+
+```react
+import { countUpBy } from '../actions/count'
+import { connect } from 'react-redux'
+
+//Component
+
+const mapStateToProps = (state) => ({
+  count: state.count
+})
+
+connect(mapStateToProps,{countUpBy})(Component)
+```
+
+
+
+
+
+demo地址：https://Xrr2016.github.io/rematch-todoså
+
+### 其他插件
+
+
+
+## jotai
+
+`Jotai` 是一个原始且灵活的 `React` 状态管理库
+
+Jotai的特点：
+
+- 原始：API 都是以 `Hooks` 方式提供，使用方式类似于 `useState`，`useReducer`
+- 灵活：可以组合多个 `Atom` 来创建新的 `Atom`，并且支持异步
+
+`Jotai` 可以看作是 `Recoil` 的简化版，使用了 `Atom` + `Hook` + `Context`，用于解决 React 全局数据流管理的问题
+
+`Atom` 是 `Jotai` 中状态管理单位，它是可以更新和订阅的，当 `Atom` 被更新时，订阅了这个 `Atom` 的组件便会使用新值重新渲染
+
+并且，更新对应的 `Atom` 只会重新渲染订阅了这个 `Atom` 的组件，并不会像 `Context` 那样导致整个父组件重新渲染，所以可以做到精确渲染
+
+与Recoil相比：
+
+- `Jotai` 的 API 相对 `Recoil` 简洁很多，并且容易使用
+- `Jotai` 不需要用 `RecoilRoot` 或 `Provider` 等组件包裹，使得结构可以更简洁
+- `Jotai` 定义 `Atom` 时不用提供key
+- `Jotai` 更小巧，大小仅 2.4 kB
+- `Jotai` 对 `TypeScript` 的支持更好
+
+安装
+
+```bash
+npm install jotai
+```
+
+使用
+
+使用 `atom` 函数可以创建一个 `Atom` ，一个 `Atom` 代表一个状态，需要传入一个参数，用来指定初始值，值可以是字符串、数字、对象、数组等
+
+```react
+import { atom } from "jotai";
+
+const valueAtom = atom(0);
+```
+
+在组件中使用atom状态
+
+```react
+import { useAtom } from 'jotai'
+
+function Counter() {
+  const [count, setCount] = useAtom(countAtom)
+  return (
+    <h1>
+      {count}
+      <button onClick={() => setCount(c => c + 1)}>one up</button>
+```
+
+一个atom可以由其他atom通过函数计算获得
+
+```javascript
+const count1 = atom(1)
+const count2 = atom(2)
+const count3 = atom(3)
+
+const sum = atom((get) => get(count1) + get(count2) + get(count3))
+```
+
+也可以写成数组的形式进行叠加
+
+```react
+const atoms = [count1, count2, count3, ...otherAtoms]
+const sum = atom((get) => atoms.map(get).reduce((acc, count) => acc + count))
+```
+
+异步atom状态
+
+```react
+const urlAtom = atom("https://json.host.com")
+const fetchUrlAtom = atom(
+  async (get) => {
+    const response = await fetch(get(urlAtom))
+    return await response.json()
+  }
 )
 
-export default Index
+function Status() {
+  // Re-renders the component after urlAtom changed and the async function above concludes
+  const [json] = useAtom(fetchUrlAtom)
 ```
 
 
 
-### 多页面
+## zustand
 
+特点：
 
+不需要像`redux`那样在最外层包裹一层高阶组件，只绑定对应关联组件即可（当在其他组件/方法修改状态后，该组件会自动更新）
 
-### 使用redux
+异步处理也较为简单，与普通函数用法相同
 
+支持`hook`组件使用、组件外使用
 
+提供`middleware`拓展能力（`redux`、`devtools`、`combine`、`persist`）
 
-### 路由遮盖
-
-`Next.js`上提供了一个独特的特性：路由遮盖（Route Masking）。它可以使得在浏览器上显示的是路由`A`，而`App`内部真正的路由是`B`。这个特性可以让我们来设置一些比较简洁的路由显示在页面，而系统背后是使用一个带参数的路由。比如上面的例子中，地址栏中显示的是 `http://localhost:3000/post?title=Hello%20Next.js` ，这个地址含有一个`title`参数，看着很不整洁。下面我们就用`Next.js`来改造路由，使用路由遮盖来创建一个更加简洁的路由地址。比如我们将该地址改造成 `http://localhost:3000/p/hello-nextjs
-
-
-
-### 部署next项目
-
-`Next.js` 项目的部署，需要一个 `Node.js`的服务器，可以选择 `Express`, `Koa`或其他 `Nodejs` 的Web服务器。本文中以 `Express` 为例来部署 `Next` 项目。
-
-
-
- 
-
-
-
-## Dvajs
-
-dva 首先是一个基于 redux 和 redux-saga的数据流方案，然后为了简化开发体验，dva 还额外内置了 react-router和 fetch，所以也可以理解为一个轻量级的应用框架。
-
-dva把redux的action、reducer、createActions、actionType等不同目录的文件组织在一个modle文件中。
+可通过 [github.com/mweststrate…](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fmweststrate%2Fimmer) 拓展能力（实现嵌套更新、日志打印）
 
 安装
 
 ```shell
-npm install dva-cli@next -g
+npm install zustand # or yarn add zustand
 ```
 
-创建项目
+使用
 
-```shell
-dva new myapp
+创建store
+
+```react
+import create from 'zustand'
+
+const useStore = create(set => ({
+  bears: 0,
+  increasePopulation: () => set(state => ({ bears: state.bears + 1 })),
+  removeAllBears: () => set({ bears: 0 })
+}))
 ```
 
-进入目录，运行
+在组件中使用
 
-```shell
-npm start
-```
+```react
+// UI 组件，展示 bears 状态，当状态变更时可实现组件同步更新
+function BearCounter() {
+  const bears = useStore(state => state.bears)
+  return <h1>{bears} around here ...</h1>
+}
 
-
-
-
-
-## blitz.js
-
-安装
-
-```shell
-npm install -g blitz
-```
-
-创建项目
-
-```shell
-blitz new AppName
-cd 
-```
-
-
-
-
-
-## Umijs
-
-安装
-
-```shell
-npm install -g umi
-```
-
-Umi 中约定 `src/global.css` 为全局样式，如果存在此文件，会被自动引入到入口文件最前面
-
-比如用于覆盖样式，
-
-```less
-.ant-select-selection {
-  max-height: 51px;
-  overflow: auto;
+// 控制组件，通过 store 内部创建的 increasePopulation 方法执行点击事件，可触发数据和UI组件更新
+function Controls() {
+  const increasePopulation = useStore(state => state.increasePopulation)
+  return <button onClick={increasePopulation}>one up</button>
 }
 ```
 
-Umi 会自动识别 CSS Modules 的使用，你把他当做 CSS Modules 用时才是 CSS Modules
+在组件外使用
+
+```javascript
+import useStore from './index';
+
+// const { getState, setState, subscribe, destroy } = store
+
+export const sleep = (timeout: number) => {
+  // 1. 获取方法 执行逻辑
+  const { setLoading } = useStore.getState();
+  // 2. 直接通过 setState 修改状态
+  // useStore.setState({ loading: false });
+
+  return new Promise((resolve) => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      resolve(true);
+    }, timeout);
+  });
+};
+```
+
+## storeon
+
+storeon是一个类似于redux的管理库，可以使用于React、Preact、Angular、Vue和Svelte中
+
+使用
+
+创建store
+
+```javascript
+import { createStoreon } from 'storeon'
+
+// Initial state, reducers and business logic are packed in independent modules
+let count = store => {
+  // Initial state
+  store.on('@init', () => ({ count: 0 }))
+  // Reducers returns only changed part of the state
+  store.on('inc', ({ count }) => ({ count: count + 1 }))
+}
+
+export const store = createStoreon([count])
+```
+
+使用store
+
+```javascript
+import { useStoreon } from 'storeon/react' // or storeon/preact
+
+export const Counter = () => {
+  // Counter will be re-render only on `state.count` changes
+  const { dispatch, count } = useStoreon('count')
+  return <button onClick={() => dispatch('inc')}>{count}</button>
+}
+```
+
+storeContext
+
+```javascript
+import { StoreContext } from 'storeon/react'
+
+render(
+  <StoreContext.Provider value={store}>
+    <Counter />
+  </StoreContext.Provider>,
+  document.body
+)
+```
+
+## XState
+
+Xstate是用于现代 Web 的 JavaScript 和 TypeScript 的有限状态机和状态图，支持ts、react、vue、svelte
+
+安装
+
+```shell
+npm install xstate
+```
+
+核心包
+
+- 🤖 `xstate` - 有限状态机和状态图核心库 + 解释器
+- [🔬 `@xstate/fsm`](https://github.com/statelyai/xstate/tree/main/packages/xstate-fsm) - 最小有限状态机库
+- [📉 `@xstate/graph`](https://github.com/statelyai/xstate/tree/main/packages/xstate-graph) - XState 的图遍历实用工具包
+- [⚛️ `@xstate/react`](https://github.com/statelyai/xstate/tree/main/packages/xstate-react) - 在 React 应用中使用 XState 的 React Hooks 和实用工具包
+- [💚 `@xstate/vue`](https://github.com/statelyai/xstate/tree/main/packages/xstate-vue) - 用于在 Vue 应用中使用 XState 的 Vue 组合函数和实用工具包
+- [🎷 `@xstate/svelte`](https://github.com/statelyai/xstate/tree/main/packages/xstate-svelte) - 用于在 Svelte 应用中使用 XState 的 Svelte 实用工具包
+- [✅ `@xstate/test`](https://github.com/statelyai/xstate/tree/main/packages/xstate-test) - 基于模型测试的实用工具包（使用 XState）
+- [🔍 `@xstate/inspect`](https://github.com/statelyai/xstate/tree/main/packages/xstate-inspect) - XState 的检查实用工具包
+
+使用
+
+```javascript
+import { createMachine, interpret } from 'xstate';
+
+// 无状态的状态机定义
+// machine.transition(...) 是解释器使用的纯函数。
+const toggleMachine = createMachine({
+  id: 'toggle',
+  initial: 'inactive',
+  states: {
+    inactive: {
+      on: {
+        TOGGLE: { target: 'active' }
+      }
+    },
+    active: {
+      on: {
+        TOGGLE: { target: 'inactive' }
+      }
+    }
+  }
+});
+
+// 具有内部状态的状态机实例
+const toggleService = interpret(toggleMachine)
+  .onTransition((state) => console.log(state.value))
+  .start();
+// => 'inactive'
+
+toggleService.send({ type: 'TOGGLE' });
+// => 'active'
+
+toggleService.send({ type: 'TOGGLE' });
+// => 'inactive'
+```
+
+### Promise
+
+```javascript
+import { createMachine, interpret, assign } from 'xstate';
+
+const fetchMachine = createMachine({
+  id: 'Dog API',
+  initial: 'idle',
+  context: {
+    dog: null
+  },
+  states: {
+    idle: {
+      on: {
+        FETCH: { target: 'loading' }
+      }
+    },
+    loading: {
+      invoke: {
+        id: 'fetchDog',
+        src: (context, event) =>
+          fetch('https://dog.ceo/api/breeds/image/random').then((data) =>
+            data.json()
+          ),
+        onDone: {
+          target: 'resolved',
+          actions: assign({
+            dog: (_, event) => event.data
+          })
+        },
+        onError: {
+          target: 'rejected'
+        }
+      },
+      on: {
+        CANCEL: { target: 'idle' }
+      }
+    },
+    rejected: {
+      on: {
+        FETCH: { target: 'loading' }
+      }
+    },
+    resolved: {
+      type: 'final'
+    }
+  }
+});
+
+const dogService = interpret(fetchMachine)
+  .onTransition((state) => console.log(state.value))
+  .start();
+
+dogService.send({ type: 'FETCH' });
+```
+
+### React
+
+安装react插件
+
+```shell
+npm i xstate @xstate/react
+```
+
+在react中使用
+
+```react
+import { useMachine } from '@xstate/react';
+import { createMachine } from 'xstate';
+
+const toggleMachine = createMachine({
+  id: 'toggle',
+  initial: 'inactive',
+  states: {
+    inactive: {
+      on: { TOGGLE: 'active' }
+    },
+    active: {
+      on: { TOGGLE: 'inactive' }
+    }
+  }
+});
+
+export const Toggler = () => {
+  const [state, send] = useMachine(toggleMachine);
+
+  return (
+    <button onClick={() => send('TOGGLE')}>
+      {state.value === 'inactive'
+        ? 'Click to activate'
+        : 'Active! Click to deactivate'}
+    </button>
+  );
+};
+```
+
+
+
+### 分层状态机
+
+```javascript
+import { createMachine } from 'xstate';
+
+const pedestrianStates = {
+  initial: 'walk',
+  states: {
+    walk: {
+      on: {
+        PED_TIMER: { target: 'wait' }
+      }
+    },
+    wait: {
+      on: {
+        PED_TIMER: { target: 'stop' }
+      }
+    },
+    stop: {}
+  }
+};
+
+const lightMachine = createMachine({
+  id: 'light',
+  initial: 'green',
+  states: {
+    green: {
+      on: {
+        TIMER: { target: 'yellow' }
+      }
+    },
+    yellow: {
+      on: {
+        TIMER: { target: 'red' }
+      }
+    },
+    red: {
+      on: {
+        TIMER: { target: 'green' }
+      },
+      ...pedestrianStates
+    }
+  }
+});
+
+const currentState = 'yellow';
+
+const nextState = lightMachine.transition(currentState, { type: 'TIMER' })
+  .value;
+// => {
+//   red: 'walk'
+// }
+
+lightMachine.transition('red.walk', { type: 'PED_TIMER' }).value;
+// => {
+//   red: 'wait'
+// }
+```
+
+### 并行状态机
+
+```javascript
+import { createMachine } from 'xstate';
+
+const wordMachine = createMachine({
+  id: 'word',
+  type: 'parallel',
+  states: {
+    bold: {
+      initial: 'off',
+      states: {
+        on: {
+          on: {
+            TOGGLE_BOLD: { target: 'off' }
+          }
+        },
+        off: {
+          on: {
+            TOGGLE_BOLD: { target: 'on' }
+          }
+        }
+      }
+    },
+    underline: {
+      initial: 'off',
+      states: {
+        on: {
+          on: {
+            TOGGLE_UNDERLINE: { target: 'off' }
+          }
+        },
+        off: {
+          on: {
+            TOGGLE_UNDERLINE: { target: 'on' }
+          }
+        }
+      }
+    },
+    italics: {
+      initial: 'off',
+      states: {
+        on: {
+          on: {
+            TOGGLE_ITALICS: { target: 'off' }
+          }
+        },
+        off: {
+          on: {
+            TOGGLE_ITALICS: { target: 'on' }
+          }
+        }
+      }
+    },
+    list: {
+      initial: 'none',
+      states: {
+        none: {
+          on: {
+            BULLETS: { target: 'bullets' },
+            NUMBERS: { target: 'numbers' }
+          }
+        },
+        bullets: {
+          on: {
+            NONE: { target: 'none' },
+            NUMBERS: { target: 'numbers' }
+          }
+        },
+        numbers: {
+          on: {
+            BULLETS: { target: 'bullets' },
+            NONE: { target: 'none' }
+          }
+        }
+      }
+    }
+  }
+});
+
+const boldState = wordMachine.transition('bold.off', { type: 'TOGGLE_BOLD' })
+  .value;
+
+// {
+//   bold: 'on',
+//   italics: 'off',
+//   underline: 'off',
+//   list: 'none'
+// }
+
+const nextState = wordMachine.transition(
+  {
+    bold: 'off',
+    italics: 'off',
+    underline: 'on',
+    list: 'bullets'
+  },
+  { type: 'TOGGLE_ITALICS' }
+).value;
+
+// {
+//   bold: 'off',
+//   italics: 'on',
+//   underline: 'on',
+//   list: 'bullets'
+// }
+```
+
+### 历史状态机
+
+```javascript
+import { createMachine } from 'xstate';
+
+const paymentMachine = createMachine({
+  id: 'payment',
+  initial: 'method',
+  states: {
+    method: {
+      initial: 'cash',
+      states: {
+        cash: {
+          on: {
+            SWITCH_CHECK: { target: 'check' }
+          }
+        },
+        check: {
+          on: {
+            SWITCH_CASH: { target: 'cash' }
+          }
+        },
+        hist: { type: 'history' }
+      },
+      on: {
+        NEXT: { target: 'review' }
+      }
+    },
+    review: {
+      on: {
+        PREVIOUS: { target: 'method.hist' }
+      }
+    }
+  }
+});
+
+const checkState = paymentMachine.transition('method.cash', {
+  type: 'SWITCH_CHECK'
+});
+
+// => State {
+//   value: { method: 'check' },
+//   history: State { ... }
+// }
+
+const reviewState = paymentMachine.transition(checkState, { type: 'NEXT' });
+
+// => State {
+//   value: 'review',
+//   history: State { ... }
+// }
+
+const previousState = paymentMachine.transition(reviewState, {
+  type: 'PREVIOUS'
+}).value;
+
+// => { method: 'check' }
+```
+
+
+
+## react-query
+
+React Query 无疑是管理服务器状态的最佳库之一。它非常好用，**开箱即用，无需配置**，并且可以随着应用的增长而根据自己的喜好**进行定制**。
+
+React Query 使您可以击败并征服棘手的服务器状态挑战和障碍，并在开始控制您的应用数据之前对其进行控制。
+
+安装
+
+```shell
+npm i react-query
+```
+
+代码示例
+
+```react
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+import { getTodos, postTodo } from '../my-api'
+
+// 创建一个 client
+const queryClient = new QueryClient()
+
+function App() {
+  return (
+    // 提供 client 至 App
+    <QueryClientProvider client={queryClient}>
+      <Todos />
+    </QueryClientProvider>
+  )
+}
+
+function Todos() {
+  // 访问 client
+  const queryClient = useQueryClient()
+
+  // 查询
+  const query = useQuery('todos', getTodos)
+
+  // 修改
+  const mutation = useMutation(postTodo, {
+    onSuccess: () => {
+      // 错误处理和刷新
+      queryClient.invalidateQueries('todos')
+    },
+  })
+
+  return (
+    <div>
+      <ul>
+        {query.data.map((todo) => (
+          <li key={todo.id}>{todo.title}</li>
+        ))}
+      </ul>
+
+      <button
+        onClick={() => {
+          mutation.mutate({
+            id: Date.now(),
+            title: 'Do Laundry',
+          })
+        }}
+      >
+        Add Todo
+      </button>
+    </div>
+  )
+}
+
+render(<App />, document.getElementById('root'))
+```
+
+
+
+
+
+## rtk-query
+
+
+
+## swr
+
+swr是用于数据请求的react hooks库。SWR 由 [Next.js](https://nextjs.org/)（React 框架）背后的同一团队创建
+
+“SWR” 这个名字来自于 `stale-while-revalidate`概念：一种由 [HTTP RFC 5861](https://tools.ietf.org/html/rfc5861) 推广的 HTTP 缓存失效策略，即 **异步数据请求** 。这种策略首先从缓存中返回数据（过期的），同时发送 fetch 请求（重新验证），最后得到最新数据。
+
+安装
+
+```shell
+npm install swr
+```
+
+对于返回 JSON 数据的普通 RESTful APIs，首先需要创建一个 `fetcher` 函数，这个函数只是原生 `fetch` 的包装
+
+```javascript
+const fetcher = (...args) => fetch(...args).then((res) => res.json())
+```
+
+然后在组件中使用useSWR使用数据
+
+```react
+import useSWR from "swr";
+
+function Profile() {
+  const { data, error } = useSWR("/api/user/123", fetcher)
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+
+  // 渲染数据
+  return <div>hello {data.name}!</div>
+}
+```
+
+`useSWR` 接受一个 `key` 和一个异步请求函数 `fetch` 作为参数。 `key` 是数据的唯一标识符，通常是 API URL，并且 `fetch` 接受 `key` 作为其参数，完成具体的数据请求行为并异步返回数据
+
+SWR 相比常见的数据请求库提供了很多很酷且很有脑洞的特性，比如导航切换时使用缓存数据进行优先渲染然后在进行对比更新，数据在 focus 时更新，轮询检查更新，分页按需更新等等
+
+当重新聚焦页面或在不同的标签页之间切换时，SWR 会自动重新获取数据，这对于立即同步到最新状态很有用。常见的场景如电脑进入睡眠状态的情况下，重新刷新数据是很有帮助的
+
+当浏览页面或系统中的某个部分时，也或者当点击返回按钮时，SWR 将会加载缓存的数据，同时为了达到最终数据的一致性，一旦从缓存加载数据，SWR 会自动重新获取原始的数据
+
+支持graphQL
+
+SWR 默认用原生的 `fetch` 做请求，并假设使用 REST 风格的 API 进行调用，但是你也可以指定其他的任何异步请求库作为第二个参数
+
+```javascript
+import { request } from 'graphql-request'
+import useSWR from 'swr'
+
+const API = 'https://api.graph.cool/simple/v1/movies'
+
+function Profile () {
+  const { data, error } = useSWR(
+    `{
+      Movie(title: "Inception") {
+        releaseDate
+        actors {
+          name
+        }
+      }
+    }`,
+    query => request(API, query)
+  )
+
+  if (error) return <div>failed to load</div>
+  if (!data) return <div>loading...</div>
+  return <div>Movie: {data.title}!</div>
+}
+```
+
+并行请求
+
+SWR 允许获取依赖于其他数据的数据，它可以确保最大程度的并行性
+
+```javascript
+import useSWR from 'swr'
+
+function MyProjects () {
+  const { data: user } = useSWR('/api/user')
+  const { data: projects } = useSWR(
+    () => '/api/projects?uid=' + user.id
+  )
+  // When passing a function, SWR will use the
+  // return value as `key`. If the function throws,
+  // SWR will know that some dependencies are not
+  // ready. In this case it is `user`.
+
+  if (!projects) return 'loading...'
+  return 'You have ' + projects.length + ' projects'
+}
+```
+
+Suspense
+
+还可以将 SWR Hooks 与 React Suspense 一起使用，只需 SWR 的配置中启用 `suspense: true` ，一切都会顺利进行
+
+```javascript
+import { Suspense } from 'react'
+import useSWR from 'swr'
+
+function Profile () {
+  const { data } = useSWR(
+    '/api/user',
+    fetch,
+    { suspense: true }
+  )
+  return <div>hello, {data.name}</div>
+}
+
+function App () {
+  return (
+    <Suspense fallback={<div>loading...</div>}>
+      <Profile/>
+    </Suspense>
+  )
+}
+```
+
+### render-as-your-fetch
+
+一直以来，我们所遵从的最佳实践都是 Fetch-on-Render 模式，即：
+
+1. 渲染组件（render）时发现没有数据，就先显示 loading
+2. `componentDidMount`时发送请求（fetch）
+3. 数据回来之后开始渲染数据
+
+这样做的好处在于*按关注点组织代码*，数据请求和数据对应的 UI 渲染逻辑放在一块儿。但缺点也很明显：
+
+- 串行：整个过程是串行的（先 render 后 fetch），导致*越深层的数据越晚加载*
+- fetch 与 render 绑定：意味着 lazy 组件的 fetch 时机也被 lazy 了，*组件按需加载有了性能负担*
+
+就用户体验而言，我们想要达到的效果是：
+
+- 尽早显示最重要的内容
+- 同时也不希望次要内容拖慢整页（完整内容）加载时间
+
+既要一部分内容优先展示，又不希望其余内容因为优先级而延迟展示。似乎是个鱼和熊掌的抉择，但并行性让二者兼得成为了可能，对应到技术实现上：
+
+- *数据和代码都应该（按重要程度）增量加载*
+- *而且最好并行*
+
+于是，Render-as-You-Fetch 模式出现了
+
+Render-as-You-Fetch 模式分为 4 点：
+
+- 分离数据依赖：并行加载数据、创建视图
+- 尽早加载数据：在事件处理函数中加载数据
+- 增量加载数据：优先加载重要数据
+- 尽早加载代码：把代码也看成数据
+
+分离数据依赖：并行加载数据、创建视图
+
+fetch 与 render 绑定，导致数据加载的 how 与 when 都受限于 render，是第一大阻碍因素。所以先要*把数据依赖从 view 中抽离出来，*把 要加载的数据与 加载方式和 加载时机分开
+
+有两种实现方式，要么人工分离，要么靠构建工具来自动提取：
+
+- 定义同名文件：比如把`MyComponent.jsx`对应的数据请求放在`MyComponent.data.js`中
+- 编译时提取数据依赖：数据请求还放在组件定义中，由编译器来解析提取其中的数据依赖
+
+后者在分离数据依赖的同时，还能兼顾组件定义的内聚性，是Relay所采用的做法
+
+原文：https://reactjs.org/blog/2019/11/06/building-great-user-experiences-with-concurrent-mode-and-suspense.html
+
+## ES-lint
+
+react的代码规范库
+
+```shell
+yarn add eslint eslint-plugin-react
+```
+
+如果是typescript项目按照ts相关插件
+
+```shell
+yarn add @typescript-eslint/eslint-plugin @typescript-eslint/parser
+```
+
+使用yarn eslint --lint向导来完成配置，或者手动创建eslintrc。json填入如下配置
+
+```json
+{
+  "extends": ["eslint:recommended","plugin:react/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react","@typescript-eslint"],
+  "rules": {
+    "react/self-closing-comp": ["error"] //组件无内容时自闭合
+  }
+}
+```
+
+在vscode中配置
+
+```json
+"eslint.validate": [
+  "javascript",
+  "javascriptreact",
+  "typescript",
+  "typescriptreact"
+]
+```
+
+## react的Ts写法
+
+### react、react-dom类型声明文件
+
+使用tsx之前要安装react的声明文件，否则会报错找不到模块react
+
+安装
+
+```shell
+npm install @types/react -s
+npm install @types/react-dom -s
+```
+
+
+
+### 有状态组件
+
+有状态组件中的state和props使用ts去定义类型
 
 ```tsx
-// CSS Modules
-import styles from './foo.css';
+import * as React from 'react'
 
-// 非 CSS Modules
-import './foo.css';
+interface IProps {
+  color: string,
+  size?: string
+}
+  
+interface IState {
+  count: number,
+}
+
+class App extends React.PureComponent<IProps, IState> {
+  public readonly state: Readonly<IState> = {
+    count: 1
+  }
+  public render () {
+    return (
+    	<div>Hello world</div>
+    )
+  }
+  public componentDidMount () {
+  }
+}
 ```
 
-Umi 内置支持 less，不支持 sass 和 stylus，但如果有需求，可以通过 chainWebpack 配置或者 umi 插件的形式支持
 
-MFSU
 
-mfsu 是一种基于 webpack5 新特性 Module Federation 的打包提速方案。核心原理是将应用的依赖构建为一个 Module Federation 的 remote 应用，以免去应用热更新时对依赖的编译。
+### 事件类型
 
-因此，开启 mfsu 可以大幅减少热更新所需的时间。在生产模式，也可以通过提前编译依赖，大幅提升部署效率。
+常用Event事件对象类型
 
-### 开发阶段
+ClipboardEvent<T = Element> 剪贴板事件对象
 
-1. 初始化一个 umi 应用。
-2. 在 config.ts 中添加 `mfsu:{}`。
-3. `umi dev` 启动项目。在构建依赖时，会出现 MFSU 的进度条，此时应用可能会被挂起或显示依赖不存在，请稍等。
-4. 多人合作时，可以配置 `mfsu.development.output` 配置预编译依赖输出目录并添加到 git 中，在其他开发者启动时，就可以免去再次编译依赖的过程。
+DragEvent<T = element> 拖拽事件对象
 
-#### 特性
+ChangeEvent<T = element> Change事件对象
 
-- 预编译：默认情况下，预编译将会将依赖构建到 `~/.umi/.cache/.mfsu` 下。并且使用了 webpack 缓存，减少再次编译依赖的时间。
-- diff：预编译时，会将本次的依赖信息构建到 `~/.mfsu/MFSU_CACHE.json` 中，用于依赖的 diff。
-- 持久化缓存：对于预编译依赖的请求，开启了`cache-control: max-age=31536000,immutable`，减少浏览器刷新拉取依赖的时间。
+KeyboardEvent<T = element>  键盘事件对象
 
-### 构建阶段
+MouseEvent<T = element> 鼠标事件对象
 
-> warning: 由于预编译依赖实现了部分的 tree-shaking，不建议在打包大小敏感的项目中启用生产模式。
+TouchEvent<T = element> 触摸事件对象
 
-1. 配置 config.ts：`mfsu.production = {}`以开启生产模式。
-2. 执行命令：`umi build`，默认情况下将会将生产依赖预编译到 `~/.mfsu-production` 中。
-3. umi 会将依赖外的产物构建到 `~/dist` 中，mfsu 再将生产预编译依赖移动到输出目录中。
-4. 使用 mfsu 生产模式，可以将 `~/.mfsu-production` 添加到 git 中。在部署时，仅编译应用文件，速度快到飞起。
+WheelEvent<T = element> 滚轮事件对象
 
-和creat-react-app的不同
+AnimationEvent<T = element> 动画事件对象
 
-create-react-app 是基于 webpack 的打包层方案，包含 build、dev、lint 等，他在打包层把体验做到了极致，但是不包含路由，不是框架，也不支持配置。所以，如果大家想基于他修改部分配置，或者希望在打包层之外也做技术收敛时，就会遇到困难。
+TransitionEvent<T = element> 过渡事件对象
 
-和nextjs的不同
+```tsx
+import { MouseEvent } from 'react'
 
-next.js 是个很好的选择，Umi 很多功能是参考 next.js 做的。要说有哪些地方不如 Umi，我觉得可能是不够贴近业务，不够接地气。比如 antd、dva 的深度整合，比如国际化、权限、数据流、配置式路由、补丁方案、自动化 external 方面等等一线开发者才会遇到的问题。
+interface Iprops {
+  onClick (event: MouseEvent<HTMLDivElement>): void,
+}
+```
 
-### 约定式路由
 
-除配置式路由外，Umi 也支持约定式路由。约定式路由也叫文件路由，就是不需要手写配置，文件系统即路由，通过目录和文件及其命名分析出路由配置。
 
-**如果没有 routes 配置，Umi 会进入约定式路由模式**，然后分析 `src/pages` 目录拿到路由配置。
-
-动态路由
-
-约定 `[]` 包裹的文件或文件夹为动态路由。
-
-嵌套路由
-
-Umi 里约定目录下有 `_layout.tsx` 时会生成嵌套路由，以 `_layout.tsx` 为该目录的 layout。layout 文件需要返回一个 React 组件，并通过 `props.children` 渲染子组件。
-
-404路由
-
-约定 `src/pages/404.tsx` 为 404 页面，需返回 React 组件。
-
-权限路由
-
-通过指定高阶组件 `wrappers` 达成效果。
-
-### 页面跳转
-
-在 umi 里，页面之间跳转有两种方式：声明式和命令式。
-
-声明式
-
-通过Link使用，通常作为react 组件使用
+### 泛型组件
 
 ```react
-import { Link } from 'umi';
+//泛型ts组件
+function Foo<T>(props: Props<T>){
+  return <div>{props.content}</div>
+}
 
-export default () => (
-  <Link to="/list">Go to list page</Link>
-);
-```
-
-命令式
-
-通过history使用，在事件处理中调用
-
-```react
-import { history } from 'umi';
-
-function goToListPage() {
-  history.push('/list');
+const App = () => {
+  return (
+  	<div className="App">
+      <Foo content={42}></Foo>
+      <Foo<string> content={"hello"}></Foo>
+    </div>
+  )
+}
+        
+//普通ts组件
+interface Props {
+	content: string;          
+}
+        
+function Foo(props: Props) {
+	return <div>{props.content}</div>          
+}
+        
+const App = () => {
+  return (
+  	<div className="App">
+      // Type number not assignable to type string
+      <Foo content={42}></Foo>
+      <Foo<string> content={"hello"}></Foo>
+    </div>
+  )
 }
 ```
-
-
-
-
-
-### 一些api
-
-useIntl
-
-umi的useIntl是基于react-intl的。使用formatMessage api
-
-useRequest
-
-
-
-## Ramda
-
-ramda的主要特性：
-
-Ramda强调更加纯粹的函数式编程风格，数据不变性和无副作用是其核心设计理念，可以帮助你使用简洁优雅的代码完成工作
-
-Ramda函数本身都是自动柯里化的，这可以让你在只提供部分参数的情况下，轻松在已有函数的基础上创建新的函数
-
-Ramda函数参数的排列顺序更便于柯里化，要操作的数据通常在最后面。
-
-### 安装
-
-安装
-
-```shell
-npm install ramda 
-```
-
-全部引入
-
-```javascript
-const R = require('ramda')
-
-import * as R from 'ramda'
-
-const {identity} = RR.map(identity,[1,2,3]) 
-```
-
-部分引入
-
-```javascript
-import identity from 'ramda/src/identity'
-```
-
-
-
-
-
-
-
-## Preact
-
-### 基本概念
-
-启动-安装preact-cli
-
-```shell
-npm i -g preact-cli
-```
-
-创建应用
-
-```shell
-preact create my-first-preact-app
-cd my-first-preact-app
-```
-
-启动
-
-```shell
-npm start
-```
-
-在本地端口8080就可以访问
-
-打包构建
-
-```shell
-npm run build
-```
-
-preact打包构建很快，且和pwa配合很好，一些移动端的页面以及活动页建议可以尝试一下，性能确实会比React好一些，开发与构建流程也很简单高效。
-
-传统有状态组件与无状态组件
-
-有状态组件
-
-```javascript
-class Link extends Component {
-    render(props, state) {
-        return <a href={props.href}>{ props.children }</a>;
-    }
-}
-```
-
-上面的代码就用到了**PReact可以直接在render中传入props和state**的特性，从一定程度上简化了写法，提升了可读性。
-
-无状态组件
-
-
-
-**关联状态**
-
-在优化 state 改变的方面，Preact 比 React 走得更超前一点。在 ES2015 React 代码中，通常的模式是在 render() 方法中使用箭头函数，以便响应事件，更新状态。**每次渲染都再局部创建一个函数闭包，效率十分低下，而且会迫使垃圾回收器作许多不必要的工作。**
-
-在 Preact 的 Form 中，提供了 linkState() 作为解决方案。linkState() 是 Component 类的一个内置方法。
-
-当发生一个事件时，调用 .linkState('text') 将返回一个处理器函数，这个函数把它相关的值更新到组件状态内指定的值。 **多次调用 linkState(name)时，如果 name 参数相同，那么结果会被缓存起来**。所以就必然不存在**性能**问题，如:
-
-```javascript
-class Foo extends Component {
-    render({ }, { text }) {
-        return <input value={text} onInput={this.linkState('text')} />;
-    }
-}
-```
-
-**外部DOM修改**
-
-有时，需要用到一些第三方库，这些**第三方库需要能够自由的修改 DOM，并且在 DOM 内部持久化状态，或这些第三方库根本就没有组件化**。有许多优秀的 UI 工具或可复用的元素都是处于这种无组件化的状态。在 Preact 中 (React 中也类似), 使用这样的库需要告诉 Virtual DOM 的 rendering/diffing 算法：在给定的组件(或者该组件所呈现的 DOM) 中不要去撤销任何外部 DOM 的改变。
-
-可以在组件中定义一个 shouldComponentUpdate() 方法并让其返回值为 fasle：
-
-```javascript
-class Block extends Component {
-  shouldComponentUpdate = () => false;
-}
-```
-
-有了这个生命周期的钩子（shouldComponentUpdate），并**告诉 Preact 当 VDOM tree 发生状态改变的时候, 不要去再次渲染该组件**。这样**组件就有了一个自身的根 DOM** 元素的引用。你**可以把它当做一个静态组件**，直到被移除。因此，任何的组件引用都可以简单通过 this.base 被调用，并且对应从 render() 函数返回的根 JSX 元素。
-
-### 性能监控
-
-Preact 很适用于 PWA，它也可以与许多其他工具和技术一起使用以进一步提升和监控性能，
-
-1. [**webpack的代码拆分按需加载**](https://webpack.github.io/docs/code-splitting.html) 来分解代码，以便**只发送用户页面需要的代码**。根据需要延迟加载其余部分可提高页面加载时间。
-2. [**Service Worker 缓存**](https://developers.google.com/web/fundamentals/getting-started/primers/service-workers)允许**离线缓存应用程序中的静态和动态资源**，实现即时加载和重复访问时更快的交互性。使用[sw-precache](https://github.com/GoogleChrome/sw-precache#wrappers-and-starter-kits)或[offline-plugin](https://github.com/NekR/offline-plugin)完成此操作。
-3. [**PRPL**](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)鼓励**向浏览器预先推送或预加载资源**，从而加快后续页面的加载速度。它基于代码拆分和 SW 缓存。
-4. [**Lighthouse**](https://github.com/GoogleChrome/lighthouse/)允许你**审计（监控）渐进式 Web 应用程序的性能和最佳实践**，因此你能知道你的应用程序的表现情况。
-
-
-
-### 把React替换为Preact
-
-两种方式：
-（1）安装 preact-compat
-（2）把 React 的入口替换为 preact，并解决代码冲突
-
-### 优缺点
-
-优点：
-
-1.接近于实质：Preact 实现了一个可能是最薄的一层虚拟 DOM。它将虚拟 DOM 与 DOM 本身区别开，注册真实的事件处理函数，很好地与其它库一起工作。
-
-2.小体积、轻量：大多数 UI 框架相当大，在应用程序js代码中占比较高。Preact却足够小，你的业务代码，是应用程序中最大的部分。**preact本身的bundle在gzip压缩后大概只有3kb，比React小很多**。更少js代码的加载，解析和执行，可以有效的提升应用的性能与体验。
-
-3.快速、高性能：Preact 是快速的，不仅因为它的体积，**一个更简单和可预测的 diff 实现**，使它成为最快的虚拟 DOM 框架之一。它也包含**额外的性能优化特性**，如：批量自定义更新，可选的异步渲染，DOM 回收和通过关连状态优化的事件处理等。
-
-4.易于开发和生产：在不需要牺牲生产力的前提，preact包含了有一些额外而便捷的功能以使得开发更简单高效，如：
-
-props, state 和 context 可以被传递给 render()；
-**可使用标准的 HTML 属性**，如 class 和 for；
-可使用 React 开发工具等。
-
-5.与react生态兼容：可以无缝使用 React 生态系统中可用的数千个组件。增加一个简单的兼容层 preact-compat 到绑定库中，甚至可以在系统中使用非常复杂的 React 组件。
-
-6.可以很容易的和[PWA（渐进式 Web 应用程序）](https://developers.google.com/web/progressive-web-apps/)配合工作，提供更好的用户体验：PReact官方的脚手架[preact-cli](https://github.com/developit/preact-cli)可以直接快速的构建一个PReact的渐进式 Web 应用程序。使得页面在加载的 [5 秒内就进行交互](https://infrequently.org/2016/09/what-exactly-makes-something-a-progressive-web-app/)。
-
-### 与react对比
-
-
-
-## React18
-
-### 并发模式
-
-useTransition是React中用于挂起的hook
-
-```react
-const [startTransition, isPending] = useTransition({ timeoutMs: 3000 });
-
-<button disabled={isPending}
-  startTransition(()=>{
-   	<fetch Calls 
-  })>
-</button>
-{isPending? "Loading": null}
-```
-
-
-
-### 为获取数据的Suspense
-
-Suspense使组件能够在渲染之前等待一段预定的时间
 

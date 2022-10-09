@@ -2,7 +2,8 @@
 title: React（二）
 date: 2020-06-02 21:40:33
 categories: IT
-tags: IT，Web,Node，React
+tags:
+    - IT，Web,Node，React
 toc: true
 thumbnail: http://cdn.kunkunzhang.top/react.png
 ---
@@ -616,6 +617,8 @@ export class UnControl extends Component {
 
 forwardRef多用于Ref 转发。Ref 转发是一项将 [ref](https://zh-hans.reactjs.org/docs/refs-and-the-dom.html) 自动地通过组件传递到其一子组件的技巧。对于大多数应用中的组件来说，这通常不是必需的。通常不建议这样做，因为它会打破组件的封装，但它偶尔可用于触发焦点或测量子 DOM 节点的大小或位置。但其对某些组件，尤其是可重用的组件库是很有用的。
 
+没有使用`forwardRef`时，父组件传入子组件`ref`属性，此时`ref`指向的是**子组件本身**。但是如果想让`child`指向的是`Child`的`button`呢？此时在子组件中新建一个buttonRef，并作为拓展的`props`由父组件控制，新增一个字段如`buttonRef`。所以 React 提供了 `forwardRef`，用于将 ref 转发。这样子组件在**提供内部的 dom 时，不用扩充额外的 ref 字段**
+
 Ref 转发是一个可选特性，其允许某些组件接收 `ref`，并将其向下传递（换句话说，“转发”它）给子组件。
 
 ```react
@@ -629,6 +632,47 @@ const FancyButton = React.forwardRef((props, ref) => (
 const ref = React.createRef();
 <FancyButton ref={ref}>Click me!</FancyButton>;
 ```
+
+转发ref在父组件作为别的组件的子组件时会比较方便, 也就是HOC
+
+```react
+import Button from './Button';
+const LoggedButton = logProps(Button);
+
+const ref = React.createRef();
+
+// LoggedButton 组件是高阶组件（HOC）LogProps。
+// 尽管渲染结果将是一样的，
+// 但我们的 ref 将指向 LogProps 而不是内部的 Button 组件！
+// 这意味着我们不能调用例如 ref.current.xxx() 这样的方法
+<LoggedButton label="Click Me" handleClick={handleClick} ref={ref} />;
+
+function logProps(WrappedComponent) {
+  class LogProps extends React.Component {
+    componentDidUpdate(prevProps) {
+      console.log('old props:', prevProps);
+      console.log('new props:', this.props);
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+
+  return LogProps;
+}
+```
+
+使用forwardRef和useImperativeHandle限制父组件调用子组件的Api
+
+Button组件提供了`onChange`回调，**外部组件可以传入`onChange`方法获取实时的`status`，Button内部则通过`onToggleStatus`控制状态**。
+
+如果现在另一个开发人员开发外部组件时，想要实现在外部实现第二个按钮**实时控制和同步显示Button的状态**。此时他已经可以通过`onChange`实时同步状态，而从外部修改Button状态则一般有两种方式：
+
+1. 修改Button组件为纯函数组件，将其状态和修改状态的方法提升至父组件或者状态管理工具中。
+2. 通过ref拿到该组件，通过`ref.current.onToggleStatus()`的方式修改子组件状态。
+
+
 
 #### ref的其他用法
 
@@ -760,7 +804,741 @@ constructor(props) {
  export default Header
 ```
 
+### 修改props的方法
+
+父组件使用ref
+
+父组件对子组件传入改变props的方法，由自组件调用
+
+
+
+### 高级：正交组件
+
+如果A和B正交的，则更改A不会更改B（反之亦然）。这就是正交性的概念。在广播设备中，音量和电台选择控件是正交的。音量控制仅更改音量，而电台选择控件仅更改接收到的电台
+
+一个好的React应用程序设计是正交的：
+
+- UI元素
+- 全局状态管理
+- 持久性逻辑（本地存储，cookie）
+- 获取数据 （fetch library, REST or GraphQL）
+
+将组件隔离，并独立封装。这将使你的组件正交，并且你所做的任何更改都将被隔离，并且仅集中在一个组件上。这就是可预测且易于开发的系统的诀窍
+
+- 使用React hooks？它们使**UI渲染逻辑**与**state**和**副作用逻辑**正交
+- 为什么Suspense获取？它使获取的细节和组件正交
+
+正交组件的好处：
+
+易于修改：当组件是正交设计时，对组件所做的任何更改都将隔离在组件内。
+
+易读：由于正交组件仅负责一个任务，因此更容易了解该组件的功能，它不被不属于这里的细节所困扰。
+
+易测试：正交组件仅专注于执行单个任务，你要做的只是测试组件是否正确执行任务。通常，非正交组件需要大量的模拟和手动设置才能进行测试，而且，如果难以测试。而现在你只需修改单个组件。
+
+### UI组件、业务组件与增强组件
+
+纯UI组件是指组件中没有或者只有较少逻辑且完全受控的组件
+
+业务组件与增强组件：
+
+业务组件中一般会写一些与业务强相关的接口/逻辑，这些逻辑在别的系统就不可以使用了，所以称为业务组件
+
+增强组件是一个增强功能的组件，组件中没有单独的逻辑，基本上props是一些通用的api或者数据。
+
+#### 为什么函数式组件必须引入React
+
+react的函数式组件中必须引入React，比如像这样
+
+```javascript
+import React from "react";
+const App = () => (
+  <div>Hello World!!!</div>
+);
+export default App;
+```
+
+原因是Babel在转译app.js时会把jsx语法糖转换为React.createElement方法
+
+```javascript
+var App = function App() {
+  return React.createElement(
+    "div",
+    null,
+    "Hello World!!!"
+  );
+};
+```
+
+那能不能直接写函数组件，而不需要在组件顶部引入React组件呢
+
+可以。通过babel的插件babel-plugin-react-require 自动分别无状态组件，如果是则自动引入react
+
+安装
+
+```shell
+npm install babel-plugin-react-require --save-dev
+```
+
+在 `.babelrc` 加入 `react-require`
+
+```json
+{
+  "plugins": [
+    "react-require"
+  ]
+}
+```
+
+也可以修改插件，使得编译后的代码生成自己的虚拟Dom函数。比如deku等
+
+https://juejin.cn/post/6844903783655276557
+
+### react哲学
+
+在react官网上看到一篇很好的博客，摘要一些东西放这里
+
+React 是用 JavaScript 构建快速响应的大型 Web 应用程序的首选方式。它在 Facebook 和 Instagram 上表现优秀
+
+React 最棒的部分之一是引导我们思考如何构建一个应用。
+
+假设我们已经有了一个返回 JSON 的 API，以及设计师提供的组件设计稿，应该如何设计代码/组件呢
+
+第一步，将设计好的UI划分组件层级
+
+首先，你需要在设计稿上用方框圈出每一个组件（包括它们的子组件），并且以合适的名称命名。如果你是和设计师一起完成此任务，那么他们可能已经做过类似的工作，所以请和他们进行交流！他们的 Photoshop 的图层名称可能最终就是你编写的 React 组件的名称！
+
+但你如何确定应该将哪些部分划分到一个组件中呢？你可以将组件当作一种函数或者是对象来考虑，根据[单一功能原则](https://en.wikipedia.org/wiki/Single_responsibility_principle)来判定组件的范围。也就是说，一个组件原则上只能负责一个功能。如果它需要负责更多的功能，这时候就应该考虑将它拆分成更小的组件
+
+在实践中，因为你经常是在向用户展示 JSON 数据模型，所以如果你的模型设计得恰当，UI（或者说组件结构）便会与数据模型一一对应，这是因为 UI 和数据模型都会倾向于遵守相同的*信息结构*。将 UI 分离为组件，其中每个组件需与数据模型的某部分匹配
+
+现在我们已经确定了设计稿中应该包含的组件，接下来我们将把它们描述为更加清晰的层级。设计稿中被其他组件包含的子组件，在层级上应该作为其子节点
+
+第二步，用React创建一个 静态版本
+
+现在我们已经确定了组件层级，可以编写对应的应用了。最容易的方式，是先用已有的数据模型渲染一个不包含交互功能的 UI。最好将渲染 UI 和添加交互这两个过程分开。这是因为，编写一个应用的静态版本时，往往要编写大量代码，而不需要考虑太多交互细节；添加交互功能时则要考虑大量细节，而不需要编写太多代码。所以，将这两个过程分开进行更为合适。
+
+在构建应用的静态版本时，我们需要创建一些会重用其他组件的组件，然后通过 *props* 传入所需的数据。*props* 是父组件向子组件传递数据的方式。即使你已经熟悉了 *state* 的概念，也**完全不应该使用 state** 构建静态版本。state 代表了随时间会产生变化的数据，应当仅在实现交互时使用。所以构建应用的静态版本时，你不会用到它
+
+你可以自上而下或者自下而上构建应用：自上而下意味着首先编写层级较高的组件（比如 `FilterableProductTable`），自下而上意味着从最基本的组件开始编写（比如 `ProductRow`）。当你的应用比较简单时，使用自上而下的方式更方便；对于较为大型的项目来说，自下而上地构建，并同时为低层组件编写测试是更加简单的方式
+
+到此为止，你应该已经有了一个可重用的组件库来渲染你的数据模型。由于我们构建的是静态版本，所以这些组件目前只需提供 `render()` 方法用于渲染。最顶层的组件 `FilterableProductTable` 通过 props 接受你的数据模型。如果你的数据模型发生了改变，再次调用 `root.render()`，UI 就会相应地被更新。数据模型变化、调用 `render()` 方法、UI 相应变化，这个过程并不复杂，因此很容易看清楚 UI 是如何被更新的，以及是在哪里被更新的。React **单向数据流**（也叫*单向绑定*）的思想使得组件模块化，易于快速开发
+
+第三步，确定UI state的最小表示
+
+想要使你的 UI 具备交互功能，需要有触发基础数据模型改变的能力。React 通过实现 **state** 来完成这个任务
+
+为了正确地构建应用，你首先需要找出应用所需的 state 的最小表示，并根据需要计算出其他所有数据。其中的关键正是 [DRY: *Don’t Repeat Yourself*](https://en.wikipedia.org/wiki/Don't_repeat_yourself)。只保留应用所需的可变 state 的最小集合，其他数据均由它们计算产生。比如，你要编写一个任务清单应用，你只需要保存一个包含所有事项的数组，而无需额外保存一个单独的 state 变量（用于存储任务个数）。当你需要展示任务个数时，只需要利用该数组的 length 属性即可
+
+通过问自己以下三个问题，你可以逐个检查相应数据是否属于 state：
+
+1. 该数据是否是由父组件通过 props 传递而来的？如果是，那它应该不是 state。
+2. 该数据是否随时间的推移而保持不变？如果是，那它应该也不是 state。
+3. 你能否根据其他 state 或 props 计算出该数据的值？如果是，那它也不是 state
+
+第四步：确定state放置的位置
+
+我们已经确定了应用所需的 state 的最小集合。接下来，我们需要确定哪个组件能够改变这些 state，或者说*拥有*这些 state。
+
+注意：React 中的数据流是单向的，并顺着组件层级从上往下传递。哪个组件应该拥有某个 state 这件事，**对初学者来说往往是最难理解的部分**。尽管这可能在一开始不是那么清晰，但你可以尝试通过以下步骤来判断：
+
+对于应用中的每一个 state：
+
+- 找到根据这个 state 进行渲染的所有组件。
+- 找到他们的共同所有者（common owner）组件（在组件层级上高于所有需要该 state 的组件）。
+- 该共同所有者组件或者比它层级更高的组件应该拥有该 state。
+- 如果你找不到一个合适的位置来存放该 state，就可以直接创建一个新的组件来存放该 state，并将这一新组件置于高于共同所有者组件层级的位置。
+
+第五步：添加反向数据流
+
+到目前为止，我们已经借助自上而下传递的 props 和 state 渲染了一个应用。现在，我们将尝试让数据反向传递：处于较低层级的表单组件更新较高层级的 `FilterableProductTable` 中的 state。
+
+React 通过一种比传统的双向绑定略微繁琐的方法来实现反向数据传递。尽管如此，但这种需要显式声明的方法更有助于人们理解程序的运作方式。
+
+如果你尝试在上一个示例的搜索框中输入或勾选复选框（步骤 4），React 不会产生任何响应。这是正常的，因为我们之前已经将 `input` 的值设置为了从 `FilterableProductTable` 的 `state` 传递而来的固定值。
+
+让我们重新梳理一下需要实现的功能：每当用户改变表单的值，我们需要改变 state 来反映用户的当前输入。由于 state 只能由拥有它们的组件进行更改，`FilterableProductTable` 必须将一个能够触发 state 改变的回调函数（callback）传递给 `SearchBar`。我们可以使用输入框的 `onChange` 事件来监视用户输入的变化，并通知 `FilterableProductTable` 传递给 `SearchBar` 的回调函数。然后该回调函数将调用 `setState()`，从而更新应用
+
+https://zh-hans.reactjs.org/docs/thinking-in-react.html
+
+### 进阶：构建组件的哲学
+
+#### 自上而下地设计组件
+
+自上而下的设计组件通常能更直接地设计组件，但是要避免设计出巨大的单体组件。与之相对的是自下而上地设计组件。
+
+巨大的单体组件意味着难以组合和抽象，而且会让组件变得臃肿和变得有风险。
+
+https://frontendmastery.com/posts/building-future-facing-frontend-architectures/
+
+#### 使用多组件共同完成任务
+
+可以用一个稳定性较高的组件包裹一些较小的组件，好过传递全部props进一个巨大的单体组件
+
+```javascript
+export const Tab = ({ children }) => {
+  const tabAttributes = useTab()
+  return (
+    <div {...tabAttributes}>
+      {children}
+    </div>
+  )
+}
+
+export const TabPanel = ({ children }) => {
+  const tabPanelAttributes = useTabPanel()
+  return (
+    <div {...tabPanelAttributes}>
+      {children}
+    </div>
+  )
+}
+```
+
+这其中可以使用context传递数据
+
+```javascript
+export const TabsList = ({ children }) => {
+  // provided by top level Tabs component coming up next
+  const { tabsId, currentTabIndex, onTabChange } = useTabList()
+  // store a reference to the DOM element so we can select via id
+  // and manage the focus states 
+  const ref = createRef()
+  
+  const selectTabByIndex = (index) => {
+    const selectedTab = ref.current.querySelector(
+      `[id=${tabsId}-${index}]`
+    )
+    selectedTab.focus()
+    onTabChange(index)
+  }
+  // we would handle keyboard events here 
+  // things like selecting with left and right arrow keys
+  const onKeyDown = () => {
+   // ...
+  }
+  // .. some other stuff - again we're omitting styles etc
+  return (
+    <div role="tablist" ref={ref}>
+      {React.Children.map(children, (child, index) => {
+          const isSelected = index === currentTabIndex
+          return (
+            <TabContext.Provider
+              // (!) in real life this would need to be restructured 
+              // (!) and memoized to use a stable references everywhere
+              value={{
+                key: `${tabsId}-${index}`,
+                id: `${tabsId}-${index}`,
+                role: 'tab',
+                'aria-setsize': length,
+                'aria-posinset': index + 1,
+                'aria-selected': isSelected,
+                'aria-controls': `${tabsId}-${index}-tab`,
+                // managing focussability
+                tabIndex: isSelected ? 0 : -1,
+                onClick: () => selectTabByIndex(index),
+                onKeyDown,
+              }}
+            >
+              {child}
+            </TabContext.Provider>
+          )
+        }
+      )}
+    </div>
+  )
+}
+```
+
+也可以多个Context、useState管理数据，像这样
+
+```javascript
+const TabContext = createContext(null)
+const TabListContext = createContext(null)
+const TabPanelContext = createContext(null)
+
+export const useTab = () => {
+  const tabData = useContext(TabContext)
+  if (tabData == null) {
+    throw Error('A Tab must have a TabList parent')
+  }
+  return tabData
+}
+
+export const useTabPanel = () => {
+  const tabPanelData = useContext(TabPanelContext)
+  if (tabPanelData == null) {
+    throw Error('A TabPanel must have a Tabs parent')
+  }
+  return tabPanelData
+}
+
+export const useTabList = () => {
+  const tabListData = useContext(TabListContext)
+  if (tabListData == null) {
+    throw Error('A TabList must have a Tabs parent')
+  }
+  return tabListData
+}
+```
+
+
+
+#### 设计好组件的api
+
+
+
 
 
 ## HOC与render Props
 
+### 包装强化组件的方式
+
+1.最早的mixin方式，已弃用
+
+在`react`初期提供一种组合方法。通过`React.createClass`,加入`mixins`属性，具体用法和`vue` 中`mixins`相似
+
+```react
+const customMixin = {
+  componentDidMount(){
+    console.log( '------componentDidMount------' )
+  },
+  say(){
+    console.log(this.state.name)
+  }
+}
+
+const APP = React.createClass({
+  mixins: [ customMixin ],
+  getInitialState(){
+    return {
+      name:'alien'
+    }
+  },
+  render(){
+    const { name  } = this.state
+    return <div> hello ,world , my name is { name } </div>
+  }
+})
+```
+
+这种`mixins`只能存在`createClass`中，后来`React.createClass`连同`mixins`这种模式被废弃了。`mixins`会带来一些负面的影响。
+
+- 1 mixin引入了隐式依赖关系。
+- 2 不同mixins之间可能会有先后顺序甚至代码冲突覆盖的问题
+- 3 mixin代码会导致滚雪球式的复杂性
+
+2.extends继承模式
+
+在`class`组件盛行之后，我们可以通过继承的方式进一步的强化我们的组件。这种模式的好处在于，可以封装基础功能组件，然后根据需要去`extends`我们的基础组件，按需强化组件，但是值得注意的是，必须要对基础组件有足够的掌握，否则会造成一些列意想不到的情况发生
+
+```react
+class Base extends React.Component{
+  constructor(){
+    super()
+    this.state={
+      name:'alien'
+    }
+  }
+  say(){
+    console.log('base components')
+  }
+  render(){
+    return <div> hello,world <button onClick={ this.say.bind(this) } >点击</button>  </div>
+  }
+}
+class Index extends Base{
+  componentDidMount(){
+    console.log( this.state.name )
+  }
+  say(){ /* 会覆盖基类中的 say  */
+    console.log('extends components')
+  }
+}
+export default Index
+```
+
+3.HOC
+
+```react
+function HOC(Component) {
+  return class wrapComponent extends React.Component{
+     constructor(){
+       super()
+       this.state={
+         name:'alien'
+       }
+     }
+     render=()=><Component { ...this.props } { ...this.state } />
+  }
+}
+
+@HOC
+class Index extends React.Component{
+  say(){
+    const { name } = this.props
+    console.log(name)
+  }
+  render(){
+    return <div> hello,world <button onClick={ this.say.bind(this) } >点击</button>  </div>
+  }
+}
+```
+
+
+
+### HOC
+
+HOC的基本原理可以写成这样：
+
+```react
+const HOCFactory = (Component) => {
+  return class HOC extends React.Component {
+    render(){
+      return <Component {...this.props} />
+    }
+  }
+}
+```
+
+HOC最大的特点就是：接受一个组件作为参数，返回一个新的组件。
+
+组件是把`prop`渲染成`UI`,而高阶组件是将组件转换成另外一个组件
+
+高阶组件解决的问题
+
+**① 复用逻辑**：高阶组件更像是一个加工`react`组件的工厂，批量对原有组件进行**加工**，**包装**处理。我们可以根据业务需求定制化专属的`HOC`,这样可以解决复用逻辑。
+
+**② 强化props**：这个是`HOC`最常用的用法之一，高阶组件返回的组件，可以劫持上一层传过来的`props`,然后混入新的`props`,来增强组件的功能。代表作`react-router`中的`withRouter`。
+
+**③ 赋能组件**：`HOC`有一项独特的特性，就是可以给被`HOC`包裹的业务组件，提供一些拓展功能，比如说**额外的生命周期，额外的事件**，但是这种`HOC`，可能需要和业务组件紧密结合。典型案例`react-keepalive-router`中的 `keepaliveLifeCycle`就是通过`HOC`方式，给业务组件增加了额外的生命周期。
+
+**④ 控制渲染**：劫持渲染是`hoc`一个特性，在`wrapComponent`包装组件中，可以对原来的组件，进行`条件渲染`，`节流渲染`，`懒加载`等功能，后面会详细讲解，典型代表做`react-redux`中`connect`和 `dva`中 `dynamic` 组件懒加载
+
+HOC的优点：
+
+- 支持ES6，光这一项就战胜了mixins
+- 复用性强，HOC是纯函数且返回值仍为组件，在使用时可以多层嵌套，在不同情境下使用特定的HOC组合也方便调试。
+- 同样由于HOC是纯函数，支持传入多个参数，增强了其适用范围。
+
+HOC的缺点：
+
+- 当有多个HOC一同使用时，无法直接判断子组件的props是哪个HOC负责传递的。
+- 重复命名的问题：若父子组件有同样名称的props，或使用的多个HOC中存在相同名称的props，则存在覆盖问题，而且react并不会报错。当然可以通过规范命名空间的方式避免。
+- 在react开发者工具中观察HOC返回的结构，可以发现HOC产生了许多无用的组件，加深了组件层级。
+- 同时，HOC使用了静态构建，即当AppWithMouse被创建时，调用了一次withMouse中的静态构建。而在render中调用构建方法才是react所倡导的动态构建。与此同时，在render中构建可以更好的利用react的生命周期。
+
+render prop 的出现解决了以上问题
+
+#### 两种不同的HOC
+
+常用的高阶组件有两种方式**正向的属性代理**和**反向的组件继承**，两者之前有一些共性和区别。
+
+所谓正向属性代理，就是用组件包裹一层代理组件，在代理组件上，我们可以做一些，对源组件的代理操作。在`fiber tree` 上，先`mounted`代理组件，然后才是我们的业务组件。我们可以理解为父子组件关系，父组件对子组件进行一系列强化操作
+
+```react
+class Index extends React.Component{
+  render(){
+    return <div> hello,world  </div>
+  }
+}
+Index.say = function(){
+  console.log('my name is alien')
+}
+function HOC(Component) {
+  return class wrapComponent extends React.Component{
+     render(){
+       return <Component { ...this.props } { ...this.state } />
+     }
+  }
+}
+const newIndex =  HOC(Index) 
+console.log(newIndex.say)
+```
+
+优点：
+
+① 正常属性代理可以和业务组件低耦合，零耦合，对于`条件渲染`和`props属性增强`,只负责控制子组件渲染和传递额外的`props`就可以，所以无须知道，业务组件做了些什么。所以正向属性代理，更适合做一些开源项目的`hoc`，目前开源的`HOC`基本都是通过这个模式实现的。
+
+② 同样适用于`class`声明组件，和`function`声明的组件。
+
+③ 可以完全隔离业务组件的渲染,相比反向继承，属性代理这种模式。可以完全控制业务组件渲染与否，可以避免`反向继承`带来一些副作用，比如生命周期的执行。
+
+④ 可以嵌套使用，多个`hoc`是可以嵌套使用的，而且一般不会限制包装`HOC`的先后顺序。
+
+缺点：
+
+- ① 一般无法直接获取业务组件的状态，如果想要获取，需要`ref`获取组件实例。
+- ② 无法直接继承静态属性。如果需要继承需要手动处理，或者引入第三方库。
+
+反向继承和属性代理有一定的区别，在于包装后的组件继承了业务组件本身，所以我们我无须在去实例化我们的业务组件。当前高阶组件就是继承后，加强型的业务组件。这种方式类似于组件的强化
+
+```react
+class Index extends React.Component{
+  render(){
+    return <div> hello,world  </div>
+  }
+}
+Index.say = function(){
+  console.log('my name is alien')
+}
+function HOC(Component) {
+  return class wrapComponent extends Component{
+  }
+}
+const newIndex =  HOC(Index) 
+console.log(newIndex.say)
+```
+
+优点：
+
+- ① 方便获取组件内部状态，比如`state`，`props` ,生命周期,绑定的事件函数等
+- ② `es6`继承可以良好继承静态属性。我们无须对静态属性和方法进行额外的处理。
+
+缺点：
+
+① 无状态组件无法使用。
+
+② 和被包装的组件强耦合，需要知道被包装的组件的内部状态，具体是做什么？
+
+③ 如果多个反向继承`hoc`嵌套在一起，当前状态会覆盖上一个状态。这样带来的隐患是非常大的，比如说有多个`componentDidMount`，当前`componentDidMount`会覆盖上一个`componentDidMount`。这样副作用串联起来，影响很大。
+
+#### 强化props
+
+这个是高阶组件最常用的功能，承接上层的`props`,在混入自己的`props`，来强化组件
+
+强化props的案例是`withRoute`。`withRoute`用途就是，对于没有被`Route`包裹的组件，给添加`history`对象等和路由相关的状态，方便我们在任意组件中，都能够获取路由状态，进行路由跳转，这个`HOC`目的很清楚，就是强化`props`,把`Router`相关的状态都混入到`props`中
+
+```react
+function classHOC(WrapComponent){
+    return class  Idex extends React.Component{
+        state={
+            name:'alien'
+        }
+        componentDidMount(){
+           console.log('HOC')
+        }
+        render(){
+            return <WrapComponent { ...this.props }  { ...this.state }   />
+        }
+    }
+}
+function Index(props){
+  const { name } = props
+  useEffect(()=>{
+     console.log( 'index' )
+  },[])
+  return <div>
+    hello,world , my name is { name }
+  </div>
+}
+
+export default classHOC(Index)
+
+function functionHoc(WrapComponent){
+    return function Index(props){
+        const [ state , setState ] = useState({ name :'alien'  })       
+        return  <WrapComponent { ...props }  { ...state }   />
+    }
+}
+```
+
+高阶组件也可以将`HOC`的`state`的配合起来，控制业务组件的更新。这种用法在`react-redux`中`connect`高阶组件中用到过，用于处理来自`redux`中`state`更改，带来的订阅更新作用
+
+```react
+function classHOC(WrapComponent){
+  return class  Idex extends React.Component{
+      constructor(){
+        super()
+        this.state={
+          name:'alien'
+        }
+      }
+      changeName(name){
+        this.setState({ name })
+      }
+      render(){
+          return <WrapComponent { ...this.props }  { ...this.state } changeName={this.changeName.bind(this)  }  />
+      }
+  }
+}
+function Index(props){
+  const [ value ,setValue ] = useState(null)
+  const { name ,changeName } = props
+  return <div>
+    <div>   hello,world , my name is { name }</div>
+    改变name <input onChange={ (e)=> setValue(e.target.value)  }  />
+    <button onClick={ ()=>  changeName(value) }  >确定</button>
+  </div>
+}
+
+export default classHOC(Index)
+```
+
+#### 控制渲染
+
+控制渲染是高阶组件的一个很重要的特性
+
+对于属性代理的高阶组件，虽然不能在内部操控渲染状态，但是可以在外层控制当前组件是否渲染，这种情况应用于，动态挂载、**权限隔离**，**懒加载** ，**延时加载**等场景
+
+```react
+// 动态挂载
+function renderHOC(WrapComponent){
+  return class Index  extends React.Component{
+      constructor(props){
+        super(props)
+        this.state={ visible:true }  
+      }
+      setVisible(){
+         this.setState({ visible:!this.state.visible })
+      }
+      render(){
+         const {  visible } = this.state 
+         return <div className="box"  >
+           <button onClick={ this.setVisible.bind(this) } > 挂载组件 </button>
+           { visible ? <WrapComponent { ...this.props } setVisible={ this.setVisible.bind(this) }   />  : <div className="icon" ><SyncOutlined spin  className="theicon"  /></div> }
+         </div>
+      }
+  }
+}
+
+class Index extends React.Component{
+  render(){
+    const { setVisible } = this.props
+    return <div className="box" >
+        <p>hello,my name is alien</p>
+        <img  src='https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=294206908,2427609994&fm=26&gp=0.jpg'   /> 
+        <button onClick={() => setVisible()}  > 卸载当前组件 </button>
+    </div>
+  }
+}
+export default renderHOC(Index)
+
+// 懒加载HOC
+export default function AsyncRouter(loadRouter) {
+  return class Content extends React.Component {
+    state = {Component: null}
+    componentDidMount() {
+      if (this.state.Component) return
+      loadRouter()
+        .then(module => module.default)
+        .then(Component => this.setState({Component},
+         ))
+    }
+    render() {
+      const {Component} = this.state
+      return Component ? <Component {
+      ...this.props
+      }
+      /> : null
+    }
+  }
+}
+
+const Index = AsyncRouter(()=>import('../pages/index'))
+```
+
+控制渲染比较典型的使用案例是connect。`connect`的作用也有`合并props`，但是更重要的是接受`state`，来控制更新组件。
+
+#### 赋能组件
+
+高阶组件还可以赋能组件，比如加一些**额外`生命周期`**，**劫持事件**，**监控日志**等等。
+
+```react
+// 组件内的事件监听
+function ClickHoc (Component){
+  return  function Wrap(props){
+    const dom = useRef(null)
+    useEffect(()=>{
+     const handerClick = () => console.log('发生点击事件') 
+     dom.current.addEventListener('click',handerClick)
+     return () => dom.current.removeEventListener('click',handerClick)
+    },[])
+    return  <div ref={dom}  ><Component  {...props} /></div>
+  }
+}
+
+@ClickHoc
+class Index extends React.Component{
+   render(){
+     return <div  className='index'  >
+       <p>hello，world</p>
+       <button>组件内部点击</button>
+    </div>
+   }
+}
+export default ()=>{
+  return <div className='box'  >
+     <Index />
+     <button>组件外部点击</button>
+  </div>
+}
+```
+
+开源库`react-keepalive-router`中使用`HOC` 组件`keepaliveLifeCycle` 包裹，缓存组件的生命周期
+
+```react
+import {lifeCycles} from '../core/keeper'
+import hoistNonReactStatic from 'hoist-non-react-statics'
+function keepaliveLifeCycle(Component) {
+   class Hoc extends React.Component {
+    cur = null
+    handerLifeCycle = type => {
+      if (!this.cur) return
+      const lifeCycleFunc = this.cur[type]
+      isFuntion(lifeCycleFunc) && lifeCycleFunc.call(this.cur)
+    }
+    componentDidMount() { 
+      const {cacheId} = this.props
+      cacheId && (lifeCycles[cacheId] = this.handerLifeCycle)
+    }
+    componentWillUnmount() {
+      const {cacheId} = this.props
+      delete lifeCycles[cacheId]
+    }
+     render=() => <Component {...this.props} ref={cur => (this.cur = cur)}/>
+  }
+  return hoistNonReactStatic(Hoc,Component)
+}
+```
+
+https://juejin.cn/post/6940422320427106335#heading-24
+
+### render-props
+
+相比于直接将 `<Cat>` 写死在 `<Mouse>` 组件中，并且有效地更改渲染的结果，我们可以为 `<Mouse>` 提供一个函数 prop 来动态的确定要渲染什么 —— 一个 render prop
+
+Render Props 的核心思想是，通过一个函数将class组件的state作为props传递给纯函数组件
+
+具有 render prop 的组件接受一个返回 React 元素的函数，并在组件内部通过调用此函数来实现自己的渲染逻辑
+
+render prop 是因为模式才被称为 *render* prop ，你不一定要用名为 `render` 的 prop 来使用这种模式。事实上， [*任何*被用于告知组件需要渲染什么内容的函数 prop 在技术上都可以被称为 “render prop”](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce).
+
+`children` prop 并不真正需要添加到 JSX 元素的 “attributes” 列表中。相反，你可以直接放置到元素的*内部*
+
+由于这一技术的特殊性，当你在设计一个类似的 API 时，你或许会要直接地在你的 propTypes 里声明 children 的类型应为一个函数
+
+```react
+<Mouse children={mouse => (
+  <p>鼠标的位置是 {mouse.x}，{mouse.y}</p>
+)}/>
+
+<Mouse>
+  {mouse => (
+    <p>鼠标的位置是 {mouse.x}，{mouse.y}</p>
+  )}
+</Mouse>
+```
+
+注意：
+
+将 Render Props 与 React.PureComponent 一起使用时要小心
+
+如果你在 render 方法里创建函数，那么使用 render prop 会抵消使用 [`React.PureComponent`](https://zh-hans.reactjs.org/docs/react-api.html#reactpurecomponent) 带来的优势。因为浅比较 props 的时候总会得到 false，并且在这种情况下每一个 `render` 对于 render prop 将会生成一个新的值。
+
+render prop的优点：
+
+- 支持ES6，和HOC一样
+- 不用担心prop的命名问题，在render函数中只取需要的state
+- 相较于HOC，不会产生无用的空组件加深层级
+- 最重要的是，这里的构建模型是动态的，所有改变都在render中触发，能更好的利用react的生命周期。
