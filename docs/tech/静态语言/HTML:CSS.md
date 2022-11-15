@@ -2,7 +2,8 @@
 title: HTML/CSS
 date: 2020-08-03 21:40:33
 categories: 技术博客
-tags: Web，IT，HTML，CSS
+tags:
+    - Web，IT，HTML，CSS
 toc: true
 thumbnail: http://cdn.kunkunzhang.top/html.jpeg
 ---
@@ -203,7 +204,25 @@ facebook调试器：https://developers.facebook.com/tools/debug
 <link rel="bookmark" href="/favicon.ico" type="image/x-icon" />
 ```
 
+link标签还可以使用prefetch和preload属性，
 
+**preload 是声明式的 fetch，可以强制浏览器请求资源，同时不阻塞文档 [onload](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FGlobalEventHandlers%2Fonload) 事件**
+
+**Prefetch 提示浏览器这个资源将来可能需要**，但是把决定是否和什么时间加载这个资源的决定权交给浏览器
+
+**对于当前页面很有必要的资源使用 preload，对于可能在将来的页面中使用的资源使用 prefetch**
+
+preload 是对浏览器指示预先请求当前页需要的资源（关键的脚本，字体，主要图片）。
+
+prefetch 应用场景稍微又些不同 —— 用户将来可能在其他部分（比如视图或页面）使用到的资源。如果 A 页面发起一个 B 页面的 prefetch 请求，这个资源获取过程和导航请求可能是同步进行的，而如果我们用 preload 的话，页面 A 离开时它会立即停止
+
+使用 preload 和 prefetch，我们有了对当前页面和将来页面加载关键资源的解决办法。
+
+prefetch与preload的缓存策略
+
+[Chrome 有四种缓存](https://link.juejin.cn?target=https%3A%2F%2Fcalendar.perfplanet.com%2F2016%2Fa-tale-of-four-caches%2F): HTTP 缓存，内存缓存，Service Worker 缓存和 Push 缓存。preload 和 prefetch 都被存储在 **HTTP 缓存中**。
+
+当一个资源被 **preload 或者 prefetch** 获取后，它可以从 HTTP 缓存移动至渲染器的内存缓存中。如果资源可以被缓存（比如说存在有效的[cache-control](https://link.juejin.cn?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FHTTP%2FHeaders%2FCache-Control) 和 max-age），它被存储在 HTTP 缓存中可以被**现在或将来的任务使用**，如果资源不能被缓存在 HTTP 缓存中，作为代替，它被放在内存缓存中直到被使用
 
 
 
@@ -307,6 +326,29 @@ html连接：<a>标签：target属性规定在何处打开链接文档。浏览�
 
 html图片：<img>标签：alt是在图片未加载完成的时候做完图片的替代文字线性，title是图片的解释文字
 
+​			onError事件：img的src不是有效地址时，会出发onerror事件
+
+​            onabort  图片加载时用户点击停止加载时触发，通常这里触发一个提示：图片正在加载。
+
+​            onload  图片加载完成之后触发
+
+​           在vue的项目中，我们同样可以使用vue提供的once方法，template内的代码如下
+
+```vue
+<div class="item-img">
+  <img id="errorImg" v-bind:src="'http://bbg-seller.oss-cn-qingdao.aliyuncs.com/test/gp/p1/' + item.picture" v-on:error.once="dosomething($event)" v-bind:alt="item.name">
+</div>
+<scirpt>
+method: { 
+ dosomething: function (e) {
+  	e.currentTarget.src = "http://www.ianbiangou.cn/index/ICON2.png"
+  }
+}
+</scirpt>
+```
+
+
+
 Html<script>标签：intergrity的作用、defer 和 async 标签的作用与区别
 
 Html表格：<tr>标签：行 colspan：合并的列数
@@ -343,8 +385,6 @@ test.dataset.my = 'Byron';
 
 
 ### 自闭合标签与闭合标签的区别
-
-
 
 
 
@@ -651,6 +691,28 @@ javascript加载后会立即执行，同时会阻塞后面的资源加载。（j
 
 
 
+### 渐进式Jpeg与Webp
+
+JPEG文件有两种保存方式他们分别是Baseline JPEG（标准型）和Progressive JPEG（渐进式）。两种格式有相同尺寸以及图像数据，他们的扩展名也是相同的，唯一的区别是二者显示的方式不同
+
+Baseline JPEG
+
+这种类型的JPEG文件存储方式是按从上到下的扫描方式，把每一行顺序的保存在JPEG文件中。打开这个文件显示它的内容时，数据将按照存储时的顺序从上到下一行一行的被显示出来，直到所有的数据都被读完，就完成了整张图片的显示。如果文件较大或者网络下载速度较慢，那么就会看到图片被一行行加载的效果，这种格式的JPEG没有什么优点，因此，一般都推荐使用Progressive JPEG
+
+Progressive JPEG
+
+和Baseline一遍扫描不同，Progressive JPEG文件包含多次扫描，这些扫描顺寻的存储在JPEG文件中。打开文件过程中，会先显示整个图片的模糊轮廓，随着扫描次数的增加，图片变得越来越清晰。这种格式的主要优点是在网络较慢的情况下，可以看到图片的轮廓知道正在加载的图片大概是什么。在一些网站打开较大图片时，你就会注意到这种技术
+
+渐进式图片带来的好处是可以让用户在没有下载完图片就可以看到最终图像的大致轮廓，一定程度上可以提升用户体验。（瀑布留的网站建议还是使用标准型的）
+
+另外渐进式的图片的大小并不会和基本的图片大小相差很多，有时候可能会比基本图片更小。渐进式的图片的缺点就是吃用户的CPU和内存，不过对于现在的电脑来说这点图片的计算并不算什么
+
+保存渐进式Jpeg的方法
+
+在PS中有“存储为web所用格式”，打开后选择“连续”就是渐进式JPEG
+
+
+
 ### 用div实现textarea
 
 ```html
@@ -680,6 +742,130 @@ javascript加载后会立即执行，同时会阻塞后面的资源加载。（j
 ```
 
 
+
+### Shadow Dom
+
+对于html中的一个滑块（slider）以及一个视频（video）元素。但是我们会发现其实我们并没有编写 input 的样式，input渲染出来应该是一个输入框才对。但是写 type 为 range之后我们就会看到一个滑块的 UI 效果。以及视频元素里我们没有特殊处理播放按钮，视频时常，以及其他的控制按钮元素
+
+打开 chrome 的 devtools 之后审查元素，也没有看到对应的元素以及 dom 结构。
+
+其实这就是所谓的 Shadow Dom，浏览器隐藏了这一部分的实现。并且封装了实现的细节，包括样式部分也做了隔离
+
+查看Shadow Dom的方式：在Chrome浏览器中打开开发者调试工具-->设置 元素下面。展示shadow Dom
+
+勾选Show user agent shadow DOM。然后再去审查元素
+
+能够看到#shadow-root当中的 dom 结构啦
+
+我们不能使用一般的 JavaScript 调用或者选择器来获取内建 shadow DOM 元素。它们不是常规的子元素，而是一个强大的封装手段。
+
+我们可以看到一个有用的属性 `pseudo`。这是一个因为历史原因而存在的属性，并不在标准中。我们可以使用它来给子元素加上 CSS 样式
+
+```html
+<style>
+/* 让滑块轨道变红 */
+input::-webkit-slider-runnable-track {
+  background: red;
+}
+</style>
+
+<input type="range">
+```
+
+重申一次，`pseudo` 是一个非标准的属性。按照时间顺序来说，浏览器首先实验了使用内部 DOM 结构来实现控件，然后，在一段时间之后，shadow DOM 才被标准化来让我们，开发者们，做类似的事
+
+一个 DOM 元素可以有以下两类 DOM 子树：
+
+1. Light tree（光明树） —— 一个常规 DOM 子树，由 HTML 子元素组成。我们在之前章节看到的所有子树都是「光明的」。
+2. Shadow tree（影子树） —— 一个隐藏的 DOM 子树，不在 HTML 中反映，无法被察觉。
+
+如果一个元素同时有以上两种子树，那么浏览器只渲染 shadow tree。但是我们同样可以设置两种树的组合。
+
+影子树可以在自定义元素中被使用，其作用是隐藏组件内部结构和添加只在组件内有效的样式。
+
+比如，这个 `<show-hello>` 元素将它的内部 DOM 隐藏在了影子里面
+
+```html
+<script>
+customElements.define('show-hello', class extends HTMLElement {
+  connectedCallback() {
+    const shadow = this.attachShadow({mode: 'open'});
+    shadow.innerHTML = `<p>
+      Hello, ${this.getAttribute('name')}
+    </p>`;
+  }
+});
+</script>
+
+<show-hello name="John"></show-hello>
+```
+
+这就是在 Chrome 开发者工具中看到的最终样子，所有的内容都在「#shadow-root」下
+
+首先，调用 `elem.attachShadow({mode: …})` 可以创建一个 shadow tree。
+
+这里有两个限制：
+
+1. 在每个元素中，我们只能创建一个 shadow root。
+2. `elem` 必须是自定义元素，或者是以下元素的其中一个：「article」、「aside」、「blockquote」、「body」、「div」、「footer」、「h1…h6」、「header」、「main」、「nav」、「p」、「section」或者「span」。其他元素，比如 `<img>`，不能容纳 shadow tree。
+
+`mode` 选项可以设定封装层级。他必须是以下两个值之一：
+
+- `「open」` —— shadow root 可以通过 `elem.shadowRoot` 访问。
+
+  任何代码都可以访问 `elem` 的 shadow tree。
+
+- `「closed」` —— `elem.shadowRoot` 永远是 `null`。
+
+  我们只能通过 `attachShadow` 返回的指针来访问 shadow DOM（并且可能隐藏在一个 class 中）。浏览器原生的 shadow tree，比如 `<input type="range">`，是封闭的。没有任何方法可以访问它们。
+
+Shadow DOM 被非常明显地和主文档分开：
+
+1. Shadow DOM 元素对于 light DOM 中的 `querySelector` 不可见。实际上，Shadow DOM 中的元素可能与 light DOM 中某些元素的 id 冲突。这些元素必须在 shadow tree 中独一无二。
+2. Shadow DOM 有自己的样式。外部样式规则在 shadow DOM 中不产生作用。
+
+Shadow DOM 是创建组件级别 DOM 的一种方法。
+
+1. `shadowRoot = elem.attachShadow({mode: open|closed})` —— 为 `elem` 创建 shadow DOM。如果 `mode="open"`，那么它通过 `elem.shadowRoot` 属性被访问。
+2. 我们可以使用 `innerHTML` 或者其他 DOM 方法来扩展 `shadowRoot`。
+
+Shadow DOM 元素：
+
+- 有自己的 id 空间。
+- 对主文档的 JavaScript 选择器隐身，比如 `querySelector`。
+- 只使用 shadow tree 内部的样式，不使用主文档的样式。
+
+插槽
+
+```html
+<script>
+customElements.define('user-card', class extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.innerHTML = `
+      <div>Name:
+        <slot name="username"></slot>
+      </div>
+      <div>Birthday:
+        <slot name="birthday"></slot>
+      </div>
+    `;
+  }
+});
+</script>
+
+<user-card>
+  <span slot="username">John Smith</span>
+  <span slot="birthday">01.01.2001</span>
+</user-card>
+
+```
+
+在 shadow DOM 中，`<slot name="X">` 定义了一个“插入点”，一个带有 `slot="X"` 的元素被渲染的地方。
+
+然后浏览器执行”组合“：它从 light DOM 中获取元素并且渲染到 shadow DOM 中的对应插槽中。最后，正是我们想要的 —— 一个能被填充数据的通用组件。
+
+https://zh.javascript.info/slots-composition
 
 ### canvas绘图
 

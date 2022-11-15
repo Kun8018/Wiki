@@ -2,19 +2,20 @@
 title: Git使用技巧
 date: 2020-06-18 21:40:33
 categories: 技术博客
-tags: IT，Github
+tags:
+    - IT，Github
 thumbnail: http://cdn.kunkunzhang.top/git-logo.jpg
 ---
 
 　　Git是最常用的版本管理工具，利于协同开发
 
-​        原来的标题是Github使用技巧，但是后来开发之后发现github和gitlab都是git的衍生产品，因此改为Git
+​        原来的标题是Github使用技巧，但是后来开发之后发现github和gitlab都是基于Git，因此改为Git
 
 <!--more-->
 
 ## 多人协同开发流程
 
-​        一般在开发产品适合，通常挑选一个分支作为可以上线的正式版本分支，比如master或者release，develop是用来开发的，可能带有bug。 当很多人参与同一个项目的时候，如果给每个人都有Commit到master和release分支的权限是非常不合理的。这个时候，就可以使用Fork + PR/MR的方式来实现多人协作开发。 每个开发者先Fork一份代码到自己的账号下，功能完成后发PR给项目管理者，项目管理者Code Review后确认无误后即可进行Merge操作，这样协作开发效率高，问题少。
+​        一般在开发产品适合，通常挑选一个分支作为可以上线的正式版本分支，比如master或者release，develop是用来开发的，可能带有bug。 当很多人参与同一个项目的时候，如果给每个人都有Commit到master和release分支的权c限是非常不合理的。这个时候，就可以使用Fork + PR/MR的方式来实现多人协作开发。 每个开发者先Fork一份代码到自己的账号下，功能完成后发PR给项目管理者，项目管理者Code Review后确认无误后即可进行Merge操作，这样协作开发效率高，问题少。
 
 ## 安装Git
 
@@ -55,7 +56,7 @@ yum -y install libcurl-devel
 make && make install
 ```
 
-## Github设置　　
+## Git本地设置　　
 
 Windows新安装Git需要设置github账户。Mac默认没有修改的情况mac使用icloud账户登录系统，提交时会提示`Your name and email address were configured automatically based on your username and hostname. Please check that they are accurate`.也需要将提交用户改为github账户。
 
@@ -63,7 +64,7 @@ windows在cmd窗口输入命令，mac在终端输入。
 
 方式一：直接设置自己的用户名和邮箱
 
-```git
+```shell
 $ git config --global user.name "coliyin@163.com"
 $ git config --global user.email "coliyin@163.com"
 ```
@@ -74,7 +75,7 @@ $ git config --global user.email "coliyin@163.com"
 
 在终端输入
 
-```
+```shell
 git config --global --edit
 ```
 
@@ -82,7 +83,7 @@ git config --global --edit
 
 修改完后渐入命令使配置生效
 
-```git
+```shell
 git commit --amend --reset-author
 ```
 
@@ -135,8 +136,6 @@ Transferred: sent 3848, received 2040 bytes, in 0.2 seconds
 Bytes per second: sent 16032.4, received 8499.5
 debug1: Exit status 1
 ```
-
-
 
 
 
@@ -238,6 +237,12 @@ git commit -m '说明 #issue链接'
 ```
 
 在pr的comment中添加issue的链接可以关联pr与issue，当pr被合并时issue会被自动关闭
+
+如果提交之后才发现之前的修改少了一些内容，回到过去，修改上一次提交的那个文件。如此一来，你的commit记录只会有一条。对于一些有代码洁癖并且看中git commit记录的程序员，这点很重要
+
+执行`git commit --amend --no-edit`之后，hash值由`c56f680`变成了`eb6c8cb`，但是message内容并没有发生变化，并且最重要的是只有一条commit记录。
+
+如果要修改上一条的message，那么去掉`--no-edit`选项即可，`git commit --amend -m "xxxx"`。同理，commit记录同样只会有一条。
 
 可以通过`git log`查看每次提交对应的日志。
 
@@ -371,7 +376,7 @@ merge不能保持master分支干净，但是保持了所有的commit history，�
 
 
 
-## 子模块
+## 子模块submodule
 
 当你在一个git项目上工作时，你需要在其中使用另一个Git项目。也许它是一个第三方开发的库或者是你独立开发合并在多个父项目中使用。
 
@@ -473,7 +478,7 @@ rm -rf assets
 rm -rf ./git/modules/assets
 ```
 
-## 子仓库
+## 子仓库subtree
 
 与submodule的异同
 
@@ -566,18 +571,38 @@ git merge temp
 
 `git rebase dev`：解决合并冲突。rebase之后如果有冲突，会进入临时变基分支，手动消除冲突之后在rebase
 
+`git checkou branch`: 切换分支
+
+`git checkou -b｜B branch`: 创建新分支并切换到该分支
+
+`git checkout -- a.txt` ： 将文件迁出修改到上一次提交的内容
+
+`git checkout commit_id -- a.txt` ： 将文件迁出修改到指定的提交历史中某次提交的内容
+
+`git checkout branch -- a.txt `：将文件迁出修改到指定分支的该文件的内容
+
+`git checkout -- *.txt`将根目录下所有指定后缀的文件都迁出
+
+`git checkout -- *.txt`将根目录下所有指定目录的文件都迁出
+
 `git diff`：常用于比较工作区和仓库、暂存区与仓库、两个分支之间有什么差别。
 
-`git diff --cached`：查看邮件add但没有commit的改动
+`git diff --cached`：查看有add但没有commit的改动
 
 `git diff HEAD`:是上面两条命令的合并
 
 `git stash`：将当前工作区和暂存区发生的变动放到一个临时的区域，让工作区变干净。这个命令适用于手头工作还没有提交，但是突然有一个更为紧急的任务（如线上bug需要修正）需要去处理的场景。
 
 ```shell
-git stash
-git stash list
-git stash pop
+git stash ## 保存当前的工作进度，会把暂存区和工作区的改动保存起来，使用git stash sava ‘message’ 添加一些注释
+git stash list ## 显示保存进度的列表，git stash可以执行多次
+## 通过git stash pop命令恢复进度后，会删除当前进度。
+git stash pop ## 恢复最新的进度到工作区，git默认会把工作区和暂存区的改动都恢复到工作区
+git stash pop --index ## 恢复最新的进度到工作区和暂存区
+git stash pop stash@{1} ## 恢复指定的进度到工作区，stash_id为通过git stash list命令得到的
+git stash apply ##恢复最新的进度到工作区，除了不删除恢复的进度外，其他和git stash pop命令一样
+git stash drop [stash_id] ## 删除一个存储的进度，如果不执行stash_id则默认保存最新的存储进度
+git stash clear ## 删除所有存储进度
 ```
 
 `git reset`：回退到指定的版本。
@@ -647,7 +672,7 @@ git rebase --abort
 
 `git alias`可以配置命令的别名，简化命令
 
-```git
+```shell
 git config --global alias.co checkout
 git config --global alias.ci commit
 git config --global alias.br branch
@@ -655,13 +680,54 @@ git config --global alias.br branch
 git ci -m "commit message"
 ```
 
+查看文件修改历史
+
+```shell
+git log --follow -p 想要查看的文件
+```
 
 
-## pr
+
+## worktree
+
+在大型软件开发过程中可能经常需要维护一个古老的分支，比如三年前的分支，当然 git 允许你每个分支维护一个版本，但是切换 branch 的成本太高，尤其是当代码变动很大的时候，有可能改变了项目结构，甚至可能变更了 build system，如果切换 branch，IDE 可能需要花费大量的时间来重新索引和设置。
+
+但是通过 worktree, 可以避免频繁的切换分支，将老的分支 checkout 到单独的文件夹中作为 worktree，每一个分支都可以有一个独立的 IDE 工程。当然像过去一样你也可以在磁盘上 clone 这个 repo 很多次，但这意味着很多硬盘空间的浪费，甚至需要在不同的仓库中拉取相同的变更很多次。
+
+回到原来的问题，使用 git worktree 确实能够解决最上面提及的问题。
+
+git worktree 的命令只有几行非常容易记住
+
+```shell
+git worktree add ../new-dir some-existing-branch
+git worktree add [path] [branch]
+```
+
+这行命令将在 new-dir 目录中将 some-existing-branch 中的内容 check out 出来，就像在该目录中 clone 了一份新代码一样。新的文件地址可以在文件系统中的任何位置，但是注意千万不要将目录放到主仓库中。在此之后新目录中的内容就可以和主仓库中的内容一样，新建分支，push 到远端。
+
+当工作结束后可以直接删除该目录，然后运行 `git worktree prune`.
+
+git worktree 非常适合大型项目又需要维护多个分支，想要避免来回切换的情况，这里总结一些优点：
+
+- git worktree 可以快速进行并行开发，同一个项目多个分支同时并行演进
+- git worktree 的提交可以在同一个项目中共享
+- git worktree 和单独 clone 项目相比，节省了硬盘空间，又因为 git worktree 使用 hard link 实现，要远远快于 clone
+
+## pr与mr
+
+合并代码的操作在github中叫pr，在gitlab中成为mr，本质上都是合并代码
 
 GitHub pr
 
 强制push之后pr不能重开
+
+
+
+## Git Alias
+
+开启zsh git plugin之后，会获得一群好用的git alias
+
+
 
 ## Gitflow
 
@@ -669,56 +735,56 @@ GitHub pr
 
 执行指令进行初始化，会在原始文件夹中生成一个隐藏的文件夹.git
 
-```node
+```shell
 rm -rf .git//删掉原来的.git目录
 $ git init
 ```
 
 将文件添加到本地仓库,运行命令：
 
-```node
+```shell
 $ git add . 
 ```
 
 输入本次提交说明
 
-```node
+```shell
 $ git commit -m "layout"
 ```
 
 将本地仓库与远程仓库相关联，
 
-```git
+```shell
 $ git remote add origin https://github.com/CongliYin/CSS.git
 ```
 
 如果出现错误：fatal: remote origin already exists，则执行以下语句：
 
-```git
+```shell
 $ git remote rm origin
 ```
 
 执行上传命令
 
-```node
+```shell
 git push origin master
 ```
 
 新建远程仓库需要添加-u参数
 
-```git
+```shell
 git push -u origin master
 ```
 
 如果出现错误failed to push som refs to…….，则执行以下语句，先把远程服务器github上面的文件拉先来，再push 上去。：
 
-```node
+```shell
 $ git pull origin master
 ```
 
 如果出现错误fatal: refusing to merge unrelated histories，后面加上--allow-unrelated-histories
 
-```node
+```shell
 git pull origin master --allow-unrelated-histories
 ```
 
@@ -746,268 +812,6 @@ git merge --quit
 
 
 
-## git action
-
-持续集成由很多操作组成，比如抓取代码、运行测试、登录远程服务器，发布到第三方服务等等。GitHub 把这些操作就称为 actions。
-
-很多操作在不同项目里都是类似的，完全可以共享，因此github允许开发者把每个操作写成独立的脚本文件，存放到代码仓库里，使得其他开发者可以引用
-
-如果你需要某个action，不必自己写复杂的脚本，直接引用别人写好的action即可，整个持续集成过程就变成了一个actions 的组合
-
-### 基本概念：
-
-workflow：持续集成一次运行的过程，就是一个workflow
-
-job：一个workflow由一个或者多个job组成，含义是一次持续集成的运行可以完成多个任务
-
-step：每个job由多个step组成，一步步完成
-
-action：每个step可以依次执行一个或者多个命令(action)
-
-github actions的配置文件叫做workflow文件，存放在代码仓库的.github/workflow目录
-
-workflow采用yaml文件，文件名可以任取，后缀名统一为.yml，一个库可以有多个workflow文件，github只要发现.github/workflows目录里面有.yml文件就会自动运行该文件
-
-workflow中常用的配置字段
-
-**name**：workflow的名称，如果省略该字段，则默认是workflow的文件名
-
-**on**：指定触发workflow的条件，通常是某些事件，可以是事件或事件的数组
-
-例：`on:[push,pull_request]`表示push或者pull_request事件都可以触发workflow
-
-on也可以限定某些分支的事件或标签，
-
-```yaml
-on:
-  push:
-    branches: 
-      - master
-```
-
-上面的代码表示是有master分支push时才触发
-
-**jobs**：jobs是workflow文件的主体，表示要执行的一项或者多项任务
-
-jobs中：
-
-首先写出每一项任务的joh_id，名称自定义就可以，添加name字段是任务的说明
-
-needs字段指定当前任务的依赖关系，即运行顺序
-
-runs-on字段指定运行所需要的虚拟机环境，这是必填字段
-
-runs-on可以选择github提供的虚拟机或者自己的服务器，使用自己的机器需要github能进行访问并给其所需的权限
-
-有时候需要对多个操作系统、多个编程语言版本、多个平台进行测试，此时可以在runs-on字段下面配置一个构建矩阵
-
-```yaml
-runs-on: ${{matrix.os}}
-strategy:
-   matrix:
-      os:[ubuntu-16.04 ubuntu-18.04]
-      node:[6,8,10]
-## 上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，`{{matrix.os}}`是一个上下文参数
-```
-
-strategy策略包括：
-
-matrix：构建矩阵
-
-fail-fast：默认为true，即一旦某个矩阵任务失败则立即取消所有还在进行中的任务
-
-max-paraller：可同时执行的最大并发数，默认情况下github会动态调整
-
-此外还可以使用include为一个特定的`os`版本声明，用exclude删除特定的配置项
-
-```yaml
-runs-on: ${{matrix.os}}
-strategy:
-   matrix:
-      os:[macos-latest windows-latest ubuntu-18.04]
-      node:[4,6,8,10]
-      include: 
-        - os: windows-latest
-          node: 4
-          npm: 2
-      exclude:
-        - os: macos-latest
-          node: 4
-```
-
-上面的代码声明了当os为windows-latest时增加一个node和npm的特定版本，当os为Macos-latest时移出node为4的版本
-
-**jobs.steps**：steps字段指定每个job的运行步骤，可以包含一个或者多个步骤，每个steps可以指定三个字段
-
-Steps.name：步骤名称
-
-steps.run：该步骤的shell指令或者action
-
-steps.env：该步骤所需的环境变量
-
-steps.uses:使用哪个action
-
-checkout action是一个标准动作，当有以下情况时必须率先使用checkout action：
-
-1.workflow需要项目库当代码副本，如构建、测试、或持续集成这些操作
-
-2.workflow中至少有一个action是在同一个项目库下定义的
-
-此外，如果只是想浅克隆库或者只复制最新的版本，使用with:fetch-depth声明
-
-```yaml
-- uses: actions/checkout@v1
-  with:
-    fetch-depth: 1
-```
-
-也可以引用现有库、自己的库或者docker的container
-
-```yaml
-jobs: 
-   my_first_job:
-     step:
-       - name: My first step
-         uses: docker://alpine:3.8
-         uses: ./.github/actions/hello-word-action
-         uses: actions/setup-node@v1
-         with: 
-             node-version: 10.x
-```
-
-**if语句**：
-
-在jobs和step中可以使用if条件语句，只有满足条件时才执行具体的job或者step
-
-if语句中的任务检查语句
-
-always():总是返回true
-
-success():当上一步执行成功时才会返回true
-
-failure()：当上一步执行失败时才会返回ture
-
-cancelled()：当workflow被取消时返回true
-
-```yaml
-steps:
-    - name: step1
-      if:always()
-      
-    - name: step2
-      if:success()
-      
-    - name: step3
-      if:failure()
-```
-
-**上下文和表达式(expression)**
-
-有时候我们需要和第三方平台交互，这时通常需要配置一个token，但是这个token不可能明文使用的，通过${ { } }
-
-的表达式就能传入
-
-具体做法：
-
-1.在具体repo库Settings中添加一个密钥，如SOMEONE_TOKEN
-
-2.在workflow中通过表达式将 token安全地传入环境变量
-
-```yaml
-steps:
-   - name: My first action
-     env:
-      SOMEONE_TOKEN:${{ secrets.SOMEONE_TOKEN}}
-```
-
-这里的secrets就是一个上下文，除此之外还有：
-
-github.event_name:触发workflow的事件名称
-
-job.status:当前job的状态，如success、failure等
-
-Steps.output:某个action的输出
-
-runner.os：runner的操作系统，如windows、linux或者macOS
-
-github还做了一个官方市场，可以搜索到其他人提交的actions，另外还有一个awesome actions的仓库可以找到其他action
-
-### 回滚
-
-在github action下找到要回滚的版本，点击re-run就可以回到指定的版本
-
-
-
-### 触发其他repo的workflow
-
-
-
-```yaml
-name: Dispatch Event
-
-on: [push]
-
-jobs:
-	build:
-		
-		runs-on: ubuntu-latest
-		
-		steps:
-		- uses: actions/checkout@v1
-			with:
-				fetch-depth: 1
-		
-		- name: dispatch event to another_repository
-			env:
-				GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-				EVENT: YOUR_EVENT_TYPE
-				ORG: YOUR_ORG_NAME
-				REPO: YOUR_TARGET_REPO_NAME
-			run: |
-				curl -d "{\"event_type\": \"${EVENT}\"}" -H "Content-Type: application/json" -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.everest-preview+json" "https://api.github.com/repos/${ORG}/${REPO}/dispatches"
-```
-
-
-
-```yaml
-name: hugo publish
-
-on: 
-	push: 
-		branches:
-			-master
-	repository_dispatch:
-		types: sub_commit
-
-jobs:
-	build-deploy:
-		runs-on: ubuntu-18.04
-		steps:
-		- uses: actions/checkout@v2
-			with: 
-				submodule: recursive
-```
-
-
-
-
-
-### 好用的git action
-
-action-js-inline
-
-Https://github.com/marketplace/actions/execute-javascript-inline
-
-可以在git action里执行js代码，而不只是shell代码
-
-
-
-### 本地跑git action
-
-https://www.github.com/nektos/act
-
-
-
 ## Git Hooks
 
 
@@ -1018,39 +822,39 @@ https://www.github.com/nektos/act
 
 先创建新分支
 
-```git
+```shell
 git branch newbranch
 ```
 
 检查分支创建是否成功
 
-```git
+```shell
 git branch
 ```
 
 此时输出
 
-```
+```shell
 * master
   newbranch
 ```
 
 切换到新创建的分支
 
-```git
+```shell
 git checkout newbranch
 ```
 
 将改动提交到新分支
 
-```git
+```shell
 git add .
 git commit -a
 ```
 
 回到主分支
 
-```git
+```shell
 git checkout master
 ```
 
@@ -1058,7 +862,7 @@ git checkout master
 
 将新分支与原分支合并
 
-```git
+```shell
 git merge newbranch 
 ```
 
@@ -1076,7 +880,7 @@ git push -u origin master
 
 删除分支
 
-```git
+```shell
 git branch -d newbranch
 ```
 
@@ -1086,13 +890,13 @@ git branch -d newbranch
 
 查看远程仓库信息
 
-```git
+```shell
 git remote -v
 ```
 
 
 
-```git
+```shell
 git status
 ```
 
@@ -1106,44 +910,44 @@ git add file
 
 文件只在工作区
 
-```git
+```shell
 git checkout -- <file>
 ```
 
 拉取暂存区文件为工作区文件
 
-```git
+```shell
 git log
 ```
 
 git log 会按提交时间列出所有的更新，最近的更新排在最上面
 
-```git
+```shell
 git open
 ```
 
 在git目录输入git open就能打开github对于的页面
 
-```node
+```shell
 npm install -g git-open
 ```
 
 将本地仓库文件撤回至工作区
 
-```git
+```shell
 git reset --hard
 git reser --mixed
 ```
 
 
 
-```git
+```shell
 git revert HEAD
 ```
 
 
 
-```git
+```shell
 git fetch origin
 ```
 
@@ -1151,13 +955,13 @@ git fetch origin
 
 git pull可以认为是git fetch和git merge的组合体
 
-```git
+```shell
 git rebase origin/master
 ```
 
 
 
-```git
+```shell
 git diff
 ```
 
@@ -1165,7 +969,7 @@ git-diff能在命令行显示当前代码与上次提交时代码的修改，可
 
 ## 代码检查
 
-### js
+### husky
 
 使用husky
 
@@ -1191,182 +995,196 @@ git add ./husky/pre-commit
 
 然后提交commit就会检查
 
-
-
-## 在Github上工作
-
-### 向开源项目贡献代码
-
-一般开源库不会给其他人开放push权限，如果有很好的想法或者发现开源库有bug，可以向作者提pr(pull request)/mr(merge request)
-
-首先Fork（关联复制）一份开源库A的代码到自己的github账号下( A1)
-
-自己对于A1有完全的权限，此时在A1上加入自己的代码，commitA
-
-发送Merge Request到原A库作者
-
-原A库作者审核同意后，将commitA merge到A库代码中
-
-### GitHub activity
-
-一般来说，只有对GitHub上repo的master分支操作时，比如push或者合并到master时GitHub activity会有记录
-
-### GitHub api
-
-
-
-api.github.com/repos/{repo_name}/releases/tags/
-
-```bash
-curl -o index.json https:api.github.com/repos/vesoft-inc/nebula-graph/releases/tags/v2.5.0
-https:api.github.com/repos/{repo_name}/releases/latest
-```
-
-
-
-
-
-### pr/issue template
-
-
-
-
-
-### GitHub release
-
-
-
-
-
-## git-open
-
-git-open是一个npm包，可以在git提交后在命令行输入，快速打开gitlab
-
-```js
-npm install git-open
-```
-
-使用时直接输入
-
-```js
-git open
-```
-
-就可以在默认浏览器打开gitlab的提交页面
-
-如果提交的分支不是master，需要在gitlab页面创建合并请求，选择审核人进行审核合并
-
-在审核人确定合并之前，下次提交时不需要再次创建合并请求
-
-确定合并之后下次提交到分支时则需要再次创建
-
-## Gitlab
-
-gitlab自带nginx、redis等软件，所以运行起来较大，在RAM4GB及以上的服务器才可以跑起来
-
-
-
-## Gitbook
-
-Gitbook是一个提供Markdown书籍托管的网络平台。支持通过git及github进行文档管理，使用它可以很简单地生成、发布电子图书。Gitbook也是一个Nodejs命令行工具，可以使用它搭建自己的gitbook站点。GitBook甚至提供Github hook，在每次push前自动更新书籍内容。
-
-安装GitBook 控制台
+如果不想检查使用no-verify
 
 ```shell
-npm install -g gitbook-cli
+git commit -m '' --no-verify
+## git commit -n -m ''
 ```
 
-如果安装过gitbook旧版本需要卸载。
-
-gitbook常用命令
+如果husky报错，可以使用husky-init
 
 ```shell
-gitbook serve -p 8080 .
+npx husky-init
 ```
 
-Gitbook首先把你的Markdown文件编译为HTML文件，并根据SUMMARY.md生成书的目录。所有生存的文件都保存在当前目录下的一个名为_book的子目录中。完成这些工作后，Gitbook会作为一个HTTP Server运行，并在8080端口监听HTTP请求。
 
-运行以上命令后，打开浏览器，在地址栏输入：`http://localhost:8080`即可看到你的书页了。
 
-其中位于左侧书目顶部的`Introduction`一节就编译自README.md，而书目本身自编译自SUMMARY.md。你要在自己的网站上发布新书，只需把_book目录复制到服务器相应目录即可。至此Gitbook的基本用法就介绍完毕。
+### commitizen
 
-### Gitbook的插件支持
+[commitizen/cz-cli](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcommitizen%2Fcz-cli)是一个可以实现规范的**提交说明**的工具
 
-在页面中嵌入Disqus评论
+提供选择的提交信息类别，快速生成**提交说明**。安装cz工具
 
 ```shell
- npm install gitbook-plugin-disqus
+npm install -g commitizen
 ```
 
-然后建立一个book.json文件，其格式如下：
+如果需要在项目中使用**commitizen**生成符合AngularJS规范的**提交说明**，初始化**cz-conventional-changelog**适配器
+
+```shell
+commitizen init cz-conventional-changelog --save --save-exact
+```
+
+初始化命令主要进行了3件事情
+
+1. 在项目中安装**cz-conventional-changelog** 适配器依赖
+2. 将适配器依赖保存到`package.json`的`devDependencies`字段信息
+3. 在`package.json`中新增`config.commitizen`字段信息，主要用于配置cz工具的适配器路径：
 
 ```json
-{
-  "plugins":  
-			["disqus"],  
-  "pluginsConfig":  
- 			{  "disqus":  
-         {  "shortName":  
-           "NAME-FROM-DISQUS"
-         }  
-      }  
+"devDependencies": {
+ "cz-conventional-changelog": "^2.1.0"
+},
+"config": {
+  "commitizen": {
+    "path": "./node_modules/cz-conventional-changelog"
+  }
 }
 ```
 
-把上面的`NAME-FROM-DISQUS`修改为你在Disqus上的项目名即可。
-
-再次运行命令：
-
-> $ gitbook serve -p 8080 .
-
-并刷新浏览器，即可看到附加了Disqus评论的页面。
-
-### Gitbook电子书封面
-
-可以为电子书添加封面。只需添加2个名为`cover.jpg`和`cover_small.jpg`的两个图片即可。官方建议cover.jpg尺寸1800*2360，cover_small.jpg尺寸200*262。花2元即可在淘宝上找个做封面的人为你制造一个简单的封面，做得好就要花更多一些了 :)
-
-总体而言，GitBook还是很好玩，比起其他写作平台而言，要自由、简单，并舒服得多，可以用Vim编辑，支持Markdown语法，用git管理，关联GitHub后每次push后还能自动编译，生成多种电子书格式。如果你的书极为畅销的话，还能获取到捐赠或购买，没有理由不尝试的呀。
-
-**删除电子书**
-
-同样是在Book Setting中，可以删除电子书。在电子书列表中没有删除接口。
-
-## SVN
-
-一般来说公司版本管理工具使用git的比较多，也有使用svn。SVN是sub vision的缩写，windows中svn客户端一般使用TortoiseSVN，mac中比较好用的当属CornerStone。TortoiseSVN是可视化svn界面，Cornerstone是收费的，因此你可以去网上下载破解版，直接安装即可。
-
-### TortoiseSVN
-
-TortoiseSVN 常年管理文件和目录。文件存储于一个中央版本库中。版本库就像一个常见的文件服 务器，除了它保存你对文件和目录所有的改变。这一特性使得你可以恢复文件的旧版本并查看历史-谁 在什么时间如何进行的修改。
-
-创建版本库
-
-```svn
-svnadmin create --fs-type bdb MyNewRepository
-```
-
-图标重载
-
-使用svn-checkout检查文件状态。对号表示状态正常，红色感叹号表示文件被修改未提交，黄色感叹号表示产生冲突。
-
-拉取项目
-
-```svn
-
-```
-
-提交项目
+如果想定制项目的**提交说明**，可以使用[cz-customizable](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fleonardoanalista%2Fcz-customizable)适配器
 
 ```shell
-svn commit
+npm install cz-customizable --save-dev
 ```
 
-更新文件
+将之前符合Angular规范的**cz-conventional-changelog**适配器路径改成**cz-customizable**适配器路径
 
-```svn
-svn update
+```json
+"devDependencies": {
+  "cz-customizable": "^5.3.0"
+},
+"config": {
+  "commitizen": {
+    "path": "node_modules/cz-customizable"
+  }
+}
 ```
 
+官方提供了一个`.cz-config.js`示例文件[cz-config-EXAMPLE.js](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fleonardoanalista%2Fcz-customizable%2Fblob%2Fmaster%2Fcz-config-EXAMPLE.js)
 
+```javascript
+'use strict';
 
-### Cornerstone
+module.exports = {
+
+  types: [
+    {value: '特性',     name: '特性:    一个新的特性'},
+    {value: '修复',      name: '修复:    修复一个Bug'},
+    {value: '文档',     name: '文档:    变更的只有文档'},
+    {value: '格式',    name: '格式:    空格, 分号等格式修复'},
+    {value: '重构', name: '重构:    代码重构，注意和特性、修复区分开'},
+    {value: '性能',     name: '性能:    提升性能'},
+    {value: '测试',     name: '测试:    添加一个测试'},
+    {value: '工具',    name: '工具:    开发工具变动(构建、脚手架工具等)'},
+    {value: '回滚',   name: '回滚:    代码回退'}
+  ],
+
+  scopes: [
+    {name: '模块1'},
+    {name: '模块2'},
+    {name: '模块3'},
+    {name: '模块4'}
+  ],
+
+  // it needs to match the value for field type. Eg.: 'fix'
+  /*
+  scopeOverrides: {
+    fix: [
+      {name: 'merge'},
+      {name: 'style'},
+      {name: 'e2eTest'},
+      {name: 'unitTest'}
+    ]
+  },
+  */
+  // override the messages, defaults are as follows
+  messages: {
+    type: '选择一种你的提交类型:',
+    scope: '选择一个scope (可选):',
+    // used if allowCustomScopes is true
+    customScope: 'Denote the SCOPE of this change:',
+    subject: '短说明:\n',
+    body: '长说明，使用"|"换行(可选)：\n',
+    breaking: '非兼容性说明 (可选):\n',
+    footer: '关联关闭的issue，例如：#31, #34(可选):\n',
+    confirmCommit: '确定提交说明?'
+  },
+
+  allowCustomScopes: true,
+  allowBreakingChanges: ['特性', '修复'],
+
+  // limit subject length
+  subjectLimit: 100
+
+};
+```
+
+### commitLint
+
+校验提交说明是否符合规范，安装校验工具[commitlint](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fmarionebl%2Fcommitlint)：
+
+```shell
+npm install --save-dev @commitlint/cli
+```
+
+安装符合Angular风格的校验规则
+
+```shell
+npm install --save-dev @commitlint/config-conventional 
+```
+
+在项目中新建`commitlint.config.js`文件并设置校验规则
+
+```javascript
+module.exports = {
+  extends: ['@commitlint/config-conventional']
+};
+```
+
+如果是使用**cz-customizable**适配器做了破坏Angular风格的提交说明配置，那么不能使用**@commitlint/config-conventional**规则进行提交说明校验，可以使用[commitlint-config-cz](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Fwhizark%2Fcommitlint-config-cz)对定制化提交说明进行校验
+
+```shell
+npm install commitlint-config-cz --save-dev
+```
+
+然后加入commitlint校验规则配置：
+
+```javascript
+module.exports = {
+  extends: [
+    'cz'
+  ]
+};
+```
+
+Validate-commit-msg
+
+除了使用**commitlint**校验工具，也可以使用[validate-commit-msg](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2FFrikki%2Fvalidate-commit-message)校验工具对cz提交说明是否符合Angular规范进行校验。
+
+commitizen日志
+
+如果使用了[cz](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fcommitizen%2Fcz-cli)工具集，配套[conventional-changelog](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fconventional-changelog%2Fconventional-changelog%2Ftree%2Fmaster%2Fpackages%2Fconventional-changelog)可以快速生成开发日志
+
+```shell
+npm install conventional-changelog -D
+```
+
+在`pacage.json`中加入生成日志命令
+
+```json
+"version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
+```
+
+执行`npm run version`后可查看生产的日志[CHANGELOG.md](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fziyi2%2Fcz-example%2Fblob%2Fmaster%2FCHANGELOG.md)。
+
+## 查看commit时间分布
+
+在项目目录下执行
+
+```shell
+curl -fsSL https://fastly.jsdelivr.net/gh/hellodigua/code996/bin/code996.sh | bash
+```
+
+就能查看项目

@@ -2,9 +2,10 @@
 title: Electron开发(二)
 date: 2020-06-15 21:40:33
 categories: IT
-tags: IT，App,Node,Electron
+tags:
+    - IT，App,Node,Electron
 toc: true
-thumbnail: http://cdn.kunkunzhang.top/electron.png
+thumbnail: https://cdn.kunkunzhang.top/tauri.png
 ---
 
 　　目前看来Electron 的开发并没有想像的那么简单，简单尝试一下之后目前先搁置了，等有空再来。
@@ -353,4 +354,291 @@ CEF目前使用不太多，而且更像是一个C++项目，因此先贴一些�
 源码、下载包：https://bitbucket.org/chromiumembedded/cef/src/master/
 
 
+
+## Tauri
+
+Tauri 是一个为所有主流桌面平台构建小型、快速二进制文件的框架。开发人员可以集成任何编译成 HTML、 JS 和 CSS 的前端框架来构建他们的用户界面。应用程序的后端是一个 Rust 二进制文件，具有前端可以与之交互的 API。
+
+`Tauri` 构建的桌面程序太小了，远不是 Electron.JS 可以相比的，因为它放弃了体积巨大的 `Chromium` 内核 和 `nodejs`，前端使用操作系统的 `webview`，后端集成了 `Rust`。 Tauri 提供了初始化程序的模板，比如原生js, `react`, `svelte.js`, `vue.js` 等等
+
+### 特点
+
+- 原始Tauri应用程序的**打包大小**小于3 MB，比Electron的大小小140 MB。
+- **内存占用**小于使用相同代码库构建的Electron应用程序的大小的一半。
+- **安全**是Tauri的头等大事，我们正在不断创新。
+- 遗憾的是，底层是 Chromium 的使用者（例如Electron）无法获得 ** FLOSS(自由/开源软件) ** 许可
+
+### 实现原理
+
+tauri 具有五个主要组成部分：
+
+- 用于创建，开发和构建应用程序的Node.js CLI
+- Rust Core，用于绑定到底层WEBVIEW并提供可摇树优化的API
+- Rust Bundler用于制造最终的二进制文件
+- Webview的Rust绑定
+- Webview低层库，用于创建和与操作系统“本机” Webview交互
+
+Tauri应用程序中的用户界面目前在macOS上使用Cocoa / WebKit，在Linux上使用gtk-webkit2，在Windows上通过Edge使用MSHTML（IE10 / 11）或Webkit。 Tauri基于MIT许可的进行工作，即webview
+
+### 安装
+
+tauri是一个多语言系统，因此需要大量工具
+
+1.首先安装gcc
+
+```shell
+brew install gcc
+```
+
+编译需要Xcode
+
+```shell
+xcode-select --install
+```
+
+2.也需要node的环境，需要node12以上
+
+```shell
+nvm install 12
+nvm use 12
+```
+
+安装rust语言的编译器rustc和cargo安装包管理
+
+```shell
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+验证
+
+```shell
+rustc --version
+## rustc 1.42.0 (b8cedc004 2020-03-09)
+```
+
+下载tauri打包工具
+
+```shell
+cargo install tauri-bundler --force
+```
+
+
+
+### 直接创建Tauri应用
+
+官方CLi初始化程序
+
+```shell
+yarn create tauri-app
+## npx create-tauri-app
+```
+
+创建并初始化的时候要选择vue、react 原生js或者svelte应用
+
+然后就可以直接启动项目
+
+```shell
+yarn tauri dev
+```
+
+打包客户端
+
+```shell
+yarn tauri build
+```
+
+在打包完就能在bundler或者release目录下面看到dmg文件夹
+
+
+
+### 在现有项目中使用
+
+首先你需要一个web项目，可以是react-create-app或者vue-cli创建的项目，也可以是任意创建的web项目
+
+在项目中下载tauri
+
+```shell
+yarn add -D @tauri-apps/cli
+# OR
+npm install -D @tauri-apps/cli
+```
+
+在项目的package.json文件中添加tauri命令
+
+```json
+{
+  // This content is just a sample
+  "scripts": {
+    "tauri": "tauri"
+  }
+}
+```
+
+下载完成后在当前项目的目录下使用命令
+
+```shell
+npm run tauri init
+```
+
+检查tauri设置
+
+```shell
+npm run tauri info
+```
+
+之后, 你的项目下会出现一个目录 `src-tauri`
+
+再根据你的 web 项目启动时的端口修改文件 `src-tauri/tauri.conf.json`
+
+一切就绪之后运行tauri app
+
+```shell
+npm run tauri dev
+```
+
+发布
+
+```shell
+npm run tauri build
+```
+
+更新tauri版本
+
+```shell
+npm install @tauri-apps/cli@latest @tauri-apps/api@latest
+```
+
+
+
+### 窗口名称/右下角应用图标
+
+在src/tauri目录下的tauri.conf.json文件中修改
+
+```json
+"tauri": {
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "com.tauri.dev",
+      // 右下角图标
+      "icon": [
+        "icons/kun.png"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "",
+      "category": "DeveloperTool",
+      "shortDescription": "",
+      "longDescription": "",
+      "deb": {
+        "depends": [],
+        "useBootstrapper": false
+      },
+      "macOS": {
+        "frameworks": [],
+        "minimumSystemVersion": "",
+        "useBootstrapper": false,
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "providerShortName": null,
+        "entitlements": null
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "updater": {
+      "active": false
+    },
+    "allowlist": {
+      "all": true
+    },
+    "windows": [
+      {
+        // 窗口名称
+        "title": "Kun的小屋",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+```
+
+
+
+### 多窗口
+
+
+
+### 自动更新
+
+
+
+### 坑
+
+安装过程中会报错，提示安装别的文件,需要单独安装别的包
+
+```shell
+## 安装 pngquant-bin 包 
+npm install pngquant-bin
+## pngquant-bin要求预安装别的包
+brew install libimagequant
+sudo apt-get install libimagequant-dev
+```
+
+
+
+## React Native Desktop
+
+
+
+## Nativefier
+
+Nativefier可以将web生成桌面端app，使用electron 技术
+
+全局安装
+
+```shell
+npm install -g nativefier
+```
+
+生成app
+
+```shell
+nativefier 'web.whatsapp.com'
+```
+
+指定名字
+
+```shell
+nativefier --name 'My Medium App' 'medium.com'
+```
+
+其他api
+
+https://github.com/nativefier/nativefier/blob/master/API.md
+
+
+
+## Pake
+
+pake和Nativefier类似，也是将web打包成mac app的技术，使用rust和tauri
+
+需要先在本地安装好tauri的环境
+
+然后clone repo：https://github.com/tw93/Pake
+
+按以下步骤
+
+1. 修改 `src-tauri` 目录下的 `tauri.conf.json` 中的 `productName、icon、title、identifier` 这 4 个字段，其中 icon 可以从 icons 目录选择一个，也可以去 [macOSicons](https://macosicons.com/#/) 下载符合产品名称的
+2. 修改 `src-tauri/src` 目录下的 `main.rs` 中的 with_url 字段为你需要打包网页的地址
+3. `npm run dev` 本地调试看看效果，此外可以打开 `main.rs` 中 devtools 两处注释（搜索 `_devtools`）进行容器调试，假如你不好适配沉浸式头部，可以将 `.with_titlebar_transparent(true)` 注释掉就好
+4. `npm run build` 运行即可打包，假如有打开 devtools 模式，记得注释掉
 
