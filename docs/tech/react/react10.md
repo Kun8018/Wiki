@@ -1,5 +1,5 @@
 ---
-title: React（七）
+title: React（十）
 date: 2020-06-02 21:40:33
 categories: IT
 tags:
@@ -8,37 +8,1060 @@ toc: true
 thumbnail: https://cdn.kunkunzhang.top/redux.jpeg
 ---
 
-​      前端框架，快速开发页面，函数式编程，与后端api快速搭建
+​      react组件库
 
 <!--more-->
 
-## react库
+## UI库
 
-### react-icons
+### chakra-UI
 
-包含比较流行的icons
 
-安装
+
+### Material-UI
+
+推出很久 很好用
+
+### Elastic-UI
+
+
+
+### rsuitejs
+
+Charts.rsuite.js
+
+
+
+### blueprint.js
+
+
+
+### NextUI
+
+看起来很好看
+
+
+
+### HeadlessUI
+
+tailwind的公司开源的UI库
+
+
+
+### ReachUI
+
+
+
+### reakit
+
+
+
+### react-Aria
+
+React hooks组件库
+
+
+
+### geist-ui
+
+
+
+### Amplify UI
+
+amazon推出的UI组件库
+
+### fluentUI
+
+微软推出的组件库
+
+https://developer.microsoft.com/en-us/fluentui#/controls/web/button
+
+
+
+## 拖动库
+
+### react-beautiful-dnd
+
+
+
+```react
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+
+class DraggableTags extends Component {
+  render() {
+    return (
+    	<DragDropContext onDragEnd={this.onDragEnd}>
+      	<Droppable droppableId="droppable" direction="horizontal">
+          {(provided, _snapshot)=> (
+            <Draggable>
+							{(provided, _snapshot)=> (
+              	style={
+                  
+                }
+              )}
+            </Draggable>
+          )}
+        </Droppable>
+      </DragDropContext>
+    )
+  }
+}
+```
+
+
+
+
+
+### react-dnd
+
+
+
+Https://juejin.cn/post/6933036276660731912　
+
+
+
+### dnd-kit
+
+react拖动组件
 
 ```shell
-npm install react-icons --save
+npm install @dnd-kit/core
+```
+
+拖动排序组件
+
+```shell
+npm install @dnd-kit/sortable
 ```
 
 使用
 
 ```react
-import { FaBeer } from 'react-icons/fa';
+import React, {useState} from 'react';
+import {DndContext} from '@dnd-kit/core';
 
-class Question extends React.Component {
-    render() {
-        return <h3> Lets go for a <FaBeer />? </h3>
+import {Droppable} from './Droppable';
+import {Draggable} from './Draggable';
+
+function App() {
+  const [isDropped, setIsDropped] = useState(false);
+  const draggableMarkup = (
+    <Draggable>Drag me</Draggable>
+  );
+  
+  return (
+    <DndContext onDragEnd={handleDragEnd}>
+      {!isDropped ? draggableMarkup : null}
+      <Droppable>
+        {isDropped ? draggableMarkup : 'Drop here'}
+      </Droppable>
+    </DndContext>
+  );
+  
+  function handleDragEnd(event) {
+    if (event.over && event.over.id === 'droppable') {
+      setIsDropped(true);
     }
+  }
+}
+
+// Droppable.jsx
+import React from 'react';
+import {useDroppable} from '@dnd-kit/core';
+
+export function Droppable(props) {
+  const {isOver, setNodeRef} = useDroppable({
+    id: 'droppable',
+  });
+  const style = {
+    color: isOver ? 'green' : undefined,
+  };
+  
+  
+  return (
+    <div ref={setNodeRef} style={style}>
+      {props.children}
+    </div>
+  );
+}
+
+// Draggable.jsx
+import React from 'react';
+import {useDraggable} from '@dnd-kit/core';
+
+export function Draggable(props) {
+  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+    id: 'draggable',
+  });
+  const style = transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  } : undefined;
+
+  
+  return (
+    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      {props.children}
+    </button>
+  );
 }
 ```
 
-https://github.com/react-icons/react-icons
+### react-draggable
+
+实现react组件拖拽功能。
+
+`react-draggable`的拖拽通过`CSS`中的`transform: translate(x, y)`来实现目标元素的移动
+
+安装
+
+```
+npm install react-draggable --save
+```
+
+使用
+
+```react
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Draggable from 'react-draggable';
+ 
+class App extends React.Component {
+ 
+  eventLogger = (e: MouseEvent, data: Object) => {
+    console.log('Event: ', e);
+    console.log('Data: ', data);
+  };
+ 
+  render() {
+    return (
+      <Draggable
+        axis="x"
+        handle=".handle"
+        defaultPosition={{x: 0, y: 0}}
+        position={null}
+        grid={[25, 25]}
+        scale={1}
+        onStart={this.handleStart}
+        onDrag={this.handleDrag}
+        onStop={this.handleStop}>
+        <div>
+          <div className="handle">Drag from here</div>
+          <div>This readme is really dragging on...</div>
+        </div>
+      </Draggable>
+    );
+  }
+}
+ 
+ReactDOM.render(<App/>, document.body);
+```
+
+### react-rnd
+
+拖动/放大缩小组件
+
+```shell
+npm i -S react-rnd
+```
+
+使用
+
+```react
+<Rnd
+  size={{ width: this.state.width,  height: this.state.height }}
+  position={{ x: this.state.x, y: this.state.y }}
+  onDragStop={(e, d) => { this.setState({ x: d.x, y: d.y }) }}
+  onResizeStop={(e, direction, ref, delta, position) => {
+    this.setState({
+      width: ref.style.width,
+      height: ref.style.height,
+      ...position,
+    });
+  }}
+>
+  001
+</Rnd>
+```
 
 
+
+### @use-gesture/react
+
+结合动画库react-spring实现拖动时的动画
+
+安装
+
+```shell
+npm install @use-gesture/react
+```
+
+使用
+
+```react
+import { useSpring, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+
+function PullRelease() {
+  const [{ x, y }, api] = useSpring(() => ({ x: 0, y: 0 }))
+
+  // Set the drag hook and define component movement based on gesture data
+  const bind = useDrag(({ down, movement: [mx, my] }) => {
+    api.start({ x: down ? mx : 0, y: down ? my : 0, immediate: down })
+  })
+
+  // Bind it to a component
+  return <animated.div {...bind()} style={{ x, y }} />
+}
+```
+
+
+
+### react-grid-layout
+
+react拖动布局组件
+
+安装
+
+```shell
+npm install react-grid-layout
+```
+
+使用
+
+```react
+import GridLayout from "react-grid-layout";
+
+class MyFirstGrid extends React.Component {
+  render() {
+    // layout is an array of objects, see the demo for more complete usage
+    const layout = [
+      { i: "a", x: 0, y: 0, w: 1, h: 2, static: true },
+      { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+      { i: "c", x: 4, y: 0, w: 1, h: 2 }
+    ];
+    return (
+      <GridLayout
+        className="layout"
+        layout={layout}
+        cols={12}
+        rowHeight={30}
+        width={1200}
+      >
+        <div key="a">a</div>
+        <div key="b">b</div>
+        <div key="c">c</div>
+      </GridLayout>
+    );
+  }
+}
+```
+
+
+
+### react-sortable-hoc
+
+拖动排序
+
+安装
+
+```shell
+npm install react-sortable-hoc --save
+```
+
+使用
+
+```react
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
+
+const SortableItem = SortableElement(({value}) => <li>{value}</li>);
+
+const SortableList = SortableContainer(({items}) => {
+  return (
+    <ul>
+      {items.map((value, index) => (
+        <SortableItem key={`item-${value}`} index={index} value={value} />
+      ))}
+    </ul>
+  );
+});
+
+class SortableComponent extends Component {
+  state = {
+    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
+  };
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState(({items}) => ({
+      items: arrayMove(items, oldIndex, newIndex),
+    }));
+  };
+  render() {
+    return <SortableList items={this.state.items} onSortEnd={this.onSortEnd} />;
+  }
+}
+
+render(<SortableComponent />, document.getElementById('root'));
+```
+
+参数说明：
+
+axis: 拖动时的轴。默认为y，当需要有多个方向时需要指定为xy
+
+lockAxis：锁定子项目拖动的轴，可以为x或者y
+
+useDragHandle：使用拖动图标。不是整个子项拖动
+
+
+
+### fullcalendar
+
+基于日历的拖动组件
+
+安装
+
+```shell
+$ npm install @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/list
+```
+
+使用
+
+```react
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+...
+let calendar = new Calendar(calendarEl, {
+  plugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
+  initialView: 'dayGridMonth',
+  headerToolbar: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'dayGridMonth,timeGridWeek,listWeek'
+  }
+});
+
+var calendar = new Calendar(calendarEl, {
+  dateClick: function() {
+    alert('a day has been clicked!');
+  }
+});
+```
+
+时间线插件
+
+安装
+
+```shell
+npm install --save @fullcalendar/core @fullcalendar/resource-timeline
+```
+
+使用
+
+```react
+import { Calendar } from '@fullcalendar/core';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+...
+let calendar = new Calendar(calendarEl, {
+  plugins: [ resourceTimelinePlugin ],
+  initialView: 'resourceTimeline',
+  resources: [
+    // your resource list
+  ]
+});
+```
+
+https://github.com/fullcalendar/fullcalendar
+
+### react-dragline
+
+在react中拖拽组件时显示辅助线
+
+```shell
+npm install react-dragline --save
+```
+
+使用
+
+```react
+import { DraggableContainer, DraggableChild } from 'react-dragline'
+
+class Example extends React.Component {
+  state = [
+    { id: 1, position: {x: 100, y: 10} },
+    { id: 2, position: {x: 400, y: 200} },
+  ]
+
+  render() {
+    const containerStyle = {
+      height: 600,
+      position: 'relative',
+    }
+
+    return (
+      <DraggableContainer style={containerStyle}>
+        {
+          this.state.children.map(({ id, position }, index) => {
+            const style = {
+              width: 100,
+              height: 100,
+              cursor: 'move',
+              background: '#8ce8df',
+            }
+
+            return (
+              <DraggableChild key={id} defaultPosition={position}>
+                <div style={style} />
+              </DraggableChild>
+            )
+          })
+        }
+      </DraggableContainer>
+    )
+  }
+}
+
+ReactDOM.render(<Example />, container)
+```
+
+### react-drag-to-select
+
+拖动时框选组件
+
+```shell
+npm install --save @air/react-drag-to-select
+```
+
+使用
+
+```react
+import { useSelectionContainer } from '@air/react-drag-to-select'
+
+const App = () => {
+  const { DragSelection } = useSelectionContainer();
+
+  return (
+    <div>
+      <DragSelection/>
+      <div>Selectable element</div>
+    </div>
+  )
+}
+```
+
+### react-selecto
+
+也是在拖动区域框选/点击选中元素
+
+```shell
+npm install react-selecto
+```
+
+使用
+
+```react
+import Selecto from "react-selecto";
+
+<Selecto
+    // The container to add a selection element
+    container={document.body}
+    // The area to drag selection element (default: container)
+    dragContainer={window}
+    // Targets to select. You can register a queryselector or an Element.
+    selectableTargets={[".target", document.querySelector(".target2")]}
+    // Whether to select by click (default: true)
+    selectByClick={true}
+    // Whether to select from the target inside (default: true)
+    selectFromInside={true}
+    // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
+    continueSelect={false}
+    // Determines which key to continue selecting the next target via keydown and keyup.
+    toggleContinueSelect={"shift"}
+    // The container for keydown and keyup events
+    keyContainer={window}
+    // The rate at which the target overlaps the drag area to be selected. (default: 100)
+    hitRate={100}
+    onSelect={e => {
+        e.added.forEach(el => {
+            el.classList.add("selected");
+        });
+        e.removed.forEach(el => {
+            el.classList.remove("selected");
+        });
+    }}
+    />
+```
+
+### react-moveable
+
+[moveable](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fdaybrush%2Fmoveable%21)是一个可拖动的、可调整大小的、可缩放的、可旋转的、可弯曲的、可收缩的、可分组的、可对齐的一个插件，包含了不同框架的版本
+
+安装
+
+```shell
+export default function MoveItem () {
+  const [target, setTarget] = useState(null)
+  const [frame, setFrame] = useState({
+      translate: [0,0],
+  });
+  let [snapContainer, setSnapContainer] = useState(null)
+  let [dropBounds, setDropBounds] = useState([])
+  useEffect(() => {
+    setTarget(document.querySelector('.target'))
+    setSnapContainer(document.querySelector('.main'))
+    let dom = document.querySelector('.center-drop')
+    // getBoundingClientRect()获取元素到窗口的距离
+    dropBounds = dom.getBoundingClientRect()
+    setDropBounds({
+      top: 0,
+      left: 0,
+      right: dropBounds.width,
+      bottom: dropBounds.height,
+    })
+  }, [])
+  // 拖拽
+  function handleDragStart (e) {
+    e.set(frame.translate);
+  }
+  function handleDrag (e) {
+    frame.translate = e.beforeTranslate;
+    e.target.style.transform = `translate(${e.beforeTranslate[0]}px, ${e.beforeTranslate[1]}px)`;
+  }
+  return (
+    <div className='main'>
+      <div className='target'>
+        
+      </div>
+      <Moveable
+        target={target} // moveable的对象
+        draggable // 是否可以拖拽
+        padding={{"left":0,"top":0,"right":0,"bottom":0}} // padding距离
+        zoom={1} // 缩放包裹的moveable
+        origin={true} // 显示中心点
+        throttleDrag={0} // 拖拽阈值 达到这个值才执行拖拽
+        onDragStart={handleDragStart} // 拖动开始执行
+        onDrag={handleDrag} // 拖动中
+        snappable={true} // 是否初始化磁吸功能
+        snapContainer={snapContainer} // 磁吸功能的容器
+        bounds={dropBounds} // 边界点
+      />
+    </div>
+  )
+}
+```
+
+https://juejin.cn/post/7085174199307730951#heading-1
+
+### muuri
+
+拖动库
+
+```shell
+npm install muuri
+```
+
+
+
+## markdown
+
+###  Remarkable.js
+
+安装
+
+```shell
+npm install remarkable --save
+```
+
+使用
+
+首先利用 require 或 import 語法獲取 Remakable 方法，然後透過 new 生成一個 Remarkable 對象。
+
+透過它提供的 render 方法，我們可以直接獲取 HTML
+
+```javascript
+var Remarkable = require("remarkable");
+var md = new Remarkable();
+
+console.log(md.render("# Remarkable rulezz!"));
+// => <h1>Remarkable rulezz!</h1>
+```
+
+https://juejin.cn/post/6844903782342459400
+
+## Form组件
+
+### react-hook-form
+
+简单好看的react form表单
+
+安装
+
+```shell
+npm install react-hook-form
+```
+
+使用
+
+```react
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('firstName')} /> {/* register an input */}
+      <input {...register('lastName', { required: true })} />
+      {errors.lastName && <p>Last name is required.</p>}
+      <input {...register('age', { pattern: /\d+/ })} />
+      {errors.age && <p>Please enter number for age.</p>}
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+### redux-form
+
+使用redux中的state管理form
+
+```shell
+npm install --save redux-form
+```
+
+使用
+
+创建form的reducer
+
+```react
+import { createStore, combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+
+const rootReducer = combineReducers({
+  // ...your other reducers here
+  // you have to pass formReducer under 'form' key,
+  // for custom keys look up the docs for 'getFormState'
+  form: formReducer
+})
+```
+
+使用reducer
+
+```react
+import React from 'react'
+import { Field, reduxForm } from 'redux-form'
+
+let ContactForm = props => {
+  const { handleSubmit } = props
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="firstName">First Name</label>
+        <Field name="firstName" component="input" type="text" />
+      </div>
+      <div>
+        <label htmlFor="lastName">Last Name</label>
+        <Field name="lastName" component="input" type="text" />
+      </div>
+      <div>
+        <label htmlFor="email">Email</label>
+        <Field name="email" component="input" type="email" />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+
+ContactForm = reduxForm({
+  // a unique name for the form
+  form: 'contact'
+})(ContactForm)
+```
+
+在外部的组件中使用该form组件
+
+```react
+import React from 'react'
+import ContactForm from './ContactForm'
+
+class ContactPage extends React.Component {
+  submit = values => {
+    // print the form values to the console
+    console.log(values)
+  }
+  render() {
+    return <ContactForm onSubmit={this.submit} />
+  }
+}
+```
+
+
+
+### Formik
+
+安装
+
+```shell
+npm install formik --save
+```
+
+使用
+
+```react
+ // Render Prop
+ import React from 'react';
+ import { Formik, Form, Field, ErrorMessage } from 'formik';
+ 
+ const Basic = () => (
+   <div>
+     <h1>Any place in your app!</h1>
+     <Formik
+       initialValues={{ email: '', password: '' }}
+       validate={values => {
+         const errors = {};
+         if (!values.email) {
+           errors.email = 'Required';
+         } else if (
+           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+         ) {
+           errors.email = 'Invalid email address';
+         }
+         return errors;
+       }}
+       onSubmit={(values, { setSubmitting }) => {
+         setTimeout(() => {
+           alert(JSON.stringify(values, null, 2));
+           setSubmitting(false);
+         }, 400);
+       }}
+     >
+       {({ isSubmitting }) => (
+         <Form>
+           <Field type="email" name="email" />
+           <ErrorMessage name="email" component="div" />
+           <Field type="password" name="password" />
+           <ErrorMessage name="password" component="div" />
+           <button type="submit" disabled={isSubmitting}>
+             Submit
+           </button>
+         </Form>
+       )}
+     </Formik>
+   </div>
+ );
+ 
+ export default Basic;
+```
+
+
+
+### Yup
+
+验证器，用在form上
+
+使用
+
+```react
+import { object, string, number, date, InferType } from 'yup';
+
+let userSchema = object({
+  name: string().required(),
+  age: number().required().positive().integer(),
+  email: string().email(),
+  website: string().url().nullable(),
+  createdOn: date().default(() => new Date()),
+});
+
+// parse and assert validity
+const user = await userSchema.validate(await fetchUser());
+
+type User = InferType<typeof userSchema>;
+/* {
+  name: string;
+  age: number;
+  email?: string | undefined
+  website?: string | null | undefined
+  createdOn: Date
+}*/
+```
+
+
+
+## 路由相关组件
+
+
+
+
+
+## Canvas
+
+### react-knova
+
+knova在react的使用，绘制canvas
+
+```shell
+npm install react-knova knova --save
+```
+
+使用
+
+```react
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+import Konva from 'konva';
+
+class ColoredRect extends React.Component {
+  state = {
+    color: 'green'
+  };
+  handleClick = () => {
+    this.setState({
+      color: Konva.Util.getRandomColor()
+    });
+  };
+  render() {
+    return (
+      <Rect
+        x={20}
+        y={20}
+        width={50}
+        height={50}
+        fill={this.state.color}
+        shadowBlur={5}
+        onClick={this.handleClick}
+      />
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    // Stage is a div container
+    // Layer is actual canvas element (so you may have several canvases in the stage)
+    // And then we have canvas shapes inside the Layer
+    return (
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Text text="Try click on rect" />
+          <ColoredRect />
+        </Layer>
+      </Stage>
+    );
+  }
+}
+
+render(<App />, document.getElementById('root'));
+```
+
+
+
+### react-canvas
+
+
+
+### react-art
+
+
+
+### react-canvas-draw
+
+基于canvas实现自由绘制的库
+
+安装
+
+```shell
+npm install react-canvas-draw --save
+```
+
+使用
+
+```react
+import React from "react";
+import ReactDOM from "react-dom";
+import CanvasDraw from "react-canvas-draw";
+
+ReactDOM.render(<CanvasDraw />, document.getElementById("root"));
+```
+
+
+
+## 动画库
+
+### react-spring
+
+React Spring 是一个专注于拟真弹簧动效的动画库，稍加学习就可以写出高性能易维护的复杂动画。学过 React Native 的同学可能就会对 React Spring 的 API 有些熟悉，它的思想正是启发自前者内置并广泛使用的 Animated API：将动画实际的执行过程全部放在 **旁路的副作用** 之中，即在主流程之外独立执行带有副作用的动画逻辑
+
+使用
+
+```react
+import { useRef } from 'react'
+import { useSprings, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+import clamp from 'lodash.clamp'
+import styles from './styles.module.css'
+
+const images = [/* ... */]
+
+function Viewpager() {
+  const index = useRef(0)
+  const width = window.innerWidth
+  const [props, api] = useSprings(images.length, i => ({
+    x: i * width,
+    scale: 1,
+    display: 'block'
+  }))
+  const bind = useDrag(({ active, movement: [mx], cancel }) => {
+    const absMx = Math.abs(mx)
+    if (active && absMx > width / 3) {
+      index.current -= mx / absMx
+      index.current = clamp(index.current, 0, images.length - 1)
+      cancel()
+    }
+    api.start(i => i < index.current - 1 || i > index.current + 1 ? {
+      display: 'none'
+    } : {
+      x: (i - index.current) * width + (active ? mx : 0),
+      scale: active ? 1 - absMx / width : 1,
+      display: 'block'
+    })
+  })
+  return (
+    <div className={styles.wrapper}>
+      {props.map(({ x, display, scale }, i) => (
+        <animated.div className={styles.page} {...bind()} key={i} style={{ display, x }}>
+          <animated.div style={{ scale, backgroundImage: `url(${images[i]})` }} />
+        </animated.div>
+      ))}
+    </div>
+  )
+}
+```
+
+整套流程的运作基本如下：应用入口触发首次渲染，通过数据源生成 JSX 并在函数组件中管理基础的状态并启动控制动画的旁路逻辑。也就是说图中上半部的这部分主流程代码，因为不存在额外引发 React 组件重渲染的因素，所以理应会像 Stateless 组件一样只执行一次。而下半部分的旁路逻辑则应该在用户触发动画时高频率触发。
+
+React 的思想希望理想状态下的函数都不包含副作用，用户界面总是通过 UI = fn(State) 的纯函数计算得出，这样的设计能够带来很多收益。但现实往往没办法这样美好，于是 React 提供了诸如 VDOM 协调机制、useEffects 等方式希望可控高效地在组件中使用副作用。而 react-spring 做法则是将领域特定的副作用收敛到一处并绕过主流程执行，通过各种设计巧妙避免各类预期外行为。
+
+一般在使用 React、Vue 这类前端库时需要注意避免使用超出控制的副作用（比如直接在函数组件顶层进行事件绑定）。react-spring 的 API 设计亮点还在于它复用了 React 现有的部分机制：
+
+- 状态使用 useRef 管理，避免 State 改变引发的全组件重渲染
+- 占用子组件的 props 槽位，避免 React State 与 SpringValue 管理元素相同属性造成冲突
+
+形式上 api.start(...) 的调用方式与 React 曾经通用的类组件范式 this.setState(...) 很相近。并且两者对值的更新都是需要通过内部调度决定时机，而不一定立刻作用到位。无关于 react-spring 的实际实现，这样做好处在于内部还可以将 “*动画逻辑代码的执行”* 和 “*实际的渲染绘制帧”* 的时机解绑，也就是说每秒 60 帧的动画实际可以只运行十几次动画逻辑，每次运行之间间隔的动画绘制可以通过 transtions 机制或是补间算法进行计算，来做到进一步的性能优化。
+
+### react-motion
+
+
+
+## 功能组件
 
 ### echarts-for-react
 
@@ -63,6 +1086,49 @@ import ReactECharts from 'echarts-for-react';  // or var ReactECharts = require(
   onEvents={EventsDict}
   opts={}
 />
+```
+
+
+
+### react-fiber-traverse
+
+在fiber树中返回react node
+
+安装
+
+```shell
+npm install react-fiber-traverse --save
+```
+
+使用
+
+```jsx
+import React from "react";
+import { render } from "react-dom";
+ 
+import { findNodeByComponentName, Utils } from "react-fiber-traverse";
+ 
+// Sample component
+// Say, if SomeComponentName looks like this -
+function SomeComponentName() {
+  return <div>Some text</div>;
+}
+ 
+// Render component
+const rootElement = document.getElementById("root");
+render(<SomeComponentName />, rootElement);
+ 
+// Get root node
+const rootFiberNode = Utils.getRootFiberNodeFromDOM(rootElement);
+ 
+// Get component node
+const someFiberNode = findNodeByComponentName(
+  rootFiberNode,
+  "SomeComponentName"
+); // <- returns FiberNode for first usage of 'SomeComponentName'
+ 
+console.log(someFiberNode.child.stateNode); // <- returns reference to the div
+console.log(someFiberNode.child.stateNode.innerText); // <- returns 'Some text'
 ```
 
 
@@ -151,6 +1217,37 @@ const App = () => (
 )
 
 export default App
+```
+
+### react-keep-alive
+
+保持当前页面的组件不被卸载
+
+安装
+
+```shell
+npm install --save react-keep-alive
+```
+
+使用
+
+```react
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {
+  Provider,
+  KeepAlive,
+} from 'react-keep-alive';
+import Test from './views/Test';
+
+ReactDOM.render(
+  <Provider>
+    <KeepAlive name="Test">
+      <Test />
+    </KeepAlive>
+  </Provider>,
+  document.getElementById('root'),
+);
 ```
 
 
@@ -276,6 +1373,48 @@ render() {
 }
 ```
 
+### clsx
+
+和classnames功能一样 但是体积更小
+
+安装
+
+```shell
+npm install --save clsx
+```
+
+使用
+
+```react
+import clsx from 'clsx';
+// or
+import { clsx } from 'clsx';
+
+// Strings (variadic)
+clsx('foo', true && 'bar', 'baz');
+//=> 'foo bar baz'
+
+// Objects
+clsx({ foo:true, bar:false, baz:isTrue() });
+//=> 'foo baz'
+
+// Objects (variadic)
+clsx({ foo:true }, { bar:false }, null, { '--foobar':'hello' });
+//=> 'foo --foobar'
+
+// Arrays
+clsx(['foo', 0, false, 'bar']);
+//=> 'foo bar'
+
+// Arrays (variadic)
+clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
+//=> 'foo bar baz hello there'
+
+// Kitchen sink (with nesting)
+clsx('foo', [1 && 'bar', { baz:false, bat:null }, ['hello', ['world']]], 'cya');
+//=> 'foo bar hello world cya'
+```
+
 
 
 ### GraphQL
@@ -314,222 +1453,6 @@ npm install @apollo/client graphql
 使用hooks
 
 
-
-### eventbus
-
-安装
-
-```shell
-yarn add events
-```
-
-
-
-```javascript
-//event.ts
-import {EventEmitter} from 'events'
-export default new EventEmitter()
-
-//发布
-import emitter from './event'
-
-class Father extends React.Component {
-  constructor(props){
-    super(props)
-  }
-  handleClick = () =>{
-    emitter.emit('info','来自father的info')
-  }
-}
-
-export default Father
-//订阅
-//emitter.addListener()事件监听订阅
-//emitter.removeListener()进行事件销毁，取消订阅
-import emitter from './event'
-
-class Son extends React.Component {
-  constructor(props){
-    super(props)
-  }
-}
-```
-
-
-
-### react-flow
-
-安装
-
-```shell
-npm install --save react-flow-renderer
-```
-
-使用
-
-```react
-import React from 'react';
-import ReactFlow from 'react-flow-renderer';
-
-const elements = [
-  { id: '1', type: 'input', data: {lable: 'Node 1'},position: {x: 250, y: 50}},
-  { id: '2', data: {lable: <div>Node 2</div>}, position: {x: 100, y: 100}},
-  { id: 'el-2', source: '1', targetL '2', animated: true}
-]
-
-export default ()=> <ReactFlow elements={elements}></ReactFlow>
-```
-
-React Flow有两个背景变体：点和线。您可以通过将其作为子级传递给`ReactFlow`组件来使用它
-
-```react
-import ReactFlow, { Background } from 'react-flow-renderer';
-
-const FlowWithBackground = () => (
-  <ReactFlow elements={elements}>
-    <Background
-      variant="dots"
-      gap={12}
-      size={4}
-    />
-  </ReactFlow>
-);
-```
-
-可以通过将mini-map插件作为子级传递给`ReactFlow`组件来使用它：
-
-```react
-import ReactFlow, { MiniMap } from 'react-flow-renderer';
-
-const FlowWithMiniMap = () => (
-  <ReactFlow elements={elements}>
-    <MiniMap
-      nodeColor={(node) => {
-        switch (node.type) {
-          case 'input': return 'red';
-          case 'default': return '#00ff00';
-          case 'output': return 'rgb(0,0,255)';
-          default: return '#eee';
-        }
-      }}
-    />
-  </ReactFlow>
-);
-```
-
-控制面板包含zoom-in、zoom-out、fit-view和一个锁定/解锁按钮。
-
-```react
-import ReactFlow, { Controls } from 'react-flow-renderer';
-
-const FlowWithControls = () => (
-  <ReactFlow elements={elements}>
-    <Controls />
-  </ReactFlow>
-);
-```
-
-如果需要访问`ReactFlow`组件外部的React Flow的内部状态和操作，可以用`ReactFlowProvider`组件包装它
-
-```react
-import ReactFlow, { ReactFlowProvider } from 'react-flow-renderer';
-
-const FlowWithOwnProvider = () => (
-  <ReactFlowProvider>
-    <ReactFlow
-      elements={elements}
-      onElementClick={onElementClick}
-      onConnect={onConnect}
-    />
-  </ReactFlowProvider>
-);
-```
-
-https://www.5axxw.com/wiki/content/obkffc
-
-### react-children-utilities
-
-返回组件中的文字
-
-```shell
-npm install --save react-children-utilities
-```
-
-使用
-
-```react
-import React from 'react';
-import Children from 'react-children-utilities';
-
-const MyComponent = ({ children }) => {
-  const onlySpans = Children.filter(children, (child) => child.type === 'span');
-  return <div>{onlySpans}</div>;
-};
-```
-
-其他api：
-
- https://www.npmjs.com/package/react-children-utilities
-
-
-
-### react-intl-universal
-
-不建议使用react-intl，而使用React-intl-universal实现
-
-建立英文和中文语言包,可以是json或者js文件
-
-```javascript
-const en_US = {
-  'hello':'nihao',
-  'name': 'zhangsan',
-  'age': '30',
-  'changelang': 'qiehuanyuyan',
-}
-
-export default en_US
-```
-
-中文包
-
-```js
-const zh_CN = {
-  'hello':'nihao',
-  'name': 'zhangsan',
-  'age': '30',
-  'changelang': 'qiehuanyuyan',
-}
-
-export default zh_CN
-```
-
-使用
-
-```react
-import intl from 'react-intl-universal'
-import cn from '../../assets/locals/zh-CN'
-import us from '../../assets'
-
-class IntlExample extends React.Component{
-  constructor(){
-    super();
-    this.locals = {
-      'zh_CN': cn,
-      'en_US': us
-    }
-    this.state = {
-      intl: cn
-    }
-  }
-  
-  componentDidMount() {
-    this.initLocale();
-  }
-  initLocale(locale="zh_CN"){
-    
-  }
-}
-```
 
 
 
@@ -715,6 +1638,12 @@ https://cookpete.com/react-player/
 
 
 
+
+
+### react-motion
+
+
+
 ### uuid
 
 uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
@@ -769,988 +1698,3 @@ if(getToken()){
 
 
 
-### K-bar
-
-k-bar可以给react部署的站点提供一个舒服的搜索框样式
-
-安装
-
-```shell
-npm install kbar
-```
-
-使用
-
-```react
-import {
-  KBarProvider,
-  KBarPortal,
-  KBarPositioner,
-  KBarAnimator,
-  KBarSearch,
-  useMatches,
-  NO_GROUP
-} from "kbar";
-
-function MyApp() {
-  const actions = [
-    {
-      id: "blog",
-      name: "Blog",
-      shortcut: ["b"],
-      keywords: "writing words",
-      perform: () => (window.location.pathname = "blog"),
-    },
-    {
-      id: "contact",
-      name: "Contact",
-      shortcut: ["c"],
-      keywords: "email",
-      perform: () => (window.location.pathname = "contact"),
-    },
-  ]
-  
-  return (
-    <KBarProvider actions={actions}>
-      <KBarPortal> // Renders the content outside the root node
-        <KBarPositioner> // Centers the content
-          <KBarAnimator> // Handles the show/hide and height animations
-            <KBarSearch /> // Search input
-            <RenderResults />;
-          </KBarAnimator>
-        </KBarPositioner>
-      </KBarPortal>
-      <MyApp />
-    </KBarProvider>;
-  );
-}
-```
-
-自定义搜索结果样式
-
-```react
-import {
-  // ...
-  KBarResults,
-  useMatches,
-  NO_GROUP,
-} from "kbar";
-
-function RenderResults() {
-  const { results } = useMatches();
-
-  return (
-    <KBarResults
-      items={results}
-      onRender={({ item, active }) =>
-        typeof item === "string" ? (
-          <div>{item}</div>
-        ) : (
-          <div
-            style={{
-              background: active ? "#eee" : "transparent",
-            }}
-          >
-            {item.name}
-          </div>
-        )
-      }
-    />
-  );
-}
-```
-
-
-
-### nanoid
-
-
-
-
-
-### react-virtualized
-
-使用
-
-```react
-import {AutoSizer, List, CellMeasurerCache, CellMeasurer} from 'react-virtualized'
-
-// 宽度固定
-const measureCache = new CellMeasurerCache({
-    fixedWidth: true,
-    minHeight: 60, 
-})
-
-// 每一行内容
-const rowRenderer = ({ index, key, parent, style }) => {
-    const item = records[index]
-
-    return (
-        <CellMeasurer cache={measureCache} key={key} parent={parent} rowIndex={index}>
-            <div style={style}>
-                content
-            </div>
-        </CellMeasurer>
-    )
-}
-
-<AutoSizer>
-    {({width, height}) => (
-        <List
-            width={width}
-            height={height}
-            deferredMeasurementCache={measureCache}
-            rowCount={records.length}
-            rowHeight={measureCache.rowHeight}
-            rowRenderer={rowRenderer}
-            className={styles.list}
-        />
-    )}
-</AutoSizer>
-```
-
-无限滚动 + 可编辑表格
-
-```react
-import {Table, Column} from 'react-virtualized'
-import {Input, Empty} from 'antd'
-
-// 防止Input组件不必要的渲染
-const MemoInput = React.memo(function (props) {
-    const {rowIndex, field, handleFieldChange, ...restProps} = props
-    return <Input {... restProps} onChange={(e) => handleFieldChange(field, e, rowIndex)} />
-})
-
-function VirtualTable(props) {
-    // ...
-
-    // 列, 使用useCallback优化
-    const nameColumn = ({cellData, rowIndex, dataKey }) => {
-        // ...
-        return (
-            <div>
-                <MemoInput
-                    placeholder="请输入姓名"
-                    value={cellData}
-                    rowIndex={rowIndex}
-                    field="姓名"
-                    handleFieldChange={handleFieldChange}
-                />
-            </div>
-        )
-    }
-    
-    // 表头
-    const columnHeaderRenderer = useCallback(({dataKey}) => dataKey, [])
-
-    const rowGetter = useCallback(({index}) => dataSource[index], [dataSource])
-
-    const noRowsRenderer = useCallback(() => <Empty className={styles.empty} />, [])
-
-    return <Table
-        ref={tableRef}
-        className={styles.virtualTable}
-        headerClassName={styles.header}
-        rowClassName={styles.row}
-        headerHeight={TableHeaderHeight}
-        width={TableWidth}
-        height={TableHeight}
-        noRowsRenderer={noRowsRenderer}
-        rowHeight={TableRowHeight}
-        rowGetter={rowGetter}
-        rowCount={dataSource.length}
-        overscanRowCount={OverscanRowCount}
-    >
-        <Column
-            width={120}
-            dataKey="姓名"
-            headerRenderer={columnHeaderRenderer}
-            cellRenderer={nameColumn}
-        />
-    </Table>
-}
-```
-
-
-
-### react-window
-
-react虚拟列表库 
-React Window是一个有效呈现大型列表和表格数据的组件，是React-virtualized的完全重写。
-
-React Window专注于使软件包更小，更快，同时API（和文档）对初学者尽可能友好。
-
-安装
-
-```shell
-npm i react-window
-```
-
-固定高度列表
-
-```react
-import { FixedSizeList as List } from 'react-window';
-
-const Row = ({ index, style }) => (
-  <div style={style}>Row {index}</div>
-);
-
-const Example = () => (
-  <List
-    height={150}
-    itemCount={1000}
-    itemSize={35}
-    width={300}
-  >
-    {Row}
-  </List>
-);
-```
-
-VariableSizeList （可变尺寸列表）
-
-```react
-import { VariableSizeList } from 'react-window';
- 
-const rowHeights = new Array(1000)
-  .fill(true)
-  .map(() => 25 + Math.round(Math.random() * 50));
- 
-const getItemSize = index => rowHeights[index]; // 此处采用随机数作为每个列表项的高度
- /** 
-    * 每个列表项的组件
-    * @param index：列表项的下标；style：列表项的样式（此参数必须传入列表项的组件中，否则会出现滚动到下方出现空白的情况）
-    **/ 
-const Row = ({ index, style }) => (
-  <div style={style}>Row {index}</div>
-);
- 
-const Example = () => (
-  <VariableSizeList
-    height={150} // 列表可视区域的高度
-    itemCount={1000} // 列表数据长度
-    itemSize={getItemSize} // 设置列表项的高度
-    layout= "vertical" // （vertical/horizontal） 默认为vertical，此为设置列表的方向
-    width={300}
-  >
-    {Row}
-  <VariableSizeList>
-);
-```
-
-结合react-virtualized-auto-sizer使列表自适应当前页面的宽高
-
-```react
-import { FixedSizeList } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-const Example = () => (
-  <AutoSizer>
-    {({ height, width }) => (
-      <FixedSizeList
-        className="List"
-        height={height}
-        itemCount={1000}
-        itemSize={35}
-        width={width}
-      >
-        {Row}
-      </FixedSizeList>
-    )}
-  </AutoSizer>
-);
-```
-
-### react-virtuoso
-
-虚拟列表/表格库
-
-安装
-
-```shell
-npm install react-virtuoso
-```
-
-使用
-
-```react
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import { Virtuoso } from 'react-virtuoso'
-
-const App = () => {
-  return <Virtuoso style={{ height: '400px' }} totalCount={200} itemContent={index => <div>Item {index}</div>} />
-}
-
-ReactDOM.render(<App />, document.getElementById('root'))
-```
-
-
-
-### react-sticky
-
-让组件实现类似position-sticky的效果
-
-安装
-
-```shell
-npm install react-sticky
-```
-
-使用
-
-```react
-import React from 'react';
-import { StickyContainer, Sticky } from 'react-sticky';
-
-class App extends React.Component {
-  render() {
-    return (
-      <StickyContainer>
-        {/* Other elements can be in between `StickyContainer` and `Sticky`,
-        but certain styles can break the positioning logic used. */}
-        <Sticky>
-          {({
-            style,
- 
-            // the following are also available but unused in this example
-            isSticky,
-            wasSticky,
-            distanceFromTop,
-            distanceFromBottom,
-            calculatedHeight
-          }) => (
-            <header style={style}>
-              {/* ... */}
-            </header>
-          )}
-        </Sticky>
-        {/* ... */}
-      </StickyContainer>
-    );
-  },
-}
-```
-
-sticky上可以添加不同的属性
-
-```react
-<StickyContainer>
-  ...
-  <Sticky topOffset={80} bottomOffset={80} disableCompensation>
-    { props => (...) }
-  </Sticky>
-  ...
-</StickyContainer>
-```
-
-
-
-### crypto-browserify
-
-加密
-
-
-
-### react-text-loop
-
-react文字循环的小组件
-
-安装
-
-```shell
-npm install react-text-loop
-```
-
-使用
-
-```react
-import TextLoop from "react-text-loop";
-import Link from "react-router";
-import { BodyText } from "./ui";
-
-class App extends Component {
-    render() {
-        return (
-            <h2>
-                <TextLoop>
-                    <span>First item</span>
-                    <Link to="/">Second item</Link>
-                    <BodyText>Third item</BodyText>
-                </TextLoop>{" "}
-                and something else.
-            </h2>
-        );
-    }
-}
-```
-
-
-
-### js-cookie
-
-cookie插件
-
-```shell
-npm install js-cookie --save
-```
-
-引用
-
-```javascript
-import Cookies from 'js-cookie'
-
-//设置cookie
-Cookies.set('name','value',{expire:7,path:''}); //7天过期
-Cookies.set('name',{foo:'bar'}); //设置一个json
-//获取cookie
-Cookies.get('name'); //获取cookie
-Cookies.get();  //读取所有cookie
-
-//删除cookie
-Cookies.remove('name'); //删除cookie
-```
-
-
-
-### react-color
-
-react-color是一个拾色器，通过它获取颜色值
-
-安装
-
-```shell
-npm i react-color -S
-```
-
-使用
-
-```react
-import { TwitterPicker } from 'react-dom'
-
-function () {
-  render() {
-    <TwitterPicker 
-      width="240px"
-      
-      />
-  }
-}
-```
-
-
-
-### react-lazyload
-
-安装
-
-```shell
-npm install --save react-lazyload
-```
-
-懒加载图片
-
-```react
-import React from 'react';
-import ReactDOM from 'react-dom';
-import LazyLoad from 'react-lazyload';
-import MyComponent from './MyComponent';
-
-const App = () => {
-  return (
-    <div className="list">
-      <LazyLoad height={200}>
-        <img src="tiger.jpg" /> /*
-                                  Lazy loading images is supported out of box,
-                                  no extra config needed, set `height` for better
-                                  experience
-                                 */
-      </LazyLoad>
-      <LazyLoad height={200} once >
-                                /* Once this component is loaded, LazyLoad will
-                                 not care about it anymore, set this to `true`
-                                 if you're concerned about improving performance */
-        <MyComponent />
-      </LazyLoad>
-      <LazyLoad height={200} offset={100}>
-                              /* This component will be loaded when it's top
-                                 edge is 100px from viewport. It's useful to
-                                 make user ignorant about lazy load effect. */
-        <MyComponent />
-      </LazyLoad>
-      <LazyLoad>
-        <MyComponent />
-      </LazyLoad>
-    </div>
-  );
-};
-
-ReactDOM.render(<App />, document.body);
-```
-
-默认懒加载组件
-
-```react
-import { lazyload } from 'react-lazyload';
-
-@lazyload({
-  height: 200,
-  once: true,
-  offset: 100
-})
-class MyComponent extends React.Component {
-  render() {
-    return <div>this component is lazyloaded by default!</div>;
-  }
-}
-```
-
-
-
-### react-imported-component
-
-懒加载组件，相似组件有React.lazy react-loadable @loadable/component
-
-使用预加载
-
-```react
-import importedComponent from 'react-imported-component';
-const Component = importedComponent( () => import('./Component'));
-
-const Component = importedComponent( () => import('./Component'), {
-  LoadingComponent: Spinner, // what to display during the loading
-  ErrorComponent: FatalError // what to display in case of error
-});
-
-Component.preload(); // force preload
-
-// render it
-<Component... />
-```
-
-懒加载与React.lazy基本相同
-
-```react
-import { lazy, LazyBoundary } from 'react-imported-component';
-const Component = lazy(() => import('./Component'));
-
-const ClientSideOnly = () => (
-  <Suspense>
-    <Component />
-  </Suspense>
-);
-
-// or let's make it SSR friendly
-const ServerSideFriendly = () => (
-  <LazyBoundary>
-    {' '}
-    // LazyBoundary is Suspense* on the client, and "nothing" on the server
-    <Component />
-  </LazyBoundary>
-);
-```
-
-hooks
-
-```react
-import {useImported} from 'react-imported-component'
-
-const MyCalendarComponent = () => {
-  const {
-      imported: moment,
-      loading
-    } = useImported(() => import("moment"));
-
-  return loading ? "..." : <span>today is {moment(Date.now).format()}</span>
-}
-
-// or we could make it a bit more interesting...
-
-const MyCalendarComponent = () => {
-  const {
-      imported: format  = x => "---", // default value is used while importing library
-    } = useImported(
-      () => import("moment"),
-      moment => x => moment(x).format // masking everything behind
-    );
-
-  return <span>today is {format(Date.now())</span>
-}
-```
-
-
-
-### Ladda
-
-按钮组件
-
-安装
-
-```shell
-npm install ladda
-```
-
-使用
-
-```react
-import * as Ladda from 'ladda';
-
-// Create a new instance of ladda for the specified button
-var l = Ladda.create(document.querySelector('.my-button'));
-
-// Start loading
-l.start();
-
-// Will display a progress bar for 50% of the button width
-l.setProgress(0.5);
-
-// Stop loading
-l.stop();
-
-// Toggle between loading/not loading states
-l.toggle();
-
-// Check the current state
-l.isLoading();
-
-// Delete the button's ladda instance
-l.remove();
-```
-
-
-
-### Million.js
-
-Millionjs是一个轻量级的虚拟DOM库。
-
-据开发者称像React和Svelte的结合体，不需要编译
-
-安装
-
-```shell
-npm install million
-```
-
-使用
-
-m()函数创建虚拟dom，render()渲染
-
-```react
-import { m, className, style } from 'million';
-
-const vnode = m('div', { key: 'foo' }, ['Hello World']);
-
-const vnode = m(
-  'div',
-  {
-    className: className({ class1: true, class2: false, class3: 1 + 1 === 2 }),
-    style: style({ color: 'black', 'font-weight': 'bold' }),
-  },
-  ['Hello World'],
-);
-
-import { _, m, render } from 'million';
-
-let seconds = 0;
-
-setInterval(() => {
-  render(document.body, m(vnode));
-  seconds++;
-}, 1000);
-```
-
-createElement创建元素
-
-```react
-import { m, createElement, Flags } from 'million';
-
-const vnode = m(
-  'div',
-  { id: 'app' },
-  ['Hello World'],
-  Flags.ELEMENT_TEXT_CHILDREN,
-);
-const el = createElement(vnode);
-
-document.body.appendChild(el);
-```
-
-#### 适配jsx
-
-在.bablerc中配置插件
-
-```rc
-{
-  "plugins": [
-    [
-      "@babel/plugin-transform-react-jsx",
-      {
-        "runtime": "automatic",
-        "importSource": "million"
-      }
-    ]
-  ]
-}
-```
-
-### toast-ui-Editor
-
-Markdown js编辑器
-
-有纯js 版本、react版本和vue版本
-
-安装
-
-```shell
-npm install --save @toast-ui/react-editor
-```
-
-使用
-
-```javascript
-import '@toast-ui/editor/dist/toastui-editor.css';
-
-import { Editor } from '@toast-ui/react-editor';
-
-class MyComponent extends React.Component {
-  editorRef = React.createRef();
-
-  handleClick = () => {
-    this.editorRef.current.getInstance().exec('Bold');
-  };
-
-  handleFocus = () => {
-    console.log('focus!!');
-  };
-  render() {
-    return (
-      <>
-        <Editor
-          previewStyle="vertical"
-          height="400px"
-          initialEditType="markdown"
-          initialValue="hello"
-          ref={this.editorRef}
-  				onFocus={this.handleFocus}
-        />
-        <button onClick={this.handleClick}>make bold</button>
-      </>
-    );
-  }
-}
-```
-
-### HyperFormula
-
-像excel一样操作数据，适合特殊场景下
-
-安装
-
-```shell
-npm install hyperformula
-```
-
-使用
-
-```javascript
-import { HyperFormula } from 'hyperformula';
-
-// define the options
-const options = {
-  licenseKey: 'gpl-v3',
-};
-
-// define the data
-const data = [['10', '20', '30', '=SUM(A1:C1)']];
-
-// build an instance with defined options and data 
-const hfInstance = HyperFormula.buildFromArray(data, options);
-
-// call getCellValue to get the calculation results
-const mySum = hfInstance.getCellValue({ col: 3, row: 0, sheet: 0 });
-
-// print the result in the browser's console
-console.log(mySum);
-```
-
-### unimported
-
-检查当前代码系统中没有被引用的文件
-
-```shell
-$ npx unimported
-```
-
-https://www.npmjs.com/package/unimported
-
-### why-did-you-render
-
-检查react代码，避免不必要的渲染，可以使用在react16 react17和react18， RN中也同样可以使用
-
-安装
-
-```shell
-npm install @welldone-software/why-did-you-render --save-dev
-```
-
-使用
-
-创建一个wdyr.js, 并在应用的最开始引入
-
-```javascript
-import React from 'react';
-
-if (process.env.NODE_ENV === 'development') {
-  const whyDidYouRender = require('@welldone-software/why-did-you-render');
-  whyDidYouRender(React, {
-    trackAllPureComponents: true,
-  });
-}
-```
-
-
-
-### deku
-
-虚拟dom库
-
-安装
-
-```shell
-npm install --save deku
-```
-
-使用
-
-```react
-/** @jsx element */
-import {element, createApp} from 'deku'
-import {createStore} from 'redux'
-import reducer from './reducer'
-
-// Dispatch an action when the button is clicked
-let log = dispatch => event => {
-  dispatch({
-    type: 'CLICKED'
-  })
-}
-
-// Define a state-less component
-let MyButton = {
-  render: ({ props, children, dispatch }) => {
-    return <button onClick={log(dispatch)}>{children}</button>
-  }
-}
-
-// Create a Redux store to handle all UI actions and side-effects
-let store = createStore(reducer)
-
-// Create an app that can turn vnodes into real DOM elements
-let render = createApp(document.body, store.dispatch)
-
-// Update the page and add redux state to the context
-render(
-  <MyButton>Hello World!</MyButton>,
-  store.getState()
-)
-```
-
-
-
-### react-charts-2
-
-react图表组件
-
-```shell
-pnpm add react-chartjs-2 chart.js
-# or
-yarn add react-chartjs-2 chart.js
-# or
-npm i react-chartjs-2 chart.js
-```
-
-使用
-
-```react
-import { Doughnut } from 'react-chartjs-2';
-
-<Doughnut data={...} />
-```
-
-
-
-### await-to-js
-
-捕获await的错误，相当于try-catch的语法糖
-
-```shell
-npm i await-to-js --save
-```
-
-使用
-
-```javascript
-import to from 'await-to-js';
-// If you use CommonJS (i.e NodeJS environment), it should be:
-// const to = require('await-to-js').default;
-
-async function asyncTaskWithCb(cb) {
-     let err, user, savedTask, notification;
-
-     [ err, user ] = await to(UserModel.findById(1));
-     if(!user) return cb('No user found');
-
-     [ err, savedTask ] = await to(TaskModel({userId: user.id, name: 'Demo Task'}));
-     if(err) return cb('Error occurred while saving task');
-
-    if(user.notificationsEnabled) {
-       [ err ] = await to(NotificationService.sendNotification(user.id, 'Task Created'));
-       if(err) return cb('Error while sending notification');
-    }
-
-    if(savedTask.assignedUser.id !== user.id) {
-       [ err, notification ] = await to(NotificationService.sendNotification(savedTask.assignedUser.id, 'Task was created for you'));
-       if(err) return cb('Error while sending notification');
-    }
-
-    cb(null, savedTask);
-}
-
-async function asyncFunctionWithThrow() {
-  const [err, user] = await to(UserModel.findById(1));
-  if (!user) throw new Error('User not found');
-  
-}
-```
-
-
-
-### qs
-
-解析路由 queryString
-
-```javascript
-var qs = require('qs');
-var assert = require('assert');
-
-var obj = qs.parse('a=c');
-assert.deepEqual(obj, { a: 'c' });
-
-var str = qs.stringify(obj);
-assert.equal(str, 'a=c');
-```
-
-https://github.com/ljharb/qs
-
-
-
-### 更多组件
-
-在写前端的前两年，我总是热衷于找寻各种各样的组件，试图不断地充实自己使用过的组件库
-
-但是随着前端技术的积累，我发现使用组件总是很简单的，难的是体会组件的设计思路、并能够自己根据实际情况进行修改
-
-所以提醒自己还需潜心修炼js和多写不同场景的代码 只是沉迷组件的话。进步不大
-
-https://ant.design/docs/react/recommendation-cn
-
-Ant design站点下有推荐社区比较好的组件，可以在其中找到合适的组件使用

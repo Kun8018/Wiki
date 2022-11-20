@@ -128,13 +128,15 @@ class ErrorBoundary extends React.Component {
 
 ### 受控组件与非受控组件
 
+#### 派生state
+
+大部分使用派生 state 导致的问题，不外乎两个原因：1，直接复制 props 到 state 上；2，如果 props 和 state 不一致就更新 state
+
 受控和非受控
 
 名词[“受控”](https://zh-hans.reactjs.org/docs/forms.html#controlled-components)和[“非受控”](https://zh-hans.reactjs.org/docs/uncontrolled-components.html)通常用来指代表单的 inputs，但是也可以用来描述数据频繁更新的组件。用 props 传入数据的话，组件可以被认为是**受控**（因为组件被父级传入的 props 控制）。数据只保存在组件内部的 state 的话，是**非受控**组件（因为外部没办法直接控制 state）。
 
 当一个派生 state 值也被 `setState` 方法更新时，这个值就不是一个单一来源的值了。
-
-
 
 如果组件的状态只能由用户控制，那么就是非受控组件，如果组件的状态可以由用户和通过代码两种方式控制，那么就是受控组件
 
@@ -961,6 +963,8 @@ React 通过一种比传统的双向绑定略微繁琐的方法来实现反向�
 
 https://zh-hans.reactjs.org/docs/thinking-in-react.html
 
+
+
 ### 进阶：构建组件的哲学
 
 #### 自上而下地设计组件
@@ -1084,9 +1088,13 @@ export const useTabList = () => {
 
 
 
-#### 设计好组件的api
+#### 设计好组件的api/props的原则
 
+1.不要把组件的setState传给子组件
 
+最好使用调用函数的方式
+
+2.不要在同一个props上绑定多个状态，造成难维护的组件。
 
 
 
@@ -1542,3 +1550,168 @@ render prop的优点：
 - 不用担心prop的命名问题，在render函数中只取需要的state
 - 相较于HOC，不会产生无用的空组件加深层级
 - 最重要的是，这里的构建模型是动态的，所有改变都在render中触发，能更好的利用react的生命周期。
+
+## 组件懒加载
+
+在React应用中，有些组件可能不经常用到，比如法律条款的弹窗，我们几乎不看，这些组件也就没有必要首次加载，可以在点击它们的时候再加载，这就需要动态引入组件，需要组件的时候，才引入组件，加载它们，进行渲染，也称为懒加载
+
+### React.Lazy
+
+React.lazy + Suspense
+
+React 16.6添加了一个新的特性: React.lazy(), 它可以让代码分割(code splitting)更加容易
+
+```react
+const stockChartPromise = import("./StockChart");
+// const OtherComponent = React.lazy(() => import('./OtherComponent'));
+const StockChart = React.lazy(() => stockChartPromise);
+```
+
+原理：
+
+import()函数返回的是promise, promise resolve后返回的是module对象(showMessage.js中暴露出来的对象)，通过module对象就可以调用showMessage中暴露的方法。当 Webpack 解析到该`import()`语法时，会自动进行代码分割。
+
+对于最初 `React.lazy()` 所返回的 LazyComponent 对象，其 _status 默认是 -1，所以**首次渲染**时，会进入 readLazyComponentType 函数中的 default 的逻辑，这里才会真正异步执行 `import(url)`操作，由于并未等待，随后会检查模块是否 Resolved，如果已经Resolved了（已经加载完毕）则直接返回`moduleObject.default`（动态加载的模块的默认导出），否则将通过 throw 将 thenable 抛出到上层
+
+https://juejin.cn/post/6844904191853494280
+
+其他懒加载的库
+
+### react-lazyload
+
+安装
+
+```shell
+npm install --save react-lazyload
+```
+
+懒加载图片
+
+```react
+import React from 'react';
+import ReactDOM from 'react-dom';
+import LazyLoad from 'react-lazyload';
+import MyComponent from './MyComponent';
+
+const App = () => {
+  return (
+    <div className="list">
+      <LazyLoad height={200}>
+        <img src="tiger.jpg" /> /*
+                                  Lazy loading images is supported out of box,
+                                  no extra config needed, set `height` for better
+                                  experience
+                                 */
+      </LazyLoad>
+      <LazyLoad height={200} once >
+                                /* Once this component is loaded, LazyLoad will
+                                 not care about it anymore, set this to `true`
+                                 if you're concerned about improving performance */
+        <MyComponent />
+      </LazyLoad>
+      <LazyLoad height={200} offset={100}>
+                              /* This component will be loaded when it's top
+                                 edge is 100px from viewport. It's useful to
+                                 make user ignorant about lazy load effect. */
+        <MyComponent />
+      </LazyLoad>
+      <LazyLoad>
+        <MyComponent />
+      </LazyLoad>
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.body);
+```
+
+默认懒加载组件
+
+```react
+import { lazyload } from 'react-lazyload';
+
+@lazyload({
+  height: 200,
+  once: true,
+  offset: 100
+})
+class MyComponent extends React.Component {
+  render() {
+    return <div>this component is lazyloaded by default!</div>;
+  }
+}
+```
+
+
+
+### react-imported-component
+
+懒加载组件，相似组件有React.lazy react-loadable @loadable/component
+
+使用预加载
+
+```react
+import importedComponent from 'react-imported-component';
+const Component = importedComponent( () => import('./Component'));
+
+const Component = importedComponent( () => import('./Component'), {
+  LoadingComponent: Spinner, // what to display during the loading
+  ErrorComponent: FatalError // what to display in case of error
+});
+
+Component.preload(); // force preload
+
+// render it
+<Component... />
+```
+
+懒加载与React.lazy基本相同
+
+```react
+import { lazy, LazyBoundary } from 'react-imported-component';
+const Component = lazy(() => import('./Component'));
+
+const ClientSideOnly = () => (
+  <Suspense>
+    <Component />
+  </Suspense>
+);
+
+// or let's make it SSR friendly
+const ServerSideFriendly = () => (
+  <LazyBoundary>
+    {' '}
+    // LazyBoundary is Suspense* on the client, and "nothing" on the server
+    <Component />
+  </LazyBoundary>
+);
+```
+
+hooks
+
+```react
+import {useImported} from 'react-imported-component'
+
+const MyCalendarComponent = () => {
+  const {
+      imported: moment,
+      loading
+    } = useImported(() => import("moment"));
+
+  return loading ? "..." : <span>today is {moment(Date.now).format()}</span>
+}
+
+// or we could make it a bit more interesting...
+
+const MyCalendarComponent = () => {
+  const {
+      imported: format  = x => "---", // default value is used while importing library
+    } = useImported(
+      () => import("moment"),
+      moment => x => moment(x).format // masking everything behind
+    );
+
+  return <span>today is {format(Date.now())</span>
+}
+```
+

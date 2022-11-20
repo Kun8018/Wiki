@@ -1,5 +1,5 @@
 ---
-title: React（五）
+title: React（六）
 date: 2020-06-02 21:40:33
 categories: IT
 tags:
@@ -73,10 +73,6 @@ store.subscribe(listener)
 
 action发出后reducer立即执行即为同步，一段时间后执行为异步
 
-对于异步，
-
-
-
 ### React-redux
 
 react-redux提供connet方法，用于从UI组件生成容器组件，
@@ -105,15 +101,94 @@ render(
 
 ### 中间件
 
+redux默认都是同步的操作来`dispatch action`，`state`就会被立即更新
+
+但是真实开发中，`redux`中保存的**很多数据可能来自服务器**，我们需要进行**异步的请求**，再将数据保存到`redux`中。网络请求可以在`class`组件的`componentDidMount`中发送
+
+如果将异步代码放在组件的生命周期来完成，后期代码量的增加，如果把网络请求异步函数放在组件的生命周期里，这个生命周期函数会变得越来越复杂，组件就会变得越来越大
+
+事实上，**网络请求到的数据也属于状态管理的一部分**，更好的一种方式应该是将其也交给`redux`来管理
+
+但是在`redux`中如何可以进行异步的操作呢？
+
+**使用中间件 (Middleware)**
+
+学习过`Express`或`Koa`框架的童鞋对中间件的概念一定不陌生。在这类框架中，`Middleware`可以帮助我们在**请求和响应之间嵌入一些操作的代码**，比如cookie解析、日志记录、文件压缩等操作
+
+redux也引入了中间件 (Middleware) 的概念：
+
+- 这个**中间件的目的是在`dispatch`的`action`和最终达到的`reducer`之间，扩展一些自己的代码**
+- 比如日志记录、**调用异步接口**、添加代码调试功能等等
+
 redux-saga
 
-功能类似redux-thunk，用于异步action，原理是通过generator函数，相比于thunk更复杂一些，集中处理了action，支持dispatch后的回调。
+功能类似redux-thunk，是另一个比较常用在`redux`发送异步请求的中间件，用于异步action，原理是通过generator函数，相比于thunk更复杂一些，集中处理了action，支持dispatch后的回调。
 
+```javascript
+// store.js
+import createSageMiddleware from 'redux-saga'
+import saga from './saga'
+// 1.创建sageMiddleware中间件
+const sagaMiddleware = createSageMiddleware()
+// 2.应用一些中间件
+const enhancer = applyMiddleware(sagaMiddleware)
+const store = createStore(reducer,composeEnhancers(enhancer))
 
+sagaMiddleware.run(saga)
+export default store
+
+// saga.js
+import { takeEvery, put, all } from 'redux-saga/effects'
+import { FETCH_HOME_DATA } from './constant'
+
+function* fetchHomeData(action) {
+  const res = yield axios.get('http://123.207.32.32:8000/home/multidata')
+  const banners = res.data.data.banner.list
+  const recommends = res.data.data.recommend.list
+  // dispatch action 提交action,redux-sage提供了put
+  yield all([
+    yield put(changeBannersAction(banners)),
+    yield put(changeRecommendAction(recommends)),
+  ])
+}
+
+function* mySaga() {
+  // 参数一:要拦截的actionType
+  // 参数二:生成器函数
+  yield all([
+    takeEvery(FETCH_HOME_DATA, fetchHomeData),
+  ])
+}
+
+export default mySaga
+```
 
 redux-thunk
 
 用于异步action，允许你的action可以返回函数, 带有dispatch和getState两个参数, 在这个action函数里, 异步的dispatch action;
+
+`redux-thunk`是如何做到让我们可以发送异步的请求呢？
+
+- 默认情况下的`dispatch(action)`，`action`需要是一个`JavaScript`的对象
+
+- `redux-thunk`可以让`dispatch`(`action`函数), `action`***\*可以是一个函数\****
+
+  该函数会被调用, 并且会传给这个函数两个参数: 一个dispatch函数和getState函数
+
+  - `dispatch`函数用于我们之后再次派发`action`
+  - `getState`函数考虑到我们之后的一些操作需要依赖原来的状态，用于让我们可以获取之前的一些状态
+
+```javascript
+import { createStore, applyMiddleware } from 'redux'
+import reducer from './reducer'
+import thunk from 'redux-thunk'
+
+const store = createStore(
+  reducer,
+  applyMiddleware(thunk) // applyMiddleware可以使用中间件模块
+) 
+export default store
+```
 
 
 
@@ -257,6 +332,116 @@ createAsyncThunk: 接受一个 action type string 和一个返回 promise 的函
 
 createEntityAdapter: 生成一组可重用的 reducers 和 selectors，以管理存储中的规范化数据
 createSelector 组件 来自 Reselect 库，为了易用再导出。
+
+### 原生js调用redux
+
+ redux 同样可以与 Angular、jQuery 等库搭配使用，同样也可以在原生的 js 中使用。了解清楚了在原生 js 中的使用后更容易帮助开发者理解 redux。
+
+引入redux资源
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>redux 在原生 JavaScript 中的使用</title>
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+</head>
+<body>
+    <div class="wrap">
+        <div class="like">点赞 <span>0</span></div>
+        <div class="hate">踩 <span>0</span></div>
+    </div>
+</body>
+</html>
+```
+
+引入redux，直接在控制台中输出window.redux即可访问redux对象
+
+然后像在react中使用redux一样，定义状态store，action和reducer函数
+
+```javascript
+// 定义初始状态
+var initialState = {
+    likeNum: 0,  // 点赞的总数
+    hateNum: 0   // 踩的总数
+}
+
+// 定义有用 action
+var likeAction = {
+    type: 'like'
+}
+
+// 定义没用 action 
+var hateAction = {
+    type: 'hate'
+}
+
+function reducer(state = initialState, action) {
+    switch(action.type){
+        case 'like':
+            return {
+                likeNum: state.likeNum + 1,
+                hateNum: state.hateNum
+            };
+        case 'hate':
+            return {
+                likeNum: state.likeNum,
+                hateNum: state.hateNum + 1
+            };
+        default:
+            return state;
+    }
+}
+
+function reducer(state = initialState, action) {
+    switch(action.type){
+        case 'like':
+            return {
+                likeNum: state.likeNum + 1,
+                hateNum: state.hateNum
+            };
+        case 'hate':
+            return {
+                likeNum: state.likeNum,
+                hateNum: state.hateNum + 1
+            };
+        default:
+            return state;
+    }
+}
+
+// 引入 createStore
+var createStore = window.Redux.createStore;
+// 创建 store
+var store = createStore(reducer);
+```
+
+然后使用原生事件派发和更新视图
+
+```javascript
+// 点击有用按钮，派发 likeAction
+var likeButton = document.querySelector('.like');
+likeButton.addEventListener('click', function(){
+    store.dispatch(likeAction);
+})
+
+// 点击没用按钮，派发 hateAction
+var hateButton = document.querySelector('.hate');
+hateButton.addEventListener('click', function(){
+    store.dispatch(hateAction);
+})
+
+// 定义更新视图的方法
+var render = function() {
+    document.querySelector('.like span').innerText = store.getState().likeNum;
+    document.querySelector('.hate span').innerText = store.getState().hateNum;
+}
+
+// 监听 store 的变化，store 发生变化后调用 render 方法，利用原生 JavaScript 的方法更新视图
+store.subscribe(render);
+```
+
+使用过 React 搭配 Redux 开发的读者可能对 store.subscribe() 有些陌生，因为它已经由 react-redux 库进行了封装，这也是 store 数据更新后便可以直接触发相关组件重新渲染的原因。
 
 ## mobx
 
@@ -780,6 +965,52 @@ export const sleep = (timeout: number) => {
   });
 };
 ```
+
+## valtio
+
+基于proxy的状态代理库
+
+代理是[计算机软件模式](https://en.wikipedia.org/wiki/Proxy_pattern)。 代理是一些可以具有自定义行为的对象的包装器。 我们可以代理几乎任何事物，诸如网络连接，对象，文件等。代理以不同的方式工作，但类似与[适配器](https://en.wikipedia.org/wiki/Adapter_pattern)和[装饰器](https://en.wikipedia.org/wiki/Decorator_pattern)。
+
+> 代理是由客户端调用的对象包装器，以访问后面的实际服务对象
+
+代理可以帮助开发人员解决现代应用中的重复问题。 它们对于诸如验证，跟踪属性访问，Web服务，监视对象等的情况非常有用。它们是更容易实现对象，更改，测试和重用 。
+
+代理有两个规则：
+
+- 可控的对象访问
+- 访问对象时，提供额外的功能
+
+安装
+
+```shell
+npm i valtio
+```
+
+创建状态
+
+```javascript
+import { proxy, useSnapshot } from 'valtio'
+
+const state = proxy({ count: 0, text: 'hello' })
+```
+
+在react中修改状态
+
+```react
+// This will re-render on `state.count` change but not on `state.text` change
+function Counter() {
+  const snap = useSnapshot(state)
+  return (
+    <div>
+      {snap.count}
+      <button onClick={() => ++state.count}>+1</button>
+    </div>
+  )
+}
+```
+
+
 
 ## storeon
 
@@ -1459,158 +1690,4 @@ fetch 与 render 绑定，导致数据加载的 how 与 when 都受限于 render
 后者在分离数据依赖的同时，还能兼顾组件定义的内聚性，是Relay所采用的做法
 
 原文：https://reactjs.org/blog/2019/11/06/building-great-user-experiences-with-concurrent-mode-and-suspense.html
-
-## ES-lint
-
-react的代码规范库
-
-```shell
-yarn add eslint eslint-plugin-react
-```
-
-如果是typescript项目按照ts相关插件
-
-```shell
-yarn add @typescript-eslint/eslint-plugin @typescript-eslint/parser
-```
-
-使用yarn eslint --lint向导来完成配置，或者手动创建eslintrc。json填入如下配置
-
-```json
-{
-  "extends": ["eslint:recommended","plugin:react/recommended"],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["react","@typescript-eslint"],
-  "rules": {
-    "react/self-closing-comp": ["error"] //组件无内容时自闭合
-  }
-}
-```
-
-在vscode中配置
-
-```json
-"eslint.validate": [
-  "javascript",
-  "javascriptreact",
-  "typescript",
-  "typescriptreact"
-]
-```
-
-## react的Ts写法
-
-### react、react-dom类型声明文件
-
-使用tsx之前要安装react的声明文件，否则会报错找不到模块react
-
-安装
-
-```shell
-npm install @types/react -s
-npm install @types/react-dom -s
-```
-
-
-
-### 有状态组件
-
-有状态组件中的state和props使用ts去定义类型
-
-```tsx
-import * as React from 'react'
-
-interface IProps {
-  color: string,
-  size?: string
-}
-  
-interface IState {
-  count: number,
-}
-
-class App extends React.PureComponent<IProps, IState> {
-  public readonly state: Readonly<IState> = {
-    count: 1
-  }
-  public render () {
-    return (
-    	<div>Hello world</div>
-    )
-  }
-  public componentDidMount () {
-  }
-}
-```
-
-
-
-### 事件类型
-
-常用Event事件对象类型
-
-ClipboardEvent<T = Element> 剪贴板事件对象
-
-DragEvent<T = element> 拖拽事件对象
-
-ChangeEvent<T = element> Change事件对象
-
-KeyboardEvent<T = element>  键盘事件对象
-
-MouseEvent<T = element> 鼠标事件对象
-
-TouchEvent<T = element> 触摸事件对象
-
-WheelEvent<T = element> 滚轮事件对象
-
-AnimationEvent<T = element> 动画事件对象
-
-TransitionEvent<T = element> 过渡事件对象
-
-```tsx
-import { MouseEvent } from 'react'
-
-interface Iprops {
-  onClick (event: MouseEvent<HTMLDivElement>): void,
-}
-```
-
-
-
-### 泛型组件
-
-```react
-//泛型ts组件
-function Foo<T>(props: Props<T>){
-  return <div>{props.content}</div>
-}
-
-const App = () => {
-  return (
-  	<div className="App">
-      <Foo content={42}></Foo>
-      <Foo<string> content={"hello"}></Foo>
-    </div>
-  )
-}
-        
-//普通ts组件
-interface Props {
-	content: string;          
-}
-        
-function Foo(props: Props) {
-	return <div>{props.content}</div>          
-}
-        
-const App = () => {
-  return (
-  	<div className="App">
-      // Type number not assignable to type string
-      <Foo content={42}></Foo>
-      <Foo<string> content={"hello"}></Foo>
-    </div>
-  )
-}
-```
 
