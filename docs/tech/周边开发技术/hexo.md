@@ -49,7 +49,7 @@ hexo init
 
 　　就会从官网下载Hexo 模板，
 
-![](http://q6mb9zdoi.bkt.clouddn.com/hexo.png)
+![](https://q6mb9zdoi.bkt.clouddn.com/hexo.png)
 
 下载完再运行
 
@@ -67,7 +67,7 @@ hexo server
 
 在Git hub下创建仓库，仓库名字必须为 `[用户名].github.io`,
 
-![](http://q6mb9zdoi.bkt.clouddn.com/rep.png)
+![](https://q6mb9zdoi.bkt.clouddn.com/rep.png)
 
 ### 本地文件配置
 
@@ -112,7 +112,7 @@ hexo deploy       //将本地的public下生成的传到Github仓库里
 
 我的Namesilo域名配置
 
-![域名解析配置](http://q6mb9zdoi.bkt.clouddn.com/namesio.jpg)
+![域名解析配置](https://q6mb9zdoi.bkt.clouddn.com/namesio.jpg)
 
 特别注意: 有的人用腾讯云免费解析（非腾讯云购买）,但是只能解析两个类型，所以最好在你购买的域名商下解析
 
@@ -120,7 +120,7 @@ hexo deploy       //将本地的public下生成的传到Github仓库里
 
 方式一: 在Git hub之前建立的仓库下，custom domain下输入个人域名
 
-![Gitpage设置](http://q6mb9zdoi.bkt.clouddn.com/domain.png)
+![Gitpage设置](https://q6mb9zdoi.bkt.clouddn.com/domain.png)
 
 方式二: 然后在对应的仓库下建立一个CNAME文件，文件内容为个人域名,
 
@@ -140,7 +140,7 @@ hexo deploy       //将本地的public下生成的传到Github仓库里
 
 效果图
 
-![](http://q6mb9zdoi.bkt.clouddn.com/icarus.png)
+![](https://q6mb9zdoi.bkt.clouddn.com/icarus.png)
 
 ### 安装主题
 
