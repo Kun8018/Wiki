@@ -1,5 +1,5 @@
 ---
-title: 云(一)
+title: k8s(一)
 date: 2020-03-0221:40:33
 categories: 技术博客
 tags:
@@ -394,6 +394,12 @@ Navigate to this URL:
 https://vosamo.github.io/2016/07/noVNC%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B9%8B%E4%B8%80/
 
 https://github.com/novnc/noVNC
+
+
+
+#### VPC
+
+
 
 
 
