@@ -2,7 +2,8 @@
 title: rust（二）
 date: 2020-03-11 21:40:33
 categories: IT
-tags: IT,Rust,Web
+tags:
+    - IT,Rust,Web
 toc: true
 thumbnail: 
 ---

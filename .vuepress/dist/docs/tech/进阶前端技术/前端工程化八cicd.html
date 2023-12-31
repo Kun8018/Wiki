@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>前端进阶（七）-CI/CD工具</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.0503e0f3.css" as="style"><link rel="preload" href="/assets/js/app.3979e060.js" as="script"><link rel="preload" href="/assets/js/2.0f8cbb55.js" as="script"><link rel="preload" href="/assets/js/1.ff82b27c.js" as="script"><link rel="preload" href="/assets/js/124.c3d8b6fc.js" as="script"><link rel="prefetch" href="/assets/js/10.d9850768.js"><link rel="prefetch" href="/assets/js/100.a33654f4.js"><link rel="prefetch" href="/assets/js/101.d3bc1c79.js"><link rel="prefetch" href="/assets/js/102.02bbfd1e.js"><link rel="prefetch" href="/assets/js/103.c9de5560.js"><link rel="prefetch" href="/assets/js/104.7c2b76db.js"><link rel="prefetch" href="/assets/js/105.ea3ac79c.js"><link rel="prefetch" href="/assets/js/106.d54e3045.js"><link rel="prefetch" href="/assets/js/107.c142f695.js"><link rel="prefetch" href="/assets/js/108.fe2c9c19.js"><link rel="prefetch" href="/assets/js/109.59b55101.js"><link rel="prefetch" href="/assets/js/11.62caceeb.js"><link rel="prefetch" href="/assets/js/110.c657b6f8.js"><link rel="prefetch" href="/assets/js/111.4eadf9c5.js"><link rel="prefetch" href="/assets/js/112.fce38ecf.js"><link rel="prefetch" href="/assets/js/113.ee6322e2.js"><link rel="prefetch" href="/assets/js/114.1ed20fd8.js"><link rel="prefetch" href="/assets/js/115.aa405ee0.js"><link rel="prefetch" href="/assets/js/116.d1b4c413.js"><link rel="prefetch" href="/assets/js/117.965d1926.js"><link rel="prefetch" href="/assets/js/118.b1d5b9ca.js"><link rel="prefetch" href="/assets/js/119.e4e766bc.js"><link rel="prefetch" href="/assets/js/12.abd8d9de.js"><link rel="prefetch" href="/assets/js/120.f569b061.js"><link rel="prefetch" href="/assets/js/121.e3915f79.js"><link rel="prefetch" href="/assets/js/122.3a2b3d34.js"><link rel="prefetch" href="/assets/js/123.cbf985ea.js"><link rel="prefetch" href="/assets/js/125.dfe970a3.js"><link rel="prefetch" href="/assets/js/126.f5165054.js"><link rel="prefetch" href="/assets/js/127.ffb31d35.js"><link rel="prefetch" href="/assets/js/128.bf7eb0b3.js"><link rel="prefetch" href="/assets/js/129.76b0ac54.js"><link rel="prefetch" href="/assets/js/13.763c094c.js"><link rel="prefetch" href="/assets/js/130.cb661ef6.js"><link rel="prefetch" href="/assets/js/131.b215b4cc.js"><link rel="prefetch" href="/assets/js/132.bdf6b89f.js"><link rel="prefetch" href="/assets/js/133.a13e43ca.js"><link rel="prefetch" href="/assets/js/134.f858c56e.js"><link rel="prefetch" href="/assets/js/135.0e05a297.js"><link rel="prefetch" href="/assets/js/136.ff47beeb.js"><link rel="prefetch" href="/assets/js/137.7dcf182f.js"><link rel="prefetch" href="/assets/js/138.dd2c3c8c.js"><link rel="prefetch" href="/assets/js/139.db36e4eb.js"><link rel="prefetch" href="/assets/js/14.784100b6.js"><link rel="prefetch" href="/assets/js/140.05811a56.js"><link rel="prefetch" href="/assets/js/141.32b8052b.js"><link rel="prefetch" href="/assets/js/142.2c061186.js"><link rel="prefetch" href="/assets/js/143.113df61a.js"><link rel="prefetch" href="/assets/js/144.2c01c336.js"><link rel="prefetch" href="/assets/js/145.a8fe7a8a.js"><link rel="prefetch" href="/assets/js/146.bb5b7e16.js"><link rel="prefetch" href="/assets/js/147.213b17a7.js"><link rel="prefetch" href="/assets/js/148.dd7a3258.js"><link rel="prefetch" href="/assets/js/149.b3f9adc5.js"><link rel="prefetch" href="/assets/js/15.3aa73286.js"><link rel="prefetch" href="/assets/js/150.4ab9a505.js"><link rel="prefetch" href="/assets/js/151.d04eb475.js"><link rel="prefetch" href="/assets/js/152.c547ae2c.js"><link rel="prefetch" href="/assets/js/153.3fa58002.js"><link rel="prefetch" href="/assets/js/154.cd2cc012.js"><link rel="prefetch" href="/assets/js/155.0160c441.js"><link rel="prefetch" href="/assets/js/16.7886627b.js"><link rel="prefetch" href="/assets/js/17.a4c76a6c.js"><link rel="prefetch" href="/assets/js/18.995eb54b.js"><link rel="prefetch" href="/assets/js/19.edc682a7.js"><link rel="prefetch" href="/assets/js/20.87ca556d.js"><link rel="prefetch" href="/assets/js/21.4b328dcc.js"><link rel="prefetch" href="/assets/js/22.91d15e78.js"><link rel="prefetch" href="/assets/js/23.17bfc3dd.js"><link rel="prefetch" href="/assets/js/24.c0d84a10.js"><link rel="prefetch" href="/assets/js/25.2717e191.js"><link rel="prefetch" href="/assets/js/26.3764ddb4.js"><link rel="prefetch" href="/assets/js/27.e98913ec.js"><link rel="prefetch" href="/assets/js/28.a4481108.js"><link rel="prefetch" href="/assets/js/29.3d82d38d.js"><link rel="prefetch" href="/assets/js/3.e2aae122.js"><link rel="prefetch" href="/assets/js/30.7e9979a2.js"><link rel="prefetch" href="/assets/js/31.fa479c29.js"><link rel="prefetch" href="/assets/js/32.901576de.js"><link rel="prefetch" href="/assets/js/33.8dafc45c.js"><link rel="prefetch" href="/assets/js/34.6bbddd9b.js"><link rel="prefetch" href="/assets/js/35.394c80b9.js"><link rel="prefetch" href="/assets/js/36.5246333d.js"><link rel="prefetch" href="/assets/js/37.49802bfd.js"><link rel="prefetch" href="/assets/js/38.36ae0914.js"><link rel="prefetch" href="/assets/js/39.791184a0.js"><link rel="prefetch" href="/assets/js/4.30c2ba05.js"><link rel="prefetch" href="/assets/js/40.eb1a9cc1.js"><link rel="prefetch" href="/assets/js/41.31179942.js"><link rel="prefetch" href="/assets/js/42.22c31ea4.js"><link rel="prefetch" href="/assets/js/43.e82e343d.js"><link rel="prefetch" href="/assets/js/44.95e68751.js"><link rel="prefetch" href="/assets/js/45.b99232d2.js"><link rel="prefetch" href="/assets/js/46.21e9dae9.js"><link rel="prefetch" href="/assets/js/47.e30bba7c.js"><link rel="prefetch" href="/assets/js/48.6c0d14cd.js"><link rel="prefetch" href="/assets/js/49.ed1b480b.js"><link rel="prefetch" href="/assets/js/5.c5fba3ad.js"><link rel="prefetch" href="/assets/js/50.f500b9ed.js"><link rel="prefetch" href="/assets/js/51.3671246f.js"><link rel="prefetch" href="/assets/js/52.7915148f.js"><link rel="prefetch" href="/assets/js/53.39ece5d9.js"><link rel="prefetch" href="/assets/js/54.358ca4aa.js"><link rel="prefetch" href="/assets/js/55.244837be.js"><link rel="prefetch" href="/assets/js/56.e7164f10.js"><link rel="prefetch" href="/assets/js/57.3c6f5aa2.js"><link rel="prefetch" href="/assets/js/58.84c83603.js"><link rel="prefetch" href="/assets/js/59.ec4edc7d.js"><link rel="prefetch" href="/assets/js/6.9184d4d1.js"><link rel="prefetch" href="/assets/js/60.c2346e02.js"><link rel="prefetch" href="/assets/js/61.8d99ca4c.js"><link rel="prefetch" href="/assets/js/62.f6bea4bf.js"><link rel="prefetch" href="/assets/js/63.410bfe1e.js"><link rel="prefetch" href="/assets/js/64.960d5951.js"><link rel="prefetch" href="/assets/js/65.e6a8895b.js"><link rel="prefetch" href="/assets/js/66.41092e16.js"><link rel="prefetch" href="/assets/js/67.062b95dc.js"><link rel="prefetch" href="/assets/js/68.58c65f95.js"><link rel="prefetch" href="/assets/js/69.d1e1b68b.js"><link rel="prefetch" href="/assets/js/7.85fc951e.js"><link rel="prefetch" href="/assets/js/70.8294a611.js"><link rel="prefetch" href="/assets/js/71.66e44dac.js"><link rel="prefetch" href="/assets/js/72.46bd34f2.js"><link rel="prefetch" href="/assets/js/73.7eb2e800.js"><link rel="prefetch" href="/assets/js/74.8e05f264.js"><link rel="prefetch" href="/assets/js/75.21e0b9b1.js"><link rel="prefetch" href="/assets/js/76.c2c92cec.js"><link rel="prefetch" href="/assets/js/77.799df679.js"><link rel="prefetch" href="/assets/js/78.1605b33c.js"><link rel="prefetch" href="/assets/js/79.659e7e78.js"><link rel="prefetch" href="/assets/js/80.6f99ca65.js"><link rel="prefetch" href="/assets/js/81.7a0caba9.js"><link rel="prefetch" href="/assets/js/82.19629840.js"><link rel="prefetch" href="/assets/js/83.29093f51.js"><link rel="prefetch" href="/assets/js/84.64568258.js"><link rel="prefetch" href="/assets/js/85.3d88e3b2.js"><link rel="prefetch" href="/assets/js/86.0a93f933.js"><link rel="prefetch" href="/assets/js/87.07c51a25.js"><link rel="prefetch" href="/assets/js/88.aa6be8e5.js"><link rel="prefetch" href="/assets/js/89.6ad93f1f.js"><link rel="prefetch" href="/assets/js/90.87c8c6e5.js"><link rel="prefetch" href="/assets/js/91.57c509b5.js"><link rel="prefetch" href="/assets/js/92.c8b02e25.js"><link rel="prefetch" href="/assets/js/93.fee86c6c.js"><link rel="prefetch" href="/assets/js/94.ab3bad19.js"><link rel="prefetch" href="/assets/js/95.cfaa79dc.js"><link rel="prefetch" href="/assets/js/96.c63afef5.js"><link rel="prefetch" href="/assets/js/97.123374a6.js"><link rel="prefetch" href="/assets/js/98.53cfb154.js"><link rel="prefetch" href="/assets/js/99.8fe1f067.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5e19b665.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0503e0f3.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><p>前端CI/CD工具</p> <h2 id="自动化部署与负载均衡"><a href="#自动化部署与负载均衡" class="header-anchor">#</a> 自动化部署与负载均衡</h2> <h3 id="pm2"><a href="#pm2" class="header-anchor">#</a> pm2</h3> <p>pm2是node进程管理工具，利用它进行node应用管理的性能监控、自动重启、负载均衡等。</p> <p>全局安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> pm2
+</code></pre></div><p>使用pm2控制进程</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pm2 start app.js  //启动进程pm2 restart app.js   //重启进程pm2 list   //获取当前应用等名字/进程idpm2 stop app_name<span class="token operator">|</span>app_id  //停止进程应用pm2 delete app_name<span class="token operator">|</span>app_id  //删除特定进程应用pm2 stop all //停止所有应用
+</code></pre></div><p>其他命令行参数</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pm2 start app.js <span class="token parameter variable">-i</span> max //根据有效CPU数启动最大进程数目pm2 start app.js <span class="token parameter variable">-i</span> <span class="token number">3</span> //启动3个进程pm2 start app.js <span class="token parameter variable">-n</span> name //启动进程时指定进程名字namepm2 start app.js <span class="token parameter variable">--watch</span> //监听应用目录的变化，一旦发生变化就自动重启pm2 monit  //查看当前pm2的运行进程的状态pm2 start big-array.js --max-memory-restart 20M  //超过内存上限后自动重启
+</code></pre></div><p>配置启动环境</p> <p>在node中指定启动环境（开发环境、生产环境等）</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token string-property property">&quot;env&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>  <span class="token string-property property">&quot;NODE_ENV&quot;</span><span class="token operator">:</span><span class="token string">&quot;production&quot;</span><span class="token punctuation">,</span>  <span class="token string-property property">&quot;REMOTE_ADDR&quot;</span><span class="token operator">:</span><span class="token string">&quot;http://www.example.com/&quot;</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token string-property property">&quot;env_dev&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>  <span class="token string-property property">&quot;NODE_ENV&quot;</span><span class="token operator">:</span><span class="token string">&quot;development&quot;</span><span class="token punctuation">,</span>   <span class="token string-property property">&quot;REMOTE_ADDR&quot;</span><span class="token operator">:</span><span class="token string">&quot;http://wdev.example.com/&quot;</span><span class="token punctuation">}</span><span class="token string">&quot;env_test&quot;</span><span class="token operator">:</span><span class="token punctuation">{</span>  <span class="token string-property property">&quot;NODE_ENV&quot;</span><span class="token operator">:</span><span class="token string">&quot;test&quot;</span><span class="token punctuation">,</span>  <span class="token string-property property">&quot;REMOTE_ADDR&quot;</span><span class="token operator">:</span><span class="token string">&quot;http://wtest.example.com/&quot;</span><span class="token punctuation">}</span>
+</code></pre></div><p>启动时设置环境</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pm2 start app.js <span class="token parameter variable">--env</span> dev
+</code></pre></div><p>pm2支持线上系统和第三方扩展，如常用的log、rotate，</p> <h3 id="jenkins"><a href="#jenkins" class="header-anchor">#</a> jenkins</h3> <p>jenkins是基于java和docker的自动化部署和管理工具</p> <p>安装之前确保电脑安装java(java 1.8)和docker</p> <p>mac安装</p> <p>使用brew工具安装和启动</p> <div class="language-shell extra-class"><pre class="language-shell"><code>
+</code></pre></div><h4 id="流水线"><a href="#流水线" class="header-anchor">#</a> 流水线</h4> <p>Jenkins 流水线 (或简单的带有大写&quot;P&quot;的&quot;Pipeline&quot;) 是一套插件，它支持实现和集成 <em>continuous delivery pipelines</em> 到Jenkins。</p> <p><code>Jenkinsfile</code> 能使用两种语法进行编写 - 声明式和脚本化。</p> <p>声明式和脚本化的流水线从根本上是不同的。 声明式流水线的是 Jenkins 流水线更近的特性:</p> <ul><li>相比脚本化的流水线语法，它提供更丰富的语法特性,</li> <li>是为了使编写和读取流水线代码更容易而设计的。</li></ul> <p>然而，写到<code>Jenkinsfile</code>中的许多单独的语法组件(或者 &quot;步骤&quot;), 通常都是声明式和脚本化相结合的流水线。</p> <p>本质上，Jenkins 是一个自动化引擎，它支持许多自动模式。 流水线向Jenkins中添加了一组强大的工具, 支持用例 简单的持续集成到全面的CD流水线。通过对一系列的相关任务进行建模, 用户可以利用流水线的很多特性:</p> <ul><li><strong>Code</strong>: 流水线是在代码中实现的，通常会检查到源代码控制, 使团队有编辑, 审查和迭代他们的交付流水线的能力。</li> <li><strong>Durable</strong>: 流水线可以从Jenkins的主分支的计划内和计划外的重启中存活下来。</li> <li><strong>Pausable</strong>: 流水线可以有选择的停止或等待人工输入或批准，然后才能继续运行流水线。</li> <li><strong>Versatile</strong>: 流水线支持复杂的现实世界的 CD 需求, 包括fork/join, 循环, 并行执行工作的能力。</li> <li><strong>Extensible</strong>:流水线插件支持扩展到它的DSL [<a href="https://www.jenkins.io/zh/doc/book/pipeline/#_footnotedef_1" target="_blank" rel="noopener noreferrer">1<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>]的惯例和与其他插件集成的多个选项。</li></ul> <p>然而， Jenkins一直允许以将自由式工作链接到一起的初级形式来执行顺序任务, [<a href="https://www.jenkins.io/zh/doc/book/pipeline/#_footnotedef_4" target="_blank" rel="noopener noreferrer">4<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>] 流水线使这个概念成为了Jenkins的头等公民。</p> <p>流水线是用户定义的一个CD流水线模型 。流水线的代码定义了整个的构建过程, 他通常包括构建, 测试和交付应用程序的阶段 。</p> <p>节点是一个机器 ，它是Jenkins环境的一部分 and is capable of执行流水线。</p> <p><code>stage</code> 块定义了在整个流水线的执行任务的概念性地不同的的子集(比如 &quot;Build&quot;, &quot;Test&quot; 和 &quot;Deploy&quot; 阶段), 它被许多插件用于可视化 或Jenkins流水线目前的 状态/进展. [<a href="https://www.jenkins.io/zh/doc/book/pipeline/#_footnotedef_6" target="_blank" rel="noopener noreferrer">6<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>]</p> <p>本质上 ，一个单一的任务, a step 告诉Jenkins 在特定的时间点要做_what_ (或过程中的 &quot;step&quot;)。 举个例子,要执行shell命令 ，请使用 <code>sh</code> 步骤: <code>sh 'make'</code>。当一个插件扩展了流水线DSL, [<a href="https://www.jenkins.io/zh/doc/book/pipeline/#_footnotedef_1" target="_blank" rel="noopener noreferrer">1<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>] 通常意味着插件已经实现了一个新的 <em>step</em>。</p> <p>在声明式流水线语法中, <code>pipeline</code> 块定义了整个流水线中完成的所有的工作。</p> <div class="language-jenkinsfile extra-class"><pre class="language-text"><code>pipeline {
+    agent any 
+    stages {
+        stage('Build') { 
+            steps {
+                // 
+            }
+        }
+        stage('Test') { 
+            steps {
+                // 
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                // 
+            }
+        }
+    }
+}
+</code></pre></div><p>在脚本化流水线语法中, 一个或多个 <code>node</code> 块在整个流水线中执行核心工作。 虽然这不是脚本化流水线语法的强制性要求, 但它限制了你的流水线的在<code>node</code>块内的工作做两件事:</p> <ol><li>通过在Jenkins队列中添加一个项来调度块中包含的步骤。 节点上的执行器一空闲, 该步骤就会运行。</li> <li>创建一个工作区(特定为特定流水间建立的目录)，其中工作可以在从源代码控制检出的文件上完成。
+<strong>Caution:</strong> 根据你的 Jenkins 配置,在一系列的空闲后，一些工作区可能不会自动清理 。</li></ol> <div class="language-jenkins extra-class"><pre class="language-text"><code>node {  
+    stage('Build') { 
+        // 
+    }
+    stage('Test') { 
+        // 
+    }
+    stage('Deploy') { 
+        // 
+    }
+}
+</code></pre></div><h4 id="step"><a href="#step" class="header-anchor">#</a> step</h4> <p>Pipelines 由多个步骤（step）组成，允许你构建、测试和部署应用。 Jenkins Pipeline 允许您使用一种简单的方式组合多个步骤， 以帮助您实现多种类型的自动化构建过程。</p> <p>可以把“步骤（step）”看作一个执行单一动作的单一的命令。 当一个步骤运行成功时继续运行下一个步骤。 当任何一个步骤执行失败时，Pipeline 的执行结果也为失败。</p> <p>当所有的步骤都执行完成并且为成功时，Pipeline 的执行结果为成功。</p> <p>在 Linux、BSD 和 Mac OS（类 Unix ) 系统中的 shell 命令， 对应于 Pipeline 中的一个 <code>sh</code> 步骤（step）。</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        stage<span class="token punctuation">(</span><span class="token string">'Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                <span class="token function">sh</span> <span class="token string">'echo &quot;Hello World&quot;'</span>
+                <span class="token function">sh</span> <span class="token string">''</span>'
+                    <span class="token builtin class-name">echo</span> <span class="token string">&quot;Multiline shell steps works too&quot;</span>
+                    <span class="token function">ls</span> <span class="token parameter variable">-lah</span>
+                <span class="token string">''</span>'
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Windows 的系统使用 <code>bat</code> 步骤表示执行批处理命令。</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        stage<span class="token punctuation">(</span><span class="token string">'Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                bat <span class="token string">'set'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Jenkins Pipeline 提供了很多的步骤（step），这些步骤可以相互组合嵌套，方便地解决像重复执行步骤直到成功（重试）和如果一个步骤执行花费的时间太长则退出（超时）等问题。</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        stage<span class="token punctuation">(</span><span class="token string">'Deploy'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                retry<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">sh</span> <span class="token string">'./flakey-deploy.sh'</span>
+                <span class="token punctuation">}</span>
+
+                timeout<span class="token punctuation">(</span>time: <span class="token number">3</span>, unit: <span class="token string">'MINUTES'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">sh</span> <span class="token string">'./health-check.sh'</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>完成时动作</p> <p>当 Pipeline 运行完成时，你可能需要做一些清理工作或者基于 Pipeline 的运行结果执行不同的操作， 这些操作可以放在 <code>post</code> 部分。</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        stage<span class="token punctuation">(</span><span class="token string">'Test'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                <span class="token function">sh</span> <span class="token string">'echo &quot;Fail!&quot;; exit 1'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    post <span class="token punctuation">{</span>
+        always <span class="token punctuation">{</span>
+            <span class="token builtin class-name">echo</span> <span class="token string">'This will always run'</span>
+        <span class="token punctuation">}</span>
+        success <span class="token punctuation">{</span>
+            <span class="token builtin class-name">echo</span> <span class="token string">'This will run only if successful'</span>
+        <span class="token punctuation">}</span>
+        failure <span class="token punctuation">{</span>
+            <span class="token builtin class-name">echo</span> <span class="token string">'This will run only if failed'</span>
+        <span class="token punctuation">}</span>
+        unstable <span class="token punctuation">{</span>
+            <span class="token builtin class-name">echo</span> <span class="token string">'This will run only if the run was marked as unstable'</span>
+        <span class="token punctuation">}</span>
+        changed <span class="token punctuation">{</span>
+            <span class="token builtin class-name">echo</span> <span class="token string">'This will run only if the state of the Pipeline has changed'</span>
+            <span class="token builtin class-name">echo</span> <span class="token string">'For example, if the Pipeline was previously failing but is now successful'</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>环境变量</p> <p>环境变量可以像下面的示例设置为全局的，也可以是阶段（stage）级别的。 如你所想，阶段（stage）级别的环境变量只能在定义变量的阶段（stage）使用。</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pipeline <span class="token punctuation">{</span>
+    agent any
+
+    environment <span class="token punctuation">{</span>
+        DISABLE_AUTH <span class="token operator">=</span> <span class="token string">'true'</span>
+        DB_ENGINE    <span class="token operator">=</span> <span class="token string">'sqlite'</span>
+    <span class="token punctuation">}</span>
+
+    stages <span class="token punctuation">{</span>
+        stage<span class="token punctuation">(</span><span class="token string">'Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                <span class="token function">sh</span> <span class="token string">'printenv'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>通过 <code>archiveArtifacts</code> 步骤和文件匹配表达式可以很容易的完成构建结果记录和存储，</p> <div class="language-shell extra-class"><pre class="language-shell"><code>pipeline <span class="token punctuation">{</span>
+    agent any
+    stages <span class="token punctuation">{</span>
+        stage<span class="token punctuation">(</span><span class="token string">'Build'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                <span class="token function">sh</span> <span class="token string">'./gradlew build'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        stage<span class="token punctuation">(</span><span class="token string">'Test'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            steps <span class="token punctuation">{</span>
+                <span class="token function">sh</span> <span class="token string">'./gradlew check'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    post <span class="token punctuation">{</span>
+        always <span class="token punctuation">{</span>
+            archiveArtifacts artifacts: <span class="token string">'build/libs/**/*.jar'</span>, fingerprint: <span class="token boolean">true</span>
+            junit <span class="token string">'build/reports/**/*.xml'</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如果在 <code>archiveArtifacts</code> 步骤中指定了多个参数， 那么每个参数的名称必须在步骤代码中明确指定， 即文件的路径、文件名和 <code>fingerprint</code> 三个参数。 如果您只需指定文件的路径和文件名， 那么你可以省略参数名称 <code>artifacts</code> ，例如： <code>archiveArtifacts 'build/libs/**/*.jar'</code></p> <p>回放</p> <h4 id="发布后通知企微"><a href="#发布后通知企微" class="header-anchor">#</a> 发布后通知企微</h4> <p>1.配置企业微信</p> <ul><li>进入某个群 -&gt; 右击群标签，添加群机器人
+注意：企业微信貌似没有像钉钉那样设置配置群机器人权限，因此任何人都能添加机器人。相对于钉钉有点落后</li> <li>填写名称，创建成功后复制hook地址</li></ul> <p>2.在jenkins中进入系统管理-管理插件</p> <p>搜索插件Qy Wechat Notification，安装这个插件</p> <p>然后配置Jenkins的Webhook</p> <ul><li>进入 Jenkins Job，进入 Job 配置， 前往<code>构建后的操作</code> -&gt; 选择<code>企业微信通知</code></li></ul> <p>设置Webhook，把企微中的地址填入</p> <h3 id="circle-ci"><a href="#circle-ci" class="header-anchor">#</a> Circle CI</h3> <p>circle CI可以与github action串接</p> <p>参考rocksdb ci流程</p> <h3 id="travis"><a href="#travis" class="header-anchor">#</a> travis</h3> <h3 id="dagger"><a href="#dagger" class="header-anchor">#</a> Dagger</h3> <p>创建并初始化项目</p> <div class="language-shell extra-class"><pre class="language-shell"><code>$ <span class="token function">mkdir</span> rootProject <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> rootProject
+
+$ dagger project init
+</code></pre></div><p>更新依赖</p> <div class="language-shell extra-class"><pre class="language-shell"><code>$ dagger project update
+</code></pre></div><p>创建main.cue文件</p> <div class="language-cue extra-class"><pre class="language-cue"><code><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string-literal"><span class="token string">&quot;dagger.io/dagger&quot;</span></span>
+<span class="token punctuation">)</span>
+
+dagger<span class="token punctuation">.</span>#Plan <span class="token operator">&amp;</span> <span class="token punctuation">{</span>
+    actions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        hello<span class="token punctuation">:</span> #Run <span class="token operator">&amp;</span> <span class="token punctuation">{</span>
+            script<span class="token punctuation">:</span> contents<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">&quot;echo </span><span class="token escape string">\&quot;</span><span class="token string">Hello!</span><span class="token escape string">\&quot;</span><span class="token string">&quot;</span></span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>然后创建另一个文件夹</p> <div class="language-shell extra-class"><pre class="language-shell"><code>$ <span class="token builtin class-name">cd</span> <span class="token punctuation">..</span> <span class="token operator">&amp;&amp;</span> <span class="token function">mkdir</span> personal <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> personal <span class="token operator">&amp;&amp;</span> <span class="token function">git</span> init
+</code></pre></div><p>创建一个新的main.cue</p> <div class="language-cue extra-class"><pre class="language-cue"><code><span class="token keyword">package</span> personal
+
+<span class="token keyword">import</span><span class="token punctuation">(</span>
+  <span class="token string-literal"><span class="token string">&quot;universe.dagger.io/alpine&quot;</span></span>
+  <span class="token string-literal"><span class="token string">&quot;universe.dagger.io/bash&quot;</span></span>
+<span class="token punctuation">)</span>
+
+#Run<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    _img<span class="token punctuation">:</span> alpine<span class="token punctuation">.</span>#Build <span class="token operator">&amp;</span> <span class="token punctuation">{</span>
+        packages<span class="token punctuation">:</span> bash<span class="token punctuation">:</span> _
+    <span class="token punctuation">}</span>
+
+    bash<span class="token punctuation">.</span>#Run <span class="token operator">&amp;</span> <span class="token punctuation">{</span>
+        always<span class="token punctuation">:</span> <span class="token boolean">true</span>
+        input<span class="token punctuation">:</span>  _img<span class="token punctuation">.</span>output
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="cue"><a href="#cue" class="header-anchor">#</a> Cue</h4> <p>Cue是json的超集，可以编译成json或者yaml文件</p> <h2 id="sentry"><a href="#sentry" class="header-anchor">#</a> Sentry</h2> <p>sentry是一个开源的错误追踪工具，可以帮助开发人员实时监控和修复系统中的错误。其专注于错误监控以及提取一切事后处理所需的信息，支持几乎所有主流开发语言（JS/Java/Python/php）和平台，并提供了web来展示错误。</p> <p><a href="https://sentry.io" target="_blank" rel="noopener noreferrer">sentry.io<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> <a href="https://docs.sentry.io/platforms/" target="_blank" rel="noopener noreferrer">docs.sentry.io/platforms<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>官方推荐使用docker或者python安装</p> <p>在前端项目中使用</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> @sentry/browser @sentry/integrations
+</code></pre></div><div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> Sentry <span class="token keyword">from</span> <span class="token string">'@sentry/browser'</span><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> Intergrations <span class="token keyword">from</span> <span class="token string">'@sentry/integrations'</span>process<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">NODE_ENV</span> <span class="token operator">===</span> <span class="token string">&quot;production&quot;</span> <span class="token operator">&amp;&amp;</span> Sentry<span class="token punctuation">.</span><span class="token function">init</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>  <span class="token literal-property property">dsn</span><span class="token operator">:</span> <span class="token string">'https://e028cb7b8dd645978cf5d84a@sentry.io/18726'</span><span class="token punctuation">,</span>  <span class="token literal-property property">integrations</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token keyword">new</span> <span class="token class-name">Integrations<span class="token punctuation">.</span>Vue</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="cd平台"><a href="#cd平台" class="header-anchor">#</a> CD平台</h2> <h3 id="render-com"><a href="#render-com" class="header-anchor">#</a> render.com</h3> <h3 id="nitro"><a href="#nitro" class="header-anchor">#</a> Nitro</h3> <h2 id="sonarquebe"><a href="#sonarquebe" class="header-anchor">#</a> SonarQuebe</h2> <p>扫描代码。检查代码</p> <p>可以报错</p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3979e060.js" defer></script><script src="/assets/js/2.0f8cbb55.js" defer></script><script src="/assets/js/1.ff82b27c.js" defer></script><script src="/assets/js/124.c3d8b6fc.js" defer></script>
+  </body>
+</html>

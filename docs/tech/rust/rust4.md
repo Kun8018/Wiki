@@ -1,8 +1,9 @@
 ---
-title: rust（三）
+title: rust（四）
 date: 2020-03-11 21:40:33
 categories: IT
-tags: IT,Rust,Web
+tags:
+    - IT,Rust,Web
 toc: true
 thumbnail: 
 ---
@@ -37,7 +38,15 @@ Rust的异步模型与JS或者flutter中的异步模型的区别：
 - **Rust 没有内置异步调用所必须的运行时**，但是无需担心，Rust 社区生态中已经提供了非常优异的运行时实现，例如大明星 [`tokio`](https://tokio.rs/)
 - **运行时同时支持单线程和多线程**，
 
-　　
+
+
+## Hyper
+
+rust的http框架
+
+https://github.com/hyperium/hyper
+
+
 
 ## Tokio
 
@@ -66,11 +75,167 @@ tokio = { version = "1", features = ["full"] }
 mini-redis = "0.4"
 ```
 
+### Wrap
+
+Warp
+
+[Warp](https://github.com/seanmonstar/warp)是一个用 Rust 编写的 web 服务器框架。与 Rocket 和 Actix 相比。
+
+对于一个 web 框架来说，它是相当小巧的，并且只提供基本的开箱即用的功能。
+
+添加wrap和tokio
+
+```toml
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+warp = "0.3"
+```
+
+使用
+
+```rust
+use warp::Filter;
+
+#[tokio::main]
+async fn main() {
+    // GET /hello/warp => 200 OK with body "Hello, warp!"
+    let hello = warp::path!("hello" / String)
+        .map(|name| format!("Hello, {}!", name));
+
+    warp::serve(hello)
+        .run(([127, 0, 0, 1], 3030))
+        .await;
+}
+```
+
+
+
+## tonic
+
+rust grpc 客户端
+
+https://github.com/hyperium/tonic
+
+https://docs.rs/tonic/latest/tonic/
+
+
+
+## axum
+
+
+
+
+
+## tower
+
+
+
+https://github.com/tower-rs/tower
+
 
 
 ## Rust Web框架
 
 Rust 拥有多个非常快速的 web 框架：Rocket、Actix web 和 Yew。
+
+### trunk
+
+
+
+
+
+### leptos
+
+rust全栈框架
+
+安装
+
+```shell
+cargo install cargo-leptos
+cargo leptos new --git https://github.com/leptos-rs/start
+cd [your project name]
+cargo leptos watch
+```
+
+使用
+
+```rust
+use leptos::*;
+
+#[component]
+pub fn SimpleCounter(cx: Scope, initial_value: i32) -> Element {
+    // create a reactive signal with the initial value
+    let (value, set_value) = create_signal(cx, initial_value);
+
+    // create event handlers for our buttons
+    // note that `value` and `set_value` are `Copy`, so it's super easy to move them into closures
+    let clear = move |_| set_value.set(0);
+    let decrement = move |_| set_value.update(|value| *value -= 1);
+    let increment = move |_| set_value.update(|value| *value += 1);
+
+    // this JSX is compiled to an HTML template string for performance
+    view! {
+        cx,
+        <div>
+            <button on:click=clear>"Clear"</button>
+            <button on:click=decrement>"-1"</button>
+            <span>"Value: " {move || value().to_string()} "!"</span>
+            <button on:click=increment>"+1"</button>
+        </div>
+    }
+}
+```
+
+
+
+### Dioxus
+
+需要安装trunk获取资源包
+
+```shell
+cargo install trunk
+```
+
+然后还需要安装wasm32-unknown-unknown
+
+```shell
+rustup target add wasm32-unknown-unknown
+```
+
+然后在空文件夹里创建项目
+
+```shell
+cargo new --bin demo
+cd demo
+
+cargo add dioxus --features web
+```
+
+添加一个html和main.rs文件
+
+```rust
+// main.rs
+
+use dioxus::prelude::*;
+
+fn main() {
+    dioxus::web::launch(app);
+}
+
+fn app(cx: Scope) -> Element {
+    cx.render(rsx!{
+        div { "hello, wasm!" }
+    })
+}
+```
+
+运行
+
+```shell
+trunk serve
+```
+
+
 
 ### web 前端框架
 
@@ -146,11 +311,7 @@ Gotham 是一个灵活的 web 框架，为稳定版 Rust 构建。其是静态�
 
 Gotham 支持路由、提取器（类型安全数据请求）、中间件、状态共享和测试。Gotham 没有工程结构、样板文件，或数据库支持。
 
-Warp
 
-[Warp](https://github.com/seanmonstar/warp)是一个用 Rust 编写的 web 服务器框架。与 Rocket 和 Actix 相比。
-
-对于一个 web 框架来说，它是相当小巧的，并且只提供基本的开箱即用的功能。
 
 Rouille
 
@@ -247,4 +408,68 @@ if (!('WebAssembly' in window)) {
   }, false);
 })();
 ```
+
+## ORM
+
+### diesel
+
+支持PostgreSQL、MySQL、SQLite
+
+```rust
+let versions = Version::belonging_to(krate)
+  .select(id)
+  .order(num.desc())
+  .limit(5);
+let downloads = version_downloads
+  .filter(date.gt(now - 90.days()))
+  .filter(version_id.eq_any(versions))
+  .order(date)
+  .load::<Download>(&mut conn)?;
+```
+
+
+
+https://github.com/diesel-rs/diesel
+
+
+
+### sqlx
+
+https://github.com/launchbadge/sqlx
+
+
+
+```rust
+use sqlx::postgres::PgPoolOptions;
+// use sqlx::mysql::MySqlPoolOptions;
+// etc.
+
+#[async_std::main]
+// or #[tokio::main]
+// or #[actix_web::main]
+async fn main() -> Result<(), sqlx::Error> {
+    // Create a connection pool
+    //  for MySQL, use MySqlPoolOptions::new()
+    //  for SQLite, use SqlitePoolOptions::new()
+    //  etc.
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect("postgres://postgres:password@localhost/test").await?;
+
+    // Make a simple query to return the given parameter (use a question mark `?` instead of `$1` for MySQL)
+    let row: (i64,) = sqlx::query_as("SELECT $1")
+        .bind(150_i64)
+        .fetch_one(&pool).await?;
+
+    assert_eq!(row.0, 150);
+
+    Ok(())
+}
+```
+
+### rust-postgres
+
+
+
+https://github.com/sfackler/rust-postgres
 

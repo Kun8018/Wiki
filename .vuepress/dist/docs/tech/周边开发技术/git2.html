@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Git使用技巧</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.0503e0f3.css" as="style"><link rel="preload" href="/assets/js/app.3979e060.js" as="script"><link rel="preload" href="/assets/js/2.0f8cbb55.js" as="script"><link rel="preload" href="/assets/js/1.ff82b27c.js" as="script"><link rel="preload" href="/assets/js/87.07c51a25.js" as="script"><link rel="prefetch" href="/assets/js/10.d9850768.js"><link rel="prefetch" href="/assets/js/100.a33654f4.js"><link rel="prefetch" href="/assets/js/101.d3bc1c79.js"><link rel="prefetch" href="/assets/js/102.02bbfd1e.js"><link rel="prefetch" href="/assets/js/103.c9de5560.js"><link rel="prefetch" href="/assets/js/104.7c2b76db.js"><link rel="prefetch" href="/assets/js/105.ea3ac79c.js"><link rel="prefetch" href="/assets/js/106.d54e3045.js"><link rel="prefetch" href="/assets/js/107.c142f695.js"><link rel="prefetch" href="/assets/js/108.fe2c9c19.js"><link rel="prefetch" href="/assets/js/109.59b55101.js"><link rel="prefetch" href="/assets/js/11.62caceeb.js"><link rel="prefetch" href="/assets/js/110.c657b6f8.js"><link rel="prefetch" href="/assets/js/111.4eadf9c5.js"><link rel="prefetch" href="/assets/js/112.fce38ecf.js"><link rel="prefetch" href="/assets/js/113.ee6322e2.js"><link rel="prefetch" href="/assets/js/114.1ed20fd8.js"><link rel="prefetch" href="/assets/js/115.aa405ee0.js"><link rel="prefetch" href="/assets/js/116.d1b4c413.js"><link rel="prefetch" href="/assets/js/117.965d1926.js"><link rel="prefetch" href="/assets/js/118.b1d5b9ca.js"><link rel="prefetch" href="/assets/js/119.e4e766bc.js"><link rel="prefetch" href="/assets/js/12.abd8d9de.js"><link rel="prefetch" href="/assets/js/120.f569b061.js"><link rel="prefetch" href="/assets/js/121.e3915f79.js"><link rel="prefetch" href="/assets/js/122.3a2b3d34.js"><link rel="prefetch" href="/assets/js/123.cbf985ea.js"><link rel="prefetch" href="/assets/js/124.c3d8b6fc.js"><link rel="prefetch" href="/assets/js/125.dfe970a3.js"><link rel="prefetch" href="/assets/js/126.f5165054.js"><link rel="prefetch" href="/assets/js/127.ffb31d35.js"><link rel="prefetch" href="/assets/js/128.bf7eb0b3.js"><link rel="prefetch" href="/assets/js/129.76b0ac54.js"><link rel="prefetch" href="/assets/js/13.763c094c.js"><link rel="prefetch" href="/assets/js/130.cb661ef6.js"><link rel="prefetch" href="/assets/js/131.b215b4cc.js"><link rel="prefetch" href="/assets/js/132.bdf6b89f.js"><link rel="prefetch" href="/assets/js/133.a13e43ca.js"><link rel="prefetch" href="/assets/js/134.f858c56e.js"><link rel="prefetch" href="/assets/js/135.0e05a297.js"><link rel="prefetch" href="/assets/js/136.ff47beeb.js"><link rel="prefetch" href="/assets/js/137.7dcf182f.js"><link rel="prefetch" href="/assets/js/138.dd2c3c8c.js"><link rel="prefetch" href="/assets/js/139.db36e4eb.js"><link rel="prefetch" href="/assets/js/14.784100b6.js"><link rel="prefetch" href="/assets/js/140.05811a56.js"><link rel="prefetch" href="/assets/js/141.32b8052b.js"><link rel="prefetch" href="/assets/js/142.2c061186.js"><link rel="prefetch" href="/assets/js/143.113df61a.js"><link rel="prefetch" href="/assets/js/144.2c01c336.js"><link rel="prefetch" href="/assets/js/145.a8fe7a8a.js"><link rel="prefetch" href="/assets/js/146.bb5b7e16.js"><link rel="prefetch" href="/assets/js/147.213b17a7.js"><link rel="prefetch" href="/assets/js/148.dd7a3258.js"><link rel="prefetch" href="/assets/js/149.b3f9adc5.js"><link rel="prefetch" href="/assets/js/15.3aa73286.js"><link rel="prefetch" href="/assets/js/150.4ab9a505.js"><link rel="prefetch" href="/assets/js/151.d04eb475.js"><link rel="prefetch" href="/assets/js/152.c547ae2c.js"><link rel="prefetch" href="/assets/js/153.3fa58002.js"><link rel="prefetch" href="/assets/js/154.cd2cc012.js"><link rel="prefetch" href="/assets/js/155.0160c441.js"><link rel="prefetch" href="/assets/js/16.7886627b.js"><link rel="prefetch" href="/assets/js/17.a4c76a6c.js"><link rel="prefetch" href="/assets/js/18.995eb54b.js"><link rel="prefetch" href="/assets/js/19.edc682a7.js"><link rel="prefetch" href="/assets/js/20.87ca556d.js"><link rel="prefetch" href="/assets/js/21.4b328dcc.js"><link rel="prefetch" href="/assets/js/22.91d15e78.js"><link rel="prefetch" href="/assets/js/23.17bfc3dd.js"><link rel="prefetch" href="/assets/js/24.c0d84a10.js"><link rel="prefetch" href="/assets/js/25.2717e191.js"><link rel="prefetch" href="/assets/js/26.3764ddb4.js"><link rel="prefetch" href="/assets/js/27.e98913ec.js"><link rel="prefetch" href="/assets/js/28.a4481108.js"><link rel="prefetch" href="/assets/js/29.3d82d38d.js"><link rel="prefetch" href="/assets/js/3.e2aae122.js"><link rel="prefetch" href="/assets/js/30.7e9979a2.js"><link rel="prefetch" href="/assets/js/31.fa479c29.js"><link rel="prefetch" href="/assets/js/32.901576de.js"><link rel="prefetch" href="/assets/js/33.8dafc45c.js"><link rel="prefetch" href="/assets/js/34.6bbddd9b.js"><link rel="prefetch" href="/assets/js/35.394c80b9.js"><link rel="prefetch" href="/assets/js/36.5246333d.js"><link rel="prefetch" href="/assets/js/37.49802bfd.js"><link rel="prefetch" href="/assets/js/38.36ae0914.js"><link rel="prefetch" href="/assets/js/39.791184a0.js"><link rel="prefetch" href="/assets/js/4.30c2ba05.js"><link rel="prefetch" href="/assets/js/40.eb1a9cc1.js"><link rel="prefetch" href="/assets/js/41.31179942.js"><link rel="prefetch" href="/assets/js/42.22c31ea4.js"><link rel="prefetch" href="/assets/js/43.e82e343d.js"><link rel="prefetch" href="/assets/js/44.95e68751.js"><link rel="prefetch" href="/assets/js/45.b99232d2.js"><link rel="prefetch" href="/assets/js/46.21e9dae9.js"><link rel="prefetch" href="/assets/js/47.e30bba7c.js"><link rel="prefetch" href="/assets/js/48.6c0d14cd.js"><link rel="prefetch" href="/assets/js/49.ed1b480b.js"><link rel="prefetch" href="/assets/js/5.c5fba3ad.js"><link rel="prefetch" href="/assets/js/50.f500b9ed.js"><link rel="prefetch" href="/assets/js/51.3671246f.js"><link rel="prefetch" href="/assets/js/52.7915148f.js"><link rel="prefetch" href="/assets/js/53.39ece5d9.js"><link rel="prefetch" href="/assets/js/54.358ca4aa.js"><link rel="prefetch" href="/assets/js/55.244837be.js"><link rel="prefetch" href="/assets/js/56.e7164f10.js"><link rel="prefetch" href="/assets/js/57.3c6f5aa2.js"><link rel="prefetch" href="/assets/js/58.84c83603.js"><link rel="prefetch" href="/assets/js/59.ec4edc7d.js"><link rel="prefetch" href="/assets/js/6.9184d4d1.js"><link rel="prefetch" href="/assets/js/60.c2346e02.js"><link rel="prefetch" href="/assets/js/61.8d99ca4c.js"><link rel="prefetch" href="/assets/js/62.f6bea4bf.js"><link rel="prefetch" href="/assets/js/63.410bfe1e.js"><link rel="prefetch" href="/assets/js/64.960d5951.js"><link rel="prefetch" href="/assets/js/65.e6a8895b.js"><link rel="prefetch" href="/assets/js/66.41092e16.js"><link rel="prefetch" href="/assets/js/67.062b95dc.js"><link rel="prefetch" href="/assets/js/68.58c65f95.js"><link rel="prefetch" href="/assets/js/69.d1e1b68b.js"><link rel="prefetch" href="/assets/js/7.85fc951e.js"><link rel="prefetch" href="/assets/js/70.8294a611.js"><link rel="prefetch" href="/assets/js/71.66e44dac.js"><link rel="prefetch" href="/assets/js/72.46bd34f2.js"><link rel="prefetch" href="/assets/js/73.7eb2e800.js"><link rel="prefetch" href="/assets/js/74.8e05f264.js"><link rel="prefetch" href="/assets/js/75.21e0b9b1.js"><link rel="prefetch" href="/assets/js/76.c2c92cec.js"><link rel="prefetch" href="/assets/js/77.799df679.js"><link rel="prefetch" href="/assets/js/78.1605b33c.js"><link rel="prefetch" href="/assets/js/79.659e7e78.js"><link rel="prefetch" href="/assets/js/80.6f99ca65.js"><link rel="prefetch" href="/assets/js/81.7a0caba9.js"><link rel="prefetch" href="/assets/js/82.19629840.js"><link rel="prefetch" href="/assets/js/83.29093f51.js"><link rel="prefetch" href="/assets/js/84.64568258.js"><link rel="prefetch" href="/assets/js/85.3d88e3b2.js"><link rel="prefetch" href="/assets/js/86.0a93f933.js"><link rel="prefetch" href="/assets/js/88.aa6be8e5.js"><link rel="prefetch" href="/assets/js/89.6ad93f1f.js"><link rel="prefetch" href="/assets/js/90.87c8c6e5.js"><link rel="prefetch" href="/assets/js/91.57c509b5.js"><link rel="prefetch" href="/assets/js/92.c8b02e25.js"><link rel="prefetch" href="/assets/js/93.fee86c6c.js"><link rel="prefetch" href="/assets/js/94.ab3bad19.js"><link rel="prefetch" href="/assets/js/95.cfaa79dc.js"><link rel="prefetch" href="/assets/js/96.c63afef5.js"><link rel="prefetch" href="/assets/js/97.123374a6.js"><link rel="prefetch" href="/assets/js/98.53cfb154.js"><link rel="prefetch" href="/assets/js/99.8fe1f067.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5e19b665.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0503e0f3.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><p>Git是最常用的版本管理工具，利于协同开发</p> <p>​        原来的标题是Github使用技巧，但是后来开发之后发现github和gitlab都是基于Git，因此改为Git</p> <h2 id="github-action"><a href="#github-action" class="header-anchor">#</a> GitHub action</h2> <p>持续集成由很多操作组成，比如抓取代码、运行测试、登录远程服务器，发布到第三方服务等等。GitHub 把这些操作就称为 actions。</p> <p>很多操作在不同项目里都是类似的，完全可以共享，因此github允许开发者把每个操作写成独立的脚本文件，存放到代码仓库里，使得其他开发者可以引用</p> <p>如果你需要某个action，不必自己写复杂的脚本，直接引用别人写好的action即可，整个持续集成过程就变成了一个actions 的组合</p> <h3 id="基本概念"><a href="#基本概念" class="header-anchor">#</a> 基本概念：</h3> <p>workflow：持续集成一次运行的过程，就是一个workflow</p> <p>job：一个workflow由一个或者多个job组成，含义是一次持续集成的运行可以完成多个任务</p> <p>step：每个job由多个step组成，一步步完成</p> <p>action：每个step可以依次执行一个或者多个命令(action)</p> <p>github actions的配置文件叫做workflow文件，存放在代码仓库的.github/workflow目录</p> <p>workflow采用yaml文件，文件名可以任取，后缀名统一为.yml，一个库可以有多个workflow文件，github只要发现.github/workflows目录里面有.yml文件就会自动运行该文件</p> <p>workflow中常用的配置字段</p> <p><strong>name</strong>：workflow的名称，如果省略该字段，则默认是workflow的文件名</p> <p><strong>on</strong>：指定触发workflow的条件，通常是某些事件，可以是事件或事件的数组</p> <p>例：<code>on:[push,pull_request]</code>表示push或者pull_request事件都可以触发workflow</p> <p>on也可以限定某些分支的事件或标签，</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> master
+</code></pre></div><p>上面的代码表示是有master分支push时才触发</p> <p><strong>jobs</strong>：jobs是workflow文件的主体，表示要执行的一项或者多项任务</p> <p>jobs中：</p> <p>首先写出每一项任务的joh_id，名称自定义就可以，添加name字段是任务的说明</p> <p>needs字段指定当前任务的依赖关系，即运行顺序</p> <p>runs-on字段指定运行所需要的虚拟机环境，这是必填字段</p> <p>runs-on可以选择github提供的虚拟机或者自己的服务器，使用自己的机器需要github能进行访问并给其所需的权限</p> <p>有时候需要对多个操作系统、多个编程语言版本、多个平台进行测试，此时可以在runs-on字段下面配置一个构建矩阵</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">runs-on</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span>matrix.os<span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token key atrule">strategy</span><span class="token punctuation">:</span>
+   <span class="token key atrule">matrix</span><span class="token punctuation">:</span>
+      os<span class="token punctuation">:</span><span class="token punctuation">[</span>ubuntu<span class="token punctuation">-</span>16.04 ubuntu<span class="token punctuation">-</span><span class="token number">18.04</span><span class="token punctuation">]</span>
+      node<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">]</span>
+<span class="token comment">## 上面的代码配置了两种os操作系统和三种node版本共六种情况的构建矩阵，`{{matrix.os}}`是一个上下文参数</span>
+</code></pre></div><p>strategy策略包括：</p> <p>matrix：构建矩阵</p> <p>fail-fast：默认为true，即一旦某个矩阵任务失败则立即取消所有还在进行中的任务</p> <p>max-paraller：可同时执行的最大并发数，默认情况下github会动态调整</p> <p>此外还可以使用include为一个特定的<code>os</code>版本声明，用exclude删除特定的配置项</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">runs-on</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span>matrix.os<span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token key atrule">strategy</span><span class="token punctuation">:</span>
+   <span class="token key atrule">matrix</span><span class="token punctuation">:</span>
+      os<span class="token punctuation">:</span><span class="token punctuation">[</span>macos<span class="token punctuation">-</span>latest windows<span class="token punctuation">-</span>latest ubuntu<span class="token punctuation">-</span><span class="token number">18.04</span><span class="token punctuation">]</span>
+      node<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">]</span>
+      <span class="token key atrule">include</span><span class="token punctuation">:</span> 
+        <span class="token punctuation">-</span> <span class="token key atrule">os</span><span class="token punctuation">:</span> windows<span class="token punctuation">-</span>latest
+          <span class="token key atrule">node</span><span class="token punctuation">:</span> <span class="token number">4</span>
+          <span class="token key atrule">npm</span><span class="token punctuation">:</span> <span class="token number">2</span>
+      <span class="token key atrule">exclude</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">os</span><span class="token punctuation">:</span> macos<span class="token punctuation">-</span>latest
+          <span class="token key atrule">node</span><span class="token punctuation">:</span> <span class="token number">4</span>
+</code></pre></div><p>上面的代码声明了当os为windows-latest时增加一个node和npm的特定版本，当os为Macos-latest时移出node为4的版本</p> <p><strong>jobs.steps</strong>：steps字段指定每个job的运行步骤，可以包含一个或者多个步骤，每个steps可以指定三个字段</p> <p>Steps.name：步骤名称</p> <p>steps.run：该步骤的shell指令或者action</p> <p>steps.env：该步骤所需的环境变量</p> <p>steps.uses:使用哪个action</p> <p>checkout action是一个标准动作，当有以下情况时必须率先使用checkout action：</p> <p>1.workflow需要项目库当代码副本，如构建、测试、或持续集成这些操作</p> <p>2.workflow中至少有一个action是在同一个项目库下定义的</p> <p>此外，如果只是想浅克隆库或者只复制最新的版本，使用with:fetch-depth声明</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v1
+  <span class="token key atrule">with</span><span class="token punctuation">:</span>
+    <span class="token key atrule">fetch-depth</span><span class="token punctuation">:</span> <span class="token number">1</span>
+</code></pre></div><p>也可以引用现有库、自己的库或者docker的container</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">jobs</span><span class="token punctuation">:</span> 
+   <span class="token key atrule">my_first_job</span><span class="token punctuation">:</span>
+     <span class="token key atrule">step</span><span class="token punctuation">:</span>
+       <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> My first step
+         <span class="token key atrule">uses</span><span class="token punctuation">:</span> docker<span class="token punctuation">:</span>//alpine<span class="token punctuation">:</span><span class="token number">3.8</span>
+         <span class="token key atrule">uses</span><span class="token punctuation">:</span> ./.github/actions/hello<span class="token punctuation">-</span>word<span class="token punctuation">-</span>action
+         <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v1
+         <span class="token key atrule">with</span><span class="token punctuation">:</span> 
+             <span class="token key atrule">node-version</span><span class="token punctuation">:</span> 10.x
+</code></pre></div><p><strong>if语句</strong>：</p> <p>在jobs和step中可以使用if条件语句，只有满足条件时才执行具体的job或者step</p> <p>if语句中的任务检查语句</p> <p>always():总是返回true</p> <p>success():当上一步执行成功时才会返回true</p> <p>failure()：当上一步执行失败时才会返回ture</p> <p>cancelled()：当workflow被取消时返回true</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">steps</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> step1
+      if<span class="token punctuation">:</span>always()
+      
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> step2
+      if<span class="token punctuation">:</span>success()
+      
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> step3
+      if<span class="token punctuation">:</span>failure()
+</code></pre></div><p><strong>上下文和表达式(expression)</strong></p> <p>有时候我们需要和第三方平台交互，这时通常需要配置一个token，但是这个token不可能明文使用的，通过${ { } }</p> <p>的表达式就能传入</p> <p>具体做法：</p> <p>1.在具体repo库Settings中添加一个密钥，如SOMEONE_TOKEN</p> <p>2.在workflow中通过表达式将 token安全地传入环境变量</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">steps</span><span class="token punctuation">:</span>
+   <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> My first action
+     <span class="token key atrule">env</span><span class="token punctuation">:</span>
+      SOMEONE_TOKEN<span class="token punctuation">:</span>$<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.SOMEONE_TOKEN<span class="token punctuation">}</span><span class="token punctuation">}</span>
+</code></pre></div><p>这里的secrets就是一个上下文，除此之外还有：</p> <p>github.event_name:触发workflow的事件名称</p> <p>job.status:当前job的状态，如success、failure等</p> <p>Steps.output:某个action的输出</p> <p>runner.os：runner的操作系统，如windows、linux或者macOS</p> <p>github还做了一个官方市场，可以搜索到其他人提交的actions，另外还有一个awesome actions的仓库可以找到其他action</p> <h3 id="回滚"><a href="#回滚" class="header-anchor">#</a> 回滚</h3> <p>在github action下找到要回滚的版本，点击re-run就可以回到指定的版本</p> <h3 id="触发其他repo的workflow"><a href="#触发其他repo的workflow" class="header-anchor">#</a> 触发其他repo的workflow</h3> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">name</span><span class="token punctuation">:</span> Dispatch Event
+
+<span class="token key atrule">on</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>push<span class="token punctuation">]</span>
+
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+	<span class="token key atrule">build</span><span class="token punctuation">:</span>
+		
+		<span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+		
+		<span class="token key atrule">steps</span><span class="token punctuation">:</span>
+		<span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v1
+			<span class="token key atrule">with</span><span class="token punctuation">:</span>
+				<span class="token key atrule">fetch-depth</span><span class="token punctuation">:</span> <span class="token number">1</span>
+		
+		<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> dispatch event to another_repository
+			<span class="token key atrule">env</span><span class="token punctuation">:</span>
+				<span class="token key atrule">GITHUB_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.REPO_ACCESS_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+				<span class="token key atrule">EVENT</span><span class="token punctuation">:</span> YOUR_EVENT_TYPE
+				<span class="token key atrule">ORG</span><span class="token punctuation">:</span> YOUR_ORG_NAME
+				<span class="token key atrule">REPO</span><span class="token punctuation">:</span> YOUR_TARGET_REPO_NAME
+			<span class="token key atrule">run</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+				curl -d &quot;{\&quot;event_type\&quot;: \&quot;${EVENT}\&quot;}&quot; -H &quot;Content-Type: application/json&quot; -H &quot;Authorization: token ${GITHUB_TOKEN}&quot; -H &quot;Accept: application/vnd.github.everest-preview+json&quot; &quot;https://api.github.com/repos/${ORG}/${REPO}/dispatches&quot;</span>
+</code></pre></div><div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">name</span><span class="token punctuation">:</span> hugo publish
+
+<span class="token key atrule">on</span><span class="token punctuation">:</span> 
+	<span class="token key atrule">push</span><span class="token punctuation">:</span> 
+		<span class="token key atrule">branches</span><span class="token punctuation">:</span>
+			<span class="token punctuation">-</span>master
+	<span class="token key atrule">repository_dispatch</span><span class="token punctuation">:</span>
+		<span class="token key atrule">types</span><span class="token punctuation">:</span> sub_commit
+
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+	<span class="token key atrule">build-deploy</span><span class="token punctuation">:</span>
+		<span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span><span class="token number">18.04</span>
+		<span class="token key atrule">steps</span><span class="token punctuation">:</span>
+		<span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
+			<span class="token key atrule">with</span><span class="token punctuation">:</span> 
+				<span class="token key atrule">submodule</span><span class="token punctuation">:</span> recursive
+</code></pre></div><h3 id="好用的git-action"><a href="#好用的git-action" class="header-anchor">#</a> 好用的git action</h3> <p>action-js-inline</p> <p>Https://github.com/marketplace/actions/execute-javascript-inline</p> <p>可以在git action里执行js代码，而不只是shell代码</p> <h3 id="本地跑git-action"><a href="#本地跑git-action" class="header-anchor">#</a> 本地跑git action</h3> <p>https://www.github.com/nektos/act</p> <h2 id="git-hooks"><a href="#git-hooks" class="header-anchor">#</a> Git Hooks</h2> <h2 id="在github上工作"><a href="#在github上工作" class="header-anchor">#</a> 在Github上工作</h2> <h3 id="向开源项目贡献代码"><a href="#向开源项目贡献代码" class="header-anchor">#</a> 向开源项目贡献代码</h3> <p>一般开源库不会给其他人开放push权限，如果有很好的想法或者发现开源库有bug，可以向作者提pr(pull request)/mr(merge request)</p> <p>首先Fork（关联复制）一份开源库A的代码到自己的github账号下( A1)</p> <p>自己对于A1有完全的权限，此时在A1上加入自己的代码，commitA</p> <p>发送Merge Request到原A库作者</p> <p>原A库作者审核同意后，将commitA merge到A库代码中</p> <h3 id="github-activity"><a href="#github-activity" class="header-anchor">#</a> GitHub activity</h3> <p>一般来说，只有对GitHub上repo的master分支操作时，比如push或者合并到master时GitHub activity会有记录</p> <h3 id="github-api"><a href="#github-api" class="header-anchor">#</a> GitHub api</h3> <p>api.github.com/repos/{repo_name}/releases/tags/</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">curl</span> <span class="token parameter variable">-o</span> index.json https:api.github.com/repos/vesoft-inc/nebula-graph/releases/tags/v2.5.0
+https:api.github.com/repos/<span class="token punctuation">{</span>repo_name<span class="token punctuation">}</span>/releases/latest
+</code></pre></div><h3 id="pr-issue-template"><a href="#pr-issue-template" class="header-anchor">#</a> pr/issue template</h3> <h3 id="github-release-tag"><a href="#github-release-tag" class="header-anchor">#</a> GitHub release/tag</h3> <p>Git tag常用于发布版本的标注，可以理解为tag是对某一次commit hash的别名设置。需要注意的是，git tag的同步与删除需要显式地指定名称</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 列出本地所有tag</span>
+<span class="token function">git</span> tag
+
+<span class="token comment"># 过滤出v2.开头的tag</span>
+<span class="token function">git</span> tag <span class="token parameter variable">-l</span> <span class="token string">'v2.*'</span>
+
+<span class="token comment"># 使用管道输出tag列表，避免进入visual模式</span>
+<span class="token function">git</span> tag <span class="token operator">|</span> <span class="token function">sort</span> <span class="token parameter variable">-V</span> <span class="token comment"># gtv</span>
+</code></pre></div><p>新增tag</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 创建一个名为 v0.0.1的轻量tag</span>
+<span class="token function">git</span> tag v0.0.1
+
+<span class="token comment"># 创建一个名为 v0.0.1的附注tag</span>
+<span class="token function">git</span> tag <span class="token parameter variable">-a</span> v0.0.1 <span class="token parameter variable">-m</span> <span class="token string">'tag description'</span>
+
+<span class="token comment"># 将tag推送至远程</span>
+<span class="token function">git</span> push origin v0.0.1 <span class="token comment">#ggp v0.0.1</span>
+</code></pre></div><p>删除tag</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 删除本地tag</span>
+<span class="token function">git</span> tag <span class="token parameter variable">-d</span> v0.0.1
+
+<span class="token comment"># 删除远程tag</span>
+<span class="token function">git</span> push origin <span class="token parameter variable">-d</span> v0.0.1 <span class="token comment"># gp origin: v0.0.1</span>
+</code></pre></div><p>语义化版本</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">git</span> describe master <span class="token parameter variable">--tags</span>
+</code></pre></div><h3 id="文件夹模式"><a href="#文件夹模式" class="header-anchor">#</a> 文件夹模式</h3> <p>在对应的github地址下改url为github1s.com 可以使用类似于vscode的文件模式，但是是网页版，查看文件比较方便</p> <p>比如</p> <p>https://github1s.com/margox/braft-utils/blob/master/src/content.js#L44</p> <p>也可以使用chrome插件</p> <p>比如说gitako.安装之后在站点会有一个牛角一样的东西，可以展开/收起文件夹</p> <p>地址：https://github.com/EnixCoda/Gitako</p> <h3 id="oauth"><a href="#oauth" class="header-anchor">#</a> Oauth</h3> <p>github支持Oauth 2.0, 在setting- 开发设置中添加Oauth 拿到clientId和client secret</p> <p>在应用中添加github第三方登录时，路由为http://github.com/login/oauth/authorize?client_id=&amp;redirect-uri=&amp;scope=&amp;state=</p> <p>参数名	       数据类型	描述
+client_id	      String	点击请在此处注册OAuth Apps，此处会看见Client_id,Client Secret
+redirect_uri	String	当用户授权登录后，自动重定向的页面
+login	            String	使用一个特定的帐户登录和授权的应用程序。
+scope	          String	获取到信息的范围
+state	            String	随机一个数值，用作防止跨域攻击</p> <p>如果用户接受您的请求，GitHub 将重定向回您的站点，其中，代码参数为临时 <code>code</code>，<code>state</code> 参数为您在上一步提供的状态。 临时代码将在 10 分钟后到期。 如果状态不匹配，然后第三方创建了请求，您应该中止此过程。</p> <p>用此 <code>code</code> 换访问令牌：</p> <div class="language-shell extra-class"><pre class="language-shell"><code>POST https://github.com/login/oauth/access_token
+</code></pre></div><p>query参数</p> <table><thead><tr><th style="text-align:left;">名称</th> <th style="text-align:left;">类型</th> <th style="text-align:left;">描述</th></tr></thead> <tbody><tr><td style="text-align:left;"><code>client_id</code></td> <td style="text-align:left;"><code>字符串</code></td> <td style="text-align:left;">**必填。**您从 GitHub 收到的 OAuth 应用程序 的客户端 ID。</td></tr> <tr><td style="text-align:left;"><code>client_secret</code></td> <td style="text-align:left;"><code>字符串</code></td> <td style="text-align:left;">**必填。**您从 GitHub 收到的 OAuth 应用程序 的客户端密钥。</td></tr> <tr><td style="text-align:left;"><code>代码</code></td> <td style="text-align:left;"><code>字符串</code></td> <td style="text-align:left;">**必填。**您收到的响应第 1 步的代码。</td></tr> <tr><td style="text-align:left;"><code>redirect_uri</code></td> <td style="text-align:left;"><code>字符串</code></td> <td style="text-align:left;">用户获得授权后被发送到的应用程序中的 URL。</td></tr></tbody></table> <p>然后就可以使用token访问github 的api</p> <p>在请求头中添加</p> <div class="language-header extra-class"><pre class="language-text"><code>Authorization: token OAUTH-TOKEN
+GET https://api.github.com/user
+</code></pre></div><p>文档：</p> <p>https://docs.github.com/cn/developers/apps/building-oauth-apps/authorizing-oauth-apps</p> <h2 id="git-open"><a href="#git-open" class="header-anchor">#</a> git-open</h2> <p>git-open是一个npm包，可以在git提交后在命令行输入，快速打开gitlab</p> <div class="language-js extra-class"><pre class="language-js"><code>npm install git<span class="token operator">-</span>open
+</code></pre></div><p>使用时直接输入</p> <div class="language-js extra-class"><pre class="language-js"><code>git open
+</code></pre></div><p>就可以在默认浏览器打开gitlab的提交页面</p> <p>如果提交的分支不是master，需要在gitlab页面创建合并请求，选择审核人进行审核合并</p> <p>在审核人确定合并之前，下次提交时不需要再次创建合并请求</p> <p>确定合并之后下次提交到分支时则需要再次创建</p> <h2 id="gitlab"><a href="#gitlab" class="header-anchor">#</a> Gitlab</h2> <p>gitlab自带nginx、redis等软件，所以运行起来较大，在RAM4GB及以上的服务器才可以跑起来</p> <h3 id="gitlab-ci"><a href="#gitlab-ci" class="header-anchor">#</a> Gitlab ci</h3> <p>过在项目根目录下配置**.gitlab-ci.yml**文件，可以控制ci流程的不同阶段，例如install/检查/编译/部署服务器。gitlab平台会扫描.gitlab-ci.yml文件，并据此处理ci流程</p> <p>ci流程在每次团队成员<strong>push/merge</strong>后之后触发。每当你push/merge一次，gitlab-ci都会检查项目下有没有.gitlab-ci.yml文件，如果有，它会执行你在里面编写的脚本，并完整地走一遍从<strong>intall =&gt;</strong> <strong>eslint检查=&gt;编译 =&gt;部署服务器</strong>的流程</p> <p>gitlab-ci提供了指定ci运行平台的机制，它提供了一个叫<strong>gitlab-runner</strong>的软件，只要在对应的平台(机器或docker)上下载并运行这个命令行软件，并输入从gitlab交互界面获取的token,就可以把当前机器和对应的gitlab-ci流程绑定，也即：每次跑ci都在这个平台上进行。</p> <p>gitlab-ci的所有流程都是可视化的，每个流程节点的状态可以在gitlab的交互界面上看到，包括执行成功或失败。如下图所示,因为它的执行看上去就和多节管道一样，所以我们通常用“pipeLine”来称呼它</p> <p>不同push/merge所触发的CI流程不会互相影响，也就是说，你的一次push引发的CI流程并不会因为接下来另一位同事的push而阻断，它们是互不影响的。这一个特点方便让测试同学根据不同版本进行测试。</p> <p>pipeline不仅能被动触发，也是可以手动触发的。</p> <p>通过gitlab-ci，前端开发在提交代码之后就不用管了，ci流程会自动部署到测试或集成环境的服务器。很大程度上节约了开发的时间。</p> <p>同时，因为开发和测试人员可以共用gitlab里的pipeline界面, 测试同学能够随时把握代码部署的情况，同时还可以通过交互界面手动启动pipeline，自己去部署测试，从而节约和开发之间的沟通时间。</p> <p>我们可以把eslint或其他的代码检查加到pipeline流程中，每当团队成员提交和合并一次，pipeline都会触发一次并对代码做一次全面检测，这样就从一个更细的粒度上控制代码质量了。</p> <h4 id="gitlab-ci中的概念"><a href="#gitlab-ci中的概念" class="header-anchor">#</a> gitlab ci中的概念</h4> <p>Pipeline是Gitlab根据项目的.gitlab-ci.yml文件执行的流程，它由许多个任务节点组成, 而这些Pipeline上的每一个任务节点，都是一个独立的Job</p> <p>Job在YML中的配置我们将会在下面介绍，现在需要知道的是：<strong>每个Job都会配置一个stage属性，来表示这个Job所处的阶段。</strong></p> <p><strong>一个Pipleline有若干个stage,每个stage上有至少一个Job</strong>，</p> <p>Runner可以理解为：<strong>在特定机器上</strong>根据项目的**.gitlab-ci.yml<strong>文件，对项目执行pipeline的</strong>程序**。Runner可以分为两种： <strong>Specific Runner</strong> 和 <strong>Shared Runner</strong></p> <ul><li><strong>Shared Runner</strong>是Gitlab平台提供的免费使用的runner程序，它由Google云平台提供支持，每个开发团队有十几个。对于公共开源项目是免费使用的，如果是私人项目则有每月2000分钟的CI时间上限。</li> <li><strong>Specific Runner</strong>是我们自定义的，在自己选择的机器上运行的runner程序，gitlab给我们提供了一个叫gitlab-runner的命令行软件，只要在对应机器上下载安装这个软件，并且运行gitlab-runner register命令，然后输入从gitlab-ci交互界面获取的token进行注册, 就可以在自己的机器上远程运行pipeline程序了。</li></ul> <ol><li>Shared Runner是所有项目都可以使用的，而Specific Runner只能针对特定项目运行</li> <li>Shared Runner默认基于docker运行，没有提前装配的执行pipeline的环境，例如node等。而Specific Runner你可以自由选择平台，可以是各种类型的机器，如Linux/Windows等，并在上面装配必需的运行环境，当然也可以选择Docker/K8s等</li> <li>私人项目使用Shared Runner受运行时间的限制，而Specific Runner的使用则是完全自由的。</li></ol> <p>有时候你可能会发现：你的Job并没有被你新建的Runner执行，而是被Share Runner抢先执行了。你如果不想要Share Runner，你可以在Gitlab面板上关掉</p> <p>CI流程的运行控制，决定于项目根目录下编写的配置文件—— <strong>.gitlab-ci.yml</strong>，正因如此，我们需要掌握YML的基本语法规则。</p> <p>YML是一种编写配置文件的语言，比JSON更为简洁和方便，因此，我们首先要掌握的就是YML文件的编写语法。</p> <p>Gitlab yaml</p> <p>模块化</p> <p>yaml</p> <ul><li>使用 **&amp;**符号可以定义一个片段的别名</li> <li>使用 **&lt;&lt;**符号和 ***** 符号可以将别名对应的YML片段导入</li></ul> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">.common-config</span><span class="token punctuation">:</span> <span class="token important">&amp;commonConfig</span>
+  <span class="token key atrule">only</span><span class="token punctuation">:</span> <span class="token comment"># 表示仅在develop/release分支上执行</span>
+    <span class="token key atrule">refs</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> develop
+      <span class="token punctuation">-</span> release
+
+<span class="token key atrule">install-job</span><span class="token punctuation">:</span>
+  <span class="token comment"># 其他配置 ....</span>
+  <span class="token key atrule">&lt;&lt;</span><span class="token punctuation">:</span> <span class="token important">*commonConfig</span>
+<span class="token key atrule">build-job</span><span class="token punctuation">:</span>
+  <span class="token comment"># 其他配置 ....</span>
+  <span class="token key atrule">&lt;&lt;</span><span class="token punctuation">:</span> <span class="token important">*commonConfig</span>
+</code></pre></div><p>gitlab-ci提供的include关键字便可实现这个功能, 它可以用来导入外部的YML文件。</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">include</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token string">'/.gitlab-ci.wx.yml'</span>
+  <span class="token punctuation">-</span> <span class="token string">'/.gitlab-ci.bd.yml'</span>
+  <span class="token punctuation">-</span> <span class="token string">'/.gitlab-ci.h5.yml'</span>
+</code></pre></div><p>gitlab-ci还提供了extend关键字，它的功能和前面提到的YML的片段导入的功能是一样的，</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">.common-config</span><span class="token punctuation">:</span> 
+  <span class="token key atrule">only</span><span class="token punctuation">:</span> <span class="token comment"># 表示仅在develop/release分支上执行</span>
+    <span class="token key atrule">refs</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> develop
+      <span class="token punctuation">-</span> release
+
+<span class="token key atrule">install-job</span><span class="token punctuation">:</span>
+  <span class="token comment"># 其他配置 ....</span>
+  <span class="token key atrule">extends</span><span class="token punctuation">:</span> .common<span class="token punctuation">-</span>config
+
+<span class="token key atrule">build-job</span><span class="token punctuation">:</span>
+  <span class="token comment"># 其他配置 ....</span>
+  <span class="token key atrule">extends</span><span class="token punctuation">:</span> .common<span class="token punctuation">-</span>config
+</code></pre></div><p>script</p> <p>由runner执行的shell脚本，job所需的唯一关键字</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token comment">## 示例1：</span>
+  <span class="token key atrule">job</span><span class="token punctuation">:</span>
+    <span class="token key atrule">script</span><span class="token punctuation">:</span> <span class="token string">&quot;bundle exec rspec&quot;</span>
+<span class="token comment">## 示例2：</span>
+  <span class="token key atrule">job</span><span class="token punctuation">:</span>
+    <span class="token key atrule">script</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> uname <span class="token punctuation">-</span>a
+      <span class="token punctuation">-</span> bundle exec rspec
+</code></pre></div><p>before_script</p> <p>定义在所有job之前运行的命令（包括部署作业），必须是数组</p> <p>after_script</p> <p>定义在所有job之后运行的命令（包括失败的job），必须是数组</p> <p>每个管道均可使用的两个阶段
+.pre: 保证始终是管道的第一个阶段
+.post: 保证始终是管道的最后一个阶段</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token comment">## 示例1:</span>
+    <span class="token key atrule">stages</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> .pre
+      <span class="token punctuation">-</span> a
+      <span class="token punctuation">-</span> b
+      <span class="token punctuation">-</span> .post
+</code></pre></div><p>environment</p> <p>定义作业部署到特定环境，如果指定不存的名称在则自动创建</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code>  <span class="token key atrule">deploy to production</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> deploy
+  <span class="token key atrule">script</span><span class="token punctuation">:</span> git push production HEAD<span class="token punctuation">:</span>master
+  <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> production
+</code></pre></div><p>cache</p> <p>为了<strong>重复运行pipeline的时候不会重复安装全部node_modules的包</strong>，从而减少pipeline的时间，提高pipeline的性能。</p> <p><strong>但是，这并不是cache关键字唯一的功能！</strong></p> <p>在介绍cache的另外一个功能之前，我要先说一下gitlab-ci的一个优点“恶心人”的特点：</p> <p>它在运行下一个Job的时候，会默认把前一个Job新增的资源删除得干干静静</p> <p>也就是说，我们上面bulid阶段编译生成的包，会在deploy阶段运行前被默认删除！（我生产包都没了我怎么部署emmmmmmm）</p> <p>而cache的作用就在这里体现出来了：如果我们把bulid生产的包的路径添加到cache里面，虽然gitlab还是会删除bulid目录，但是因为在删除前我们已经重新上传了cache，并且在下个Job运行时又把cache给pull下来，那么这个时候就可以实现在下一个Job里面使用前一个Job的资源了</p> <p>总而言之，cache的功能体现在两点：</p> <ul><li><strong>在不同pipeline之间重用资源</strong></li> <li><strong>在同一pipeline的不同Job之间重用资源</strong></li></ul> <p>虽然cache会缓存旧的包，但我们并不用担心使用到旧的资源，因为npm install还是会如期运行，并检查package.json是否有更新，npm build的时候，生成的build资源包也会覆盖cache,并且在当前Job运行结束时，作为**&quot;新的cache&quot;**上传</p> <p>如果cache在job外定义，则表示它是全局的</p> <p>artifacts</p> <p>将生成的资源作为pipeline运行成功的附件上传，并在gitlab交互界面上提供下载</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">Build-job</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> build
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token string">'npm run build'</span>
+  <span class="token key atrule">artifacts</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">'bundle'</span>
+    <span class="token key atrule">paths</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> build/
+</code></pre></div><p>Image/Services</p> <p>这两个关键字可使用Docker的镜像和服务运行Job，</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token comment">### 示例1：</span>
+  <span class="token key atrule">image</span><span class="token punctuation">:</span> <span class="token string">&quot;registry.example.com/my/image:latest&quot;</span>
+<span class="token comment">### 示例2：</span>
+  <span class="token key atrule">image</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">&quot;registry.example.com/my/image:latest&quot;</span>
+<span class="token comment">### 示例1：</span>
+    <span class="token key atrule">services</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> postgresql<span class="token punctuation">:</span><span class="token number">9.4</span>
+      <span class="token punctuation">-</span> redis<span class="token punctuation">:</span>latest
+<span class="token comment">### 示例2:</span>
+    <span class="token key atrule">services</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> postgresql<span class="token punctuation">:</span><span class="token number">9.4</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> redis<span class="token punctuation">:</span>latest
+</code></pre></div><p>Only/except</p> <p>这两个关键字后面跟的值是tag或者分支名的列表。</p> <p>故名思义</p> <ul><li>only的作用是指定当前Job仅仅只在某些tag或者branch上触发</li> <li>而except的作用是当前Job不在某些tag或者branch上触发</li></ul> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">job</span><span class="token punctuation">:</span>
+  <span class="token comment"># use regexp</span>
+  <span class="token key atrule">only</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> /^issue<span class="token punctuation">-</span>.<span class="token important">*$/</span>
+    <span class="token punctuation">-</span> develop
+    <span class="token punctuation">-</span> release
+</code></pre></div><p>allow_failure</p> <p>值为true/false, 表示当前Job是否允许允许失败。</p> <ul><li>默认是false,也就是如果当前Job因为报错而失败，则当前pipeline停止</li> <li>如果是true，则即使当前Job失败，pipeline也会继续运行下去。</li></ul> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">job1</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> execute_script_that_will_fail
+  <span class="token key atrule">allow_failure</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</code></pre></div><p>retry</p> <p>指明的是当前Job的失败重试次数的上限。</p> <p>但是这个值只能在0 ～2之间，也就是重试次数最多为2次，包括第一次运行在内，Job最多自动运行3次</p> <p>timeout</p> <p>配置超时时间，超过时间判定为失败</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">Job</span><span class="token punctuation">:</span>
+  <span class="token key atrule">script</span><span class="token punctuation">:</span> rspec
+  <span class="token key atrule">timeout</span><span class="token punctuation">:</span> 3h 30m
+</code></pre></div><p>when</p> <p>Job在何种状态下运行，它可设置为3个值</p> <ul><li><strong>on_success</strong>: 仅当先前pipeline中的所有Job都成功（或因为已标记，被视为成功allow_failure）时才执行当前Job 。这是默认值。</li> <li><strong>on_failure</strong>: 仅当至少一个先前阶段的Job失败时才执行当前Job。</li> <li><strong>always</strong>: 执行当前Job，而不管先前pipeline的Job状态如何。</li></ul> <p>tags</p> <p>从允许运行此项目的所有runner列表中选择特定的runner，
+tags允许为具有指定标签的runner允许job</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token comment">### 示例1：</span>
+   <span class="token key atrule">job</span><span class="token punctuation">:</span>
+    <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span>
+      <span class="token punctuation">-</span> ruby
+      <span class="token punctuation">-</span> postgres 
+</code></pre></div><p><strong>variables</strong></p> <p>在.gitlab-ci.yml定义的内部变量，用于存储非敏感项目配置
+在job环境中传递这些变量，可以全局设置，也可以按job设置
+在variables工作级使用关键字时，它将覆盖全局YAML变量和预定义的变量</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token comment">##  示例1：</span>
+    <span class="token key atrule">variables</span><span class="token punctuation">:</span>
+      <span class="token key atrule">DATABASE_URL</span><span class="token punctuation">:</span> <span class="token string">&quot;postgres://postgres@postgres/my_database&quot;</span>
+</code></pre></div><p>parallel</p> <p>配置并行运行的job实例数，此值必须大于等于2且小于等于50</p> <p>不推荐的参数</p> <p>全局定义 types
+工作定义 type
+全局定义image，services，cache，before_script，after_script</p> <h3 id="gitlab-runner"><a href="#gitlab-runner" class="header-anchor">#</a> Gitlab Runner</h3> <p>下载gitlab runner 的rpm包，安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">rpm</span> <span class="token parameter variable">-i</span> gitlab-runner_<span class="token operator">&lt;</span>arch<span class="token operator">&gt;</span>.rpm
+</code></pre></div><p>通常作为一个 trigger 代理，任务开销很小，我们可以把 /etc/gitlab-runner/config.toml 配置里的 concurrent 可以改得大一些，以支持更高的并发量。</p> <p>搭建 gitlab runner 每台 runner 只需要执行一次</p> <p>注册 gitlab runner 每个 git 仓库每台 runner 都需要单独注册</p> <p>先登入 gitlab，进入对应的 git 仓库（project）</p> <p>- 展开左边侧边栏最下面 Settings -&gt; CI/CD。点击页面上 Runners 栏右边的 Expand，页面往下滚动一点可看到</p> <p>注册</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> gitlab-runner register
+</code></pre></div><p><strong>2. Enter your GitLab instance URL.</strong></p> <p>上图红框中 Register the runner with this URL 下面的内容。</p> <p><strong>3. Enter the token you obtained to register the runner.</strong></p> <p>上图红框中 And this registration token 下面内容。</p> <p><strong>4. Enter a description for the runner. You can change this value later in the GitLab user interface.</strong></p> <p>在 gitlab 中显示的 runner 描述，该实践中我们把他当名字用，叫 scapegoat-01。</p> <p><strong>5. Enter the tags associated with the runner, separated by commas. You can change this value later in the GitLab user interface.</strong></p> <p>tag 相当于Jenkins中的 label， 用于 runner 分类。该实践中输入 scapegoat。</p> <p><strong>6. Provide the runner executor. For most use cases, enter docker.</strong></p> <p>这里我们选 shell， window 可选 powershell。</p> <p>https://zhuanlan.zhihu.com/p/184936276</p> <h3 id="gitlab-ci触发jenkins"><a href="#gitlab-ci触发jenkins" class="header-anchor">#</a> gitlab ci触发jenkins</h3> <p>理论上，gitlab的runner可以直接替代jenkins，但是实际项目中会有各种历史包袱。所以利用gitlab触发jenkins也可以</p> <p>有两种方式，比较简单的方式是使用jenkins+webhook的插件方式实现</p> <p>在jenkins的dashboard面板安装<code>Generic Webhook Trigger</code>插件</p> <p>在构建触发器中选择<code>Generic Webhook Trigger</code>选项,将Jenkins和gitlab配合起来</p> <p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/078156204e2846c2ba1ae00a3db5c27e~tplv-k3u1fbpfcp-zoom-in-crop-mark:1304:0:0:0.awebp" alt="image-20210816143402614.png"></p> <p>登录gitlab进入你要部署的项目&gt;settings&gt;Integrations&gt;add webhook</p> <p>测试webhook是否成功</p> <p>https://juejin.cn/post/6997560212924137485#heading-24</p> <p>也可以通过python-jenkins触发jenkins job</p> <p>安装python和pip</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> python或sudo <span class="token function">apt</span> <span class="token function">install</span> python3
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> python-pip
+</code></pre></div><p>安装python-jenkins</p> <div class="language-shell extra-class"><pre class="language-shell"><code>python <span class="token parameter variable">-m</span> pip <span class="token function">install</span> python-jenkinsor python3 <span class="token parameter variable">-m</span> pip <span class="token function">install</span> python-jenkins
+</code></pre></div><p>python脚本</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment">#!/usr/bin/python# file name: Jenkins-Compile-trigger.py</span>
+<span class="token keyword">import</span> jenkins
+<span class="token keyword">import</span> requests
+<span class="token keyword">import</span> time
+<span class="token keyword">import</span> sys
+<span class="token keyword">import</span> os
+
+jenkins_url <span class="token operator">=</span> <span class="token string">&quot;http://yunxin-jenkins.netease.im:8080&quot;</span>
+<span class="token comment"># gitlab的登录账号</span>
+jenkins_user <span class="token operator">=</span> <span class="token string">&quot;zouliyong&quot;</span> 
+<span class="token comment">#获取gitlab access token章节获取到的token</span>
+jenkins_token <span class="token operator">=</span> <span class="token string">&quot;xxxxxxxxxxxxxxxxx&quot;</span> 
+<span class="token comment">#Jenkins job name</span>
+job_name <span class="token operator">=</span> <span class="token string">&quot;Lava-CI&quot;</span>
+<span class="token comment">#从gitlab-ci中获取Jenkins job的参数，按需修改</span>
+job_parameters <span class="token operator">=</span> <span class="token punctuation">{</span>                      
+    <span class="token string">&quot;_GitlabSourceBranch&quot;</span>    <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_MERGE_REQUEST_SOURCE_BRANCH_NAME&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>     
+    <span class="token string">&quot;_GitlabTargetBranch&quot;</span>    <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_MERGE_REQUEST_TARGET_BRANCH_NAME&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>    
+    <span class="token string">&quot;_GitlabMergeRequestLastCommit&quot;</span>  <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_COMMIT_SHA&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>                    
+    <span class="token string">&quot;_GitlabSourceRepoHomepage&quot;</span>  <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_PROJECT_URL&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>                    
+    <span class="token string">&quot;_GitlabMergeRequestIid&quot;</span>  <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_MERGE_REQUEST_IID&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>                    
+    <span class="token string">&quot;_GitlabPipelineId&quot;</span>  <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_PIPELINE_ID&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>                    
+    <span class="token string">&quot;_GitlabPipelineUrl&quot;</span> <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_PIPELINE_URL&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>                    
+    <span class="token string">&quot;_GitlabJobId&quot;</span>  <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;CI_JOB_ID&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>                    
+    <span class="token string">&quot;_GitlabUserName&quot;</span>  <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;GITLAB_USER_NAME&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>                    
+    <span class="token string">&quot;_GitlabUserEmail&quot;</span>   <span class="token punctuation">:</span> os<span class="token punctuation">.</span>getenv<span class="token punctuation">(</span><span class="token string">&quot;GITLAB_USER_EMAIL&quot;</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+build_number <span class="token operator">=</span> 0build_info <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">&quot;building&quot;</span> <span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">}</span>                 
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;jenkins job name: &quot;</span><span class="token punctuation">,</span> job_name<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;jenkins job parameters: &quot;</span><span class="token punctuation">,</span> job_parameters<span class="token punctuation">)</span>
+<span class="token comment">#连接Jenkins服务</span>
+server <span class="token operator">=</span> jenkins<span class="token punctuation">.</span>Jenkins<span class="token punctuation">(</span>jenkins_url<span class="token punctuation">,</span> username<span class="token operator">=</span> jenkins_user<span class="token punctuation">,</span> password<span class="token operator">=</span> jenkins_token<span class="token punctuation">)</span>
+<span class="token comment">#获取Jenkins job最后一次build的build number</span>
+<span class="token keyword">def</span> <span class="token function">last_build_number</span><span class="token punctuation">(</span>server<span class="token punctuation">,</span> job<span class="token punctuation">)</span><span class="token punctuation">:</span>    
+    last_build <span class="token operator">=</span> server<span class="token punctuation">.</span>get_job_info<span class="token punctuation">(</span>job<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">'lastBuild'</span><span class="token punctuation">]</span>    
+    <span class="token keyword">return</span> <span class="token number">1</span> 
+    <span class="token keyword">if</span> <span class="token boolean">None</span> <span class="token operator">==</span> last_build 
+    <span class="token keyword">else</span> 
+    last_build<span class="token punctuation">[</span><span class="token string">'number'</span><span class="token punctuation">]</span>
+
+last_build <span class="token operator">=</span> server<span class="token punctuation">.</span>get_job_info<span class="token punctuation">(</span>job_name<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">'lastBuild'</span><span class="token punctuation">]</span>
+next_build_number <span class="token operator">=</span> last_build_number<span class="token punctuation">(</span>server<span class="token punctuation">,</span> job_name<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+<span class="token comment">#触发Jenkins</span>
+jobqueue_id <span class="token operator">=</span> server<span class="token punctuation">.</span>build_job<span class="token punctuation">(</span>job_name<span class="token punctuation">,</span> parameters<span class="token operator">=</span>job_parameters<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;Jenkins build is waiting for running [queue id = %d] ...&quot;</span> <span class="token operator">%</span> queue_id<span class="token punctuation">)</span>sys<span class="token punctuation">.</span>stdout<span class="token punctuation">.</span>flush<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">#到这里，Jenkins job已经被放到执行队列里了，</span>
+<span class="token comment">#只是触发不用等待Jenkins job结束的话，python脚本可以到此为止</span>
+<span class="token comment">#等待Jenkins job开始执行</span>
+<span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>    
+    <span class="token keyword">if</span> next_build_number <span class="token operator">&lt;=</span> last_build_number<span class="token punctuation">(</span>server<span class="token punctuation">,</span> job_name<span class="token punctuation">)</span><span class="token punctuation">:</span>       
+        <span class="token keyword">try</span><span class="token punctuation">:</span>            
+            build_info <span class="token operator">=</span> server<span class="token punctuation">.</span>get_build_info<span class="token punctuation">(</span>job_name<span class="token punctuation">,</span> next_build_number<span class="token punctuation">)</span>        
+            <span class="token keyword">except</span> requests<span class="token punctuation">.</span>exceptions<span class="token punctuation">.</span>RequestException <span class="token keyword">as</span> e<span class="token punctuation">:</span>            
+            <span class="token keyword">print</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>            
+            server <span class="token operator">=</span> jenkins<span class="token punctuation">.</span>Jenkins<span class="token punctuation">(</span>jenkins_url<span class="token punctuation">,</span> username<span class="token operator">=</span> jenkins_user<span class="token punctuation">,</span> password<span class="token operator">=</span> jenkins_token<span class="token punctuation">)</span>
+            build_info <span class="token operator">=</span> server<span class="token punctuation">.</span>get_build_info<span class="token punctuation">(</span>job_name<span class="token punctuation">,</span> next_build_number<span class="token punctuation">)</span>        
+            <span class="token keyword">if</span> queue_id <span class="token operator">==</span> build_info<span class="token punctuation">[</span><span class="token string">&quot;queueId&quot;</span><span class="token punctuation">]</span><span class="token punctuation">:</span>            
+            build_number <span class="token operator">=</span> next_build_number            
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;build number: %d&quot;</span> <span class="token operator">%</span> build_number<span class="token punctuation">)</span>            
+            <span class="token keyword">break</span>        
+            next_build_number <span class="token operator">=</span> next_build_number <span class="token operator">+</span> <span class="token number">1</span>    
+            time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;Jenkins build is running [build number = %d] ...&quot;</span> <span class="token operator">%</span> build_number<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;Jenkins job URL: %s/job/%s/%d/display/redirect&quot;</span> <span class="token operator">%</span> <span class="token punctuation">(</span>jenkins_url<span class="token punctuation">,</span> job_name<span class="token punctuation">,</span> build_number<span class="token punctuation">)</span><span class="token punctuation">)</span>
+sys<span class="token punctuation">.</span>stdout<span class="token punctuation">.</span>flush<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">#到这里Jenkins job已经被正式调度，并开始执行</span>
+<span class="token comment">#等待Jenkins job执行结束</span>
+<span class="token keyword">while</span> build_info<span class="token punctuation">[</span><span class="token string">&quot;building&quot;</span><span class="token punctuation">]</span><span class="token punctuation">:</span>    
+    <span class="token keyword">try</span><span class="token punctuation">:</span>        
+        build_info <span class="token operator">=</span> server<span class="token punctuation">.</span>get_build_info<span class="token punctuation">(</span>job_name<span class="token punctuation">,</span> build_number<span class="token punctuation">)</span>    
+        <span class="token keyword">except</span> requests<span class="token punctuation">.</span>exceptions<span class="token punctuation">.</span>RequestException <span class="token keyword">as</span> e<span class="token punctuation">:</span>        
+        <span class="token keyword">print</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>        
+        server <span class="token operator">=</span> jenkins<span class="token punctuation">.</span>Jenkins<span class="token punctuation">(</span>jenkins_url<span class="token punctuation">,</span> username<span class="token operator">=</span> jenkins_user<span class="token punctuation">,</span> password<span class="token operator">=</span> jenkins_token<span class="token punctuation">)</span>        
+        build_info <span class="token operator">=</span> server<span class="token punctuation">.</span>get_build_info<span class="token punctuation">(</span>job_name<span class="token punctuation">,</span> build_number<span class="token punctuation">)</span>    
+        time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token comment"># 获取执行结果</span>
+result <span class="token operator">=</span> server<span class="token punctuation">.</span>get_build_info<span class="token punctuation">(</span>job_name<span class="token punctuation">,</span> build_number<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token string">&quot;result&quot;</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;jenkins build result: %s&quot;</span> <span class="token operator">%</span> result<span class="token punctuation">)</span>
+<span class="token keyword">assert</span><span class="token punctuation">(</span><span class="token string">&quot;SUCCESS&quot;</span> <span class="token operator">==</span> result<span class="token punctuation">)</span>
+</code></pre></div><p>gitlab ci yaml</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token comment">#file name: .gitlab-ci.yml</span>
+<span class="token key atrule">stages</span><span class="token punctuation">:</span>     
+  <span class="token punctuation">-</span> build
+<span class="token comment"># 在代码push的时候触发</span>
+<span class="token key atrule">Compilation</span><span class="token punctuation">:</span>    
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> 
+    build    
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span>        
+        <span class="token punctuation">-</span> scapegoat 
+<span class="token comment"># runner tag 参照上面注册gitlab runner章节    </span>
+    <span class="token key atrule">script</span><span class="token punctuation">:</span>        
+      <span class="token punctuation">-</span> python Jenkins<span class="token punctuation">-</span>Compile<span class="token punctuation">-</span>trigger.py
+<span class="token comment"># 只在merge request的时候触发CI:    </span>
+<span class="token key atrule">stage</span><span class="token punctuation">:</span> 
+  build    
+    <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span>        
+      <span class="token punctuation">-</span> scapegoat    
+    <span class="token key atrule">script</span><span class="token punctuation">:</span>       
+<span class="token comment"># 这个脚本可以根据情况参照Jenkins-Compile-trigger.py自行修改        </span>
+      <span class="token punctuation">-</span> python Jenkins<span class="token punctuation">-</span>CI<span class="token punctuation">-</span>trigger.py     
+    <span class="token key atrule">only</span><span class="token punctuation">:</span>        
+      <span class="token punctuation">-</span> merge_requests
+</code></pre></div><p>https://juejin.cn/post/7073731514386612255</p> <h2 id="gitbook"><a href="#gitbook" class="header-anchor">#</a> Gitbook</h2> <p>Gitbook是一个提供Markdown书籍托管的网络平台。支持通过git及github进行文档管理，使用它可以很简单地生成、发布电子图书。Gitbook也是一个Nodejs命令行工具，可以使用它搭建自己的gitbook站点。GitBook甚至提供Github hook，在每次push前自动更新书籍内容。</p> <p>安装GitBook 控制台</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> gitbook-cli
+</code></pre></div><p>如果安装过gitbook旧版本需要卸载。</p> <p>gitbook常用命令</p> <div class="language-shell extra-class"><pre class="language-shell"><code>gitbook serve <span class="token parameter variable">-p</span> <span class="token number">8080</span> <span class="token builtin class-name">.</span>
+</code></pre></div><p>Gitbook首先把你的Markdown文件编译为HTML文件，并根据SUMMARY.md生成书的目录。所有生存的文件都保存在当前目录下的一个名为_book的子目录中。完成这些工作后，Gitbook会作为一个HTTP Server运行，并在8080端口监听HTTP请求。</p> <p>运行以上命令后，打开浏览器，在地址栏输入：<code>http://localhost:8080</code>即可看到你的书页了。</p> <p>其中位于左侧书目顶部的<code>Introduction</code>一节就编译自README.md，而书目本身自编译自SUMMARY.md。你要在自己的网站上发布新书，只需把_book目录复制到服务器相应目录即可。至此Gitbook的基本用法就介绍完毕。</p> <h3 id="gitbook的插件支持"><a href="#gitbook的插件支持" class="header-anchor">#</a> Gitbook的插件支持</h3> <p>在页面中嵌入Disqus评论</p> <div class="language-shell extra-class"><pre class="language-shell"><code> <span class="token function">npm</span> <span class="token function">install</span> gitbook-plugin-disqus
+</code></pre></div><p>然后建立一个book.json文件，其格式如下：</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;plugins&quot;</span><span class="token operator">:</span>  
+			<span class="token punctuation">[</span><span class="token string">&quot;disqus&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  
+  <span class="token property">&quot;pluginsConfig&quot;</span><span class="token operator">:</span>  
+ 			<span class="token punctuation">{</span>  <span class="token property">&quot;disqus&quot;</span><span class="token operator">:</span>  
+         <span class="token punctuation">{</span>  <span class="token property">&quot;shortName&quot;</span><span class="token operator">:</span>  
+           <span class="token string">&quot;NAME-FROM-DISQUS&quot;</span>
+         <span class="token punctuation">}</span>  
+      <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre></div><p>把上面的<code>NAME-FROM-DISQUS</code>修改为你在Disqus上的项目名即可。</p> <p>再次运行命令：</p> <blockquote><p>$ gitbook serve -p 8080 .</p></blockquote> <p>并刷新浏览器，即可看到附加了Disqus评论的页面。</p> <h3 id="gitbook电子书封面"><a href="#gitbook电子书封面" class="header-anchor">#</a> Gitbook电子书封面</h3> <p>可以为电子书添加封面。只需添加2个名为<code>cover.jpg</code>和<code>cover_small.jpg</code>的两个图片即可。官方建议cover.jpg尺寸1800<em>2360，cover_small.jpg尺寸200</em>262。花2元即可在淘宝上找个做封面的人为你制造一个简单的封面，做得好就要花更多一些了 😃</p> <p>总体而言，GitBook还是很好玩，比起其他写作平台而言，要自由、简单，并舒服得多，可以用Vim编辑，支持Markdown语法，用git管理，关联GitHub后每次push后还能自动编译，生成多种电子书格式。如果你的书极为畅销的话，还能获取到捐赠或购买，没有理由不尝试的呀。</p> <p><strong>删除电子书</strong></p> <p>同样是在Book Setting中，可以删除电子书。在电子书列表中没有删除接口。</p> <h2 id="svn"><a href="#svn" class="header-anchor">#</a> SVN</h2> <p>一般来说公司版本管理工具使用git的比较多，也有使用svn。SVN是sub vision的缩写，windows中svn客户端一般使用TortoiseSVN，mac中比较好用的当属CornerStone。TortoiseSVN是可视化svn界面，Cornerstone是收费的，因此你可以去网上下载破解版，直接安装即可。</p> <h3 id="tortoisesvn"><a href="#tortoisesvn" class="header-anchor">#</a> TortoiseSVN</h3> <p>TortoiseSVN 常年管理文件和目录。文件存储于一个中央版本库中。版本库就像一个常见的文件服 务器，除了它保存你对文件和目录所有的改变。这一特性使得你可以恢复文件的旧版本并查看历史-谁 在什么时间如何进行的修改。</p> <p>创建版本库</p> <div class="language-svn extra-class"><pre class="language-text"><code>svnadmin create --fs-type bdb MyNewRepository
+</code></pre></div><p>图标重载</p> <p>使用svn-checkout检查文件状态。对号表示状态正常，红色感叹号表示文件被修改未提交，黄色感叹号表示产生冲突。</p> <p>拉取项目</p> <div class="language-svn extra-class"><pre class="language-text"><code>
+</code></pre></div><p>提交项目</p> <div class="language-shell extra-class"><pre class="language-shell"><code>svn commit
+</code></pre></div><p>更新文件</p> <div class="language-svn extra-class"><pre class="language-text"><code>svn update
+</code></pre></div><h3 id="cornerstone"><a href="#cornerstone" class="header-anchor">#</a> Cornerstone</h3></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3979e060.js" defer></script><script src="/assets/js/2.0f8cbb55.js" defer></script><script src="/assets/js/1.ff82b27c.js" defer></script><script src="/assets/js/87.07c51a25.js" defer></script>
+  </body>
+</html>
