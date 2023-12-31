@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>React（十）</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.0503e0f3.css" as="style"><link rel="preload" href="/assets/js/app.3979e060.js" as="script"><link rel="preload" href="/assets/js/2.0f8cbb55.js" as="script"><link rel="preload" href="/assets/js/1.ff82b27c.js" as="script"><link rel="preload" href="/assets/js/62.f6bea4bf.js" as="script"><link rel="prefetch" href="/assets/js/10.d9850768.js"><link rel="prefetch" href="/assets/js/100.a33654f4.js"><link rel="prefetch" href="/assets/js/101.d3bc1c79.js"><link rel="prefetch" href="/assets/js/102.02bbfd1e.js"><link rel="prefetch" href="/assets/js/103.c9de5560.js"><link rel="prefetch" href="/assets/js/104.7c2b76db.js"><link rel="prefetch" href="/assets/js/105.ea3ac79c.js"><link rel="prefetch" href="/assets/js/106.d54e3045.js"><link rel="prefetch" href="/assets/js/107.c142f695.js"><link rel="prefetch" href="/assets/js/108.fe2c9c19.js"><link rel="prefetch" href="/assets/js/109.59b55101.js"><link rel="prefetch" href="/assets/js/11.62caceeb.js"><link rel="prefetch" href="/assets/js/110.c657b6f8.js"><link rel="prefetch" href="/assets/js/111.4eadf9c5.js"><link rel="prefetch" href="/assets/js/112.fce38ecf.js"><link rel="prefetch" href="/assets/js/113.ee6322e2.js"><link rel="prefetch" href="/assets/js/114.1ed20fd8.js"><link rel="prefetch" href="/assets/js/115.aa405ee0.js"><link rel="prefetch" href="/assets/js/116.d1b4c413.js"><link rel="prefetch" href="/assets/js/117.965d1926.js"><link rel="prefetch" href="/assets/js/118.b1d5b9ca.js"><link rel="prefetch" href="/assets/js/119.e4e766bc.js"><link rel="prefetch" href="/assets/js/12.abd8d9de.js"><link rel="prefetch" href="/assets/js/120.f569b061.js"><link rel="prefetch" href="/assets/js/121.e3915f79.js"><link rel="prefetch" href="/assets/js/122.3a2b3d34.js"><link rel="prefetch" href="/assets/js/123.cbf985ea.js"><link rel="prefetch" href="/assets/js/124.c3d8b6fc.js"><link rel="prefetch" href="/assets/js/125.dfe970a3.js"><link rel="prefetch" href="/assets/js/126.f5165054.js"><link rel="prefetch" href="/assets/js/127.ffb31d35.js"><link rel="prefetch" href="/assets/js/128.bf7eb0b3.js"><link rel="prefetch" href="/assets/js/129.76b0ac54.js"><link rel="prefetch" href="/assets/js/13.763c094c.js"><link rel="prefetch" href="/assets/js/130.cb661ef6.js"><link rel="prefetch" href="/assets/js/131.b215b4cc.js"><link rel="prefetch" href="/assets/js/132.bdf6b89f.js"><link rel="prefetch" href="/assets/js/133.a13e43ca.js"><link rel="prefetch" href="/assets/js/134.f858c56e.js"><link rel="prefetch" href="/assets/js/135.0e05a297.js"><link rel="prefetch" href="/assets/js/136.ff47beeb.js"><link rel="prefetch" href="/assets/js/137.7dcf182f.js"><link rel="prefetch" href="/assets/js/138.dd2c3c8c.js"><link rel="prefetch" href="/assets/js/139.db36e4eb.js"><link rel="prefetch" href="/assets/js/14.784100b6.js"><link rel="prefetch" href="/assets/js/140.05811a56.js"><link rel="prefetch" href="/assets/js/141.32b8052b.js"><link rel="prefetch" href="/assets/js/142.2c061186.js"><link rel="prefetch" href="/assets/js/143.113df61a.js"><link rel="prefetch" href="/assets/js/144.2c01c336.js"><link rel="prefetch" href="/assets/js/145.a8fe7a8a.js"><link rel="prefetch" href="/assets/js/146.bb5b7e16.js"><link rel="prefetch" href="/assets/js/147.213b17a7.js"><link rel="prefetch" href="/assets/js/148.dd7a3258.js"><link rel="prefetch" href="/assets/js/149.b3f9adc5.js"><link rel="prefetch" href="/assets/js/15.3aa73286.js"><link rel="prefetch" href="/assets/js/150.4ab9a505.js"><link rel="prefetch" href="/assets/js/151.d04eb475.js"><link rel="prefetch" href="/assets/js/152.c547ae2c.js"><link rel="prefetch" href="/assets/js/153.3fa58002.js"><link rel="prefetch" href="/assets/js/154.cd2cc012.js"><link rel="prefetch" href="/assets/js/155.0160c441.js"><link rel="prefetch" href="/assets/js/16.7886627b.js"><link rel="prefetch" href="/assets/js/17.a4c76a6c.js"><link rel="prefetch" href="/assets/js/18.995eb54b.js"><link rel="prefetch" href="/assets/js/19.edc682a7.js"><link rel="prefetch" href="/assets/js/20.87ca556d.js"><link rel="prefetch" href="/assets/js/21.4b328dcc.js"><link rel="prefetch" href="/assets/js/22.91d15e78.js"><link rel="prefetch" href="/assets/js/23.17bfc3dd.js"><link rel="prefetch" href="/assets/js/24.c0d84a10.js"><link rel="prefetch" href="/assets/js/25.2717e191.js"><link rel="prefetch" href="/assets/js/26.3764ddb4.js"><link rel="prefetch" href="/assets/js/27.e98913ec.js"><link rel="prefetch" href="/assets/js/28.a4481108.js"><link rel="prefetch" href="/assets/js/29.3d82d38d.js"><link rel="prefetch" href="/assets/js/3.e2aae122.js"><link rel="prefetch" href="/assets/js/30.7e9979a2.js"><link rel="prefetch" href="/assets/js/31.fa479c29.js"><link rel="prefetch" href="/assets/js/32.901576de.js"><link rel="prefetch" href="/assets/js/33.8dafc45c.js"><link rel="prefetch" href="/assets/js/34.6bbddd9b.js"><link rel="prefetch" href="/assets/js/35.394c80b9.js"><link rel="prefetch" href="/assets/js/36.5246333d.js"><link rel="prefetch" href="/assets/js/37.49802bfd.js"><link rel="prefetch" href="/assets/js/38.36ae0914.js"><link rel="prefetch" href="/assets/js/39.791184a0.js"><link rel="prefetch" href="/assets/js/4.30c2ba05.js"><link rel="prefetch" href="/assets/js/40.eb1a9cc1.js"><link rel="prefetch" href="/assets/js/41.31179942.js"><link rel="prefetch" href="/assets/js/42.22c31ea4.js"><link rel="prefetch" href="/assets/js/43.e82e343d.js"><link rel="prefetch" href="/assets/js/44.95e68751.js"><link rel="prefetch" href="/assets/js/45.b99232d2.js"><link rel="prefetch" href="/assets/js/46.21e9dae9.js"><link rel="prefetch" href="/assets/js/47.e30bba7c.js"><link rel="prefetch" href="/assets/js/48.6c0d14cd.js"><link rel="prefetch" href="/assets/js/49.ed1b480b.js"><link rel="prefetch" href="/assets/js/5.c5fba3ad.js"><link rel="prefetch" href="/assets/js/50.f500b9ed.js"><link rel="prefetch" href="/assets/js/51.3671246f.js"><link rel="prefetch" href="/assets/js/52.7915148f.js"><link rel="prefetch" href="/assets/js/53.39ece5d9.js"><link rel="prefetch" href="/assets/js/54.358ca4aa.js"><link rel="prefetch" href="/assets/js/55.244837be.js"><link rel="prefetch" href="/assets/js/56.e7164f10.js"><link rel="prefetch" href="/assets/js/57.3c6f5aa2.js"><link rel="prefetch" href="/assets/js/58.84c83603.js"><link rel="prefetch" href="/assets/js/59.ec4edc7d.js"><link rel="prefetch" href="/assets/js/6.9184d4d1.js"><link rel="prefetch" href="/assets/js/60.c2346e02.js"><link rel="prefetch" href="/assets/js/61.8d99ca4c.js"><link rel="prefetch" href="/assets/js/63.410bfe1e.js"><link rel="prefetch" href="/assets/js/64.960d5951.js"><link rel="prefetch" href="/assets/js/65.e6a8895b.js"><link rel="prefetch" href="/assets/js/66.41092e16.js"><link rel="prefetch" href="/assets/js/67.062b95dc.js"><link rel="prefetch" href="/assets/js/68.58c65f95.js"><link rel="prefetch" href="/assets/js/69.d1e1b68b.js"><link rel="prefetch" href="/assets/js/7.85fc951e.js"><link rel="prefetch" href="/assets/js/70.8294a611.js"><link rel="prefetch" href="/assets/js/71.66e44dac.js"><link rel="prefetch" href="/assets/js/72.46bd34f2.js"><link rel="prefetch" href="/assets/js/73.7eb2e800.js"><link rel="prefetch" href="/assets/js/74.8e05f264.js"><link rel="prefetch" href="/assets/js/75.21e0b9b1.js"><link rel="prefetch" href="/assets/js/76.c2c92cec.js"><link rel="prefetch" href="/assets/js/77.799df679.js"><link rel="prefetch" href="/assets/js/78.1605b33c.js"><link rel="prefetch" href="/assets/js/79.659e7e78.js"><link rel="prefetch" href="/assets/js/80.6f99ca65.js"><link rel="prefetch" href="/assets/js/81.7a0caba9.js"><link rel="prefetch" href="/assets/js/82.19629840.js"><link rel="prefetch" href="/assets/js/83.29093f51.js"><link rel="prefetch" href="/assets/js/84.64568258.js"><link rel="prefetch" href="/assets/js/85.3d88e3b2.js"><link rel="prefetch" href="/assets/js/86.0a93f933.js"><link rel="prefetch" href="/assets/js/87.07c51a25.js"><link rel="prefetch" href="/assets/js/88.aa6be8e5.js"><link rel="prefetch" href="/assets/js/89.6ad93f1f.js"><link rel="prefetch" href="/assets/js/90.87c8c6e5.js"><link rel="prefetch" href="/assets/js/91.57c509b5.js"><link rel="prefetch" href="/assets/js/92.c8b02e25.js"><link rel="prefetch" href="/assets/js/93.fee86c6c.js"><link rel="prefetch" href="/assets/js/94.ab3bad19.js"><link rel="prefetch" href="/assets/js/95.cfaa79dc.js"><link rel="prefetch" href="/assets/js/96.c63afef5.js"><link rel="prefetch" href="/assets/js/97.123374a6.js"><link rel="prefetch" href="/assets/js/98.53cfb154.js"><link rel="prefetch" href="/assets/js/99.8fe1f067.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5e19b665.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0503e0f3.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><p>​      react组件库</p> <h2 id="ui库"><a href="#ui库" class="header-anchor">#</a> UI库</h2> <h3 id="chakra-ui"><a href="#chakra-ui" class="header-anchor">#</a> chakra-UI</h3> <h3 id="material-ui"><a href="#material-ui" class="header-anchor">#</a> Material-UI</h3> <p>推出很久 很好用</p> <h3 id="elastic-ui"><a href="#elastic-ui" class="header-anchor">#</a> Elastic-UI</h3> <h3 id="rsuitejs"><a href="#rsuitejs" class="header-anchor">#</a> rsuitejs</h3> <p>Charts.rsuite.js</p> <h3 id="blueprint-js"><a href="#blueprint-js" class="header-anchor">#</a> blueprint.js</h3> <h3 id="nextui"><a href="#nextui" class="header-anchor">#</a> NextUI</h3> <p>看起来很好看</p> <h3 id="headlessui"><a href="#headlessui" class="header-anchor">#</a> HeadlessUI</h3> <p>tailwind的公司开源的UI库</p> <h3 id="reachui"><a href="#reachui" class="header-anchor">#</a> ReachUI</h3> <h3 id="reakit"><a href="#reakit" class="header-anchor">#</a> reakit</h3> <h3 id="react-aria"><a href="#react-aria" class="header-anchor">#</a> react-Aria</h3> <p>React hooks组件库</p> <h3 id="geist-ui"><a href="#geist-ui" class="header-anchor">#</a> geist-ui</h3> <h3 id="amplify-ui"><a href="#amplify-ui" class="header-anchor">#</a> Amplify UI</h3> <p>amazon推出的UI组件库</p> <h3 id="fluentui"><a href="#fluentui" class="header-anchor">#</a> fluentUI</h3> <p>微软推出的组件库</p> <p>https://developer.microsoft.com/en-us/fluentui#/controls/web/button</p> <h2 id="拖动库"><a href="#拖动库" class="header-anchor">#</a> 拖动库</h2> <h3 id="react-beautiful-dnd"><a href="#react-beautiful-dnd" class="header-anchor">#</a> react-beautiful-dnd</h3> <div class="language-react extra-class"><pre class="language-text"><code>import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+
+class DraggableTags extends Component {
+  render() {
+    return (
+    	&lt;DragDropContext onDragEnd={this.onDragEnd}&gt;
+      	&lt;Droppable droppableId=&quot;droppable&quot; direction=&quot;horizontal&quot;&gt;
+          {(provided, _snapshot)=&gt; (
+            &lt;Draggable&gt;
+							{(provided, _snapshot)=&gt; (
+              	style={
+                  
+                }
+              )}
+            &lt;/Draggable&gt;
+          )}
+        &lt;/Droppable&gt;
+      &lt;/DragDropContext&gt;
+    )
+  }
+}
+</code></pre></div><h3 id="react-dnd"><a href="#react-dnd" class="header-anchor">#</a> react-dnd</h3> <p>Https://juejin.cn/post/6933036276660731912</p> <h3 id="dnd-kit"><a href="#dnd-kit" class="header-anchor">#</a> dnd-kit</h3> <p>react拖动组件</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> @dnd-kit/core
+</code></pre></div><p>拖动排序组件</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> @dnd-kit/sortable
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, {useState} from 'react';
+import {DndContext} from '@dnd-kit/core';
+
+import {Droppable} from './Droppable';
+import {Draggable} from './Draggable';
+
+function App() {
+  const [isDropped, setIsDropped] = useState(false);
+  const draggableMarkup = (
+    &lt;Draggable&gt;Drag me&lt;/Draggable&gt;
+  );
+  
+  return (
+    &lt;DndContext onDragEnd={handleDragEnd}&gt;
+      {!isDropped ? draggableMarkup : null}
+      &lt;Droppable&gt;
+        {isDropped ? draggableMarkup : 'Drop here'}
+      &lt;/Droppable&gt;
+    &lt;/DndContext&gt;
+  );
+  
+  function handleDragEnd(event) {
+    if (event.over &amp;&amp; event.over.id === 'droppable') {
+      setIsDropped(true);
+    }
+  }
+}
+
+// Droppable.jsx
+import React from 'react';
+import {useDroppable} from '@dnd-kit/core';
+
+export function Droppable(props) {
+  const {isOver, setNodeRef} = useDroppable({
+    id: 'droppable',
+  });
+  const style = {
+    color: isOver ? 'green' : undefined,
+  };
+  
+  
+  return (
+    &lt;div ref={setNodeRef} style={style}&gt;
+      {props.children}
+    &lt;/div&gt;
+  );
+}
+
+// Draggable.jsx
+import React from 'react';
+import {useDraggable} from '@dnd-kit/core';
+
+export function Draggable(props) {
+  const {attributes, listeners, setNodeRef, transform} = useDraggable({
+    id: 'draggable',
+  });
+  const style = transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  } : undefined;
+
+  
+  return (
+    &lt;button ref={setNodeRef} style={style} {...listeners} {...attributes}&gt;
+      {props.children}
+    &lt;/button&gt;
+  );
+}
+</code></pre></div><h3 id="react-draggable"><a href="#react-draggable" class="header-anchor">#</a> react-draggable</h3> <p>实现react组件拖拽功能。</p> <p><code>react-draggable</code>的拖拽通过<code>CSS</code>中的<code>transform: translate(x, y)</code>来实现目标元素的移动</p> <p>安装</p> <div class="language- extra-class"><pre class="language-text"><code>npm install react-draggable --save
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from 'react';
+import ReactDOM from 'react-dom';
+import Draggable from 'react-draggable';
+ 
+class App extends React.Component {
+ 
+  eventLogger = (e: MouseEvent, data: Object) =&gt; {
+    console.log('Event: ', e);
+    console.log('Data: ', data);
+  };
+ 
+  render() {
+    return (
+      &lt;Draggable
+        axis=&quot;x&quot;
+        handle=&quot;.handle&quot;
+        defaultPosition={{x: 0, y: 0}}
+        position={null}
+        grid={[25, 25]}
+        scale={1}
+        onStart={this.handleStart}
+        onDrag={this.handleDrag}
+        onStop={this.handleStop}&gt;
+        &lt;div&gt;
+          &lt;div className=&quot;handle&quot;&gt;Drag from here&lt;/div&gt;
+          &lt;div&gt;This readme is really dragging on...&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/Draggable&gt;
+    );
+  }
+}
+ 
+ReactDOM.render(&lt;App/&gt;, document.body);
+</code></pre></div><h3 id="react-rnd"><a href="#react-rnd" class="header-anchor">#</a> react-rnd</h3> <p>拖动/放大缩小组件</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> i <span class="token parameter variable">-S</span> react-rnd
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>&lt;Rnd
+  size={{ width: this.state.width,  height: this.state.height }}
+  position={{ x: this.state.x, y: this.state.y }}
+  onDragStop={(e, d) =&gt; { this.setState({ x: d.x, y: d.y }) }}
+  onResizeStop={(e, direction, ref, delta, position) =&gt; {
+    this.setState({
+      width: ref.style.width,
+      height: ref.style.height,
+      ...position,
+    });
+  }}
+&gt;
+  001
+&lt;/Rnd&gt;
+</code></pre></div><h3 id="use-gesture-react"><a href="#use-gesture-react" class="header-anchor">#</a> @use-gesture/react</h3> <p>结合动画库react-spring实现拖动时的动画</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> @use-gesture/react
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { useSpring, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+
+function PullRelease() {
+  const [{ x, y }, api] = useSpring(() =&gt; ({ x: 0, y: 0 }))
+
+  // Set the drag hook and define component movement based on gesture data
+  const bind = useDrag(({ down, movement: [mx, my] }) =&gt; {
+    api.start({ x: down ? mx : 0, y: down ? my : 0, immediate: down })
+  })
+
+  // Bind it to a component
+  return &lt;animated.div {...bind()} style={{ x, y }} /&gt;
+}
+</code></pre></div><h3 id="react-grid-layout"><a href="#react-grid-layout" class="header-anchor">#</a> react-grid-layout</h3> <p>react拖动布局组件</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-grid-layout
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import GridLayout from &quot;react-grid-layout&quot;;
+
+class MyFirstGrid extends React.Component {
+  render() {
+    // layout is an array of objects, see the demo for more complete usage
+    const layout = [
+      { i: &quot;a&quot;, x: 0, y: 0, w: 1, h: 2, static: true },
+      { i: &quot;b&quot;, x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+      { i: &quot;c&quot;, x: 4, y: 0, w: 1, h: 2 }
+    ];
+    return (
+      &lt;GridLayout
+        className=&quot;layout&quot;
+        layout={layout}
+        cols={12}
+        rowHeight={30}
+        width={1200}
+      &gt;
+        &lt;div key=&quot;a&quot;&gt;a&lt;/div&gt;
+        &lt;div key=&quot;b&quot;&gt;b&lt;/div&gt;
+        &lt;div key=&quot;c&quot;&gt;c&lt;/div&gt;
+      &lt;/GridLayout&gt;
+    );
+  }
+}
+</code></pre></div><h3 id="react-sortable-hoc"><a href="#react-sortable-hoc" class="header-anchor">#</a> react-sortable-hoc</h3> <p>拖动排序</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-sortable-hoc <span class="token parameter variable">--save</span>
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, {Component} from 'react';
+import {render} from 'react-dom';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import arrayMove from 'array-move';
+
+const SortableItem = SortableElement(({value}) =&gt; &lt;li&gt;{value}&lt;/li&gt;);
+
+const SortableList = SortableContainer(({items}) =&gt; {
+  return (
+    &lt;ul&gt;
+      {items.map((value, index) =&gt; (
+        &lt;SortableItem key={`item-${value}`} index={index} value={value} /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+});
+
+class SortableComponent extends Component {
+  state = {
+    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
+  };
+  onSortEnd = ({oldIndex, newIndex}) =&gt; {
+    this.setState(({items}) =&gt; ({
+      items: arrayMove(items, oldIndex, newIndex),
+    }));
+  };
+  render() {
+    return &lt;SortableList items={this.state.items} onSortEnd={this.onSortEnd} /&gt;;
+  }
+}
+
+render(&lt;SortableComponent /&gt;, document.getElementById('root'));
+</code></pre></div><p>参数说明：</p> <p>axis: 拖动时的轴。默认为y，当需要有多个方向时需要指定为xy</p> <p>lockAxis：锁定子项目拖动的轴，可以为x或者y</p> <p>useDragHandle：使用拖动图标。不是整个子项拖动</p> <h3 id="fullcalendar"><a href="#fullcalendar" class="header-anchor">#</a> fullcalendar</h3> <p>基于日历的拖动组件</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code>$ <span class="token function">npm</span> <span class="token function">install</span> @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/list
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+...
+let calendar = new Calendar(calendarEl, {
+  plugins: [ dayGridPlugin, timeGridPlugin, listPlugin ],
+  initialView: 'dayGridMonth',
+  headerToolbar: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'dayGridMonth,timeGridWeek,listWeek'
+  }
+});
+
+var calendar = new Calendar(calendarEl, {
+  dateClick: function() {
+    alert('a day has been clicked!');
+  }
+});
+</code></pre></div><p>时间线插件</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">--save</span> @fullcalendar/core @fullcalendar/resource-timeline
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { Calendar } from '@fullcalendar/core';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+...
+let calendar = new Calendar(calendarEl, {
+  plugins: [ resourceTimelinePlugin ],
+  initialView: 'resourceTimeline',
+  resources: [
+    // your resource list
+  ]
+});
+</code></pre></div><p>https://github.com/fullcalendar/fullcalendar</p> <h3 id="react-dragline"><a href="#react-dragline" class="header-anchor">#</a> react-dragline</h3> <p>在react中拖拽组件时显示辅助线</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-dragline <span class="token parameter variable">--save</span>
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { DraggableContainer, DraggableChild } from 'react-dragline'
+
+class Example extends React.Component {
+  state = [
+    { id: 1, position: {x: 100, y: 10} },
+    { id: 2, position: {x: 400, y: 200} },
+  ]
+
+  render() {
+    const containerStyle = {
+      height: 600,
+      position: 'relative',
+    }
+
+    return (
+      &lt;DraggableContainer style={containerStyle}&gt;
+        {
+          this.state.children.map(({ id, position }, index) =&gt; {
+            const style = {
+              width: 100,
+              height: 100,
+              cursor: 'move',
+              background: '#8ce8df',
+            }
+
+            return (
+              &lt;DraggableChild key={id} defaultPosition={position}&gt;
+                &lt;div style={style} /&gt;
+              &lt;/DraggableChild&gt;
+            )
+          })
+        }
+      &lt;/DraggableContainer&gt;
+    )
+  }
+}
+
+ReactDOM.render(&lt;Example /&gt;, container)
+</code></pre></div><h3 id="react-drag-to-select"><a href="#react-drag-to-select" class="header-anchor">#</a> react-drag-to-select</h3> <p>拖动时框选组件</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">--save</span> @air/react-drag-to-select
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { useSelectionContainer } from '@air/react-drag-to-select'
+
+const App = () =&gt; {
+  const { DragSelection } = useSelectionContainer();
+
+  return (
+    &lt;div&gt;
+      &lt;DragSelection/&gt;
+      &lt;div&gt;Selectable element&lt;/div&gt;
+    &lt;/div&gt;
+  )
+}
+</code></pre></div><h3 id="react-selecto"><a href="#react-selecto" class="header-anchor">#</a> react-selecto</h3> <p>也是在拖动区域框选/点击选中元素</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-selecto
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import Selecto from &quot;react-selecto&quot;;
+
+&lt;Selecto
+    // The container to add a selection element
+    container={document.body}
+    // The area to drag selection element (default: container)
+    dragContainer={window}
+    // Targets to select. You can register a queryselector or an Element.
+    selectableTargets={[&quot;.target&quot;, document.querySelector(&quot;.target2&quot;)]}
+    // Whether to select by click (default: true)
+    selectByClick={true}
+    // Whether to select from the target inside (default: true)
+    selectFromInside={true}
+    // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
+    continueSelect={false}
+    // Determines which key to continue selecting the next target via keydown and keyup.
+    toggleContinueSelect={&quot;shift&quot;}
+    // The container for keydown and keyup events
+    keyContainer={window}
+    // The rate at which the target overlaps the drag area to be selected. (default: 100)
+    hitRate={100}
+    onSelect={e =&gt; {
+        e.added.forEach(el =&gt; {
+            el.classList.add(&quot;selected&quot;);
+        });
+        e.removed.forEach(el =&gt; {
+            el.classList.remove(&quot;selected&quot;);
+        });
+    }}
+    /&gt;
+</code></pre></div><h3 id="react-moveable"><a href="#react-moveable" class="header-anchor">#</a> react-moveable</h3> <p><a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Fdaybrush%2Fmoveable%21" target="_blank" rel="noopener noreferrer">moveable<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>是一个可拖动的、可调整大小的、可缩放的、可旋转的、可弯曲的、可收缩的、可分组的、可对齐的一个插件，包含了不同框架的版本</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token builtin class-name">export</span> default <span class="token keyword">function</span> <span class="token function-name function">MoveItem</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  const <span class="token punctuation">[</span>target, setTarget<span class="token punctuation">]</span> <span class="token operator">=</span> useState<span class="token punctuation">(</span>null<span class="token punctuation">)</span>
+  const <span class="token punctuation">[</span>frame, setFrame<span class="token punctuation">]</span> <span class="token operator">=</span> useState<span class="token punctuation">(</span><span class="token punctuation">{</span>
+      translate: <span class="token punctuation">[</span><span class="token number">0,0</span><span class="token punctuation">]</span>,
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token builtin class-name">let</span> <span class="token punctuation">[</span>snapContainer, setSnapContainer<span class="token punctuation">]</span> <span class="token operator">=</span> useState<span class="token punctuation">(</span>null<span class="token punctuation">)</span>
+  <span class="token builtin class-name">let</span> <span class="token punctuation">[</span>dropBounds, setDropBounds<span class="token punctuation">]</span> <span class="token operator">=</span> useState<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  useEffect<span class="token variable"><span class="token punctuation">((</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> {
+    setTarget<span class="token punctuation">(</span>document.querySelector<span class="token punctuation">(</span>'.target'<span class="token punctuation">))</span></span>
+    setSnapContainer<span class="token punctuation">(</span>document.querySelector<span class="token punctuation">(</span><span class="token string">'.main'</span><span class="token punctuation">))</span>
+    <span class="token builtin class-name">let</span> dom <span class="token operator">=</span> document.querySelector<span class="token punctuation">(</span><span class="token string">'.center-drop'</span><span class="token punctuation">)</span>
+    // getBoundingClientRect<span class="token punctuation">(</span><span class="token punctuation">)</span>获取元素到窗口的距离
+    dropBounds <span class="token operator">=</span> dom.getBoundingClientRect<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    setDropBounds<span class="token punctuation">(</span><span class="token punctuation">{</span>
+      top: <span class="token number">0</span>,
+      left: <span class="token number">0</span>,
+      right: dropBounds.width,
+      bottom: dropBounds.height,
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>, <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  // 拖拽
+  <span class="token keyword">function</span> handleDragStart <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    e.set<span class="token punctuation">(</span>frame.translate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">function</span> handleDrag <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    frame.translate <span class="token operator">=</span> e.beforeTranslate<span class="token punctuation">;</span>
+    e.target.style.transform <span class="token operator">=</span> <span class="token variable"><span class="token variable">`</span>translate<span class="token punctuation">(</span>$<span class="token punctuation">{</span>e.beforeTranslate<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">}</span>px, $<span class="token punctuation">{</span>e.beforeTranslate<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">}</span>px<span class="token punctuation">)</span><span class="token variable">`</span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token builtin class-name">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div <span class="token assign-left variable">className</span><span class="token operator">=</span><span class="token string">'main'</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>div <span class="token assign-left variable">className</span><span class="token operator">=</span><span class="token string">'target'</span><span class="token operator">&gt;</span>
+        
+      <span class="token operator">&lt;</span>/div<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>Moveable
+        <span class="token assign-left variable">target</span><span class="token operator">=</span><span class="token punctuation">{</span>target<span class="token punctuation">}</span> // moveable的对象
+        draggable // 是否可以拖拽
+        <span class="token assign-left variable">padding</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token string">&quot;left&quot;</span>:0,<span class="token string">&quot;top&quot;</span>:0,<span class="token string">&quot;right&quot;</span>:0,<span class="token string">&quot;bottom&quot;</span>:0<span class="token punctuation">}</span><span class="token punctuation">}</span> // padding距离
+        <span class="token assign-left variable">zoom</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">}</span> // 缩放包裹的moveable
+        <span class="token assign-left variable">origin</span><span class="token operator">=</span><span class="token punctuation">{</span>true<span class="token punctuation">}</span> // 显示中心点
+        <span class="token assign-left variable">throttleDrag</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span> // 拖拽阈值 达到这个值才执行拖拽
+        <span class="token assign-left variable">onDragStart</span><span class="token operator">=</span><span class="token punctuation">{</span>handleDragStart<span class="token punctuation">}</span> // 拖动开始执行
+        <span class="token assign-left variable">onDrag</span><span class="token operator">=</span><span class="token punctuation">{</span>handleDrag<span class="token punctuation">}</span> // 拖动中
+        <span class="token assign-left variable">snappable</span><span class="token operator">=</span><span class="token punctuation">{</span>true<span class="token punctuation">}</span> // 是否初始化磁吸功能
+        <span class="token assign-left variable">snapContainer</span><span class="token operator">=</span><span class="token punctuation">{</span>snapContainer<span class="token punctuation">}</span> // 磁吸功能的容器
+        <span class="token assign-left variable">bounds</span><span class="token operator">=</span><span class="token punctuation">{</span>dropBounds<span class="token punctuation">}</span> // 边界点
+      /<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>/div<span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>https://juejin.cn/post/7085174199307730951#heading-1</p> <h3 id="muuri"><a href="#muuri" class="header-anchor">#</a> muuri</h3> <p>拖动库</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> muuri
+</code></pre></div><h2 id="markdown"><a href="#markdown" class="header-anchor">#</a> markdown</h2> <h3 id="remarkable-js"><a href="#remarkable-js" class="header-anchor">#</a> Remarkable.js</h3> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> remarkable <span class="token parameter variable">--save</span>
+</code></pre></div><p>使用</p> <p>首先利用 require 或 import 語法獲取 Remakable 方法，然後透過 new 生成一個 Remarkable 對象。</p> <p>透過它提供的 render 方法，我們可以直接獲取 HTML</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">var</span> Remarkable <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;remarkable&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> md <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Remarkable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>md<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token string">&quot;# Remarkable rulezz!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// =&gt; &lt;h1&gt;Remarkable rulezz!&lt;/h1&gt;</span>
+</code></pre></div><p>https://juejin.cn/post/6844903782342459400</p> <h2 id="form组件"><a href="#form组件" class="header-anchor">#</a> Form组件</h2> <h3 id="react-hook-form"><a href="#react-hook-form" class="header-anchor">#</a> react-hook-form</h3> <p>简单好看的react form表单</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-hook-form
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) =&gt; console.log(data);
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+      &lt;input {...register('firstName')} /&gt; {/* register an input */}
+      &lt;input {...register('lastName', { required: true })} /&gt;
+      {errors.lastName &amp;&amp; &lt;p&gt;Last name is required.&lt;/p&gt;}
+      &lt;input {...register('age', { pattern: /\d+/ })} /&gt;
+      {errors.age &amp;&amp; &lt;p&gt;Please enter number for age.&lt;/p&gt;}
+      &lt;input type=&quot;submit&quot; /&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre></div><h3 id="redux-form"><a href="#redux-form" class="header-anchor">#</a> redux-form</h3> <p>使用redux中的state管理form</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">--save</span> redux-form
+</code></pre></div><p>使用</p> <p>创建form的reducer</p> <div class="language-react extra-class"><pre class="language-text"><code>import { createStore, combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+
+const rootReducer = combineReducers({
+  // ...your other reducers here
+  // you have to pass formReducer under 'form' key,
+  // for custom keys look up the docs for 'getFormState'
+  form: formReducer
+})
+</code></pre></div><p>使用reducer</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from 'react'
+import { Field, reduxForm } from 'redux-form'
+
+let ContactForm = props =&gt; {
+  const { handleSubmit } = props
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;div&gt;
+        &lt;label htmlFor=&quot;firstName&quot;&gt;First Name&lt;/label&gt;
+        &lt;Field name=&quot;firstName&quot; component=&quot;input&quot; type=&quot;text&quot; /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;label htmlFor=&quot;lastName&quot;&gt;Last Name&lt;/label&gt;
+        &lt;Field name=&quot;lastName&quot; component=&quot;input&quot; type=&quot;text&quot; /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;label htmlFor=&quot;email&quot;&gt;Email&lt;/label&gt;
+        &lt;Field name=&quot;email&quot; component=&quot;input&quot; type=&quot;email&quot; /&gt;
+      &lt;/div&gt;
+      &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  )
+}
+
+ContactForm = reduxForm({
+  // a unique name for the form
+  form: 'contact'
+})(ContactForm)
+</code></pre></div><p>在外部的组件中使用该form组件</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from 'react'
+import ContactForm from './ContactForm'
+
+class ContactPage extends React.Component {
+  submit = values =&gt; {
+    // print the form values to the console
+    console.log(values)
+  }
+  render() {
+    return &lt;ContactForm onSubmit={this.submit} /&gt;
+  }
+}
+</code></pre></div><h3 id="formik"><a href="#formik" class="header-anchor">#</a> Formik</h3> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> formik <span class="token parameter variable">--save</span>
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code> // Render Prop
+ import React from 'react';
+ import { Formik, Form, Field, ErrorMessage } from 'formik';
+ 
+ const Basic = () =&gt; (
+   &lt;div&gt;
+     &lt;h1&gt;Any place in your app!&lt;/h1&gt;
+     &lt;Formik
+       initialValues={{ email: '', password: '' }}
+       validate={values =&gt; {
+         const errors = {};
+         if (!values.email) {
+           errors.email = 'Required';
+         } else if (
+           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+         ) {
+           errors.email = 'Invalid email address';
+         }
+         return errors;
+       }}
+       onSubmit={(values, { setSubmitting }) =&gt; {
+         setTimeout(() =&gt; {
+           alert(JSON.stringify(values, null, 2));
+           setSubmitting(false);
+         }, 400);
+       }}
+     &gt;
+       {({ isSubmitting }) =&gt; (
+         &lt;Form&gt;
+           &lt;Field type=&quot;email&quot; name=&quot;email&quot; /&gt;
+           &lt;ErrorMessage name=&quot;email&quot; component=&quot;div&quot; /&gt;
+           &lt;Field type=&quot;password&quot; name=&quot;password&quot; /&gt;
+           &lt;ErrorMessage name=&quot;password&quot; component=&quot;div&quot; /&gt;
+           &lt;button type=&quot;submit&quot; disabled={isSubmitting}&gt;
+             Submit
+           &lt;/button&gt;
+         &lt;/Form&gt;
+       )}
+     &lt;/Formik&gt;
+   &lt;/div&gt;
+ );
+ 
+ export default Basic;
+</code></pre></div><h3 id="yup"><a href="#yup" class="header-anchor">#</a> Yup</h3> <p>验证器，用在form上</p> <p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { object, string, number, date, InferType } from 'yup';
+
+let userSchema = object({
+  name: string().required(),
+  age: number().required().positive().integer(),
+  email: string().email(),
+  website: string().url().nullable(),
+  createdOn: date().default(() =&gt; new Date()),
+});
+
+// parse and assert validity
+const user = await userSchema.validate(await fetchUser());
+
+type User = InferType&lt;typeof userSchema&gt;;
+/* {
+  name: string;
+  age: number;
+  email?: string | undefined
+  website?: string | null | undefined
+  createdOn: Date
+}*/
+</code></pre></div><h2 id="路由相关组件"><a href="#路由相关组件" class="header-anchor">#</a> 路由相关组件</h2> <h2 id="canvas"><a href="#canvas" class="header-anchor">#</a> Canvas</h2> <h3 id="react-knova"><a href="#react-knova" class="header-anchor">#</a> react-knova</h3> <p>knova在react的使用，绘制canvas</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-knova knova <span class="token parameter variable">--save</span>
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { Stage, Layer, Rect, Text } from 'react-konva';
+import Konva from 'konva';
+
+class ColoredRect extends React.Component {
+  state = {
+    color: 'green'
+  };
+  handleClick = () =&gt; {
+    this.setState({
+      color: Konva.Util.getRandomColor()
+    });
+  };
+  render() {
+    return (
+      &lt;Rect
+        x={20}
+        y={20}
+        width={50}
+        height={50}
+        fill={this.state.color}
+        shadowBlur={5}
+        onClick={this.handleClick}
+      /&gt;
+    );
+  }
+}
+
+class App extends Component {
+  render() {
+    // Stage is a div container
+    // Layer is actual canvas element (so you may have several canvases in the stage)
+    // And then we have canvas shapes inside the Layer
+    return (
+      &lt;Stage width={window.innerWidth} height={window.innerHeight}&gt;
+        &lt;Layer&gt;
+          &lt;Text text=&quot;Try click on rect&quot; /&gt;
+          &lt;ColoredRect /&gt;
+        &lt;/Layer&gt;
+      &lt;/Stage&gt;
+    );
+  }
+}
+
+render(&lt;App /&gt;, document.getElementById('root'));
+</code></pre></div><h3 id="react-canvas"><a href="#react-canvas" class="header-anchor">#</a> react-canvas</h3> <h3 id="react-art"><a href="#react-art" class="header-anchor">#</a> react-art</h3> <h3 id="react-canvas-draw"><a href="#react-canvas-draw" class="header-anchor">#</a> react-canvas-draw</h3> <p>基于canvas实现自由绘制的库</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-canvas-draw <span class="token parameter variable">--save</span>
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+import CanvasDraw from &quot;react-canvas-draw&quot;;
+
+ReactDOM.render(&lt;CanvasDraw /&gt;, document.getElementById(&quot;root&quot;));
+</code></pre></div><h2 id="动画库"><a href="#动画库" class="header-anchor">#</a> 动画库</h2> <h3 id="react-spring"><a href="#react-spring" class="header-anchor">#</a> react-spring</h3> <p>React Spring 是一个专注于拟真弹簧动效的动画库，稍加学习就可以写出高性能易维护的复杂动画。学过 React Native 的同学可能就会对 React Spring 的 API 有些熟悉，它的思想正是启发自前者内置并广泛使用的 Animated API：将动画实际的执行过程全部放在 <strong>旁路的副作用</strong> 之中，即在主流程之外独立执行带有副作用的动画逻辑</p> <p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { useRef } from 'react'
+import { useSprings, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+import clamp from 'lodash.clamp'
+import styles from './styles.module.css'
+
+const images = [/* ... */]
+
+function Viewpager() {
+  const index = useRef(0)
+  const width = window.innerWidth
+  const [props, api] = useSprings(images.length, i =&gt; ({
+    x: i * width,
+    scale: 1,
+    display: 'block'
+  }))
+  const bind = useDrag(({ active, movement: [mx], cancel }) =&gt; {
+    const absMx = Math.abs(mx)
+    if (active &amp;&amp; absMx &gt; width / 3) {
+      index.current -= mx / absMx
+      index.current = clamp(index.current, 0, images.length - 1)
+      cancel()
+    }
+    api.start(i =&gt; i &lt; index.current - 1 || i &gt; index.current + 1 ? {
+      display: 'none'
+    } : {
+      x: (i - index.current) * width + (active ? mx : 0),
+      scale: active ? 1 - absMx / width : 1,
+      display: 'block'
+    })
+  })
+  return (
+    &lt;div className={styles.wrapper}&gt;
+      {props.map(({ x, display, scale }, i) =&gt; (
+        &lt;animated.div className={styles.page} {...bind()} key={i} style={{ display, x }}&gt;
+          &lt;animated.div style={{ scale, backgroundImage: `url(${images[i]})` }} /&gt;
+        &lt;/animated.div&gt;
+      ))}
+    &lt;/div&gt;
+  )
+}
+</code></pre></div><p>整套流程的运作基本如下：应用入口触发首次渲染，通过数据源生成 JSX 并在函数组件中管理基础的状态并启动控制动画的旁路逻辑。也就是说图中上半部的这部分主流程代码，因为不存在额外引发 React 组件重渲染的因素，所以理应会像 Stateless 组件一样只执行一次。而下半部分的旁路逻辑则应该在用户触发动画时高频率触发。</p> <p>React 的思想希望理想状态下的函数都不包含副作用，用户界面总是通过 UI = fn(State) 的纯函数计算得出，这样的设计能够带来很多收益。但现实往往没办法这样美好，于是 React 提供了诸如 VDOM 协调机制、useEffects 等方式希望可控高效地在组件中使用副作用。而 react-spring 做法则是将领域特定的副作用收敛到一处并绕过主流程执行，通过各种设计巧妙避免各类预期外行为。</p> <p>一般在使用 React、Vue 这类前端库时需要注意避免使用超出控制的副作用（比如直接在函数组件顶层进行事件绑定）。react-spring 的 API 设计亮点还在于它复用了 React 现有的部分机制：</p> <ul><li>状态使用 useRef 管理，避免 State 改变引发的全组件重渲染</li> <li>占用子组件的 props 槽位，避免 React State 与 SpringValue 管理元素相同属性造成冲突</li></ul> <p>形式上 api.start(...) 的调用方式与 React 曾经通用的类组件范式 this.setState(...) 很相近。并且两者对值的更新都是需要通过内部调度决定时机，而不一定立刻作用到位。无关于 react-spring 的实际实现，这样做好处在于内部还可以将 “<em>动画逻辑代码的执行”</em> 和 “<em>实际的渲染绘制帧”</em> 的时机解绑，也就是说每秒 60 帧的动画实际可以只运行十几次动画逻辑，每次运行之间间隔的动画绘制可以通过 transtions 机制或是补间算法进行计算，来做到进一步的性能优化。</p> <h3 id="react-motion"><a href="#react-motion" class="header-anchor">#</a> react-motion</h3> <h2 id="功能组件"><a href="#功能组件" class="header-anchor">#</a> 功能组件</h2> <h3 id="echarts-for-react"><a href="#echarts-for-react" class="header-anchor">#</a> echarts-for-react</h3> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">--save</span> echarts-for-react
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from 'react';
+import ReactECharts from 'echarts-for-react';  // or var ReactECharts = require('echarts-for-react');
+
+&lt;ReactECharts
+  option={this.getOption()}
+  notMerge={true}
+  lazyUpdate={true}
+  theme={&quot;theme_name&quot;}
+  onChartReady={this.onChartReadyCallback}
+  onEvents={EventsDict}
+  opts={}
+/&gt;
+</code></pre></div><h3 id="react-fiber-traverse"><a href="#react-fiber-traverse" class="header-anchor">#</a> react-fiber-traverse</h3> <p>在fiber树中返回react node</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-fiber-traverse <span class="token parameter variable">--save</span>
+</code></pre></div><p>使用</p> <div class="language-jsx extra-class"><pre class="language-jsx"><code><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">&quot;react&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> render <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;react-dom&quot;</span><span class="token punctuation">;</span>
+ 
+<span class="token keyword">import</span> <span class="token punctuation">{</span> findNodeByComponentName<span class="token punctuation">,</span> Utils <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;react-fiber-traverse&quot;</span><span class="token punctuation">;</span>
+ 
+<span class="token comment">// Sample component</span>
+<span class="token comment">// Say, if SomeComponentName looks like this -</span>
+<span class="token keyword">function</span> <span class="token function">SomeComponentName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">Some text</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+ 
+<span class="token comment">// Render component</span>
+<span class="token keyword">const</span> rootElement <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;root&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">SomeComponentName</span></span> <span class="token punctuation">/&gt;</span></span><span class="token punctuation">,</span> rootElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+<span class="token comment">// Get root node</span>
+<span class="token keyword">const</span> rootFiberNode <span class="token operator">=</span> Utils<span class="token punctuation">.</span><span class="token function">getRootFiberNodeFromDOM</span><span class="token punctuation">(</span>rootElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+<span class="token comment">// Get component node</span>
+<span class="token keyword">const</span> someFiberNode <span class="token operator">=</span> <span class="token function">findNodeByComponentName</span><span class="token punctuation">(</span>
+  rootFiberNode<span class="token punctuation">,</span>
+  <span class="token string">&quot;SomeComponentName&quot;</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// &lt;- returns FiberNode for first usage of 'SomeComponentName'</span>
+ 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>someFiberNode<span class="token punctuation">.</span>child<span class="token punctuation">.</span>stateNode<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// &lt;- returns reference to the div</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>someFiberNode<span class="token punctuation">.</span>child<span class="token punctuation">.</span>stateNode<span class="token punctuation">.</span>innerText<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// &lt;- returns 'Some text'</span>
+</code></pre></div><h3 id="monaco-editor-react"><a href="#monaco-editor-react" class="header-anchor">#</a> @monaco-editor/react</h3> <p>在页面内插入文本编辑器，可以提供代码高亮、错误提示等功能</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> @monaco-editor/react 
+</code></pre></div><p>使用</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> Editor<span class="token punctuation">,</span> <span class="token punctuation">{</span> DiffEditor<span class="token punctuation">,</span> useMonaco<span class="token punctuation">,</span> loader <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;@monaco-editor/react&quot;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> editorRef <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>monaco<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;here is the monaco isntance:&quot;</span><span class="token punctuation">,</span> monaco<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>monaco<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  <span class="token keyword">function</span> <span class="token function">handleEditorWillMount</span><span class="token punctuation">(</span><span class="token parameter">monaco</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// here is the monaco instance</span>
+    <span class="token comment">// do something before editor is mounted</span>
+    monaco<span class="token punctuation">.</span>languages<span class="token punctuation">.</span>typescript<span class="token punctuation">.</span>javascriptDefaults<span class="token punctuation">.</span><span class="token function">setEagerModelSync</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token keyword">function</span> <span class="token function">handleEditorDidMount</span><span class="token punctuation">(</span><span class="token parameter">editor<span class="token punctuation">,</span> monaco</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    editorRef<span class="token punctuation">.</span>current <span class="token operator">=</span> editor<span class="token punctuation">;</span> 
+  <span class="token punctuation">}</span>
+  
+  <span class="token keyword">function</span> <span class="token function">handleEditorChange</span><span class="token punctuation">(</span><span class="token parameter">value<span class="token punctuation">,</span> event</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;here is the current model value:&quot;</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+  <span class="token keyword">function</span> <span class="token function">showValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span>editorRef<span class="token punctuation">.</span>current<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+   <span class="token operator">&lt;</span><span class="token operator">&gt;</span>
+     <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>showValue<span class="token punctuation">}</span><span class="token operator">&gt;</span>Show value<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+     <span class="token operator">&lt;</span>Editor
+       height<span class="token operator">=</span><span class="token string">&quot;90vh&quot;</span>
+       defaultLanguage<span class="token operator">=</span><span class="token string">&quot;javascript&quot;</span>
+       defaultValue<span class="token operator">=</span><span class="token string">&quot;// some comment&quot;</span>
+       beforeMount<span class="token operator">=</span><span class="token punctuation">{</span>handleEditorWillMount<span class="token punctuation">}</span>
+       onMount<span class="token operator">=</span><span class="token punctuation">{</span>handleEditorDidMount<span class="token punctuation">}</span>
+			 onChange<span class="token operator">=</span><span class="token punctuation">{</span>handleEditorChange<span class="token punctuation">}</span>
+     <span class="token operator">/</span><span class="token operator">&gt;</span>
+   <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> rootElement <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">&quot;root&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">&gt;</span><span class="token punctuation">,</span> rootElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="react-router-cache-route"><a href="#react-router-cache-route" class="header-anchor">#</a> react-router-cache-route</h3> <p>路由缓存</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> HashRouter <span class="token keyword">as</span> Router<span class="token punctuation">,</span> Route <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-dom'</span>
+<span class="token keyword">import</span> CacheRoute<span class="token punctuation">,</span> <span class="token punctuation">{</span> CacheSwitch <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-cache-route'</span>
+
+<span class="token keyword">import</span> List <span class="token keyword">from</span> <span class="token string">'./views/List'</span>
+<span class="token keyword">import</span> Item <span class="token keyword">from</span> <span class="token string">'./views/Item'</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">App</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
+  <span class="token operator">&lt;</span>Router<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>CacheSwitch<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>CacheRoute exact path<span class="token operator">=</span><span class="token string">&quot;/list&quot;</span> component<span class="token operator">=</span><span class="token punctuation">{</span>List<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>Route exact path<span class="token operator">=</span><span class="token string">&quot;/item/:id&quot;</span> component<span class="token operator">=</span><span class="token punctuation">{</span>Item<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>Route render<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span><span class="token number">404</span> Not Found<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span><span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>CacheSwitch<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>Router<span class="token operator">&gt;</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> App
+</code></pre></div><h3 id="react-keep-alive"><a href="#react-keep-alive" class="header-anchor">#</a> react-keep-alive</h3> <p>保持当前页面的组件不被卸载</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">--save</span> react-keep-alive
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from 'react';
+import ReactDOM from 'react-dom';
+import {
+  Provider,
+  KeepAlive,
+} from 'react-keep-alive';
+import Test from './views/Test';
+
+ReactDOM.render(
+  &lt;Provider&gt;
+    &lt;KeepAlive name=&quot;Test&quot;&gt;
+      &lt;Test /&gt;
+    &lt;/KeepAlive&gt;
+  &lt;/Provider&gt;,
+  document.getElementById('root'),
+);
+</code></pre></div><h3 id="react-activation"><a href="#react-activation" class="header-anchor">#</a> react-activation</h3> <p>React-activation类似于vue中的keep-alive，实现组件缓存</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// App.js</span>
+
+<span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> KeepAlive <span class="token keyword">from</span> <span class="token string">'react-activation'</span>
+
+<span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>p<span class="token operator">&gt;</span>count<span class="token operator">:</span> <span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setCount</span><span class="token punctuation">(</span><span class="token parameter">count</span> <span class="token operator">=&gt;</span> count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>Add<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>show<span class="token punctuation">,</span> setShow<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setShow</span><span class="token punctuation">(</span><span class="token parameter">show</span> <span class="token operator">=&gt;</span> <span class="token operator">!</span>show<span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>Toggle<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+      <span class="token punctuation">{</span>show <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>
+        <span class="token operator">&lt;</span>KeepAlive<span class="token operator">&gt;</span>
+          <span class="token operator">&lt;</span>Counter <span class="token operator">/</span><span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span><span class="token operator">/</span>KeepAlive<span class="token operator">&gt;</span>
+      <span class="token punctuation">)</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> App
+</code></pre></div><p>可以在组件缓存或者卸载时做一些回调</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> KeepAlive<span class="token punctuation">,</span> <span class="token punctuation">{</span> useActivate<span class="token punctuation">,</span> useUnactivate<span class="token punctuation">,</span> withActivation <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-activation'</span>
+
+@withActivation
+<span class="token keyword">class</span> <span class="token class-name">TestClass</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  <span class="token function">componentDidActivate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'TestClass: componentDidActivate'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token function">componentWillUnactivate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'TestClass: componentWillUnactivate'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+<span class="token operator">...</span>
+<span class="token keyword">function</span> <span class="token function">TestFunction</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">useActivate</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'TestFunction: didActivate'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token function">useUnactivate</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'TestFunction: willUnactivate'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span>
+<span class="token operator">...</span>
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token punctuation">{</span>show <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>
+      <span class="token operator">&lt;</span>KeepAlive<span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>TestClass <span class="token operator">/</span><span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>TestFunction <span class="token operator">/</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>KeepAlive<span class="token operator">&gt;</span>
+    <span class="token punctuation">)</span><span class="token punctuation">}</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="classnames"><a href="#classnames" class="header-anchor">#</a> classnames</h3> <p>当react原生动态添加多个className时就会报错，这时我们就可以利用classnames库添加多个className,这也是react官方推荐使用</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> classnames <span class="token parameter variable">--save</span>
+</code></pre></div><p>支持动态导入</p> <div class="language-react extra-class"><pre class="language-text"><code>import classnames from 'classnames'
+
+&lt;div className=classnames({
+    'class1': true,
+    'class2': true
+    )&gt;
+&lt;/div&gt;    
+</code></pre></div><p>支持class动态传入变量，或者传入数组</p> <div class="language-react extra-class"><pre class="language-text"><code>import classNames from 'classnames';
+
+render() {
+  const classStr = classNames({
+    'class1': true,
+    'class2': this.props.isCompleted,
+    'class3': !this.props.isCompleted
+    [a]: this.props.isCompleted
+  });
+  return (&lt;div className={classStr}&gt;&lt;/div&gt;);
+}
+</code></pre></div><h3 id="clsx"><a href="#clsx" class="header-anchor">#</a> clsx</h3> <p>和classnames功能一样 但是体积更小</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">--save</span> clsx
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import clsx from 'clsx';
+// or
+import { clsx } from 'clsx';
+
+// Strings (variadic)
+clsx('foo', true &amp;&amp; 'bar', 'baz');
+//=&gt; 'foo bar baz'
+
+// Objects
+clsx({ foo:true, bar:false, baz:isTrue() });
+//=&gt; 'foo baz'
+
+// Objects (variadic)
+clsx({ foo:true }, { bar:false }, null, { '--foobar':'hello' });
+//=&gt; 'foo --foobar'
+
+// Arrays
+clsx(['foo', 0, false, 'bar']);
+//=&gt; 'foo bar'
+
+// Arrays (variadic)
+clsx(['foo'], ['', 0, false, 'bar'], [['baz', [['hello'], 'there']]]);
+//=&gt; 'foo bar baz hello there'
+
+// Kitchen sink (with nesting)
+clsx('foo', [1 &amp;&amp; 'bar', { baz:false, bat:null }, ['hello', ['world']]], 'cya');
+//=&gt; 'foo bar hello world cya'
+</code></pre></div><h3 id="graphql"><a href="#graphql" class="header-anchor">#</a> GraphQL</h3> <p>Apollo是基于GraphQL的全栈解决方案集合，包括了apollo-client和apollo-server，从后端到前端提供了对应的lib使得开发GraphQL更加方便</p> <div class="language-toml extra-class"><pre class="language-toml"><code>apollo-boost 包含启动阿波罗客户端的所有依赖
+react-apollo 视图层面的集合
+graph-tag 解析查询语句
+graphql 也是解析查询语句
+</code></pre></div><div class="language-react extra-class"><pre class="language-text"><code>import ApolloClient from 'apollo-boost' 
+
+const client = new ApolloClient({
+    uri: 'http://localhost:5000/graphql'
+})
+
+import { ApolloProvider,Query } from 'react-apollo'
+import { Mutation,MutationFunc } from 'react-apollo'
+
+</code></pre></div><div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> @apollo/client graphql
+</code></pre></div><p>使用hooks</p> <h3 id="react-hot-loader"><a href="#react-hot-loader" class="header-anchor">#</a> react-hot-loader</h3> <p>React-Hot-Loader 使用了 Webpack HMR API，针对 React 框架实现了对单个 component 的热替换，并且能够保持组件的 state。
+React-Hot-Loader 在编译时会在每一个 React component 外封装一层，每一个这样的封装都会注册自己的 module.hot.accept 回调，它们会监听每一个 component 的更新，在当前 component 代码更新时只替换自己的模块，而不是整个替换 root component。
+同时，React-Hot-Loader 对 component 的封装还会代理 component 的 state，所以当 component 替换之后依然能够保持之前的 state。</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> --save-dev react-hot-loader
+</code></pre></div><p>hot-loader 是基于 webpack-dev-server，所以还得安装 webpack-dev-server</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> --save-dev webpack-dev-server
+</code></pre></div><p>首先还是要让 webpack-dev-server 打开。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">var</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> WebpackDevServer <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack-dev-server'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> config <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./webpack.config'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">new</span> <span class="token class-name">WebpackDevServer</span><span class="token punctuation">(</span><span class="token function">webpack</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">publicPath</span><span class="token operator">:</span> config<span class="token punctuation">.</span>output<span class="token punctuation">.</span>publicPath<span class="token punctuation">,</span>
+  <span class="token literal-property property">hot</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">historyApiFallback</span><span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> result</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Listening at http://localhost:3000/'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>然后在 webpack 的配置文件里添加 react-hot-loader。</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">var</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 修改 entry</span>
+  <span class="token literal-property property">entry</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token comment">// 写在入口文件之前</span>
+    <span class="token string">&quot;webpack-dev-server/client?http://0.0.0.0:3000&quot;</span><span class="token punctuation">,</span>
+    <span class="token string">&quot;webpack/hot/only-dev-server&quot;</span><span class="token punctuation">,</span>
+    <span class="token comment">// 这里是你的入口文件</span>
+    <span class="token string">&quot;./src/app.js&quot;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">path</span><span class="token operator">:</span> __dirname<span class="token punctuation">,</span>
+    <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">&quot;build/js/bundle.js&quot;</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">publicPath</span><span class="token operator">:</span> <span class="token string">&quot;/build&quot;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">module</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token literal-property property">loaders</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token literal-property property">test</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\.jsx?$</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token literal-property property">exclude</span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">node_modules</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span>
+        <span class="token comment">// 在这里添加 react-hot，注意这里使用的是loaders，所以不能用 query，应该把presets参数写在 babel 的后面</span>
+        <span class="token literal-property property">loaders</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">'react-hot'</span><span class="token punctuation">,</span> <span class="token string">'babel?presets[]=react,presets[]=es2015'</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">// 添加插件</span>
+  <span class="token literal-property property">plugins</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token keyword">new</span> <span class="token class-name">webpack<span class="token punctuation">.</span>HotModuleReplacementPlugin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span>
+</code></pre></div><h3 id="react-hot-toast"><a href="#react-hot-toast" class="header-anchor">#</a> react-hot-toast</h3> <p>全屏的通知组件</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-hot-toast
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import toast, { Toaster } from 'react-hot-toast';
+
+const notify = () =&gt; toast('Here is your toast.');
+
+const App = () =&gt; {
+  return (
+    &lt;div&gt;
+      &lt;button onClick={notify}&gt;Make me a toast&lt;/button&gt;
+      &lt;Toaster /&gt;
+    &lt;/div&gt;
+  );
+};
+</code></pre></div><h3 id="remotion"><a href="#remotion" class="header-anchor">#</a> remotion</h3> <p>用react写video</p> <p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import { useCurrentFrame } from &quot;remotion&quot;;
+ 
+export const MyVideo = () =&gt; {
+  const frame = useCurrentFrame();
+ 
+  return (
+    &lt;div
+      style={{
+        flex: 1,
+        textAlign: &quot;center&quot;,
+        fontSize: &quot;7em&quot;,
+      }}
+    &gt;
+      The current frame is {frame}.
+    &lt;/div&gt;
+  );
+};
+</code></pre></div><p>配置帧数</p> <div class="language-react extra-class"><pre class="language-text"><code>import { useVideoConfig } from &quot;remotion&quot;;
+ 
+export const MyVideo = () =&gt; {
+  const { fps, durationInFrames, width, height } = useVideoConfig();
+ 
+  return (
+    &lt;div
+      style={{
+        flex: 1,
+        textAlign: &quot;center&quot;,
+        fontSize: &quot;7em&quot;,
+       }}
+      &gt;
+      This {width}px x {height}px video is {durationInFrames / fps} seconds long.
+    &lt;/div&gt;
+  );
+};
+</code></pre></div><h3 id="react-player"><a href="#react-player" class="header-anchor">#</a> react-player</h3> <p>react视频播放组件，比原生的h5 video标签好用</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> react-player <span class="token comment"># or yarn add react-player</span>
+</code></pre></div><p>使用</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, {useEffect} from 'react'
+import ReactPlayer from 'react-player'
+
+const App = () =&gt; {
+  
+  useEffect(() =&gt; {
+    ReactPlayer.canPlay(url)
+  },[url])
+
+  return &lt;ReactPlayer url={url} light=&quot;xxx.jpg&quot; onReady={} onError={} /&gt;
+}
+</code></pre></div><p>https://cookpete.com/react-player/</p> <h3 id="react-motion-2"><a href="#react-motion-2" class="header-anchor">#</a> react-motion</h3> <h3 id="uuid"><a href="#uuid" class="header-anchor">#</a> uuid</h3> <p>uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。</p> <p>UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。</p> <p>格式</p> <p>uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符</p> <p>UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：</p> <p>uuid.v1()：创建版本1(时间戳)UUID</p> <p>uuid.v3()：创建版本3(md5命名空间)UUID</p> <p>uuid.v4()：创建版本4(随机)UUID</p> <p>uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD</p> <p>安装</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">npm</span> <span class="token function">install</span> uuid 
+</code></pre></div><p>使用</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> v4 <span class="token keyword">as</span> uuidv4<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'uuid'</span>
+
+<span class="token function">uuidv4</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre></div><p>可以使用uuid进行验证登陆,未登陆状态下生产uuid</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">let</span> uuid <span class="token operator">=</span> sessionStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'uuid'</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>uuid<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  sessionStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'uuid'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">getToken</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  sessionStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'uuid'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> uuid <span class="token operator">=</span> sessionStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'uuid'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>uuid<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    sessionStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'uuid'</span><span class="token punctuation">,</span><span class="token function">uuidv4</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3979e060.js" defer></script><script src="/assets/js/2.0f8cbb55.js" defer></script><script src="/assets/js/1.ff82b27c.js" defer></script><script src="/assets/js/62.f6bea4bf.js" defer></script>
+  </body>
+</html>

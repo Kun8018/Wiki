@@ -4,190 +4,762 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>React（三）</title>
-    <meta name="generator" content="VuePress 1.8.2">
+    <meta name="generator" content="VuePress 1.9.10">
     
     <meta name="description" content="">
     
-    <link rel="preload" href="/assets/css/0.styles.88b3a504.css" as="style"><link rel="preload" href="/assets/js/app.f8154061.js" as="script"><link rel="preload" href="/assets/js/2.4cccd600.js" as="script"><link rel="preload" href="/assets/js/22.9b419f3a.js" as="script"><link rel="prefetch" href="/assets/js/10.54f00d7a.js"><link rel="prefetch" href="/assets/js/11.3da5b74a.js"><link rel="prefetch" href="/assets/js/12.7fee73d6.js"><link rel="prefetch" href="/assets/js/13.76868392.js"><link rel="prefetch" href="/assets/js/14.73742d11.js"><link rel="prefetch" href="/assets/js/15.5f9a7bea.js"><link rel="prefetch" href="/assets/js/16.bc63dc43.js"><link rel="prefetch" href="/assets/js/17.cf9ef8d3.js"><link rel="prefetch" href="/assets/js/18.813f3d8e.js"><link rel="prefetch" href="/assets/js/19.381f5e21.js"><link rel="prefetch" href="/assets/js/20.e6f846bb.js"><link rel="prefetch" href="/assets/js/21.699eb7d8.js"><link rel="prefetch" href="/assets/js/23.9e2fcc0f.js"><link rel="prefetch" href="/assets/js/24.c0934c78.js"><link rel="prefetch" href="/assets/js/25.4d32001d.js"><link rel="prefetch" href="/assets/js/26.6a089853.js"><link rel="prefetch" href="/assets/js/27.b32725bd.js"><link rel="prefetch" href="/assets/js/28.a7d1db61.js"><link rel="prefetch" href="/assets/js/29.ee4f84ac.js"><link rel="prefetch" href="/assets/js/3.6608d946.js"><link rel="prefetch" href="/assets/js/30.c1000c38.js"><link rel="prefetch" href="/assets/js/31.694fd1d6.js"><link rel="prefetch" href="/assets/js/32.ac026d3a.js"><link rel="prefetch" href="/assets/js/33.c8ee999f.js"><link rel="prefetch" href="/assets/js/34.6663a77a.js"><link rel="prefetch" href="/assets/js/35.da0b5d07.js"><link rel="prefetch" href="/assets/js/36.75f20762.js"><link rel="prefetch" href="/assets/js/37.df31ffd6.js"><link rel="prefetch" href="/assets/js/38.848c2684.js"><link rel="prefetch" href="/assets/js/39.9a7a0d1a.js"><link rel="prefetch" href="/assets/js/4.9660033f.js"><link rel="prefetch" href="/assets/js/40.ca8e34ae.js"><link rel="prefetch" href="/assets/js/41.ab3f4971.js"><link rel="prefetch" href="/assets/js/42.3f849176.js"><link rel="prefetch" href="/assets/js/43.9b90ce3e.js"><link rel="prefetch" href="/assets/js/44.196181d0.js"><link rel="prefetch" href="/assets/js/45.4ebcccbd.js"><link rel="prefetch" href="/assets/js/46.a68cdba9.js"><link rel="prefetch" href="/assets/js/47.d26979d7.js"><link rel="prefetch" href="/assets/js/48.f6c3543c.js"><link rel="prefetch" href="/assets/js/49.87b9dc0d.js"><link rel="prefetch" href="/assets/js/5.bbf68f26.js"><link rel="prefetch" href="/assets/js/50.0d956d0a.js"><link rel="prefetch" href="/assets/js/51.6d654f81.js"><link rel="prefetch" href="/assets/js/52.180028c6.js"><link rel="prefetch" href="/assets/js/53.688b8ed0.js"><link rel="prefetch" href="/assets/js/54.4760398b.js"><link rel="prefetch" href="/assets/js/55.79d61c82.js"><link rel="prefetch" href="/assets/js/56.22ba5d85.js"><link rel="prefetch" href="/assets/js/57.085d3e52.js"><link rel="prefetch" href="/assets/js/58.a778b7b9.js"><link rel="prefetch" href="/assets/js/59.2ea1a17d.js"><link rel="prefetch" href="/assets/js/6.690811ac.js"><link rel="prefetch" href="/assets/js/60.82c5f4a5.js"><link rel="prefetch" href="/assets/js/61.9851b4bf.js"><link rel="prefetch" href="/assets/js/62.e9ca8158.js"><link rel="prefetch" href="/assets/js/63.44d8baf4.js"><link rel="prefetch" href="/assets/js/64.df339ab2.js"><link rel="prefetch" href="/assets/js/65.ac505688.js"><link rel="prefetch" href="/assets/js/66.3af3b829.js"><link rel="prefetch" href="/assets/js/67.41c1aab0.js"><link rel="prefetch" href="/assets/js/68.5d9e177d.js"><link rel="prefetch" href="/assets/js/69.d3e85f6e.js"><link rel="prefetch" href="/assets/js/7.491a7910.js"><link rel="prefetch" href="/assets/js/70.4494003e.js"><link rel="prefetch" href="/assets/js/71.6e2116c7.js"><link rel="prefetch" href="/assets/js/72.49cda61b.js"><link rel="prefetch" href="/assets/js/73.e7e66ead.js"><link rel="prefetch" href="/assets/js/74.5e98329f.js"><link rel="prefetch" href="/assets/js/75.3dd401e4.js"><link rel="prefetch" href="/assets/js/76.aabec56b.js"><link rel="prefetch" href="/assets/js/77.95564de2.js"><link rel="prefetch" href="/assets/js/78.69634719.js"><link rel="prefetch" href="/assets/js/79.6fcc3d23.js"><link rel="prefetch" href="/assets/js/8.63bf7718.js"><link rel="prefetch" href="/assets/js/9.58039158.js">
-    <link rel="stylesheet" href="/assets/css/0.styles.88b3a504.css">
+    <link rel="preload" href="/assets/css/0.styles.0503e0f3.css" as="style"><link rel="preload" href="/assets/js/app.3979e060.js" as="script"><link rel="preload" href="/assets/js/2.0f8cbb55.js" as="script"><link rel="preload" href="/assets/js/1.ff82b27c.js" as="script"><link rel="preload" href="/assets/js/67.062b95dc.js" as="script"><link rel="prefetch" href="/assets/js/10.d9850768.js"><link rel="prefetch" href="/assets/js/100.a33654f4.js"><link rel="prefetch" href="/assets/js/101.d3bc1c79.js"><link rel="prefetch" href="/assets/js/102.02bbfd1e.js"><link rel="prefetch" href="/assets/js/103.c9de5560.js"><link rel="prefetch" href="/assets/js/104.7c2b76db.js"><link rel="prefetch" href="/assets/js/105.ea3ac79c.js"><link rel="prefetch" href="/assets/js/106.d54e3045.js"><link rel="prefetch" href="/assets/js/107.c142f695.js"><link rel="prefetch" href="/assets/js/108.fe2c9c19.js"><link rel="prefetch" href="/assets/js/109.59b55101.js"><link rel="prefetch" href="/assets/js/11.62caceeb.js"><link rel="prefetch" href="/assets/js/110.c657b6f8.js"><link rel="prefetch" href="/assets/js/111.4eadf9c5.js"><link rel="prefetch" href="/assets/js/112.fce38ecf.js"><link rel="prefetch" href="/assets/js/113.ee6322e2.js"><link rel="prefetch" href="/assets/js/114.1ed20fd8.js"><link rel="prefetch" href="/assets/js/115.aa405ee0.js"><link rel="prefetch" href="/assets/js/116.d1b4c413.js"><link rel="prefetch" href="/assets/js/117.965d1926.js"><link rel="prefetch" href="/assets/js/118.b1d5b9ca.js"><link rel="prefetch" href="/assets/js/119.e4e766bc.js"><link rel="prefetch" href="/assets/js/12.abd8d9de.js"><link rel="prefetch" href="/assets/js/120.f569b061.js"><link rel="prefetch" href="/assets/js/121.e3915f79.js"><link rel="prefetch" href="/assets/js/122.3a2b3d34.js"><link rel="prefetch" href="/assets/js/123.cbf985ea.js"><link rel="prefetch" href="/assets/js/124.c3d8b6fc.js"><link rel="prefetch" href="/assets/js/125.dfe970a3.js"><link rel="prefetch" href="/assets/js/126.f5165054.js"><link rel="prefetch" href="/assets/js/127.ffb31d35.js"><link rel="prefetch" href="/assets/js/128.bf7eb0b3.js"><link rel="prefetch" href="/assets/js/129.76b0ac54.js"><link rel="prefetch" href="/assets/js/13.763c094c.js"><link rel="prefetch" href="/assets/js/130.cb661ef6.js"><link rel="prefetch" href="/assets/js/131.b215b4cc.js"><link rel="prefetch" href="/assets/js/132.bdf6b89f.js"><link rel="prefetch" href="/assets/js/133.a13e43ca.js"><link rel="prefetch" href="/assets/js/134.f858c56e.js"><link rel="prefetch" href="/assets/js/135.0e05a297.js"><link rel="prefetch" href="/assets/js/136.ff47beeb.js"><link rel="prefetch" href="/assets/js/137.7dcf182f.js"><link rel="prefetch" href="/assets/js/138.dd2c3c8c.js"><link rel="prefetch" href="/assets/js/139.db36e4eb.js"><link rel="prefetch" href="/assets/js/14.784100b6.js"><link rel="prefetch" href="/assets/js/140.05811a56.js"><link rel="prefetch" href="/assets/js/141.32b8052b.js"><link rel="prefetch" href="/assets/js/142.2c061186.js"><link rel="prefetch" href="/assets/js/143.113df61a.js"><link rel="prefetch" href="/assets/js/144.2c01c336.js"><link rel="prefetch" href="/assets/js/145.a8fe7a8a.js"><link rel="prefetch" href="/assets/js/146.bb5b7e16.js"><link rel="prefetch" href="/assets/js/147.213b17a7.js"><link rel="prefetch" href="/assets/js/148.dd7a3258.js"><link rel="prefetch" href="/assets/js/149.b3f9adc5.js"><link rel="prefetch" href="/assets/js/15.3aa73286.js"><link rel="prefetch" href="/assets/js/150.4ab9a505.js"><link rel="prefetch" href="/assets/js/151.d04eb475.js"><link rel="prefetch" href="/assets/js/152.c547ae2c.js"><link rel="prefetch" href="/assets/js/153.3fa58002.js"><link rel="prefetch" href="/assets/js/154.cd2cc012.js"><link rel="prefetch" href="/assets/js/155.0160c441.js"><link rel="prefetch" href="/assets/js/16.7886627b.js"><link rel="prefetch" href="/assets/js/17.a4c76a6c.js"><link rel="prefetch" href="/assets/js/18.995eb54b.js"><link rel="prefetch" href="/assets/js/19.edc682a7.js"><link rel="prefetch" href="/assets/js/20.87ca556d.js"><link rel="prefetch" href="/assets/js/21.4b328dcc.js"><link rel="prefetch" href="/assets/js/22.91d15e78.js"><link rel="prefetch" href="/assets/js/23.17bfc3dd.js"><link rel="prefetch" href="/assets/js/24.c0d84a10.js"><link rel="prefetch" href="/assets/js/25.2717e191.js"><link rel="prefetch" href="/assets/js/26.3764ddb4.js"><link rel="prefetch" href="/assets/js/27.e98913ec.js"><link rel="prefetch" href="/assets/js/28.a4481108.js"><link rel="prefetch" href="/assets/js/29.3d82d38d.js"><link rel="prefetch" href="/assets/js/3.e2aae122.js"><link rel="prefetch" href="/assets/js/30.7e9979a2.js"><link rel="prefetch" href="/assets/js/31.fa479c29.js"><link rel="prefetch" href="/assets/js/32.901576de.js"><link rel="prefetch" href="/assets/js/33.8dafc45c.js"><link rel="prefetch" href="/assets/js/34.6bbddd9b.js"><link rel="prefetch" href="/assets/js/35.394c80b9.js"><link rel="prefetch" href="/assets/js/36.5246333d.js"><link rel="prefetch" href="/assets/js/37.49802bfd.js"><link rel="prefetch" href="/assets/js/38.36ae0914.js"><link rel="prefetch" href="/assets/js/39.791184a0.js"><link rel="prefetch" href="/assets/js/4.30c2ba05.js"><link rel="prefetch" href="/assets/js/40.eb1a9cc1.js"><link rel="prefetch" href="/assets/js/41.31179942.js"><link rel="prefetch" href="/assets/js/42.22c31ea4.js"><link rel="prefetch" href="/assets/js/43.e82e343d.js"><link rel="prefetch" href="/assets/js/44.95e68751.js"><link rel="prefetch" href="/assets/js/45.b99232d2.js"><link rel="prefetch" href="/assets/js/46.21e9dae9.js"><link rel="prefetch" href="/assets/js/47.e30bba7c.js"><link rel="prefetch" href="/assets/js/48.6c0d14cd.js"><link rel="prefetch" href="/assets/js/49.ed1b480b.js"><link rel="prefetch" href="/assets/js/5.c5fba3ad.js"><link rel="prefetch" href="/assets/js/50.f500b9ed.js"><link rel="prefetch" href="/assets/js/51.3671246f.js"><link rel="prefetch" href="/assets/js/52.7915148f.js"><link rel="prefetch" href="/assets/js/53.39ece5d9.js"><link rel="prefetch" href="/assets/js/54.358ca4aa.js"><link rel="prefetch" href="/assets/js/55.244837be.js"><link rel="prefetch" href="/assets/js/56.e7164f10.js"><link rel="prefetch" href="/assets/js/57.3c6f5aa2.js"><link rel="prefetch" href="/assets/js/58.84c83603.js"><link rel="prefetch" href="/assets/js/59.ec4edc7d.js"><link rel="prefetch" href="/assets/js/6.9184d4d1.js"><link rel="prefetch" href="/assets/js/60.c2346e02.js"><link rel="prefetch" href="/assets/js/61.8d99ca4c.js"><link rel="prefetch" href="/assets/js/62.f6bea4bf.js"><link rel="prefetch" href="/assets/js/63.410bfe1e.js"><link rel="prefetch" href="/assets/js/64.960d5951.js"><link rel="prefetch" href="/assets/js/65.e6a8895b.js"><link rel="prefetch" href="/assets/js/66.41092e16.js"><link rel="prefetch" href="/assets/js/68.58c65f95.js"><link rel="prefetch" href="/assets/js/69.d1e1b68b.js"><link rel="prefetch" href="/assets/js/7.85fc951e.js"><link rel="prefetch" href="/assets/js/70.8294a611.js"><link rel="prefetch" href="/assets/js/71.66e44dac.js"><link rel="prefetch" href="/assets/js/72.46bd34f2.js"><link rel="prefetch" href="/assets/js/73.7eb2e800.js"><link rel="prefetch" href="/assets/js/74.8e05f264.js"><link rel="prefetch" href="/assets/js/75.21e0b9b1.js"><link rel="prefetch" href="/assets/js/76.c2c92cec.js"><link rel="prefetch" href="/assets/js/77.799df679.js"><link rel="prefetch" href="/assets/js/78.1605b33c.js"><link rel="prefetch" href="/assets/js/79.659e7e78.js"><link rel="prefetch" href="/assets/js/80.6f99ca65.js"><link rel="prefetch" href="/assets/js/81.7a0caba9.js"><link rel="prefetch" href="/assets/js/82.19629840.js"><link rel="prefetch" href="/assets/js/83.29093f51.js"><link rel="prefetch" href="/assets/js/84.64568258.js"><link rel="prefetch" href="/assets/js/85.3d88e3b2.js"><link rel="prefetch" href="/assets/js/86.0a93f933.js"><link rel="prefetch" href="/assets/js/87.07c51a25.js"><link rel="prefetch" href="/assets/js/88.aa6be8e5.js"><link rel="prefetch" href="/assets/js/89.6ad93f1f.js"><link rel="prefetch" href="/assets/js/90.87c8c6e5.js"><link rel="prefetch" href="/assets/js/91.57c509b5.js"><link rel="prefetch" href="/assets/js/92.c8b02e25.js"><link rel="prefetch" href="/assets/js/93.fee86c6c.js"><link rel="prefetch" href="/assets/js/94.ab3bad19.js"><link rel="prefetch" href="/assets/js/95.cfaa79dc.js"><link rel="prefetch" href="/assets/js/96.c63afef5.js"><link rel="prefetch" href="/assets/js/97.123374a6.js"><link rel="prefetch" href="/assets/js/98.53cfb154.js"><link rel="prefetch" href="/assets/js/99.8fe1f067.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.5e19b665.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.0503e0f3.css">
   </head>
   <body>
-    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><p>​      前端框架，快速开发页面，函数式编程，与后端api快速搭建</p> <h2 id="react原理"><a href="#react原理" class="header-anchor">#</a> React原理</h2> <h3 id="合成事件"><a href="#合成事件" class="header-anchor">#</a> 合成事件</h3> <p>React合成事件是React模拟原生DOM事件所有能力的一个事件对象，即浏览器原生事件的跨浏览器包装器。它根据w3c规范来定义合成事件，兼容所有浏览器，拥有与浏览器原生事件相同的接口</p> <p>在React中，所有事件都是合成的，不是原生DOM事件，但可以通过e。nativeEvent属性获取DOM事件</p> <p>React合成事件存在的目的：</p> <p>1.为了更好的进行浏览器兼容，更好地跨平台</p> <p>React采用的是顶层事件代理机制，能够保证冒泡一致性，可以跨浏览器执行。React提供的合成事件用来抹平不同浏览器事件对象之间的差异，将不同平台事件模拟合成事件</p> <p>2.避免垃圾回收</p> <p>事件对象可能会被频繁创建和回收，因为react引入事件池，在事件池中获取或释放事件对象。即react事件对象不会被释放掉，而是存放在一个数组中，当事件触发时，就从这个数组中弹出，避免频繁地创建和销毁，垃圾回收</p> <p>3.方便事件统一管理和事务机制</p> <p>由于fiber架构的特点，生成一个fiber节点时，它对应的dom节点有可能还未挂载，事件处理函数作为fiber节点的props，也就不能直接绑定到真实的dom节点上。为此，react提供了一种顶层注册、事件收集、统一触发的事件绑定机制</p> <p>在React中，合成事件会以事件委托的形式绑定在组件最上层，即React所有事件都挂载在document对象上（react16及之前），react17之后绑定在root element元素对象上，并在组件卸载阶段自动销毁绑定的事件。事件委托是对冒泡机制进行优化。
-事件收集是指事件触发时构造合成事件对象，按照冒泡或者捕获的路径去组件中收集真正的事件处理函数</p> <p>统一触发是</p> <p>绑定到根组件而非document对象上的原因是为了react渐进升级，避免多版本react共同使用时事件系统发生冲突。</p> <p>在react中人为地将事件划分等级，最终目的是确定调度任务的轻重缓急。</p> <p>react按照事件的紧急程度，对事件的优先级分类：</p> <p>离散事件discreteEvent：click、keydown、focus等，这些事件的触发不是连续的，优先级为0</p> <p>用户阻塞事件User Blocking Event：drag、scroll、mouseover等，特点是连续触发，阻塞渲染，优先级为1</p> <p>连续事件ContinuousEvent：canplay、error、audio标签等timeupdate等，优先级最高，为2</p> <p>四种优先级：</p> <p>事件优先级：按照用户事件的交互紧急程度，由事件本身决定</p> <p>更新优先级：事件导致react产生的更新对象的优先级，由事件计算得出</p> <p>任务优先级：产生更新对象之后，react去执行一个更新任务，这个任务所持有的优先级</p> <p>调度优先级：Scheduler根据React更新任务生成一个调度任务，调度优先级根据任务优先级获取</p> <p>事件优先级是在注册阶段被确定的。在root上注册事件时，会根据事件的类别，创建不同优先级的事件监听，最终将它绑定到root上。最终绑定到root上的事件监听其实是dispatchDiscreteEvent、dispatchUserBlockingUpdate、dispatchEvent三个事件中的一个</p> <p>事件的执行会创建一个update对象，update对象创建完成后意味着需要对页面进行更新，会调用scheduleUpdateOnFiber进入调度，而真正开始调度之前会计算本次产生的更新任务的任务优先级，目的是与已有任务的任务优先级去做比较，便于作出多任务的调度决策</p> <p>任务优先级被用来区分多个更新任务的紧急程度，它由更新优先级计算而来。任务优先级保证高优先级任务及时响应，收敛同等优先级的任务调度。</p> <p>一旦事件被调度，那么它就会进入Scheduler，在Scheduler中这个任务会被包装一下，生成一个属于属于Schedule自己的task，这个task持有的优先级就是调度优先级</p> <p>在Scheduler中，分别用过期任务和未过期任务的队列去管理它内部的task，过期任务的队列中的task根据过期事件去排序，最早过期的排在前面，便于被最先处理，而过期时间是有调度优先级计算出的，不同的调度优先级对应的过期时间不同</p> <h3 id="fiber架构"><a href="#fiber架构" class="header-anchor">#</a> Fiber架构</h3> <p>react16相比于react15，经过重构后Reconciliation和Rendering被分为两个不同的阶段。</p> <h4 id="fiber架构中的基本概念"><a href="#fiber架构中的基本概念" class="header-anchor">#</a> fiber架构中的基本概念</h4> <p>Fiber 的架构有两个主要阶段：协调/渲染 和 提交。</p> <p><strong>reconciler协调阶段</strong>：当组件次初始化和其后的状态更新中，React会创建两颗不相同的虚拟树，React 需要基于这两棵树之间的差别来判断如何有效率的更新 UI 以保证当前 UI 与最新的树保持同步，计算树哪些部分需要更新。<strong>react diff算法就发生在这个阶段</strong></p> <p><strong>renderer阶段</strong>：渲染器负责将拿到的虚拟组件树信息，根据其对应环境真实地更新渲染到应用中。有兴趣的朋友可以看一下dan自己的博客中的文章=》<a href="https://overreacted.io/react-as-a-ui-runtime/#renderers" target="_blank" rel="noopener noreferrer">运行时的react=》渲染器<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>，介绍了react的Renderer渲染器如react-dom和react native等，其可以根据不同的主环境来生成不同的实例。</p> <p>协调阶段的工作：</p> <p>协调阶段这是React遍历组件树的阶段，并且：</p> <ul><li>更新状态和属性</li> <li>调用生命周期钩子</li> <li>获取组件的<code>children</code></li> <li>将它们与之前的<code>children</code>进行对比</li> <li>并计算出需要执行的DOM更新</li></ul> <p><strong>fiber对象</strong></p> <p>一个fiber对象是表征work的一个基本单元。</p> <p>每一个React元素对应一个fiber对象，fibers是一个基于child, sibling 和 return属性构成的链表。 fiber对象核心的属性和含义如下所示：</p> <p><strong>child、silbing、return</strong></p> <p>fiber对象的属性，这些属性指向其他fiber，表征当前工作单元的下一个工作单元，用于描述fiber的递归树结构。</p> <p>child： 对应于父fiber节点的子fiber silbing： 对应于fiber节点的同类兄弟节点 return： 对应于fiber节点的父节点</p> <p>相对于React v16之前的版本，正是得益于fiber对象的child、sibing和return属性构成的单链表结构以及fiber对象中存储的上下文信息，才使得scheduler可以达到暂停、中止、重新开始等并发模式的新特性。</p> <p><strong>work</strong></p> <p>在React reconciliation过程中出现的各种比如state update，props update 或 refs update等必须执行计算的活动，这些活动我们在Fiber架构体系里面统一称之为 “work”。</p> <p><strong>worktag</strong></p> <p>workTag 类型，用于描述一个React元素的类型，即为上述fiber对象的 fiber.tag</p> <p><strong>stateNode</strong></p> <p>一个组件、一个DOM节点或其他跟fiber节点相关联的React元素的实例的引用。通常，我们可以说这个属性是用于保存与一个fiber相关联的本地状态。即上述fiber对象的 fiber.stateNode。</p> <h4 id="双缓存机制"><a href="#双缓存机制" class="header-anchor">#</a> 双缓存机制</h4> <p><strong>current树和workInProgress树</strong></p> <p>首次渲染后，React生成一个用于渲染UI并能映射应用状态的fiber树，我们通常称之为current树。当React遍历current树，它为每一个存在的fiber节点创建一个alternate属性的替代节点，该节点构成workInProgress树。</p> <p>所有发生update的work都在workInProgress树中执行，如果alternate属性还未创建，React将在处理update之前在createWorkInProgress函数中创建一个current树的副本，即形成workInProgress树，用于映射新的状态并在commit阶段刷新到屏幕。</p> <p><strong>所有这些活动都被称为Fiber内部的工作。</strong> 需要完成的工作类型取决于React Element的类型。 例如，对于 <code>Class Component</code> React需要实例化一个类，然而对于<code>Functional Component</code>却不需要。</p> <p>在浏览器中GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。</p> <p><strong>Stack Reconciler 和 fiber reconciliation</strong></p> <p>React16 推出Fiber之前协调算法是Stack Reconciler，即递归遍历所有的 Virtual DOM 节点执行Diff算法，一旦开始便无法中断，直到整颗虚拟dom树构建完成后才会释放主线程，因其JavaScript单线程的特点，若当下组件具有复杂的嵌套和逻辑处理，diff便会堵塞UI进程，使动画和交互等优先级相对较高的任务无法立即得到处理，造成页面卡顿掉帧，影响用户体验。在<code>React15</code>及之前，<code>React</code>会递归比对<code>VirtualDOM</code>树，找出需要变动的节点，然后同步更新它们。这个过程<code>React</code>称为<code>Reconciliation(协调)</code>。</p> <p>在<code>Reconciliation</code>期间，<code>React</code>会一直占用着浏览器资源，一则会导致用户触发的事件得不到响应, 二则会导致掉帧，用户可能会感觉到卡顿。</p> <p>针对上述痛点，我们期望将**”找出有增删改的节点“，”然后同步更新他们“<strong>这个过程分解成两个独立的部分，或者通过某种方式能让整个过程</strong>可中断可恢复的执行**，类似于多任务操作系统的单处理器调度。</p> <p>fiber的核心目标：</p> <ul><li>把可中断的工作拆分成多个小任务</li> <li>为不同类型的更新分配任务优先级</li> <li>更新时能够暂停，终止，复用渲染任务</li></ul> <p>这是一种<strong>合作式调度</strong>，需要程序和浏览器互相信任。浏览器作为领导者，会分配执行时间片（即requestIdleCallback）给程序去选择调用，程序需要按照约定在这个时间内执行完毕，并将控制权交还浏览器。</p> <p>Fiber是一个执行单元，每次执行完一个执行单元，React就会检查现在还剩多少时间，如果没有时间就将控制权交还浏览器；然后继续进行下一帧的渲染。</p> <p>从根节点开始遍历</p> <p>如果没有长子，则标识当前节点遍历完成。<code>completeUnitOfWork</code>中收集</p> <p>如果没有相邻兄弟，则返回父节点标识父节点遍历完成。<code>completeUnitOfWork</code>中收集</p> <p>如果没有父节点，标识所有遍历完成。<code>over</code></p> <p>如果有长子，则遍历；<code>beginWork</code>中收集；收集完后返回其长子，回到<code>第2步</code>循环遍历</p> <p>如果有相邻兄弟，则遍历；<code>beginWork</code>中收集；收集完后返回其长子，回到<code>第2步</code>循环遍历</p> <h4 id="render阶段"><a href="#render阶段" class="header-anchor">#</a> Render阶段</h4> <p><strong>enqueueSetState</strong></p> <p>以类组件为例，ReactDOM中的updater对象是一个classComponentUpdater，用于获取fiber实例、update队列和调度 work</p> <p>fiber.updateQueue是一个具有updates优先级的链表（UpdateQueue is a linked list of prioritized updates）</p> <p>跟Fiber一样，update 队列也是成对出现：一个代表屏幕可见状态的 current 队列，一个在commit阶段之前可被异步计算和处理的work-in-progress 队列。如果一个work-in-progress队列在完成之前被丢弃，则将会通过克隆一个curent队列来创建一个新的work-in-progress队列。</p> <p>函数调用栈：performUnitOfWork --&gt; beginWork --&gt; updateClassComponent --&gt; finishedComponent --&gt; completeUnitOfWork</p> <p><strong>completeUnitOfWork</strong></p> <p>React在completeUnitOfWork函数中构建effect-list</p> <p>是深度优先搜索算法一部分，获取workInProgress.alternate、父节点workInProgress.return和workInProgress.sibling，如果存在兄弟节点则返回。否则，返回父节点。</p> <h4 id="commit阶段"><a href="#commit阶段" class="header-anchor">#</a> Commit阶段</h4> <p>类似于<code>Git</code>的分支功能，从旧树里面fork一份，在新分支中进行<strong>添加、删除、更新</strong>操作，然后再进行提交。</p> <p>fiber大量使用链表。由于数组的大小是固定的，从数组的起点或者中间插入或移除项的成本很高。链表相对于传统的数组的优势在于添加或移除元素的时候不需要移动其他元素，<strong>需要添加和移除很多元素时，最好的选择是链表，而非数组。</strong> 链表在React的Fiber架构和Hooks实现发挥很大的作用。</p> <p>commit阶段被分为几个子阶段。每个子阶段都单独进行effect list传递。所有的mutation effects都会在所有的layout effects之前执行。</p> <p>被分为如下三个子阶段：</p> <ul><li>before mutation：React使用此阶段读取 host tree的state状态。 这是调用getSnapshotBeforeUpdate生命周期的地方。</li> <li>mutation phase：在这个阶段，React 会改变host tree。 当该阶段执行结束时，work-in-progress树会变成current树，这必须发生在“mutation phase”阶段之后，以便于在componentWillUnmount生命周期内，仍然是之前的current树。但是，也要发生在“layout phase”阶段之前，以便于在componentDidMount / Update生命周期间，current树是已完成的work操作的。</li> <li>layout phase：在这个阶段hfost tree已经被更改并调用 effects。componentDidMount / Update等生命周期在这个阶段被执行。</li></ul> <h3 id="props与state的区别"><a href="#props与state的区别" class="header-anchor">#</a> props与state的区别</h3> <p>props和state都是普通的JavaScript对象，它们都是用来保存信息的，这些信息可以控制组件的渲染输出。不同点：</p> <p>props是传递给组件的，而state是组件内被组件自己管理</p> <p>props是不可修改的，所有react组件必须像纯函数一样保护它们的props不被修改，由于props是不可变的，因为如果一个组件中只有props，那么就视为pureComponent</p> <p>state实在组件中创建的，一般在constructor中初始化state</p> <p>state是多变的，可以修改的，每次setState都是异步更新的</p> <p>在react中，this.props和this.state都代表已经被渲染了的值，即当前屏幕显示的值。而调用setstate通常是异步的，因此如果你想基于当前的state计算出新的值，那么应该传递一个新函数，而不是一个对象</p> <div class="language-react extra-class"><pre class="language-text"><code>increment() {
-  this.setState({count: this.state.count + 1})
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><p>​      前端框架，快速开发页面，函数式编程，与后端api快速搭建</p> <h2 id="purecomponent"><a href="#purecomponent" class="header-anchor">#</a> purecomponent</h2> <p>当使用component时，父组件的props或者state更新时，无论子组件的state、props是否更新，都会触发子组件的更新，这会造成很多没必要的render，浪费很多性能。pureComponent的优点在于，在shouldcomponentUpdate只进行浅层比较，只要外层对象没有变化，就不会触发render，也就是不需要开发者使用shouldComponentUpdate就可使用简单的判断来提升性能</p> <p>缺点：</p> <p>由于进行的时浅比较，可能由于深层的数据不一致导致产生错误的否定判断，从而导致页面得不到更新</p> <p>不适合用于在含有多层嵌套对象的state和props中，一般是作为展示组件来使用。因为对于数组和对象等引用类型，需要引用不同才会渲染</p> <p>尤其是当遇到复杂组件时，可以将一个组件拆分成多个pureComponent，以这种方式来实现复杂数据结构，以期达到节省不必要渲染的目的，如表单、复杂列表、文本域等</p> <p>如果props和state每次都会变，建议使用Component</p> <p>父组件是pureComponent时，子组件无论是purecomponent或者component都不影响，因为父组件不会重新渲染，</p> <p>父组件是Component时，子组件是component时每次都会重新渲染，子组件是purecomponent时，props不变时不会重新渲染</p> <h3 id="与react-memo、usememo的区别"><a href="#与react-memo、usememo的区别" class="header-anchor">#</a> 与React.memo、usememo的区别</h3> <p>reacr.memo控制函数组件的重新渲染，reacr.purecomponent控制类组件的重新渲染</p> <p>使用时将函数组件传递给react.memo函数就可以</p> <p>实例</p> <div class="language-react extra-class"><pre class="language-text"><code>const Funcomponent = () =&gt;{
+  return (
+     &lt;div&gt;
+     hiya!i am a functional component!
+     &lt;/div&gt;
+  )
 }
-
-increment() {
-  this.setState({count: state.count + 1})
+const MemoFuncComponent = React.memo(Funcomponent)
+</code></pre></div><p>React.memo返回英国纯组件MemoFuncComponent，jsx中将标记次组件，每当组件的props和state发生变化时，react会检查上一个props和state与下一个pros和state是否相等，不相等重新渲染，相等则不会重新渲染</p> <p>React.memo可以传递第二个参数，自定义比较函数，返回false时更新</p> <div class="language-react extra-class"><pre class="language-text"><code>function MyComponent(props) {
+  /* render using props */
 }
-</code></pre></div><h3 id="setstate原理"><a href="#setstate原理" class="header-anchor">#</a> setState原理</h3> <p>setState的执行过程：</p> <p>1.将setState传入的<code>partialState</code>参数存储在当前组件实例的state暂存队列中。</p> <p>2.判断当前React是否处于批量更新状态，如果是，将当前组件加入待更新的组件队列中。</p> <p>3.如果未处于批量更新状态，将批量更新状态标识设置为true，用事务再次调用前一步方法，保证当前组件加入到了待更新组件队列中。</p> <p>4.调用事务的<code>waper</code>方法，遍历待更新组件队列依次执行更新。</p> <p>5.执行生命周期<code>componentWillReceiveProps</code>。</p> <p>6.将组件的state暂存队列中的<code>state</code>进行合并，获得最终要更新的state对象，并将队列置为空。</p> <p>7.执行生命周期<code>componentShouldUpdate</code>，根据返回值判断是否要继续更新。</p> <p>8.执行生命周期<code>componentWillUpdate</code>。</p> <p>9.执行真正的更新，<code>render</code>。</p> <p>10.执行生命周期<code>componentDidUpdate</code>。</p> <h3 id="setstate的异步同步"><a href="#setstate的异步同步" class="header-anchor">#</a> setState的异步同步</h3> <p>简单来说，只要setState在react的调度流程中，就是异步的，只要没有进入react的流程中，那就是同步的。不会进入react调度流程的事件：setTimeout，setInterval、直接在DOM上绑定原生事件等，都不会走React调度流程。在这些情况里面调用setState就是同步的，否则就是异步的。</p> <p><code>setState</code>只在合成事件和钩子函数中是“异步”的，在原生事件和<code>setTimeout</code> 中都是同步的。</p> <p><code>setState</code> 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 <code>setState(partialState, callback)</code> 中的<code>callback</code>拿到更新后的结果。</p> <p>在<code>react</code>的生命周期和合成事件中，<code>react</code>仍然处于他的更新机制中，这时<code>isBranchUpdate</code>为true。</p> <p>按照上述过程，这时无论调用多少次<code>setState</code>，都会不会执行更新，而是将要更新的<code>state</code>存入<code>_pendingStateQueue</code>，将要更新的组件存入<code>dirtyComponent</code>。</p> <p>当上一次更新机制执行完毕，以生命周期为例，所有组件，即最顶层组件<code>didmount</code>后会将<code>isBranchUpdate</code>设置为false。这时将执行之前累积的<code>setState</code>。</p> <p><code>setState</code> 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次<code>setState</code>，<code>setState</code>的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时<code>setState</code>多个不同的值，在更新时会对其进行合并批量更新。</p> <p>也就是说，一个方法里需要多次调用setState，setState了很多次，然后render（）只调用了一次</p> <p>原因：</p> <p>React会将多个this.setState产生的修改放在一个队列里，缓一缓，攒在一起，觉得差不多了再引发一次更新过程。</p> <p>react为了提高整体的渲染性能，会将一次渲染周期中的state进行合并，在这个渲染周期中你对所有setState的所有调用都会被合并起来之后，再一次性的渲染，这样可以避免频繁的调用setState导致频繁的操作dom，提高渲染性能。具体的实现方面，可以简单的理解为react中存在一个状态变量isBatchingUpdates，当处于渲染周期开始时，这个变量会被设置成true，渲染周期结束时，会被设置成false，react会根据这个状态变量，当出在渲染周期中时，仅仅只是将当前的改变缓存起来，等到渲染周期结束时，再一次性的全部render。</p> <div class="language-text extra-class"><pre class="language-text"><code>1.调用setState不会立即更新
-2.所有组件使用的是同一套更新机制，当所有组件didmount后，父组件didmount，然后执行更新
-3.更新时会把每个组件的更新合并，每个组件只会触发一次更新的生命周期。
-</code></pre></div><h4 id="setstate更新数组"><a href="#setstate更新数组" class="header-anchor">#</a> setstate更新数组</h4> <p>对于数组和对象这种引用类型的数据，setstate只能改变引用地址，改变时只能用新的对象或者数组赋值，不能直接在原对象上改</p> <p>可以使用原生js或者react官方推荐immutablejs更新数组</p> <p>实例</p> <div class="language-react extra-class"><pre class="language-text"><code>//错误例子
-var list = [1];
-list.push(2)
-//list对象已经变化，然而引用的值依然还是同一个引用
-
-//正确更新数组
-var list = this.state.list;
-this.setState({
-  list:list.concat('otherData')
-})
-
-this.setState({
-  list:[...list,'otherData']
-})
-
-//正确更新对象
-//使用object.assign方法
-var user = this.state.user;
-this.setState({
-  user.Object.assign({},user,{age:18})
-})
-//使用对象拓展语法
-var user = this.state.user;
-this.setState({
-  user:{...user,age:18}
-})
-</code></pre></div><p>ImmutableJS更新数组</p> <h4 id="连续调用setstate只有一次生效"><a href="#连续调用setstate只有一次生效" class="header-anchor">#</a> 连续调用setstate只有一次生效</h4> <p>实例1</p> <div class="language-react extra-class"><pre class="language-text"><code>componentDidMount() {
-    this.setState({ index: this.state.index + 1 }, () =&gt; {
-      console.log(this.state.index);
-    })
-    this.setState({ index: this.state.index + 1 }, () =&gt; {
-      console.log(this.state.index);
-    })
+function areEqual(prevProps, nextProps) {
+  /*
+  return true if passing nextProps to render would return
+  the same result as passing prevProps to render,
+  otherwise return false
+  */
 }
-//输出
-1
-1
-</code></pre></div><p>实例2</p> <div class="language-react extra-class"><pre class="language-text"><code>componentDidMount() {
-    this.setState((preState) =&gt; ({ index: preState.index + 1 }), () =&gt; {
-      console.log(this.state.index);
-    })
-    this.setState(preState =&gt; ({ index: preState.index + 1 }), () =&gt; {
-      console.log(this.state.index);
-    })
-}
-//输出
-2
-2
-</code></pre></div><p>原因：</p> <ul><li>1.直接传递对象的<code>setstate</code>会被合并成一次</li> <li>使用函数传递<code>state</code>不会被合并</li></ul> <h4 id="setstate自动触发两次"><a href="#setstate自动触发两次" class="header-anchor">#</a> setstate自动触发两次</h4> <p>严格模式下，</p> <h4 id="定时器中的setstate"><a href="#定时器中的setstate" class="header-anchor">#</a> 定时器中的setstate</h4> <p>定时器中的 setState，每次都会引起新的 render，即使是同一个定时器中的多次 setState</p> <p>因为定时器中的<code>setState</code>没走<code>react</code>的事物机制，执行时批量更新没被设置<code>true</code>，所以每次都直接 render 了。</p> <p>在事件执行的时候，<strong>当前上下文</strong>执行的是<code>setTimeout</code>函数，但当执行<code>setTimeout</code>函数的回调时，原来的上下文已经结束了，<strong>回调的上下文变成了 window</strong>，所以依据的批量更新属性<code>isBatchingUpdates</code>没有被设置成<code>true</code>的过程，因此始终是<code>false</code>，因此<code>setState</code>就同步执行了。</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token function">componentWillMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> me <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        me<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            count<span class="token operator">:</span> me<span class="token punctuation">.</span>state<span class="token punctuation">.</span>count <span class="token operator">+</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        me<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            count<span class="token operator">:</span> me<span class="token punctuation">.</span>state<span class="token punctuation">.</span>count <span class="token operator">+</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-   <span class="token function">componentDidMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> me <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        me<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            count<span class="token operator">:</span> me<span class="token punctuation">.</span>state<span class="token punctuation">.</span>count <span class="token operator">+</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        me<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            count<span class="token operator">:</span> me<span class="token punctuation">.</span>state<span class="token punctuation">.</span>count <span class="token operator">+</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token function">onClickTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">let</span> me <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-    <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-        me<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            count<span class="token operator">:</span> me<span class="token punctuation">.</span>state<span class="token punctuation">.</span>count <span class="token operator">+</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        me<span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-            count<span class="token operator">:</span> me<span class="token punctuation">.</span>state<span class="token punctuation">.</span>count <span class="token operator">+</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre></div><p>其实在回调函数中，setState 是不会触发批量更新机制的，无论是 promise，ajax，setTimeout 回调等等，同时设置多次 setState，每个 setState 都会单独执行并 render，因为上下文发生了变化。</p> <h4 id="原生事件中的setstate"><a href="#原生事件中的setstate" class="header-anchor">#</a> 原生事件中的setstate</h4> <p>在按钮原生事件中定义的<code>setState</code>,和定时器效果一样，每次<code>setState</code>都会引起新的<code>render</code></p> <div class="language-react extra-class"><pre class="language-text"><code>componentDidMount() {
-       this.button.addEventListener('click', this.onClick.bind(this, '原生事件'), false);
-}
-
-onClick(info) {
-       console.log(info);
-       this.setState({
-           count: ++count
-       });
-       this.setState({
-           count: ++count
-       });
+export default React.memo(MyComponent, areEqual);
+</code></pre></div><p>类组件中即成purecomponent实现</p> <div class="language-react extra-class"><pre class="language-text"><code>import React from 'react'
+class TestC extends React.PureComponent{
+   constructor(props){
+     super(props);
+     this.state = {
+       conut: 0
+     }
    }
-
-   render() {
-       console.log(this.state.count);
-       return &lt;div&gt;
-           &lt;input type=&quot;button&quot; ref={input =&gt; this.button = input} onClick={this.onClick.bind(this, 'React事件')} value=&quot;生成计时器&quot; /&gt;
-           &lt;div&gt;Count:{this.state.count}&lt;/div&gt;
-       &lt;/div&gt;
-   }
-</code></pre></div><h4 id="生命周期函数调用setstate"><a href="#生命周期函数调用setstate" class="header-anchor">#</a> 生命周期函数调用setstate</h4> <p>在componentDidMount()中，你 可以立即调用setState()。它将会触发一次额外的渲染，但是它将在浏览器刷新屏幕之前发生。这保证了在此情况下即使render()将会调用两次，用户也不会看到中间状态。谨慎使用这一模式，因为它常导致性能问题。在大多数情况下，你可以 在constructor()中使用赋值初始状态来代替。然而，有些情况下必须这样，比如像模态框和工具提示框。这时，你需要先测量这些DOM节点，才能渲染依赖尺寸或者位置的某些东西。</p> <p>componentWillUpdate和componentDidUpdate这两个生命周期中不能调用<code>setState</code>。</p> <p>在这两个生命周期里面调用<code>setState</code>会造成死循环，导致程序崩溃。</p> <p>在调用<code>setState</code>时使用函数传递<code>state</code>值，在回调函数中获取最新更新后的<code>state</code>。</p> <h3 id="react-diff算法的机制"><a href="#react-diff算法的机制" class="header-anchor">#</a> react diff算法的机制</h3> <p>diff算法的瓶颈</p> <p>由于diff操作本身也会带来性能损耗，react文档中提到，即使在最前沿的算法中，将前后两棵树完全对比的算法的复杂程度为O(n3)，其中n是树中元素的数量</p> <p>如果在react中使用了该算法，那么展示1000个元素所需要执行的计算量将在10亿范围的量级，这个开销实在太高。</p> <p>为了降低算法的复杂度，react的diff预设了3个限制：</p> <p>1.同级元素进行diff。如果一个DOM节点在前后两次更新中跨越了层级，那么React不会尝试复用</p> <p>2.不同类型的元素会产生出不同的树，如果元素由div变为p，react会销毁div及其子孙节点，并新建p及其子孙节点</p> <p>3.开发者可以通过prop key暗示哪些子元素在不同的渲染下能保持稳定</p> <p>举个例子</p> <div class="language-react extra-class"><pre class="language-text"><code>//更新前
-&lt;div&gt;
-   &lt;p key=&quot;ka&quot;&gt;ka&lt;/p&gt;
-   &lt;h3 key=&quot;song&quot;&gt;song&lt;/h3&gt;
-&lt;/div&gt;
-//更新后
-&lt;div&gt;
-   &lt;h3 key=&quot;song&quot;&gt;song&lt;/h3&gt;
-   &lt;p key=&quot;ka&quot;&gt;ka&lt;/p&gt;
-&lt;/div&gt;
-</code></pre></div><p>如果没有key，react会认为div的第一个子节点由p变为h3，第二个子节点由h3变为p，这符合限制2的设定，因此会销毁并重建</p> <p>当用key指明了节点的前后对应关系后，react知道key=&quot;ka&quot;的p在更新之后还存在，因此节点可以复用，只需要交换一下顺序即可</p> <h3 id="react渲染机制-work-loop"><a href="#react渲染机制-work-loop" class="header-anchor">#</a> React渲染机制(work loop)</h3> <p>React 16 之前的组件渲染方式是递归渲染：渲染父节点 -&gt; 渲染子节点</p> <p>递归渲染看起来十分简单，但是如果想在子节点的渲染过程中执行优先级更高的操作，只能保留调用栈中子节点的渲染及子节点之前节点的渲染，这样是很复杂的，这种调和/渲染也叫做 Stack Reconciler。</p> <p>Fiber 使用链表的结构去渲染节点，每一个节点都称之为 Fiber Node，每个节点会有三个属性：</p> <ul><li>child 指向第一个子节点</li> <li>sibling 指向兄弟节点</li> <li>return 指向父节点</li></ul> <p>Fiber 的渲染方式：从父节点开始，向下依次遍历子节点，深度优先渲染完子节点后，再回到其父节点去检查是否有兄弟节点，如果有兄弟节点，则从该兄弟节点开始继续深度优先的渲染，直到回退到根节点结束。</p> <p>综上，可以分为 Scheduler、Reconciliation、Commit 这三个阶段</p> <p>Scheduer 流程主要是创建更新，创建更新的方式：</p> <ul><li>ReactDOM.render</li> <li>setState</li></ul> <p>可以发现 React 将首次渲染和更新渲染统一了起来。</p> <h4 id="什么时候重新渲染"><a href="#什么时候重新渲染" class="header-anchor">#</a> 什么时候重新渲染</h4> <p>1.组件的state发生变化，如props变化或者通过setstate变化</p> <p>2.shouldComponentUpdate</p> <p>shouldComponentUpdate方法默认总是返回true，可以重写shouldComponentUpdate方法来看它是否返回true</p> <h3 id="effect-hook机制"><a href="#effect-hook机制" class="header-anchor">#</a> Effect Hook机制</h3> <p>effect hook与其他hook的行为有一些区别</p> <p>effect hook的属性：</p> <p>​		在渲染时被创建，在浏览器执行绘制后运行；</p> <p>​		如果给出销毁指令，会在下一次绘制前被销毁；</p> <p>​		会按照定义的顺序被运行</p> <p>hook effect 将会被保存在 fiber 一个称为 <code>updateQueue</code> 的属性上，每个 effect 节点都有如下的结构.</p> <ul><li><code>tag</code> —— 一个二进制数字，它控制了 effect 节点的行为（后文我将详细说明）。</li> <li><code>create</code> —— 绘制<strong>之后</strong>运行的回调函数。</li> <li><code>destroy</code> —— 它是 <code>create()</code> 返回的回调函数，将会在初始渲染<strong>前</strong>运行。</li> <li><code>inputs</code> —— 一个集合，该集合中的值将会决定一个 effect 节点是否应该被销毁或者重新创建。</li> <li><code>next</code> —— 它指向下一个定义在函数组件中的 effect 节点。</li></ul> <p>除了 <code>tag</code> 属性，其他的属性都很简明易懂。如果你对 hook 很了解，你应该知道，React 提供了一些特殊的 effect hook：比如 <code>useMutationEffect()</code> 和 <code>useLayoutEffect()</code>。这两个 effect hook 内部都使用了 <code>useEffect()</code>，实际上这就意味着它们创建了 effect hook，但是却使用了不同的 tag 属性值。</p> <p>Default effect —— <code>UnmountPassive | MountPassive</code>.</p> <p>Mutation effect —— <code>UnmountSnapshot | MountMutation</code>.</p> <p>Layout effect —— <code>UnmountMutation | MountLayout</code>.</p> <h3 id="state、reducer-hook机制"><a href="#state、reducer-hook机制" class="header-anchor">#</a> State、Reducer Hook机制</h3> <p><code>useReducer</code> 和 <code>useState</code> 本质上是一个原理，虽然我们平时会使用 <code>useState</code> 更多，但事实上 <code>useState</code> 是 <code>useReducer</code> 的封装；</p> <h3 id="hook系统原理"><a href="#hook系统原理" class="header-anchor">#</a> Hook系统原理</h3> <p>Dispatcher</p> <p>dispatcher 是一个包含了 hook 函数的共享对象。基于 ReactDOM 的渲染状态，它将会被动态的分配或者清理，并且它能够确保用户不可在 React 组件之外获取 hook</p> <p>在切换到正确的 Dispatcher 以渲染根组件之前，我们通过一个名为 <code>enableHooks</code> 的标志来启用/禁用 hook。在技术上来说，这就意味着我们可以在运行时开启或关闭 hook。React 16.6.X 版本中也有对此的实验性实现，但它实际上处于禁用状态</p> <p>当我们完成渲染工作后，我们将 dispatcher 置空并禁止用户在 ReactDOM 的渲染周期之外使用 hook。这个机制能够保证用户不会做什么蠢事</p> <p>dispatcher 在每次 hook 的调用中都会被函数 <code>resolveDispatcher()</code> 解析。正如我之前所说，在 React 的渲染周期之外，这些都无意义了，React 将会打印出警告信息：<strong>“hook 只能在函数组件内部调用”</strong></p> <p>Hook队列</p> <p>在 React 后台，hook 被表示为以调用顺序连接起来的节点。这样做原因是 hook 并不能简单的被创建然后丢弃。它们有一套特有的机制，也正是这些机制让它们成为 hook。一个 hook 会有数个属性，在继续学习之前，我希望你能牢记于心：</p> <ul><li>它的初始状态会在初次渲染的时候被创建。</li> <li>它的状态可以在运行时更新。</li> <li>React 可以在后续渲染中记住 hook 的状态。</li> <li>React 能根据调用顺序提供给你正确的状态。</li> <li>React 知道当前 hook 属于哪个 fiber。</li></ul> <p>hook 还有一些附加的属性，但是弄明白 hook 是如何运行的关键在于它的 <code>memoizedState</code> 和 <code>next</code> 属性。其他的属性会被 <code>useReducer()</code> hook 使用，可以缓存发送过的 action 和一些基本的状态，这样在某些情况下，reduction 过程还可以作为后备被重复一次：</p> <ul><li><code>baseState</code> —— 传递给 reducer 的状态对象。</li> <li><code>baseUpdate</code> —— 最近一次创建 <code>baseState</code> 的已发送的 action。</li> <li><code>queue</code> —— 已发送 action 组成的队列，等待传入 reducer。</li></ul> <h3 id="redux原理"><a href="#redux原理" class="header-anchor">#</a> redux原理</h3> <p>Redux是将整个应用状态存储到一个地方上称为<strong>store</strong>,里面保存着一个状态树<strong>store tree</strong>,组件可以派发(dispatch)行为(action)给store,而不是直接通知其他组件，组件内部通过订阅<strong>store</strong>中的状态<strong>state</strong>来刷新自己的视图。</p> <p>redux三大原则</p> <ul><li>1 唯一数据源</li> <li>2 保持只读状态</li> <li>3 数据改变只能通过纯函数来执行</li></ul> <p><code>react-redux</code>的核心机制是通知订阅模式，源码中有一个<code>Subscription</code>类，它的作用主要是订阅父级的更新和通知子级的更新，也就是它既可以订阅别人，别人也可以订阅它，同时可以通知订阅它的<code>Subscription</code></p> <p>最外层的<code>Provider</code>组件的<code>Context</code>里包含了的<code>store</code>（也就是我们传入的）和生成的<code>Subscription</code>实例，它的<code>Subscription</code>实例订阅的则是<code>redux</code> 的<code>subscrib()</code></p> <p>当我们使用了<code>connect()</code>时，它会生成一个新组件<code>&lt;Component1/&gt;</code>，<code>&lt;Component1/&gt;</code>里会生成一个<code>Subscription</code>实例，它会订阅父级（这时是<code>Provider</code>）的<code>Subscription</code>实例，同时将自己的<code>Subscription</code>覆盖进<code>Context</code>，再包装我们传入的组件</p> <p>如果在<code>&lt;Component1/&gt;</code>里的子组件又有<code>connect()</code>，那么生成的<code>&lt;Component2/&gt;</code>组件的<code>Subscription</code>实例会订阅父级<code>&lt;Component1/&gt;</code>的<code>Subscription</code>实例，同时再将自己的<code>Subscription</code>覆盖进<code>Context</code></p> <p>在组件挂载完成后，如果<code>store</code>有更新，<code>Provider</code>会通知下一级组件的<code>Subscription</code>，下一级组件又会通知自己的下一级组件</p> <p>在订阅的时候，会将更新自己组件的方法通过回调<code>onStateChange()</code>传入父级的<code>Subscription</code></p> <p>一旦父级接收到通知，就会循环调用订阅自己的组件的<code>onStateChange</code>来更新它们</p> <p>更新的原理就是使用我们传入的<code>mapStateToProps</code>和<code>mapDispatchToProps</code>，结合内置的<code>selectorFactor()</code>来对比<code>state</code>和<code>props</code>，一旦有改变就强制更新自己，所以我们传入的<code>WrappedComponent</code>也被强制更新了</p> <h3 id="redux-reducer"><a href="#redux-reducer" class="header-anchor">#</a> redux-reducer</h3> <p>reducer为什么要是纯函数？纯函数是什么？</p> <p>纯函数：对于相同的输入，永远会得到相同的输出，而且没有任何可观察的副作用，也不依赖外部环境的状态。</p> <p>原因：Redux只通过比较新旧两个对象的存储位置来比较新旧两个对象是否相同（<strong>浅比较</strong>）。如果你在reducer内部直接修改旧的state对象的属性值，那么新的state和旧的state将都指向同一个对象。因此Redux认为没有任何改变，返回的state将为旧的state。两个state相同的话，页面就不会重新渲染了。</p> <h3 id="redux中间件机制"><a href="#redux中间件机制" class="header-anchor">#</a> redux中间件机制</h3> <p><code>redux</code>源码只有<strong>同步</strong>操作，也就是当<code>dispatch action</code> 时，<code>state</code>会被立即更新。若需要引入异步数据流，<a href="https://cn.redux.js.org/docs/advanced/AsyncFlow.html" target="_blank" rel="noopener noreferrer">Redux官方<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>则建议使用中间件来增强<code>createStore</code>的能力，它对外暴露了<code>applyMiddleware</code>函数，接受任意个中间件作为入参，返回作为<code>createStore</code>的入参的值</p> <div class="language-react extra-class"><pre class="language-text"><code>// 引入 redux
-import { createStore } from 'redux'
-// 创建 store
-const store = createStore(
-    reducer,
-    initial_state,
-    //引入中间件
-    applyMiddleware(middleware1, middleware2, ...)
-);
-</code></pre></div><p>以 <code>middlewareAPI</code> 作为中间件的入参，逐个调用传入的中间件，获取一个由“内层函数”组成的数组 <code>chain</code></p> <p>调用 <code>compose</code> 函数，将 <code>chain</code> 中的 “内层函数” 逐个组合起来，并调用最终组合出来的函数，传入 <code>dispatch</code> 作为入参</p> <p>返回一个新的 <code>store</code> 对象，这个 <code>store</code> 对象的 <code>dispatch</code> 已经被改写过了</p> <p><code>reduce</code> 会将数组中的每个元素执行指定的逻辑，并将结果汇总为单个返回值，假设有这样一个 <code>compose</code> 调用</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token function">compose</span><span class="token punctuation">(</span>f1<span class="token punctuation">,</span>f2<span class="token punctuation">,</span>f3<span class="token punctuation">,</span>f4<span class="token punctuation">)</span>
-<span class="token comment">//会被解析为</span>
-<span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">f1</span><span class="token punctuation">(</span><span class="token function">f2</span><span class="token punctuation">(</span><span class="token function">f3</span><span class="token punctuation">(</span><span class="token function">f4</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-</code></pre></div><p>即<code>f1,f2,f3,f4</code>这4个中间件的内层逻辑会被组合到一个函数中去，当这个函数被调用时，中间件会依次被调用</p> <p>中间件的执行机制</p> <p>我们知道 <strong>任何的中间件都可以用自己的方式解析<code>dispatch</code>的内容，并继续传递<code>actions</code> 给下一个中间件</strong>。但注意：当最后一个中间件开始 <code>dispatch action</code> 时，<code>action</code> 必须是一个普通对象，因为这是同步式的 <code>Redux</code> 数据流 开始的地方。</p> <p><code>redux-thunk</code>源码层面可知道，它主要做的一件事就是 拦截到<code>action</code>后，检查它是否是一个函数</p> <ul><li>若是函数，则执行它并返回执行的结果</li> <li>若不是函数，则直接调用<code>next</code>，工作流继续往下走</li></ul> <p>中间件的工作模式：</p> <ul><li>中间件的执行时机：在<code>action</code>被分发之后、<code>reducer</code>触发之前</li> <li>中间件的执行前提：<code>applyMiddleware</code>函数对<code>dispatch</code>函数进行改写，使得<code>dispatch</code>触发<code>reducer</code>之前，执行<code>Redux</code>中间件的链式调用。</li></ul> <h3 id="redux-compose实现"><a href="#redux-compose实现" class="header-anchor">#</a> Redux compose实现</h3> <p>compose就是执行一系列的任务（函数），比如有以下任务队列</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">let</span> tasks <span class="token operator">=</span> <span class="token punctuation">[</span>step1<span class="token punctuation">,</span> step2<span class="token punctuation">,</span> step3<span class="token punctuation">,</span> step4<span class="token punctuation">]</span>
-</code></pre></div><p>每一个step都是一个步骤，按照步骤一步一步的执行到结尾，这就是一个<strong>compose</strong></p> <p>compose在函数式编程中是一个很重要的工具函数，在这里实现的compose有三点说明</p> <ul><li>第一个函数是多元的（接受多个参数），后面的函数都是单元的（接受一个参数）</li> <li>执行顺序的自右向左的</li> <li>所有函数的执行都是同步的</li></ul> <p>用代码解释</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span>componse<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
-<span class="token keyword">function</span> <span class="token function">add1</span><span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-	<span class="token keyword">return</span> <span class="token number">1</span> <span class="token operator">+</span> str<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">function</span> <span class="token function">add2</span><span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-	<span class="token keyword">return</span> <span class="token number">2</span> <span class="token operator">+</span> str<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-	<span class="token keyword">return</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token keyword">let</span> str <span class="token operator">=</span> <span class="token function">compose</span><span class="token punctuation">(</span>add1<span class="token punctuation">,</span>add2<span class="token punctuation">,</span>add3<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token string">'x'</span><span class="token punctuation">,</span><span class="token string">'y'</span><span class="token punctuation">)</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span>
-<span class="token comment">//输出结果 '12xy'</span>
-</code></pre></div><h3 id="利用context-api实现redux"><a href="#利用context-api实现redux" class="header-anchor">#</a> 利用context api实现redux</h3> <p>https://segmentfault.com/a/1190000023142285</p> <h3 id="react-router原理"><a href="#react-router原理" class="header-anchor">#</a> React-router原理</h3> <p><code>React-Router</code>中的3个核心角色：</p> <p>导航：负责触发路径的改变，比如 <code>Link</code>、<code>NavLink</code> 和 <code>Redirect</code>（以<code>Link</code>为代表）</p> <p>路由：负责定义路径与组件之间的映射关系，比如<code>Route</code>和<code>Switch</code>（以<code>Route</code>为代表）</p> <p>路由器：为新的路径匹配它对应的逻辑，比如<code>BrowserRouter</code>和<code>HashRouter</code>，根据<code>Route</code>定义出来的映射关系</p> <p>负责感知路由的变化并作出反应的路由器，是整个路由系统中最为重要的一环。在<code>React-Router</code>中支持两种路由规则：<code>HashRouter</code>和<code>BrowserRouter</code>分别对应了<code>hash</code>和<code>history</code>两种背后模式，</p> <p>在react-router源码中，HashRouter 调用 <code>createHashHistory</code>，History调用<code>createBrowserHistory</code></p> <p><code>createHashHistory</code>通过使用hash tag(#) 来处理形如<code>https://www.huamu.com/#index</code>的 URL，即通过 URL 的 hash 属性来控制路由跳转</p> <p><code>createBrowserHistory</code> 它将在浏览器中使用 HTML 5 的 history API 来处理形如 <code>https://www.huamu.com/index</code>的 URL，即通过 HTML 5的 history API 来控制路由跳转</p> <h3 id="手写自定义hook-实现切换状态"><a href="#手写自定义hook-实现切换状态" class="header-anchor">#</a> 手写自定义hook，实现切换状态</h3> <div class="language-react extra-class"><pre class="language-text"><code>function SomeComponent() {
-  const [state, toggleState] = useToggle(false);
-  return &lt;div&gt;
-    {state ? 'true' : 'false'}
-    &lt;button onClick={toggleState}&gt;&lt;/button&gt;
-  &lt;/div&gt;
-}
-
-// 请实现 useToggle
-function useToggle(initialValue) {
-    const [value, setValue] = useState(initialValue);
-    const toggle = () =&gt; {setValue(!value)};
-    return [value, toggle];
-}
-</code></pre></div><h2 id="react优化"><a href="#react优化" class="header-anchor">#</a> React优化</h2> <p>https://juejin.cn/post/6935584878071119885</p> <h3 id="懒渲染react-visibility-observer"><a href="#懒渲染react-visibility-observer" class="header-anchor">#</a> 懒渲染react-visibility-observer</h3> <p>当组件进入可视区域才渲染组件，如modal/drawer这种需要用户操作才会出现的组件。</p> <p>使用react-visibility-observer监听</p> <div class="language-react extra-class"><pre class="language-text"><code>import VisibilityObserver,{useVisibilityObserver,} from &quot;react-visibility-observer&quot;
-
-const VisibilityObserverChildren = ({callback,children}) =&gt;{
-  const {isVisible} = useVisibilityObserver()
-  useEffect(()=&gt;{
-    callback(isVisible)
-  },[callback,isVisible])
   
-  return &lt;&gt;{children}&lt;/&gt;
+  render(){
+    return(
+      &lt;div&gt;
+        {this.state.count}
+        &lt;button onClick={()=&gt;this.setState({count:1})}&gt;
+          click me
+        &lt;/button&gt;
+      &lt;/div&gt;
+    )
+  }
 }
-</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
-    <script src="/assets/js/app.f8154061.js" defer></script><script src="/assets/js/2.4cccd600.js" defer></script><script src="/assets/js/22.9b419f3a.js" defer></script>
+</code></pre></div><h3 id="prop使用嵌套对象"><a href="#prop使用嵌套对象" class="header-anchor">#</a> prop使用嵌套对象</h3> <p>使用immutable属性。</p> <h2 id="hook"><a href="#hook" class="header-anchor">#</a> Hook</h2> <p>Https://juejin.cn/post/6844903985338400782</p> <p>Hook是react16.8新增的特性，可以在不编写class 的情况下使用state和其他react特性，reactnative从0.59版本开始支持hook。</p> <h3 id="hook出现的原因以及解决的问题"><a href="#hook出现的原因以及解决的问题" class="header-anchor">#</a> hook出现的原因以及解决的问题</h3> <p>Class component 劣势</p> <ol><li>状态逻辑难复用：在组件之间复用状态逻辑很难，可能要用到 render props （渲染属性）或者 HOC（高阶组件），但无论是渲染属性，还是高阶组件，都会在原先的组件外包裹一层父容器（一般都是 div 元素），这样高阶组件多了会形成回调地狱类似的问题，导致层级冗余 趋向复杂难以维护：</li> <li>在生命周期函数中混杂不相干的逻辑（如：在 componentDidMount 中注册事件以及其他的逻辑，在 componentWillUnmount 中卸载事件，这样分散不集中的写法，很容易写出 bug ） 类组件中到处都是对状态的访问和处理，导致组件难以拆分成更小的组件</li> <li>this 指向问题：父组件给子组件传递函数时，必须绑定 this</li></ol> <p>Hooks不能在class中使用，只能在函数组件中，为函数组件勾入react state及生命周期等函数</p> <p>react内置的hook有以下</p> <p>基础hook：useState、useEffect、useContext</p> <p>额外的hook：useReducer、useCallback、useMemo、useRef、useLayoutEffect、useDebugValue、useImperativeHandle</p> <h3 id="函数式组件与class组件对比"><a href="#函数式组件与class组件对比" class="header-anchor">#</a> 函数式组件与class组件对比</h3> <h4 id="性能对比"><a href="#性能对比" class="header-anchor">#</a> 性能对比</h4> <p>class组件中，setState之后要对比整个虚拟dom的状态。对于一个复杂页面，几十个状态要对比消耗性能。而hook阶段只对比一个值即可，性能更佳</p> <p>闭包很多，值捕获现象严重，要尤其注意hook的依赖</p> <p>大量的内联函数、函数嵌套，垃圾回收压力大。函数式组件每次渲染就像调用纯函数一样，调用之后产生一个作用域，并开辟对应的内容空间存储该作用域下的变量，函数返回结束后该作用域会被销毁，该作用域下的变量如果没有被作用域外的东西引用，在作用域销毁之后就需要在下一次GC时被回收。因此相对于Class组件额外的开销会多很多。因为Class组件所有的东西都是承载在一个对象上的，都是在这个对象上，每次更新组件，这个对象上的属性、方法和对象本身都不会被销毁，即不会出现频繁的开辟和回收内存空间。</p> <h4 id="生命周期"><a href="#生命周期" class="header-anchor">#</a> 生命周期</h4> <p>constructor：函数组件不需要构造函数，可以直接调用useState来初始化State，如果代价比较昂贵可以穿一个函数给useState</p> <p>getDerivedStateFromProps：改为在渲染时安排一次更新</p> <p>shouldComponentUpdate：使用React.memo替代</p> <p>使用react.memo包裹一个组件对props进行浅比较</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> Button <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">memo</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">props</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+  <span class="token comment">// component</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><p>react.memo不比较state，因为没有单一的state对象进行比较，可以用usememo优化子节点</p> <p>render：函数组件本身就有</p> <p>componentDidMount、componentDidUpdate、componentWillUnmount：通过使用UseEffect的不同方式可以分别表达这些生命周期</p> <p>getSnapshotBeforeUpdate、ComponentDidCatch、getDerivedFromError：目前还没有这些方法的等价写法</p> <h4 id="根本区别"><a href="#根本区别" class="header-anchor">#</a> 根本区别</h4> <p>函数式组件与class组件的心智模型不同。函数式组件捕获了渲染所用的值</p> <p>hooks的最好的心智规则是&quot;写代码时要认为任何值都可以随时更改&quot;。</p> <p>在react中，默认props在组件中是不可变的，这是在函数组件和类组件中都适用</p> <p>但是，在类组件中，props要通过this取得，而this是永远可变的。这也是类组件 <code>this</code> 存在的意义：能在渲染方法以及生命周期方法中得到最新的实例。</p> <div class="language-react extra-class"><pre class="language-text"><code>class ProfilePage extends React.Component {
+  showMessage = () =&gt; alert('Followed ' + this.props.user);
+
+  handleClick = () =&gt; setTimeout(this.showMessage, 3000);
+
+  render() {
+    return &lt;button onClick={this.handleClick}&gt;Follow&lt;/button&gt;;
+  }
+}
+</code></pre></div><p>所以如果在请求已经发出的情况下我们的组件进行了重新渲染， <code>this.props</code>将会改变。 <code>showMessage</code>方法从一个&quot;过于新&quot;的 <code>props</code>中得到了 <code>user</code>。</p> <p>从 this 中读取数据的这种行为，调用一个回调函数读取 <code>this.props</code> 的 timeout 会让 <code>showMessage</code> 回调并没有与任何一个特定的渲染&quot;绑定&quot;在一起，所以它&quot;失去&quot;了正确的 props。。</p> <p>解决上面的问题有两种方式</p> <p>1.在调用事件之前读取 <code>this.props</code>，然后显式地传递到timeout回调函数中</p> <div class="language-react extra-class"><pre class="language-text"><code>class ProfilePage extends React.Component {
+  showMessage = (user) =&gt; alert('Followed ' + user);
+
+  handleClick = () =&gt; {
+    const {user} = this.props;
+    setTimeout(() =&gt; this.showMessage(user), 3000);
+  };
+
+  render() {
+    return &lt;button onClick={this.handleClick}&gt;Followbutton&gt;;
+  }
+}
+</code></pre></div><p>2.利用JavaScript的闭包</p> <p>在render函数中获取渲染所用的props</p> <div class="language-react extra-class"><pre class="language-text"><code>class ProfilePage extends React.Component {
+  render() {
+    const props = this.props;
+
+    const showMessage = () =&gt; {
+      alert('Followed ' + props.user);
+    };
+
+    const handleClick = () =&gt; {
+      setTimeout(showMessage, 3000);
+    };
+
+    return &lt;button onClick={handleClick}&gt;Follow&lt;/button&gt;;
+  }
+}
+</code></pre></div><p>而在函数</p> <p><code>props</code>仍旧被捕获了 —— React将它们作为参数传递。 <strong>不同于 <code>this</code> ， <code>props</code> 对象本身永远不会被React改变</strong></p> <p><strong>捕获props和state通常是更好的默认值。</strong> 然而，在处理类似于intervals和订阅这样的命令式API时，ref会十分便利。你可以像这样跟踪 任何值 —— 一个prop，一个state变量，整个props对象，或者甚至一个函数</p> <h3 id="hook本质"><a href="#hook本质" class="header-anchor">#</a> hook本质</h3> <p>React Hook 是一种特殊的函数，其本质可以是函数式组件（返回 Dom 或 Dom 及 State ），也可以只是一个工具函数（传入配置项返回封装后的数据处理逻辑）</p> <p>Hooks 组件的目标并不是取代类组件，而是增加函数式组件的使用率，明确通用工具函数与业务工具函数的边界，<strong>鼓励开发者将业务通用的逻辑封装成 React Hooks 而不是工具函数</strong></p> <h3 id="usestate"><a href="#usestate" class="header-anchor">#</a> useState</h3> <p>实例</p> <div class="language-jsx extra-class"><pre class="language-jsx"><code><span class="token keyword">import</span> React<span class="token punctuation">,</span><span class="token punctuation">{</span>useState<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">Example</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span>setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">you click </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token plain-text"> times</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+        click    
+        </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+     </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>上述useState方法定义了一个state变量count，并给他初始化的值0。通过setCount方法更新当前count的值。</p> <p>调用count时不需要绑定this直接调用，更新count时也直接调用setCount方法</p> <p>usestate定义state时返回一个有两个值的数组，第一个是当前state，第二个是更新state的函数，</p> <p>count与setCount与class中的this.state.count和this.setstate类似，唯一的区别是需要成对地获取他们。</p> <p>如果初始化state时需要复杂计算，可以调用函数，此函数只在初次渲染时被调用</p> <div class="language-jsx extra-class"><pre class="language-jsx"><code><span class="token keyword">const</span> <span class="token punctuation">[</span>state<span class="token punctuation">,</span>setState<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> initialState<span class="token operator">=</span> <span class="token function">someExpensiveComputation</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> initialState<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><p>count与setCount与class中的this.state.count和this.setstate类似，唯一的区别是需要成对地获取他们。</p> <p>可以同时声明多个state变量</p> <div class="language-jsx extra-class"><pre class="language-jsx"><code><span class="token keyword">function</span> <span class="token function">ExamplewithManyStates</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>age<span class="token punctuation">,</span>setAge<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">usestate</span><span class="token punctuation">(</span><span class="token number">42</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>fruit<span class="token punctuation">,</span>setFruit<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">usestate</span><span class="token punctuation">(</span><span class="token string">'banana'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token punctuation">[</span>todos<span class="token punctuation">,</span>setTodos<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">usestate</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token literal-property property">text</span><span class="token operator">:</span><span class="token string">'学习'</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Hook只能在函数最外层调用，不要在循环、条件判断或者子函数中调用</p> <p>useState更新数组时，必须用浅拷贝之后的新数组，如果只是简单赋值无法更新页面。因为react中如果数组引用地址不变，是不触发渲染的，但是值是设置进去的</p> <div class="language-react extra-class"><pre class="language-text"><code>// 无法更新
+const [lists, setLists] = useState([]);
+
+const arr = lists;
+arr.splice(index,1);
+setLists(arr);
+
+//扩展运算符浅拷贝
+const [lists, setLists] = useState([]);
+
+const arr = lists; //const arr = [...lists]
+arr.splice(index,1);
+setLists([...arr]);
+</code></pre></div><h4 id="usestate与setstate的异同"><a href="#usestate与setstate的异同" class="header-anchor">#</a> useState与setState的异同</h4> <p>setState会自动合并，不同的useState不会</p> <h4 id="forceupdate"><a href="#forceupdate" class="header-anchor">#</a> forceupdate</h4> <div class="language-react extra-class"><pre class="language-text"><code>import { useState, useCallback } from 'react'
+
+export const useForceRender = () =&gt; {
+  const [, updateState] = useState&lt;any&gt;();
+  return useCallback(() =&gt; updateState({}),[])
+}
+</code></pre></div><h4 id="注意事项"><a href="#注意事项" class="header-anchor">#</a> 注意事项</h4> <p>useState初始化时不能直接使用props。因为props变化时并不会通知useState方法，所以使用props初始化state时一直是undefined，可以使用useEffect在组件初始化时手动set一次</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, { useState, useEffect } from 'react';
+
+const FC = (initContent) =&gt; {
+  const [content, setContent] = useState&lt;Partial&lt;ContentType[]&gt;&gt;([]);
+
+  useEffect(() =&gt; {
+      initContent?.length &amp;&amp; setContent(initContent);
+   }, [initContent]);
+}
+</code></pre></div><h3 id="useeffect和uselayouteffect"><a href="#useeffect和uselayouteffect" class="header-anchor">#</a> useEffect和useLayoutEffect</h3> <p>对于class中的生命周期函数，为了能在函数组件中使用类似功能，使用useEffect方法，它相当于componentDidMount、componentDidupdate、componentWillUnmount三个函数的组合</p> <p>useEffect默认情况下会在第一次渲染之后和每次更新之后都会执行。</p> <p>useEffect在全部渲染完毕后才会执行，而useLayoutEffect会在浏览器layout之后，painting之前执行</p> <p>为了用户体验，一般先使用useEffect</p> <p>useLayoutEffect与原componentDidMount和componentDidUpdate相同，会堵塞渲染，useEffect不会。</p> <p>使用步骤：</p> <ol><li>作为 componentDidMount 使用，第二个参数为空数组 <code>[]</code></li> <li>作为 componentDidUpdate 使用，第二个参数为指定依赖</li> <li>作为 componentWillUnmount 使用，空数组的情况下通过 return返回函数来清除。该函数将在组件卸载时被执行。如果不需要清理副作用则不用返回任何值</li> <li>如果useEffect当作ComponentDidUpdate使用时，每次Update之前会执行return中的返回函数以清理上一次渲染的副作用</li></ol> <div class="language-react extra-class"><pre class="language-text"><code>const BlinkyRender = () =&gt; {
+  const [value, setValue] = useState(0);
+
+  useEffect(() =&gt; {
+    document.querySelector('#x').innerText = `value: 1000`
+  }, [value]);
+
+  return (
+    &lt;div id=&quot;x&quot; onClick={() =&gt; setValue(0)}&gt;value: {value}&lt;/div&gt;
+  );
+};
+
+ReactDOM.render(
+  &lt;BlinkyRender /&gt;,
+  document.querySelector(&quot;#root&quot;)
+);
+</code></pre></div><p>清除effect</p> <p>通常，组件卸载时需要清除 effect 创建的诸如订阅或计时器 ID 等资源。要实现这一点，<code>useEffect</code> 函数需返回一个清除函数。</p> <p>为防止内存泄漏，清除函数会在组件卸载前执行。另外，如果组件多次渲染（通常如此），则<strong>在执行下一个 effect 之前，上一个 effect 就已被清除</strong>。</p> <p>需要注意的是，<strong>如果包括多个副作用，应该调用多个useEffect，而不能够合并在一起。</strong></p> <div class="language-react extra-class"><pre class="language-text"><code>//错误
+useEffect(()=&gt;{
+  const timeoutA = setTimeout(()=&gt; setVarA(varA + 1), 1000)
+  const timeoutB = setTimeout(()=&gt; setVarB(varB + 1), 2000)
+  
+  return () =&gt; {
+    clearTimeout(timeoutA);
+    clearTimeout(timeoutB);
+  }
+},[varA, varB])
+
+//正确
+useEffect(()=&gt;{
+  const timeout = setTimeout(()=&gt; setVarA(varA + 1), 1000)
+  return () =&gt; { clearTimeout(timeout)};
+},[varA])
+
+useEffect(()=&gt;{
+  const timeout = setTimeout(()=&gt; setVarB(varB + 1), 1000)
+  return () =&gt; { clearTimeout(timeout)};
+},[varB])
+
+</code></pre></div><p><code>useLayoutEffect</code> 和 <code>useEffect</code> 的相同点是：</p> <ul><li>函数签名是一样的；</li> <li>clean up 机制是一样的；</li> <li>提交 DOM mutation 次数是一样的。</li></ul> <p>区别：</p> <p>1.<code>useEffect</code> 是异步执行的，而<code>useLayoutEffect</code>是同步执行的。<code>useLayoutEffect</code>会阻塞paint流程，而<code>useEffect</code>不会阻塞paint流程。<code>useLayoutEffect</code> callback 里面的「状态更新是批量」， 而 <code>useLayEffect</code> callback 里面的「状态更新是非批量的」（也就是说，会分配到不同的渲染帧里面）。</p> <p>如果<code>useLayoutEffect</code>的callback函数里面对状态请求了多次更新，那么这些更新请求会合并成一个 paint 请求，浏览器更新一次 UI 界面；同样的情况如果发生在<code>useEffect</code>的callback函数里面，那么更新请求不会被合并，有多少次状态更新请求，就会有多少次 paint 请求， 浏览</p> <p>2.<code>useEffect</code> 的执行时机是浏览器完成渲染之后，而 <code>useLayoutEffect</code> 的执行时机是浏览器把内容真正渲染到界面之前，和 <code>componentDidMount</code> 等价。也就是，<strong><code>useLayoutEffect</code> 比 <code>useEffect</code> 先执行</strong></p> <p>也就是说，对于 <code>useEffect</code> 来说，执行的时机是完成所有的 DOM 变更并让浏览器渲染页面后，而 <code>useLayoutEffect</code> 和 class 组件中 <code>componentDidMount</code>, <code>componentDidUpdate</code>一致——在 React 完成 DOM 更新后马上同步调用，会阻塞页面渲染。</p> <p>最好把操作 dom 、动画的相关操作放到 <code>useLayouteEffect</code> 中去，避免导致闪烁</p> <p>比如把useState分别放在useEffect和useLayoutEffect的if语句中，useEffect会闪烁，useLayoutEffect不会</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, { useState, useLayoutEffect, useEffect } from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+import &quot;./styles.css&quot;;
+
+const BlinkyRender = () =&gt; {
+  const [value, setValue] = useState(0);
+
+  useEffect(() =&gt; {
+    if (value === 0) {
+      setValue(10 + Math.random() * 200);
+    }
+  }, [value]);
+
+  console.log(&quot;render&quot;, value);
+
+  return &lt;div onClick={() =&gt; setValue(0)}&gt;value: {value}&lt;/div&gt;;
+};
+
+ReactDOM.render(&lt;BlinkyRender /&gt;, document.querySelector(&quot;#root&quot;));
+</code></pre></div><h3 id="usereducer"><a href="#usereducer" class="header-anchor">#</a> useReducer</h3> <p>useState内部就是靠useReducer实现的。</p> <p>useReducer可以理解为是用来代替 Redux 的，或者说，是一个加强版的 <code>useState</code>。</p> <p>使用步骤：</p> <p>1.创建初始值initialState</p> <p>2.创建所有操作reduce(state,action)</p> <p>3.传给useReducer，得到读和写api</p> <p>4.调用，写({type: '操作类型'})</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> initial <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token literal-property property">n</span><span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">reducer</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">state<span class="token punctuation">,</span> action</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">&quot;add&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token literal-property property">n</span><span class="token operator">:</span> state<span class="token punctuation">.</span>n <span class="token operator">+</span> action<span class="token punctuation">.</span>number <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">&quot;multi&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span> <span class="token literal-property property">n</span><span class="token operator">:</span> state<span class="token punctuation">.</span>n <span class="token operator">*</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">&quot;unknown type&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">App</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>state<span class="token punctuation">,</span> dispatch<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useReducer</span><span class="token punctuation">(</span>reducer<span class="token punctuation">,</span> initial<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> n <span class="token punctuation">}</span> <span class="token operator">=</span> state<span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token function-variable function">onClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">&quot;add&quot;</span><span class="token punctuation">,</span> <span class="token literal-property property">number</span><span class="token operator">:</span> <span class="token number">1</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token function-variable function">onClick2</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">&quot;add&quot;</span><span class="token punctuation">,</span> <span class="token literal-property property">number</span><span class="token operator">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">&quot;App&quot;</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>h1<span class="token operator">&gt;</span>n<span class="token operator">:</span> <span class="token punctuation">{</span>n<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">&gt;</span>
+
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>onClick<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token operator">+</span><span class="token number">1</span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span>button onClick<span class="token operator">=</span><span class="token punctuation">{</span>onClick2<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token operator">+</span><span class="token number">2</span><span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>useReducer 与js 数组的reduce方法这两者之间有巨大的相似之处。</p> <table><thead><tr><th>reduce in JavaScript</th> <th>useReducer in React</th></tr></thead> <tbody><tr><td><code>array.reduce(reducer, initialValue)</code></td> <td><code>useReducer(reducer, initialState)</code></td></tr> <tr><td><code>singleValue = reducer(accumulator, itemValue)</code></td> <td><code>newState = reducer(currentState, action)</code></td></tr> <tr><td>reduce method returns a single value</td> <td>useReducer returns a pair of values. [newState, dispatch]</td></tr></tbody></table> <h4 id="usereducer-vs-usestate"><a href="#usereducer-vs-usestate" class="header-anchor">#</a> useReducer vs useState</h4> <p>如果 state 的类型为 Number, String, Boolean 建议使用 useState，如果 state 的类型 为 Object 或 Array，建议使用 useReducer</p> <p>如果 state 变化非常多，也是建议使用 useReducer，集中管理 state 变化，便于维护</p> <p>如果 state 关联变化，建议使用 useReducer</p> <p>业务逻辑如果很复杂，也建议使用 useReducer</p> <p>如果 state 只想用在 组件内部，建议使用 useState，如果想维护全局 state 建议使用 useReducer</p> <table><thead><tr><th>Scenario</th> <th>useState</th> <th>useReducer</th></tr></thead> <tbody><tr><td>Type of state</td> <td>Number, String, Boolean</td> <td>Object or Array</td></tr> <tr><td>Number of state transitions</td> <td>1 or 2</td> <td>Too many</td></tr> <tr><td>Related state transitions</td> <td>No</td> <td>Yes</td></tr> <tr><td>Business logic</td> <td>No business logic</td> <td>Complex business logic</td></tr> <tr><td>local vs global</td> <td>local</td> <td>global</td></tr></tbody></table> <p>在react hooks的源码中，useState就是给useReducer的函数中传入一个固定的dispatch，其他与useReducer相同</p> <div class="language-react extra-class"><pre class="language-text"><code>//  packages/react-reconciler/src/ReactFiberHooks.new.js
+function mountReducer&lt;S, I, A&gt;(
+  reducer: (S, A) =&gt; S,
+  initialArg: I,
+  init?: I =&gt; S,
+): [S, Dispatch&lt;A&gt;] {
+  const hook = mountWorkInProgressHook();
+  let initialState;
+  if (init !== undefined) {
+    initialState = init(initialArg);
+  } else {
+    initialState = ((initialArg: any): S);
+  }
+  hook.memoizedState = hook.baseState = initialState;
+  const queue: UpdateQueue&lt;S, A&gt; = {
+    pending: null,
+    lanes: NoLanes,
+    dispatch: null,
+    lastRenderedReducer: reducer,
+    lastRenderedState: (initialState: any),
+  };
+  hook.queue = queue;
+  const dispatch: Dispatch&lt;A&gt; = (queue.dispatch = (dispatchReducerAction.bind(
+    null,
+    currentlyRenderingFiber,
+    queue,
+  ): any));
+  return [hook.memoizedState, dispatch];
+
+// useState的处理函数
+function basicStateReducer&lt;S&gt;(state: S, action: BasicStateAction&lt;S&gt;): S {
+  // $FlowFixMe: Flow doesn't like mixed types
+  return typeof action === 'function' ? action(state) : action;
+}
+
+function mountState&lt;S&gt;(
+  initialState: (() =&gt; S) | S,
+): [S, Dispatch&lt;BasicStateAction&lt;S&gt;&gt;] {
+  const hook = mountWorkInProgressHook();
+  if (typeof initialState === 'function') {
+    // $FlowFixMe: Flow doesn't like mixed types
+    initialState = initialState();
+  }
+  hook.memoizedState = hook.baseState = initialState;
+  const queue: UpdateQueue&lt;S, BasicStateAction&lt;S&gt;&gt; = {
+    pending: null,
+    lanes: NoLanes,
+    dispatch: null,
+    lastRenderedReducer: basicStateReducer,
+    lastRenderedState: (initialState: any),
+  };
+  hook.queue = queue;
+  const dispatch: Dispatch&lt;
+    BasicStateAction&lt;S&gt;,
+  &gt; = (queue.dispatch = (dispatchSetState.bind(
+    null,
+    currentlyRenderingFiber,
+    queue,
+  ): any));
+  return [hook.memoizedState, dispatch];
+}
+</code></pre></div><h3 id="usecontext"><a href="#usecontext" class="header-anchor">#</a> useContext</h3> <p>接受一个context对象，并返回该context的当前值，用于在函数组件之间共享状态</p> <p>使用方法：</p> <p>1.使用C=createContext(initial)创建上下文</p> <p>2.使用&lt;C.provider&gt;圈定作用域</p> <p>3.在作用域内使用 <code>useContext(C)</code> 来使用上下文</p> <div class="language-react extra-class"><pre class="language-text"><code>const C = createContext(null);
+
+function App() {
+  console.log(&quot;App 执行了&quot;);
+  const [n, setN] = useState(0);
+  return (
+    &lt;C.Provider value={{ n, setN }}&gt;
+      &lt;div className=&quot;App&quot;&gt;
+        &lt;Baba /&gt;
+      &lt;/div&gt;
+    &lt;/C.Provider&gt;
+  );
+}
+
+function Baba() {
+  const { n, setN } = useContext(C);
+  return (
+    &lt;div&gt;
+      我是爸爸 n: {n} &lt;Child /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Child() {
+  const { n, setN } = useContext(C);
+  const onClick = () =&gt; {
+    setN(i =&gt; i + 1);
+  };
+  return (
+    &lt;div&gt;
+      我是儿子 我得到的 n: {n}
+      &lt;button onClick={onClick}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div><p><code>useContext(MyContext)</code> 相当于 class 组件中的 <code>static contextType = MyContext</code> 或者 <code>&lt;MyContext.Consumer&gt;</code>。</p> <p><code>useContext(MyContext)</code> 只是让你能够<em>读取</em> context 的值以及订阅 context 的变化。你仍然需要在上层组件树中使用 <code>&lt;MyContext.Provider&gt;</code> 来为下层组件<em>提供</em> context。</p> <h3 id="usecallback与usememo"><a href="#usecallback与usememo" class="header-anchor">#</a> usecallback与useMemo</h3> <p><strong>useMemo</strong></p> <p>返回一个缓存值。</p> <p>useMemo是一种缓存机制提速，当他的依赖未发生改变时就不会触发重新计算，与vue中computed类似</p> <p>使用语法：useMemo(()=&gt; fn,deps)</p> <p>把创建函数和依赖项数组作为参数传入useMemo，它只会在某个依赖项改变时才重新计算memoized值。如果没有提供依赖项数组，useMemo在每次渲染时都会计算新的值</p> <div class="language-tsx extra-class"><pre class="language-tsx"><code><span class="token keyword">const</span> myValue<span class="token operator">:</span> <span class="token builtin">any</span> <span class="token operator">=</span> <span class="token function">useMemo</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> item <span class="token operator">=</span> allCrowdData<span class="token punctuation">[</span>value <span class="token keyword">as</span> <span class="token builtin">number</span><span class="token punctuation">]</span> <span class="token operator">||</span> <span class="token punctuation">{</span>
+      name<span class="token operator">:</span> <span class="token keyword">undefined</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>value <span class="token operator">&amp;&amp;</span> item<span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        value<span class="token operator">:</span> value<span class="token punctuation">,</span>
+        label<span class="token operator">:</span> item<span class="token punctuation">.</span>name<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span> <span class="token keyword">as</span> LabeledValue<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token keyword">undefined</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>allCrowdData<span class="token punctuation">,</span> value<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p><strong>useCallback</strong></p> <p>返回一个缓存函数。把内联回调函数及依赖数组作为参数传入useCallback，它将返回该回调函数u的memorized版本，该回调函数仅在某个依赖项改变时才会更新，在组件中使用usecallback可以避免非必要渲染</p> <p><strong>useCallback（fn，dep） 与useCallback( ()=&gt;fn，dep）等效</strong></p> <p><strong>useCallback（fn，dep）相当于useMemo( () =&gt; fn，deps）</strong></p> <p>useMemo与usecallback的区别：<code>useMemo</code>可以缓存所有对象，<code>useCallback</code>只能缓存函数。</p> <p><code>useCallback(x =&gt; log(x), [m])</code> 等价于 <code>useMemo(() =&gt; x =&gt; log(x), [m])</code></p> <div class="language-tsx extra-class"><pre class="language-tsx"><code><span class="token keyword">const</span> handleInputChange <span class="token operator">=</span> <span class="token function">useCallback</span><span class="token punctuation">(</span>
+    <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token function">handleUpdateSearchWord</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>handleUpdateSearchWord<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>普通的函数组件本身就是高内聚的，所以一般没有useCallback的事，比如</p> <div class="language-react extra-class"><pre class="language-text"><code>// 用于记录 getData 调用次数
+let count = 0;
+
+function App() {
+  const [val, setVal] = useState(&quot;&quot;);
+
+  function getData() {
+    setTimeout(()=&gt;{
+      setVal('new data '+count);
+      count++;
+    }, 500)
+  }
+
+  useEffect(()=&gt;{
+    getData();
+  }, []);
+
+  return (
+    &lt;div&gt;{val}&lt;/div&gt;
+  );
+}
+</code></pre></div><p>实际上，在普通组件中使用useCallback可能性能会更差，比如普通的onChange函数</p> <p>https://codesandbox.io/s/test-usecallback-xqvuc?file=/src/index.js</p> <div class="language-react extra-class"><pre class="language-text"><code>function App() {
+  const [val, setVal] = useState(&quot;&quot;);
+
+  const onChange = (evt) =&gt; {
+    setVal(evt.target.value);
+  };
+
+  // const onChange = useCallback(evt =&gt; {
+  //   setVal(evt.target.value);
+  // }, []);
+  //可以看到onChange的定义是省不了的，而且额外还要加上调用useCallback产生的开销，性能怎么可能会更好
+  return &lt;input val={val} onChange={onChange} /&gt;;
+}
+</code></pre></div><p>useCallback能够改善性能的场景有两种：</p> <ul><li>函数<code>定义</code>时需要进行大量运算， 这种场景极少</li> <li>需要比较引用的场景，如<code>useEffect</code>，又或者是配合<code>React.Memo</code>使用：</li></ul> <div class="language-react extra-class"><pre class="language-text"><code>const Child = React.memo(function({val, onChange}) {
+  console.log('render...');
+  
+  return &lt;input value={val} onChange={onChange} /&gt;;
+});
+
+function App() {
+  const [val1, setVal1] = useState('');
+  const [val2, setVal2] = useState('');
+
+  const onChange1 = useCallback( evt =&gt; {
+    setVal1(evt.target.value);
+  }, []);
+
+  const onChange2 = useCallback( evt =&gt; {
+    setVal2(evt.target.value);
+  }, []);
+
+  return (
+  &lt;&gt;
+    &lt;Child val={val1} onChange={onChange1}/&gt;
+    &lt;Child val={val2} onChange={onChange2}/&gt;
+  &lt;/&gt;
+  );
+}
+</code></pre></div><p>在useEffect中的监听函数</p> <div class="language-react extra-class"><pre class="language-text"><code>// 用于记录 getData 调用次数
+let count = 0;
+
+function App() {
+  const [val, setVal] = useState(&quot;&quot;);
+
+  function getData() {
+    setTimeout(() =&gt; {
+      setVal(&quot;new data &quot; + count);
+      count++;
+    }, 500);
+  }
+
+  return &lt;Child val={val} getData={getData} /&gt;;
+}
+
+function Child({val, getData}) {
+  useEffect(() =&gt; {
+    getData();
+  }, [getData]);
+
+  return &lt;div&gt;{val}&lt;/div&gt;;
+}
+</code></pre></div><p>上面的代码中，是一个死循环，分析下代码的执行过程：</p> <ol><li><code>App</code>渲染<code>Child</code>，将<code>val</code>和<code>getData</code>传进去</li> <li><code>Child</code>使用<code>useEffect</code>获取数据。因为对<code>getData</code>有依赖，于是将其加入依赖列表</li> <li><code>getData</code>执行时，调用<code>setVal</code>，导致<code>App</code>重新渲染</li> <li><code>App</code>重新渲染时生成新的<code>getData</code>方法，传给<code>Child</code></li> <li><code>Child</code>发现<code>getData</code>的引用变了，又会执行<code>getData</code></li> <li>3 -&gt; 5 是一个死循环</li></ol> <p>把函数用useCallback缓存就可以</p> <div class="language-react extra-class"><pre class="language-text"><code>const getData = useCallback(() =&gt; {
+  setTimeout(() =&gt; {
+    setVal(&quot;new data &quot; + count);
+    count++;
+  }, 500);
+}, []);
+</code></pre></div><p>还有一种情况是在<code>getData</code>中需要用到<code>val</code>( useState 中的值)，就需要将其加入依赖列表，这样的话又会导致每次<code>getData</code>的引用都不一样，死循环又出现了</p> <p>如果我们希望无论<code>val</code>怎么变，<code>getData</code>的引用都保持不变，同时又能取到<code>val</code>最新的值，可以通过自定义 hook 实现。注意这里不能简单的把<code>val</code>从依赖列表中去掉，否则<code>getData</code>中的<code>val</code>永远都只会是初始值（闭包）</p> <div class="language-react extra-class"><pre class="language-text"><code>function useRefCallback(fn, dependencies) {
+  const ref = useRef(fn);
+
+  // 每次调用的时候，fn 都是一个全新的函数，函数中的变量有自己的作用域
+  // 当依赖改变的时候，传入的 fn 中的依赖值也会更新，这时更新 ref 的指向为新传入的 fn
+  useEffect(() =&gt; {
+    ref.current = fn;
+  }, [fn, ...dependencies]);
+
+  return useCallback(() =&gt; {
+    const fn = ref.current;
+    return fn();
+  }, [ref]);
+}
+
+// 调用
+const getData = useRefCallback(() =&gt; {
+  console.log(val);
+
+  setTimeout(() =&gt; {
+    setVal(&quot;new data &quot; + count);
+    count++;
+  }, 500);
+}, [val]);
+</code></pre></div><h3 id="useref"><a href="#useref" class="header-anchor">#</a> useRef</h3> <p>useRef</p> <p>主要作用是创建一个数据的引用，并让这个数据在 render 过程中始终<strong>保持不变</strong>。修改ref对象不会像修改state那样触发重绘。</p> <p><strong>Refs为我们提供了一种绕过状态更新和重新渲染访问元素的方法（获取某个元素的实例），但不能作为props 和 state 的替代方法</strong></p> <p>基本语法： <code>const count = useRef(0)</code>，读取用 <code>count.current</code></p> <div class="language-react extra-class"><pre class="language-text"><code>export function ReactEcharts(props) {
+  const {option, loading} = props
+  const container = useRef(null)
+  const chart = useRef(null)
+
+  useEffect(() =&gt; {
+    const width = document.documentElement.clientWidth
+    const c = container.current
+    console.log(c)
+    c.style.width = `${width - 20}px`
+    c.style.height = `${(width - 20) * 1.2}px`
+    chart.current = echarts.init(c, 'dark')
+
+  }, []) // [] - mounted on first time
+
+  useEffect(() =&gt; {
+    chart.current.setOption(option)
+  }, [option]) // when option change 类似 vue 的 watch
+
+  useEffect(() =&gt; {
+    if (loading) chart.current.showLoading()
+    else chart.current.hideLoading()
+  }, [loading])
+  return (
+    &lt;div ref={container}/&gt;
+  )
+}
+</code></pre></div><p>useRef使用时报错不能将类型“MutableRefObject&lt;HTMLDivElement | undefined&gt;”分配给类型“LegacyRef | undefined”。</p> <p>原因：</p> <p>1.没赋初值</p> <ol start="2"><li>useRef里面没写对类型</li></ol> <h4 id="useref与createref的区别"><a href="#useref与createref的区别" class="header-anchor">#</a> useRef与createRef的区别</h4> <div class="language-react extra-class"><pre class="language-text"><code>import React, { useRef, createRef, useState } from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+
+function App() {
+  const [renderIndex, setRenderIndex] = useState(1);
+
+  const refFromUseRef = useRef();
+  const refFromCreateRef = createRef();
+
+  if (!refFromUseRef.current) {
+    // 赋值操作,赋值给useRef
+    refFromUseRef.current = renderIndex;
+  }
+  if (!refFromCreateRef.current) {
+    // 赋值操作，赋值给createRef
+    refFromCreateRef.current = renderIndex;
+  }
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      Current render index: {renderIndex}
+      &lt;br /&gt;
+      在refFromUseRef.current中记住的第一个渲染索引：
+      {refFromUseRef.current}
+      &lt;br /&gt;
+      在refFromCreateRef.current中未能成功记住第一个渲染索引：
+      {refFromCreateRef.current}
+      &lt;br /&gt;
+      &lt;button onClick={() =&gt; setRenderIndex(prev =&gt; prev + 1)}&gt;
+        数值 + 1
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+const rootElement = document.getElementById(&quot;root&quot;);
+ReactDOM.render(&lt;App /&gt;, rootElement);
+</code></pre></div><p>上面的案例中无论如何点击按钮 <code>refFromUseRef.current</code> 将始终为 <code>1</code>，而 <code>renderIndex</code> 和 <code>refFromCreateRef.current</code> 会伴随点击事件改变</p> <p>当 ref 对象内容发生变化时，useRef 并不会通知你。变更 <code>.current</code> 属性不会引发组件重新渲染。如果想要在 React 绑定或解绑 DOM 节点的 ref 时运行某些代码，则需要使用 <code>callback ref</code> 来实现</p> <h4 id="ref的使用场景"><a href="#ref的使用场景" class="header-anchor">#</a> ref的使用场景</h4> <ul><li>管理焦点，文本选择或处理表单数据</li></ul> <p>因为非受控组件将真实数据储存在 DOM 节点中，所以再使用非受控组件时，有时候反而更容易同时集成 React 和非 React 代码。如果你不介意代码美观性，并且希望快速编写代码，使用非受控组件往往可以减少你的代码量。否则，你应该使用受控组件</p> <ul><li>媒体播放。</li></ul> <p>基于 React 的音乐或视频播放器可以利用 Refs 来管理其当前状态（播放/暂停），或管理播放进度等。这些更新不需要进行状态管理。</p> <ul><li>触发强制动画。</li></ul> <p>如果要在元素上触发过强制动画时，可以使用 Refs 来执行此操作。</p> <ul><li>集成第三方 DOM 库。</li></ul> <p>默认情况下，<strong>你不能在函数组件上使用 <code>ref</code> 属性</strong>，因为它们没有实例</p> <p>如果要在函数组件中使用 <code>ref</code>，你可以使用 <a href="https://zh-hans.reactjs.org/docs/forwarding-refs.html" target="_blank" rel="noopener noreferrer"><code>forwardRef</code><span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>（可与 <a href="https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle" target="_blank" rel="noopener noreferrer"><code>useImperativeHandle</code><span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 结合使用），或者可以将该组件转化为 class 组件。</p> <p>你可以<strong>在函数组件内部使用 <code>ref</code> 属性</strong>，只要它指向一个 DOM 元素或 class 组件</p> <h4 id="回调ref"><a href="#回调ref" class="header-anchor">#</a> 回调ref</h4> <p>React 也支持另一种设置 refs 的方式，称为“回调 refs”。它能助你更精细地控制何时 refs 被设置和解除。</p> <p>不同于传递 <code>createRef()</code> 创建的 <code>ref</code> 属性，你会传递一个函数。这个函数中接受 React 组件实例或 HTML DOM 元素作为参数，以使它们能在其他地方被存储和访问。</p> <div class="language-react extra-class"><pre class="language-text"><code>class CustomTextInput extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.textInput = null;
+
+    this.setTextInputRef = element =&gt; {
+      this.textInput = element;
+    };
+
+    this.focusTextInput = () =&gt; {
+      // 使用原生 DOM API 使 text 输入框获得焦点
+      if (this.textInput) this.textInput.focus();
+    };
+  }
+
+  componentDidMount() {
+    // 组件挂载后，让文本框自动获得焦点
+    this.focusTextInput();
+  }
+
+  render() {
+    // 使用 `ref` 的回调函数将 text 输入框 DOM 节点的引用存储到 React
+    // 实例上（比如 this.textInput）
+    return (
+      &lt;div&gt;
+        &lt;input
+          type=&quot;text&quot;
+          ref={this.setTextInputRef}
+        /&gt;
+        &lt;input
+          type=&quot;button&quot;
+          value=&quot;Focus the text input&quot;
+          onClick={this.focusTextInput}
+        /&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+</code></pre></div><p>React 将在组件挂载时，会调用 <code>ref</code> 回调函数并传入 DOM 元素，当卸载时调用它并传入 <code>null</code>。在 <code>componentDidMount</code> 或 <code>componentDidUpdate</code> 触发前，React 会保证 refs 一定是最新的</p> <h3 id="useimperativehandle与forwardref"><a href="#useimperativehandle与forwardref" class="header-anchor">#</a> useImperativeHandle与forwardref</h3> <p>useImperativeHandle</p> <p>useImperativeHandle可以让你在使用转发ref时自定义暴露给父组件的实例值。通过<code>useImperativeHandle</code>减少暴露给父组件获取的DOM元素属性，只暴露特定的操作，从而提升性能</p> <p>在大多数情况下，应当避免使用ref这样的命令式代码，useImperativeHandle应当与forwardRef一起使用</p> <p>useImperativeHandle的语法：useImperativeHandle(ref, createHandle, [deps])</p> <ol><li><code>ref</code>
+需要被赋值的<code>ref</code>对象。</li> <li><code>createHandle</code>：
+<code>createHandle</code>函数的返回值作为<code>ref.current</code>的值。</li> <li><code>[deps]</code>
+依赖数组，依赖发生变化会重新执行<code>createHandle</code>函数。</li></ol> <div class="language-react extra-class"><pre class="language-text"><code>import React, { useRef, forwardRef, useImperativeHandle } from 'react'
+
+const JMInput = forwardRef((props, ref) =&gt; {
+  const inputRef = useRef()
+  // 作用: 减少父组件获取的DOM元素属性,只暴露给父组件需要用到的DOM方法
+  // 参数1: 父组件传递的ref属性
+  // 参数2: 返回一个对象,父组件通过ref.current调用对象中方法
+  useImperativeHandle(ref, () =&gt; ({
+    focus: () =&gt; {
+      inputRef.current.focus()
+    },
+  }))
+  return &lt;input type=&quot;text&quot; ref={inputRef} /&gt;
+})
+
+export default function ImperativeHandleDemo() {
+  // useImperativeHandle 主要作用:用于减少父组件中通过forward+useRef获取子组件DOM元素暴露的属性过多
+  // 为什么使用: 因为使用forward+useRef获取子函数式组件DOM时,获取到的dom属性暴露的太多了
+  // 解决: 使用uesImperativeHandle解决,在子函数式组件中定义父组件需要进行DOM操作,减少获取DOM暴露的属性过多
+  const inputRef = useRef()
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() =&gt; inputRef.current.focus()}&gt;聚焦&lt;/button&gt;
+      &lt;JMInput ref={inputRef} /&gt;
+    &lt;/div&gt;
+  )
+}
+</code></pre></div><p>useImperativeHandle更常用的写法是</p> <div class="language-react extra-class"><pre class="language-text"><code>type Props = {
+  content?: string;
+};
+
+type Instance = {
+  insertParam: (text: string, value: string) =&gt; void;
+};
+const Setting = React.forwardRef&lt;
+  Instance,
+  Props
+&gt;(function ContentSetting({ content }, ref) {
+	const itemRefs = React.useRef&lt;(RichTextInputInstance | null)[]&gt;([]);
+  useImperativeHandle(ref, () =&gt; ({
+    insertParam(text, value) {
+      const focusRef = itemRefs?.current?.[focusIndex as any];
+      focusRef?.insertParam(text, value);
+    },
+  }));
+  
+  return (
+  
+    &lt;RichTextInput
+      placeholder={placeholder}
+      readOnly={readOnly}
+      ref={(inputRef) =&gt; (itemRefs.current[index] = inputRef)}
+      onFocus={() =&gt; handleFocus(index)}
+      className={classNames({ [styles.formReadOnly]: readOnly })}
+      singleLine={singleLine}
+      /&gt;)
+}
+</code></pre></div><h3 id="usedebugvalue"><a href="#usedebugvalue" class="header-anchor">#</a> useDebugValue</h3> <h3 id="自定义hook"><a href="#自定义hook" class="header-anchor">#</a> 自定义hook</h3> <p>可以把不同的hook按照实际的需求混合起来，封装成一个新的函数使用</p> <p>通过自定义 Hook，可以将组件逻辑提取到可重用的函数中。</p> <div class="language-react extra-class"><pre class="language-text"><code>const useList = () =&gt; {
+  const [list, setList] = useState(null);
+  useEffect(() =&gt; {
+    ajax(&quot;/list&quot;).then(list =&gt; {
+      setList(list);
+    });
+  }, []); // [] 确保只在第一次运行
+  return {
+    list: list,
+    setList: setList
+  };
+};
+export default useList;
+</code></pre></div><p>抽象useInput hooks</p> <div class="language-react extra-class"><pre class="language-text"><code>import { useState } from 'react'
+
+function useInput(initialValue: string) {
+  const [value, setValue] = useState(initialValue)
+  const reset = () =&gt; {
+    setValue(initialValue)
+  }
+  const bind = {
+    value,
+    onChange(e: any) {
+      setValue(e.target.value)
+    }
+  }
+  return [value, bind, reset]
+}
+
+export default useInput
+</code></pre></div><p>使用useInput Hook</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, { FormEvent } from 'react'
+import useInput from './hooks/useInput'
+
+function UserForm() {
+
+  const [firstName, bindFirstName, resetFirstName] = useInput('')
+  const [lastName, bindLastName, resetLastName] = useInput('')
+
+  const submitHandler = (e: FormEvent) =&gt; {
+    e.preventDefault()
+    console.log(`Hello ${firstName} ${lastName}`)
+    // @ts-ignore
+    resetFirstName()
+    // @ts-ignore
+    resetLastName()
+  }
+  return (
+    &lt;div&gt;
+      &lt;form onSubmit={submitHandler}&gt;
+        &lt;div&gt;
+          &lt;label htmlFor=&quot;&quot;&gt;First name&lt;/label&gt;
+          &lt;input
+            type=&quot;text&quot;
+            {...bindFirstName}
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor=&quot;&quot;&gt;Last name&lt;/label&gt;
+          &lt;input
+            type=&quot;text&quot;
+            {...bindLastName}
+          /&gt;
+        &lt;/div&gt;
+        &lt;button&gt;submit&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  )
+}
+
+export default UserForm
+</code></pre></div><p>返回 DOM 其实和最基本的 Hook 逻辑是相同的，只是在返回的数据内容上有一些差异</p> <div class="language-react extra-class"><pre class="language-text"><code>import React, { useState } from 'react';
+import { Modal } from 'antd';
+
+function useModal() {
+  const [visible, changeVisible] = useState(false);
+
+  const toggleModalVisible = () =&gt; {
+    changeVisible(!visible);
+  };
+
+  return [(
+    &lt;Modal
+      visible={visible}
+      onOk={toggleModalVisible}
+      onCancel={toggleModalVisible}
+    &gt;
+      弹窗内容
+      &lt;/Modal&gt;
+  ), toggleModalVisible];
+}
+
+export default function HookDemo() {
+  const [modal, toggleModal] = useModal();
+  return (
+    &lt;div&gt;
+      {modal}
+      &lt;button onClick={toggleModal}&gt;打开弹窗&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div><h4 id="自定义hooks的注意事项"><a href="#自定义hooks的注意事项" class="header-anchor">#</a> 自定义hooks的注意事项</h4> <ul><li>定义 Hook 是一个函数，其名称以 “use” 开头，函数内部可以调用其他的 Hook。</li> <li>只在最顶层使用 Hook</li> <li>不要在循环，条件或嵌套函数中调用 Hook</li> <li>只在 React 函数中调用 Hook，不要在普通的 JavaScript 函数中调用 Hook</li></ul> <p>注意性能优化</p> <h3 id="最佳实践"><a href="#最佳实践" class="header-anchor">#</a> 最佳实践</h3> <h4 id="惰性初始值"><a href="#惰性初始值" class="header-anchor">#</a> 惰性初始值</h4> <p><code>someExpensiveComputation</code> 是一个相对耗时的操作。如果我们直接采用</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">const</span> initialState <span class="token operator">=</span> <span class="token function">someExpensiveComputation</span><span class="token punctuation">(</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token punctuation">[</span>state<span class="token punctuation">,</span> setState<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span>initialState<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>注意，虽然 <code>initialState</code> 只在初始化时有其存在的价值，但是 <code>someExpensiveComputation</code> 在每一帧都被调用了。只有当使用惰性初始化的方法</p> <div class="language-react extra-class"><pre class="language-text"><code>const [state, setState] = useState(() =&gt; {
+    const initialState = someExpensiveComputation(props);
+    return initialState;
+});
+</code></pre></div><p>因 <code>someExpensiveComputation</code> 运行在一个匿名函数下，该函数当且仅当初始化时被调用，从而优化性能。</p> <h4 id="usememo-usecallback"><a href="#usememo-usecallback" class="header-anchor">#</a> useMemo/useCallback</h4> <p>useMemo 的目的其实是尽量使用缓存的值。</p> <p>对于函数，其作为另外一个 useEffect 的 deps 时，减少函数的重新生成，就能减少该 Effect 的调用，甚至避免一些死循环的产生;</p> <p>对于对象和数组，如果某个子组件使用了它作为 props，减少它的重新生成，就能避免子组件不必要的重复渲染，提升性能。</p> <div class="language-react extra-class"><pre class="language-text"><code>// 未优化代码
+const data = { id };
+
+return &lt;Child data={data}&gt;;
+
+// 优化代码
+const data = useMemo(() =&gt; ({ id }), [id]);
+
+return &lt;Child data={data}&gt;;
+</code></pre></div><p>未优化之前，每当父组件需要 render 时，子组件也会执行 render。如果使用 <code>useMemo</code> 对 data 进行优化：</p> <p>当父组件 render 时，只要满足 id 不变，data 的值也不会发生变化，子组件也将避免 render。</p> <p>对于组件返回的 React Elements，我们可以选择性地提取其中一部分 elements，通过 useMemo 进行缓存，也能避免这一部分的重复渲染。</p> <p>但同时，也要避免滥用useMemos</p> <p>使用 useMemo 当 deps 不变时，直接返回上一次计算的结果，从而使子组件跳过渲染。</p> <p>但是当返回的是原始数据类型（如字符串、数字、布尔值）。即使参与了计算，只要 deps 依赖的内容不变，返回结果也很可能是不变的。此时就需要权衡这个计算的时间成本和 useMemo 额外带来的空间成本（缓存上一次的结果）了。</p> <p>此外，如果 useMemo 的 deps 依赖数组为空，这样做说明你只是希望存储一个值，这个值在重新 render 时永远不会变。此时用useMemo不是最佳选择</p> <div class="language-react extra-class"><pre class="language-text"><code>// 未优化代码
+const Comp = () =&gt; {
+    const data = useMemo(() =&gt; ({ type: 'xxx' }), []);
+    return &lt;Child data={data}&gt;;
+}
+    
+// 优化1
+const Comp = () =&gt; {
+    const { current: data } = useRef({ type: 'xxx' });
+    return &lt;Child data={data}&gt;;
+}
+        
+// 优化2
+const data = { type: 'xxx' };
+const Comp = () =&gt; {
+    return &lt;Child data={data}&gt;;
+}
+</code></pre></div><p>此外，如果 deps 频繁变动，我们也要思考，使用 useMemo 是否有必要。因为 useMemo 占用了额外的空间，还需要在每次 render 时检查 deps 是否变动，反而比不使用 useMemo 开销更大。</p> <p>一个函数执行完毕之后，就会从函数调用栈中被弹出，里面的内存也会被回收。因此，即使在函数内部创建了多个函数，执行完毕之后，这些创建的函数也都会被释放掉。<strong>函数式组件的性能是非常快的</strong>。相比class，函数更轻量，也避免了使用高阶组件、renderProps等会造成额外层级的技术。使用合理的情况下，性能几乎不会有什么问题。</p> <p>而当我们使用<code>useMemo/useCallback</code>时，由于新增了对于闭包的使用，新增了对于依赖项的比较逻辑，因此，盲目使用它们，甚至可能会让你的组件变得更慢。</p> <p>大多数情况下，这样的交换，并不划算，或者赚得不多。你的组件可能并不需要使用useMemo/useCallback来优化。</p> <p><strong>记忆函数并非完全没有代价，我们需要创建闭包，占用更多的内存，用以解决计算上的冗余</strong>。</p> <p><strong>通常情况下，当函数体或者结果的计算过程非常复杂时，我们才会考虑优先使用useCallback/useMemo。</strong></p> <h4 id="受控与非受控"><a href="#受控与非受控" class="header-anchor">#</a> 受控与非受控</h4> <p>如果组件中有派生state，可以像这样</p> <div class="language-react extra-class"><pre class="language-text"><code>useSomething = (inputCount) =&gt; {
+    const [ count, setCount ] = setState(inputCount);
+};
+</code></pre></div><p>外部传入的 <code>inputCount</code> 属性发生了变化时，默认不会更新，因为 useState 参数代表的是初始值，仅在 <code>useSomething</code> 初始时赋值给了 <code>count</code> state。后续 <code>count</code> 的状态将与 <code>inputCount</code> 无关。这种外部无法直接控制 state 的方式，我们称为非受控。</p> <p>如果想被外部传入的 props 始终控制，比如在这个例子中，<code>useSomething</code> 内部，<code>count</code> 这一 state 的值需要从 <code>inputCount</code> 进行同步，</p> <div class="language-react extra-class"><pre class="language-text"><code>useSomething = (inputCount) =&gt; {
+    const [ count, setCount ] = setState(inputCount);
+    setCount(inputCount);
+};
+</code></pre></div><p><code>setCount</code>后，React 会立即退出当前的 render 并用更新后的 state 重新运行 render 函数。</p> <p>在这种的机制下，state 由外界同步的同时，内部又有可能通过 setState 来修改 state，可能引发新的问题。例如 <code>useSomething</code> 初始时，count 为 0，后续内部通过 <code>setCount</code> 修改了 <code>count</code> 为 1。当外部函数组件的 render 函数重新调用，也会再一次调用 <code>useSomething</code>，此时传入的 <code>inputCount</code> 依然是 0，就会把 <code>count</code> 变回 0</p> <p>遇到这样的问题，建议将 inputCount 的当前值与上一次的值进行比较，只有确定发生变化时执行 setCount(inputCount) 。</p> <p>https://zhuanlan.zhihu.com/p/142735113</p></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.3979e060.js" defer></script><script src="/assets/js/2.0f8cbb55.js" defer></script><script src="/assets/js/1.ff82b27c.js" defer></script><script src="/assets/js/67.062b95dc.js" defer></script>
   </body>
 </html>

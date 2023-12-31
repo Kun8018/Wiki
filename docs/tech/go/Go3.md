@@ -14,6 +14,21 @@ thumbnail: https://s1.ax1x.com/2020/04/20/J1Iu4O.th.jpg
 
 ## 并发编程
 
+### 上下文Context
+
+上下文 [`context.Context`](https://draveness.me/golang/tree/context.Context) Go 语言中用来设置截止日期、同步信号，传递请求相关值的结构体。上下文与 Goroutine 有比较密切的关系，是 Go 语言中独特的设计，在其他编程语言中我们很少见到类似的概念
+
+[`context.Context`](https://draveness.me/golang/tree/context.Context) 是 Go 语言在 1.7 版本中引入标准库的接口 [1](https://draveness.me/golang/docs/part3-runtime/ch06-concurrency/golang-context/#fn:1)，该接口定义了四个需要实现的方法，其中包括：
+
+1. `Deadline` — 返回 [`context.Context`](https://draveness.me/golang/tree/context.Context) 被取消的时间，也就是完成工作的截止日期；
+2. `Done` — 返回一个 Channel，这个 Channel 会在当前工作完成或者上下文被取消后关闭，多次调用 `Done` 方法会返回同一个 Channel；
+3. `Err`— 返回`context.Context`结束的原因，它只会在`Done`方法对应的 Channel 关闭时返回非空的值；
+   1. 如果 [`context.Context`](https://draveness.me/golang/tree/context.Context) 被取消，会返回 `Canceled` 错误；
+   2. 如果 [`context.Context`](https://draveness.me/golang/tree/context.Context) 超时，会返回 `DeadlineExceeded` 错误；
+4. `Value` — 从 [`context.Context`](https://draveness.me/golang/tree/context.Context) 中获取键对应的值，对于同一个上下文来说，多次调用 `Value` 并传入相同的 `Key` 会返回相同的结果，该方法可以用来传递请求特定的数据；
+
+
+
 ### 协程
 
 一个应用程序是运行在机器上的一个进程；进程是一个运行在自己内存地址空间里的独立执行体。一个进程由一个或多个操作系统线程组成，这些线程其实是共享同一个内存地址空间的一起工作的执行体。几乎所有'正式'的程序都是多线程的，以便让用户或计算机不必等待，或者能够同时服务多个请求（如 Web 服务器），或增加性能和吞吐量（例如，通过对不同的数据集并行执行代码）。一个并发程序可以在一个处理器或者内核上使用多个线程来执行任务，但是只有同一个程序在某个时间点同时运行在多核或者多处理器上才是真正的并行。
@@ -112,6 +127,95 @@ Go 语言的系统监控也起到了很重要的作用，它在内部启动了�
 
 
 
+### 实现带TryLock功能的mutex
+
+`mutex`是操作系统提供的一种同步原语，用来保证对于共享资源互斥的访问。各个编程语言通过关键字、数据结构、库等方式提供了类似的功能：**在多线程程序中，并发安全地访问共享变量**。
+
+在golang中，官方提供`sync.Mutex`互斥锁，使用方式也很简单
+
+```go
+var mu sync.Mutex
+mu.Lock()
+// do something
+mu.Unlock()
+```
+
+`Lock`的调用会阻塞当前goroutine，直到成功获取锁。在其他编程语言（比如Java）中，也提供了非阻塞尝试获取锁的方式。无论是否获取成功，都立即返回，成功返回true，失败返回false。官方没有提供这样的包，但是我们可以很容易的使用`channel`实现这个功能。
+
+```go
+type C chan struct{}
+
+func NewC() C {
+	ch := make(chan struct{}, 1)
+	return ch
+}
+
+func (c *C) Lock() {
+	(*c) <- struct{}{}
+}
+
+func (c *C) UnLock() {
+	<-(*c)
+}
+```
+
+注意我们使用的`channel`类型是`struct{}`，因为我们不需要使用`channel`来传递实际数据，只是同步信号。而且我们使用容量为1的`buffered channel`，这样第一个获取锁的`goroutine`不会阻塞。
+
+```go
+func (c *C) TryLock() bool {
+	select {
+	case *c <- struct{}{}:
+		return true
+	default:
+		return false
+	}
+}
+```
+
+为TryLock指定超时时间就很简单了
+
+```go
+func (c *C) TryLockWithTimeOut(d time.Duration) bool {
+	t := time.NewTimer(d)
+	select {
+	case <-t.C:
+		return false
+	case *c <- struct{}{}:
+		t.Stop()
+		return true
+	}
+}
+```
+
+验证代码
+
+```go
+func main() {
+	n1 := int64(0)
+	n2 := int64(0)
+	c := NewC()
+
+	wg := sync.WaitGroup{}
+	for i := 0; i < 10000; i++ {
+		wg.Add(1)
+		go func() {
+			if c.TryLock() {
+				n1++
+				c.UnLock()
+			} else {
+				atomic.AddInt64(&n2, 1)
+			}
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+
+	fmt.Printf("total: %v, success: %v, fail: %v\n", n1+n2, n1, n2)
+}
+```
+
+
+
 ## 内存管理
 
 内存管理一般包含三个不同的组件，分别是用户程序（Mutator）、分配器（Allocator）和收集器（Collector）[1](https://draveness.me/golang/docs/part3-runtime/ch07-memory/golang-memory-allocator/#fn:1)，当用户程序申请内存时，它会通过内存分配器申请新的内存，而分配器会负责从堆中初始化相应的内存区域。
@@ -150,6 +254,12 @@ Go语言的内存分配策略与第四章策略相似，该策略会将内存分
 多数架构上默认栈大小都在 2 ~ 4 MB 左右，极少数架构会使用 32 MB 作为默认大小，用户程序可以在分配的栈上存储函数参数和局部变量。然而这个固定的栈大小在某些场景下可能不是一个合适的值，如果一个程序需要同时运行几百个甚至上千个线程，那么这些线程中的绝大部分都只会用到很少的栈空间，而如果函数的调用栈非常深，固定的栈大小也无法满足用户程序的需求。
 
 Go 语言中的执行栈由 [`runtime.stack`](https://github.com/golang/go/blob/a38a917aee626a9b9d5ce2b93964f586bf759ea0/src/runtime/runtime2.go#L382) 结构体表示，该结构体中只包含两个字段，分别表示栈的顶部和栈的底部，每个栈结构体都表示范围 `[lo, hi)` 的内存空间
+
+
+
+## golang设计模式
+
+https://github.com/lee501/go-patterns
 
 
 

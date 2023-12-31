@@ -1,5 +1,5 @@
 ---
-title: Golang语言开发 
+title: Golang语言开发（四）
 date: 2020-03-02 21:40:33
 categories: 技术博客
 tags:
@@ -84,6 +84,15 @@ https://github.com/gorilla/websocket
 
 
 ### rpc
+
+RPC (Remote Procedure Call，远程过程调用) 是一种计算机通信协议，允许调用不同进程空间的程序。RPC 的客户端和服务器可以在一台机器上，也可以在不同的机器上。程序员使用时，就像调用本地程序一样，无需关注内部的实现细节。
+
+不同的应用程序之间的通信方式有很多，比如浏览器和服务器之间广泛使用的基于 HTTP 协议的 Restful API。与 RPC 相比，Restful API 有相对统一的标准，因而更通用，兼容性更好，支持不同的语言。HTTP 协议是基于文本的，一般具备更好的可读性。但是缺点也很明显：
+
+- Restful 接口需要额外的定义，无论是客户端还是服务端，都需要额外的代码来处理，而 RPC 调用则更接近于直接调用。
+- 基于 HTTP 协议的 Restful 报文冗余，承载了过多的无效信息，而 RPC 通常使用自定义的协议格式，减少冗余报文。
+- RPC 可以采用更高效的序列化协议，将文本转为二进制传输，获得更高的性能。
+- 因为 RPC 的灵活性，所以更容易扩展和集成诸如注册中心、负载均衡等功能。
 
 Go 程序之间可以使用 `net/rpc` 包实现相互通信，这是另一种客户端-服务器应用场景。它提供了一种方便的途径，通过网络连接调用远程函数。当然，仅当程序运行在不同机器上时，这项技术才实用。`rpc` 包建立在 `gob` 包之上，实现了自动编码/解码传输的跨网络方法调用。
 
@@ -292,6 +301,15 @@ func main() {
 
 ## 数据库
 
+数据库几乎是所有 Web 服务不可或缺的一部分，在所有类型的数据库中，关系型数据库是我们在想要持久存储数据时的首要选择，不过因为关系型数据库的种类繁多，所以 Go 语言的标准库 [`database/sql`](https://golang.org/pkg/database/sql/) 就为访问关系型数据提供了通用的接口，这样不同数据库只要实现标准库中的接口，应用程序就可以通过标准库中的方法访问。
+
+结构化查询语言（Structured Query Language、SQL）是在关系型数据库系统中使用的领域特定语言（Domain-Specific Language、DSL），它主要用于处理结构化的数据[1](https://draveness.me/golang/docs/part4-advanced/ch09-stdlib/golang-database-sql/#fn:1)。作为一门领域特定语言，它由更加强大的表达能力，与传统的命令式 API 相比，它能够提供两个优点：
+
+1. 可以使用单个命令在数据库中访问多条数据；
+2. 不需要在查询中指定获取数据的方法；
+
+所有的关系型数据库都会提供 SQL 作为查询语言，应用程序可以使用相同的 SQL 查询在不同数据库中查询数据，
+
 Go官方提供了`database/sql`包来给用户进行和数据库打交道的工作，`database/sql`库实际只提供了一套操作数据库的接口和规范，例如抽象好的SQL预处理（prepare），连接池管理，数据绑定，事务，错误处理等等。官方并没有提供具体某种数据库实现的协议支持。
 
 和具体的数据库，例如MySQL打交道，还需要再引入MySQL的驱动，
@@ -357,234 +375,153 @@ ORM的目的就是屏蔽掉DB层，很多语言的ORM只要把你的类或结构
 
 说白了SQL Builder是sql在代码里的一种特殊方言，如果你们没有DBA但研发有自己分析和优化sql的能力，或者你们公司的DBA对于学习这样一些sql的方言没有异议。那么使用SQL Builder是一个比较好的选择，不会导致什么问题。
 
+### bun
 
-
-## Fiber
-
-fiber是受express启发，致力于最快的http框架
+golang的ORMhttps://github.com/uptrace/bun/
 
 安装
 
 ```shell
-go get -u github.com/gofiber/fiber/v2
+go get github.com/uptrace/bun@latest
 ```
 
 使用
 
 ```go
-func main() {
-    app := fiber.New()
-
-    // GET /api/register
-    app.Get("/api/*", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("✋ %s", c.Params("*"))
-        return c.SendString(msg) // => ✋ register
-    })
-
-    // GET /flights/LAX-SFO
-    app.Get("/flights/:from-:to", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("💸 From: %s, To: %s", c.Params("from"), c.Params("to"))
-        return c.SendString(msg) // => 💸 From: LAX, To: SFO
-    })
-
-    // GET /dictionary.txt
-    app.Get("/:file.:ext", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("📃 %s.%s", c.Params("file"), c.Params("ext"))
-        return c.SendString(msg) // => 📃 dictionary.txt
-    })
-
-    // GET /john/75
-    app.Get("/:name/:age/:gender?", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("👴 %s is %s years old", c.Params("name"), c.Params("age"))
-        return c.SendString(msg) // => 👴 john is 75 years old
-    })
-
-    // GET /john
-    app.Get("/:name", func(c *fiber.Ctx) error {
-        msg := fmt.Sprintf("Hello, %s 👋!", c.Params("name"))
-        return c.SendString(msg) // => Hello john 👋!
-    })
-
-    log.Fatal(app.Listen(":3000"))
-}
-```
-
-静态文件
-
-```go
-func main() {
-    app := fiber.New()
-
-    app.Static("/", "./public")
-    // => http://localhost:3000/js/script.js
-    // => http://localhost:3000/css/style.css
-
-    app.Static("/prefix", "./public")
-    // => http://localhost:3000/prefix/js/script.js
-    // => http://localhost:3000/prefix/css/style.css
-
-    app.Static("*", "./public/index.html")
-    // => http://localhost:3000/any/path/shows/index/html
-
-    log.Fatal(app.Listen(":3000"))
-}
-```
-
-中间件
-
-```go
-func main() {
-    app := fiber.New()
-
-    // Match any route
-    app.Use(func(c *fiber.Ctx) error {
-        fmt.Println("🥇 First handler")
-        return c.Next()
-    })
-
-    // Match all routes starting with /api
-    app.Use("/api", func(c *fiber.Ctx) error {
-        fmt.Println("🥈 Second handler")
-        return c.Next()
-    })
-
-    // GET /api/list
-    app.Get("/api/list", func(c *fiber.Ctx) error {
-        fmt.Println("🥉 Last handler")
-        return c.SendString("Hello, World 👋!")
-    })
-
-    log.Fatal(app.Listen(":3000"))
-}
-```
-
-代理
-
-```go
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/gofiber/fiber/v2/middleware/recover"
+    "database/sql"
+    "github.com/uptrace/bun/driver/sqliteshim"
 )
 
-func main() {
-    app := fiber.New(fiber.Config{
-        EnableTrustedProxyCheck: true,
-        TrustedProxies: []string{"0.0.0.0", "1.1.1.1/30"}, // IP address or IP address range
-        ProxyHeader: fiber.HeaderXForwardedFor},
-    })
-
-    // ...
-
-    log.Fatal(app.Listen(":3000"))
+sqldb, err := sql.Open(sqliteshim.ShimName, "file::memory:?cache=shared")
+if err != nil {
+	panic(err)
 }
 ```
 
-websocket支持
+创建/删除表
 
 ```go
-app.Get("/ws", websocket.New(func(c *websocket.Conn) {
-  // Websocket logic
-  for {
-    mtype, msg, err := c.ReadMessage()
-    if err != nil {
-      break
-    }
-    log.Printf("Read: %s", msg)
+// Create users table.
+res, err := db.NewCreateTable().Model((*User)(nil)).Exec(ctx)
 
-    err = c.WriteMessage(mtype, msg)
-    if err != nil {
-      break
-    }
+// Drop users table.
+res, err := db.NewDropTable().Model((*User)(nil)).Exec(ctx)
+
+// Drop and create tables.
+err := db.ResetModel(ctx, (*User)(nil))
+```
+
+创建/更新/删除行
+
+```go
+// Insert a single user.
+user := &User{Name: "admin"}
+res, err := db.NewInsert().Model(user).Exec(ctx)
+
+// Insert multiple users (bulk-insert).
+users := []User{user1, user2}
+res, err := db.NewInsert().Model(&users).Exec(ctx)
+
+user := &User{ID: 1, Name: "admin"}
+res, err := db.NewUpdate().Model(user).Column("name").WherePK().Exec(ctx)
+
+user := &User{ID: 1}
+res, err := db.NewDelete().Model(user).WherePK().Exec(ctx)
+```
+
+查询
+
+```go
+// Select a user by a primary key.
+user := new(User)
+err := db.NewSelect().Model(user).Where("id = ?", 1).Scan(ctx)
+
+// Select first 10 users.
+var users []User
+err := db.NewSelect().Model(&users).OrderExpr("id ASC").Limit(10).Scan(ctx)
+```
+
+自动时间戳
+
+```go
+type User struct {
+	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
+	UpdatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
+}
+
+type User struct {
+	CreatedAt time.Time `bun:",nullzero,notnull,default:current_timestamp"`
+	UpdatedAt bun.NullTime
+}
+```
+
+### gorm
+
+https://github.com/go-gorm/gorm
+
+安装
+
+```shell
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/sqlite
+```
+
+使用
+
+```go
+package main
+
+import (
+  "gorm.io/gorm"
+  "gorm.io/driver/sqlite"
+)
+
+type Product struct {
+  gorm.Model
+  Code  string
+  Price uint
+}
+
+func main() {
+  db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+  if err != nil {
+    panic("failed to connect database")
   }
-  log.Println("Error:", err)
-}))
-```
 
+  // Migrate the schema
+  db.AutoMigrate(&Product{})
 
+  // Create
+  db.Create(&Product{Code: "D42", Price: 100})
 
-## Iris
+  // Read
+  var product Product
+  db.First(&product, 1) // find product with integer primary key
+  db.First(&product, "code = ?", "D42") // find product with code D42
 
-安装
+  // Update - update product's price to 200
+  db.Model(&product).Update("Price", 200)
+  // Update - update multiple fields
+  db.Model(&product).Updates(Product{Price: 200, Code: "F42"}) // non-zero fields
+  db.Model(&product).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})
 
-```shell
-go get github.com/kataras/iris/v12@master # or @v12.2.0-beta2
-```
-
-使用
-
-```go
-package main
-
-import "github.com/kataras/iris/v12"
-
-func main() {
-	app := iris.New()
-	app.Use(iris.Compression)
-
-	app.Get("/", func(ctx iris.Context) {
-		ctx.HTML("Hello <strong>%s</strong>!", "World")
-	})
-
-	app.Listen(":8080")
+  // Delete - delete product
+  db.Delete(&product, 1)
 }
 ```
 
 
 
-## Gin
-
-安装
-
-```go
-go get -u github.com/gin-gonic/gin
-```
-
-新建gin。go文件
-
-```go
-package main
-
-import (
-	"github.com/gin-gonic/gin"
-)
-
-func main(){
-  g := gin.Default()
-  
-  g.GET("/hello",func(c *gin.Context){
-    c.JSON(200,gin.H{
-      "message":"hello world",
-    })
-  })
-  
-  g.Run();
-}
-```
-
-依赖导入，执行命令
-
-```go
-go mod init git-demo
-go mod tidy
-```
-
-启动命令
-
-```go
-go run gin.go
-```
+### xorm
 
 
 
+### bbolt
 
+go内嵌的key-value数据库
 
-## GoFrame
-
-
-
-```go
-go get -u -v github.com/gogf/gf
-```
+https://github.com/etcd-io/bbolt
 
 
 
@@ -593,6 +530,148 @@ go get -u -v github.com/gogf/gf
 
 
 https://github.com/pion/webrtc
+
+
+
+## webhook
+
+https://github.com/adnanh/webhook
+
+https://www.kandaoni.com/news/14421.html
+
+## Graphql
+
+https://github.com/graphql-go/graphql
+
+安装
+
+```shell
+go get github.com/graphql-go/graphql
+```
+
+使用
+
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+
+	"github.com/graphql-go/graphql"
+)
+
+func main() {
+	// Schema
+	fields := graphql.Fields{
+		"hello": &graphql.Field{
+			Type: graphql.String,
+			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				return "world", nil
+			},
+		},
+	}
+	rootQuery := graphql.ObjectConfig{Name: "RootQuery", Fields: fields}
+	schemaConfig := graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}
+	schema, err := graphql.NewSchema(schemaConfig)
+	if err != nil {
+		log.Fatalf("failed to create new schema, error: %v", err)
+	}
+
+	// Query
+	query := `
+		{
+			hello
+		}
+	`
+	params := graphql.Params{Schema: schema, RequestString: query}
+	r := graphql.Do(params)
+	if len(r.Errors) > 0 {
+		log.Fatalf("failed to execute graphql operation, errors: %+v", r.Errors)
+	}
+	rJSON, _ := json.Marshal(r)
+	fmt.Printf("%s \n", rJSON) // {"data":{"hello":"world"}}
+}
+```
+
+
+
+## conc
+
+更好地并发编程工具，基于标准库stdlib进行封装
+
+安装
+
+```shell
+go get github.com/sourcegraph/conc
+```
+
+更好地处理panic错误
+
+```go
+// 标准库
+type caughtPanicError struct {
+    val   any
+    stack []byte
+}
+
+func (e *caughtPanicError) Error() string {
+    return fmt.Sprintf(
+        "panic: %q\n%s",
+        e.val,
+        string(e.stack)
+    )
+}
+
+func main() {
+    done := make(chan error)
+    go func() {
+        defer func() {
+            if v := recover(); v != nil {
+                done <- &caughtPanicError{
+                    val: v,
+                    stack: debug.Stack()
+                }
+            } else {
+                done <- nil
+            }
+        }()
+        doSomethingThatMightPanic()
+    }()
+    err := <-done
+    if err != nil {
+        panic(err)
+    }
+}
+// conc编程
+func main() {
+    var wg conc.WaitGroup
+    wg.Go(doSomethingThatMightPanic)
+    // panics with a nice stacktrace
+    wg.Wait()
+}
+```
+
+https://github.com/sourcegraph/conc
+
+
+
+## 热更新
+
+### fresh
+
+https://github.com/gravityblast/fresh
+
+
+
+## 路由
+
+### gocraft/web
+
+https://github.com/gocraft/web
+
+go的路由和中间件
 
 
 
@@ -652,19 +731,248 @@ https://github.com/duke-git/lancet
 
 
 
-## go-clean-arch
+### gore
+
+Go 语言的 REPL（read-eval-print-loop）工具
+
+gore 是一个命令行工具，需要配合 Go Module 安装
+
+安装
+
+```shell
+go install github.com/x-motemen/gore/cmd/gore@latest
+```
+
+go install 命令会将会在`$GOPATH/bin`目录生成的 gore 可执行文件。强烈推荐大家把`$GOPATH/bin`加入到系统的可执行文件搜索目录（即`$PATH`）中。
+
+执行下面的命令即可进入 Go 的 REPL
+
+```shell
+gore
+```
+
+### expr
+
+计算表达式的值
+
+安装
+
+```shell
+go get -u /github.com/antonmedv/expr
+```
+
+使用
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/antonmedv/expr"
+)
+
+func main() {
+	env := map[string]interface{}{
+		"foo": 1,
+		"bar": 2,
+	}
+
+	out, err := expr.Eval("foo + bar", env)
+
+	if err != nil {
+		panic(err)
+	}
+	fmt.Print(out)
+}
+```
+
+https://czyt.tech/post/golang-expr-uncompleted-reference/
+
+### go-funk
+
+go的工具库函数
+
+https://github.com/thoas/go-funk
 
 
 
-https://github.com/bxcodec/go-clean-arch
+### goph
+
+go的ssh连接客户端
+
+```shell
+go get github.com/melbahja/goph
+```
+
+使用
+
+```go
+package main
+
+import (
+	"log"
+	"fmt"
+	"github.com/melbahja/goph"
+)
+
+func main() {
+
+	// Start new ssh connection with private key.
+	auth, err := goph.Key("/home/mohamed/.ssh/id_rsa", "")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	client, err := goph.New("root", "192.1.1.3", auth)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Defer closing the network connection.
+	defer client.Close()
+
+	// Execute your command.
+	out, err := client.Run("ls /tmp/")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Get your output as []byte.
+	fmt.Println(string(out))
+}
+
+// with private key
+auth, err := goph.Key("/home/mohamed/.ssh/id_rsa", "you_passphrase_here")
+if err != nil {
+	// handle error
+}
+
+client, err := goph.New("root", "192.1.1.3", auth)
+```
+
+### go-git
+
+go的git包
+
+```go
+// Clones the given repository in memory, creating the remote, the local
+// branches and fetching the objects, exactly as:
+Info("git clone https://github.com/go-git/go-billy")
+
+r, err := git.Clone(memory.NewStorage(), nil, &git.CloneOptions{
+    URL: "https://github.com/go-git/go-billy",
+})
+
+CheckIfError(err)
+
+// Gets the HEAD history from HEAD, just like this command:
+Info("git log")
+
+// ... retrieves the branch pointed by HEAD
+ref, err := r.Head()
+CheckIfError(err)
+
+
+// ... retrieves the commit history
+cIter, err := r.Log(&git.LogOptions{From: ref.Hash()})
+CheckIfError(err)
+
+// ... just iterates over the commits, printing it
+err = cIter.ForEach(func(c *object.Commit) error {
+	fmt.Println(c)
+	return nil
+})
+CheckIfError(err)
+```
+
+### envconfig
+
+获取环境变量
+
+https://github.com/kelseyhightower/envconfig
 
 
 
-## Node、Go、Python对比
+## go脚本
 
-Go的语法简洁，是强语言类型，效率高，可直接被编译为机器码，
-
-
+### yaegi
 
 
 
+### tengo
+
+安装
+
+```shell
+go get github.com/d5/tengo/v2
+```
+
+使用
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/d5/tengo/v2"
+)
+
+func main() {
+	// create a new Script instance
+	script := tengo.NewScript([]byte(
+`each := func(seq, fn) {
+    for x in seq { fn(x) }
+}
+
+sum := 0
+mul := 1
+each([a, b, c, d], func(x) {
+    sum += x
+    mul *= x
+})`))
+
+	// set values
+	_ = script.Add("a", 1)
+	_ = script.Add("b", 9)
+	_ = script.Add("c", 8)
+	_ = script.Add("d", 4)
+
+	// run the script
+	compiled, err := script.RunContext(context.Background())
+	if err != nil {
+		panic(err)
+	}
+
+	// retrieve values
+	sum := compiled.Get("sum")
+	mul := compiled.Get("mul")
+	fmt.Println(sum, mul) // "22 288"
+}
+```
+
+其他脚本语言
+
+https://github.com/d5/tengo 下有介绍
+
+
+
+### goja
+
+
+
+
+
+## 打包
+
+### ko
+
+ko可以轻松地打包go的程序为容器
+
+
+
+### distroless
+
+https://github.com/GoogleContainerTools/distroless
