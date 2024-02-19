@@ -1,5 +1,5 @@
 ---
-title: Golang语言开发（四）
+title: Golang语言开发（五）
 date: 2020-03-02 21:40:33
 categories: 技术博客
 tags:
@@ -234,6 +234,28 @@ go mod tidy
 
 ```go
 go run gin.go
+```
+
+Gin 框架不会自动为 GET 请求生成 HEAD 请求的处理方法。因此，如果要支持 HEAD 请求，你需要为对应的请求路径显式地编写一个处理 HEAD 请求的函数
+
+```go
+import "github.com/gin-gonic/gin"
+
+func main() {
+    r := gin.Default()
+
+    r.GET("/example", func(c *gin.Context) {
+        // 这里是 GET 请求的业务逻辑
+        c.String(http.StatusOK, "Hello, GET request!")
+    })
+
+    r.HEAD("/example", func(c *gin.Context) {
+        // 这里是 HEAD 请求的业务逻辑
+        c.Status(http.StatusOK)
+    })
+
+    r.Run(":8080")
+}
 ```
 
 

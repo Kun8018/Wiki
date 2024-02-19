@@ -49,6 +49,54 @@ func main() {
 
 
 
+### resty
+
+提供go restful api
+
+安装
+
+```go
+require github.com/go-resty/resty/v2 v2.11.0
+```
+
+使用
+
+```go
+import "github.com/go-resty/resty/v2"
+
+// Create a Resty Client
+client := resty.New()
+
+resp, err := client.R().
+      SetQueryParams(map[string]string{
+          "page_no": "1",
+          "limit": "20",
+          "sort":"name",
+          "order": "asc",
+          "random":strconv.FormatInt(time.Now().Unix(), 10),
+      }).
+      SetHeader("Accept", "application/json").
+      SetAuthToken("BC594900518B4F7EAC75BD37F019E08FBC594900518B4F7EAC75BD37F019E08F").
+      Get("/search_result")
+
+
+// Sample of using Request.SetQueryString method
+resp, err := client.R().
+      SetQueryString("productId=232&template=fresh-sample&cat=resty&source=google&kw=buy a lot more").
+      SetHeader("Accept", "application/json").
+      SetAuthToken("BC594900518B4F7EAC75BD37F019E08FBC594900518B4F7EAC75BD37F019E08F").
+      Get("/show_product")
+
+
+// If necessary, you can force response content type to tell Resty to parse a JSON response into your struct
+resp, err := client.R().
+      SetResult(result).
+      ForceContentType("application/json").
+      Get("v2/alpine/manifests/latest")
+```
+
+
+
 ### websocket
 
 安装go的websocket包
@@ -75,13 +123,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-
-
-
-
 https://github.com/gorilla/websocket
 
 
+
+https://github.com/nhooyr/websocket
 
 ### rpc
 
@@ -377,7 +423,7 @@ ORM的目的就是屏蔽掉DB层，很多语言的ORM只要把你的类或结构
 
 ### bun
 
-golang的ORMhttps://github.com/uptrace/bun/
+golang的ORM https://github.com/uptrace/bun/
 
 安装
 
@@ -467,7 +513,80 @@ go get -u gorm.io/gorm
 go get -u gorm.io/driver/sqlite
 ```
 
-使用
+查询
+
+```go
+// 获取第一条记录（主键升序）
+db.First(&user)
+// SELECT * FROM users ORDER BY id LIMIT 1;
+
+// 获取一条记录，没有指定排序字段
+db.Take(&user)
+// SELECT * FROM users LIMIT 1;
+
+// 获取最后一条记录（主键降序）
+db.Last(&user)
+// SELECT * FROM users ORDER BY id DESC LIMIT 1;
+
+result := db.First(&user)
+result.RowsAffected // 返回找到的记录数
+result.Error        // returns error or nil
+
+// 检查 ErrRecordNotFound 错误
+errors.Is(result.Error, gorm.ErrRecordNotFound)
+```
+
+关联表(一对一)
+
+```go
+// User 有一张 CreditCard，UserID 是外键
+type User struct {
+  gorm.Model
+  CreditCard CreditCard
+}
+
+type CreditCard struct {
+  gorm.Model
+  Number string
+  UserID uint
+}
+```
+
+关联表(一对多)
+
+```go
+// User 有多张 CreditCard，UserID 是外键
+type User struct {
+  gorm.Model
+  CreditCards []CreditCard
+}
+
+type CreditCard struct {
+  gorm.Model
+  Number string
+  UserID uint
+}
+```
+
+关联表(多对多)
+
+```go
+// User 拥有并属于多种 language，`user_languages` 是连接表
+type User struct {
+  gorm.Model
+  Languages []*Language `gorm:"many2many:user_languages;"`
+}
+
+type Language struct {
+  gorm.Model
+  Name string
+  Users []*User `gorm:"many2many:user_languages;"`
+}
+```
+
+
+
+使用示例
 
 ```go
 package main
@@ -595,7 +714,9 @@ func main() {
 }
 ```
 
+### genqlient
 
+https://github.com/Khan/genqlient
 
 ## conc
 
@@ -891,6 +1012,29 @@ CheckIfError(err)
 获取环境变量
 
 https://github.com/kelseyhightower/envconfig
+
+### got
+
+比curl更快地下载，是go下载文件的工具包
+
+https://github.com/melbahja/got
+
+```go
+package main
+
+import "github.com/melbahja/got"
+
+func main() {
+
+	g := got.New()
+
+	err := g.Download("http://localhost/file.ext", "/path/to/save")
+
+	if err != nil {
+		// ..
+	}
+}
+```
 
 
 

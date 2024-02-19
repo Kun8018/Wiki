@@ -109,6 +109,44 @@ module.exports = {
 }
 ```
 
+添加多页面入口
+
+```shell
+npm install react-app-rewire-multiple-entry --save-dev
+```
+
+在config-overrides.js配置
+
+```javascript
+const { override, overrideDevServer } = require('customize-cra');
+
+const multipleEntry = require('react-app-rewire-multiple-entry')([{
+    entry: 'src/pages/options.tsx',
+    template: 'public/options.html',
+    outPath: '/options.html',
+}]);
+
+const addEntry = () => config => {
+
+    multipleEntry.addMultiEntry(config);
+    return config;
+};
+
+const addEntryProxy = () => (configFunction) => {
+    multipleEntry.addEntryProxy(configFunction);
+    return configFunction;
+}
+
+module.exports = {
+    webpack: override(
+        addEntry(),
+    ),
+    devServer: overrideDevServer(
+        addEntryProxy(),
+    )
+}
+```
+
 
 
 ### CRACO
@@ -167,6 +205,10 @@ const jestConfig = createJestConfig(cracoConfig);
 
 module.exports = jestConfig;
 ```
+
+## superplate
+
+https://github.com/pankod/superplate
 
 
 
@@ -274,6 +316,53 @@ Next.js 具有两种形式的预渲染： **静态生成（Static Generation）*
 
 1. 您的页面 **内容** 取决于外部数据：使用 `getStaticProps`。
 2. 你的页面 **paths（路径）** 取决于外部数据：使用 `getStaticPaths` （通常还要同时使用 `getStaticProps`）。
+
+
+
+### 中间件
+
+在根目录下创建一个middleware.ts文件
+
+```javascript
+import { NextResponse } from 'next/server'
+
+export function middleware() {
+  // Store the response so we can modify its headers
+  const response = NextResponse.next()
+
+  // Set custom header
+  response.headers.set('x-modified-edge', 'true')
+
+  // Return response
+  return response
+}
+```
+
+在pages目录下创建一个_middleware.ts，那么所有的路由都会执行这个中间件
+
+```javascript
+// pages/_middleware.ts
+
+import type { NextFetchEvent, NextRequest } from 'next/server'
+
+export function middleware(req: NextRequest, ev: NextFetchEvent) {
+  return new Response('Hello, world!')
+}
+```
+
+如果在pages下面的子页面创建了_middleware的中间件，那么中间件会按照目录的层级之行
+
+```typescript
+- package.json
+- /pages
+    index.tsx
+    - /about
+      _middleware.ts # Will run first
+      about.tsx
+      - /teams
+        _middleware.ts # Will run second
+        teams.tsx
+```
 
 
 
@@ -540,9 +629,152 @@ const svg = await satori(
 )
 ```
 
+### next.config.js
+
+```javascript
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // 自定义输出目录
+    distDir: 'build',
+    // 重定向
+    async redirects() {
+      return [
+        {
+          source: '/about',
+          destination: '/',
+          permanent: true,
+        },
+      ]
+    },
+    // 重写路径
+    async rewrites() {
+      return [
+        {
+          source: '/about',
+          destination: '/',
+        },
+      ]
+    },
+    // 环境变量
+    env: {
+     customKey: 'my-value',
+  	},
+    // 自定义webpack配置
+    config.module.rules.push({
+      test: /\.mdx/,
+      use: [
+        options.defaultLoaders.babel,
+        {
+          loader: '@mdx-js/loader',
+          options: pluginOptions.options,
+        },
+      ],
+    })
+    // Important: return the modified config
+    return config
+  },
+}
+```
+
+
+
 ### 部署
 
 `Next.js` 项目的部署，需要一个 `Node.js`的服务器，可以选择 `Express`, `Koa`或其他 `Nodejs` 的Web服务器。本文中以 `Express` 为例来部署 `Next` 项目。
+
+### Code Hike
+
+在next中使用
+
+```shell
+npm install @next/mdx @mdx-js/loader @code-hike/mdx
+```
+
+在next.config.js中使用
+
+```javascript
+const theme = require("shiki/themes/nord.json")
+const {
+  remarkCodeHike,
+} = require("@code-hike/mdx")
+
+const withMDX = require("@next/mdx")({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [
+      [remarkCodeHike, { theme }]
+    ],
+  },
+})
+
+module.exports = withMDX({
+  pageExtensions: [
+    "ts", "tsx", "js", 
+    "jsx", "md", "mdx"
+  ],
+})
+```
+
+在项目的根组件中引入code-hike的样式
+
+```javascript
+import "@code-hike/mdx/dist/index.css"
+```
+
+在项目中mdx中使用
+
+````markdown
+# Hello
+
+Lorem ipsum dolor sit amet.
+
+```python hello.py
+print("Rendered with Code Hike")
+```
+
+Lorem ipsum dolor sit amet.
+````
+
+https://codehike.org/docs/configuration
+#### shiki
+
+语法高亮的npm包
+
+安装
+
+```shell
+npm i shiki
+```
+
+使用
+
+```javascript
+const shiki = require('shiki')
+
+shiki
+  .getHighlighter({
+    theme: 'nord'
+  })
+  .then(highlighter => {
+    console.log(highlighter.codeToHtml(`console.log('shiki');`, { lang: 'js' }))
+  })
+
+// <pre class="shiki nord" style="background-color: #2e3440"><code>
+//   <!-- Highlighted Code -->
+// </code></pre>
+```
+
+https://github.com/shikijs/shiki
+
+## T3
+
+T3是一个类型安全的全栈nextjs app
+
+安装
+
+```shell
+npm create t3-app@latest
+```
 
 
 
@@ -697,6 +929,10 @@ cd
 ```
 
 
+
+## Taxonomy
+
+全栈开发app
 
 
 
@@ -912,6 +1148,188 @@ module federation 是 webpack5 提出的新特性，含义为模块联邦。主�
 1. 即使项目规模继续增大，依赖的数量继续增多，启动和热更新都可以保持性能！
 2. 可以将预编译产物在团队中进行同步，其他同学可以直接享受到预编译带来的快乐！
 3. 生产模式下，可以持续使用预编译好的依赖，以加快部署速度！
+
+
+
+## redwoodjs
+
+基于GraphQL、prisma、fastify和react的全栈开发框架
+
+form
+
+```react
+import { MetaTags } from '@redwoodjs/web'
+import {
+  Form,
+  TextField,
+  TextAreaField,
+  Submit,
+  SubmitHandler
+} from '@redwoodjs/forms'
+
+interface FormValues {
+  name: string
+  email: string
+  message: string
+}
+
+const ContactPage = () => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    console.log(data)
+  }
+
+  return (
+    <>
+      <MetaTags title="Contact" description="Contact page" />
+
+      <Form onSubmit={onSubmit}>
+        <label htmlFor="name">Name</label>
+        <TextField name="name" />
+
+        <label htmlFor="email">Email</label>
+        <TextField name="email" />
+
+        <label htmlFor="message">Message</label>
+        <TextAreaField name="message" />
+
+        <Submit>Save</Submit>
+      </Form>
+    </>
+  )
+}
+
+export default ContactPage
+```
+
+app配置
+
+使用redwool.toml文件进行配置
+
+
+
+## refine
+
+**refine 是一个基于 React 的快速框架✨网络应用程序的开发。它消除了** CRUD 操作所需的重复性任务，并为身份验证 **、**访问控制**、**路由**、**网络**、**状态管理**和 **i18n** 等关键部分提供了行业标准解决方案。
+
+refine 在设计上是*无限制的*，因此提供了无限的样式和定制选项
+
+⚙️使用**单个 CLI 命令**进行零配置、**一分钟设置**
+
+🔌用于 **15 多种后端服务** 的连接器，包括 [REST API](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fsimple-rest)、[GraphQL](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fgraphql)、[NestJs CRUD](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fnestjsx-crud)、[Airtable](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fairtable)、[Strapi](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fstrapi)、[Strapi v4](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fstrapi-v4)、[Strapi GraphQL](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fstrapi-graphql)、[Supabase](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fsupabase)、[Hasura](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fhasura)、[Nhost](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fnhost)、[Appwrite](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Fappwrite)、[Firebase](https://link.juejin.cn?target=https%3A%2F%2Ffirebase.google.com%2F)、[Directus](https://link.juejin.cn?target=https%3A%2F%2Fdirectus.io%2F) 和 [Altogic](https://link.juejin.cn?target=https%3A%2F%2Fgithub.com%2Frefinedev%2Frefine%2Ftree%2Fmaster%2Fpackages%2Faltogic)
+
+🌐 Next.js 或 **Remix \**\*\*支持\*\**\* SSR**
+
+⚛使用 **React Query** 完善 **状态管理**和**突变**
+
+🔀 使用您选择的任何路由器库的**高级路由**
+
+🔐**无缝身份验证**和**访问控制**流程的提供商
+
+⚡**对实时 / 实时应用程序**的开箱即用支持
+
+📄轻松的**审核日志**和**文档版本控制**
+
+💬支持任何 **i18n** 框架
+
+💪面向未来的**稳健架构**
+
+✅完整的**测试覆盖**
+
+创建/运行项目
+
+```shell
+npx superplate-cli --preset refine-antd my-project
+
+npm run dev
+```
+
+新建页面
+
+```tsx
+import { Refine, useMany } from "@pankod/refine-core";
+import {
+    useTable,
+    List,
+    Table,
+    DateField,
+    Layout,
+    ReadyPage,
+    notificationProvider,
+    ErrorComponent,
+} from "@pankod/refine-antd";
+import routerProvider from "@pankod/refine-react-router-v6";
+import dataProvider from "@pankod/refine-simple-rest";
+
+import "@pankod/refine-antd/dist/styles.min.css";
+
+const App: React.FC = () => {
+    return (
+        <Refine
+            routerProvider={routerProvider}
+            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+            resources={[{ name: "posts", list: PostList }]}
+            Layout={Layout}
+            ReadyPage={ReadyPage}
+            notificationProvider={notificationProvider}
+            catchAll={<ErrorComponent />}
+        />
+    );
+};
+
+export const PostList: React.FC = () => {
+    const { tableProps } = useTable<IPost>();
+
+    const categoryIds =
+        tableProps?.dataSource?.map((item) => item.category.id) ?? [];
+
+    const { data, isLoading } = useMany<ICategory>({
+        resource: "categories",
+        ids: categoryIds,
+        queryOptions: {
+            enabled: categoryIds.length > 0,
+        },
+    });
+
+    return (
+        <List>
+            <Table<IPost> {...tableProps} rowKey="id">
+                <Table.Column dataIndex="title" title="title" />
+                <Table.Column
+                    dataIndex={["category", "id"]}
+                    title="category"
+                    render={(value: number) => {
+                        if (isLoading) {
+                            return "loading...";
+                        }
+
+                        return data?.data.find(
+                            (item: ICategory) => item.id === value,
+                        )?.title;
+                    }}
+                />
+                <Table.Column
+                    dataIndex="createdAt"
+                    title="createdAt"
+                    render={(value) => <DateField format="LLL" value={value} />}
+                />
+            </Table>
+        </List>
+    );
+};
+
+export default App;
+
+interface IPost {
+  title: string;
+  createdAt: string;
+  category: { id: number };
+}
+
+interface ICategory {
+  id: number;
+  title: string;
+}
+```
 
 
 

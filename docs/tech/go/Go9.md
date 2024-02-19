@@ -1,5 +1,5 @@
 ---
-title: Golang语言开发(五)
+title: Golang语言开发(九)
 date: 2020-03-02 21:40:33
 categories: 技术博客
 tags:
@@ -485,3 +485,17 @@ https://github.com/seaweedfs/seaweedfs
 ### rook
 
 https://github.com/rook/rook
+
+https://jimmysong.io/kubernetes-handbook/practice/rook.html
+
+Rook 将分布式存储软件转变为自我管理，自我缩放和自我修复的存储服务。它通过自动化部署，引导、配置、供应、扩展、升级、迁移、灾难恢复、监控和资源管理来实现。 Rook 使用基础的云原生容器管理、调度和编排平台提供的功能来履行其职责
+
+Rook 利用扩展点深入融入云原生环境，为调度、生命周期管理、资源管理、安全性、监控和用户体验提供无缝体验。
+
+使用helm部署
+
+```bash
+helm init -i jimmysong/kubernetes-helm-tiller:v2.8.1
+helm repo add rook-alpha https://charts.rook.io/alpha
+helm install rook-alpha/rook --name rook --namespace rook-system
+```
