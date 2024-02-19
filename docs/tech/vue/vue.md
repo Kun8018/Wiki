@@ -2,7 +2,9 @@
 title: Vue.js前端框架(一)
 date: 2020-10-02 21:40:33
 categories: IT
-tags: IT，Web,Vue
+tags:
+    - 
+- IT，Web,Vue
 toc: true
 thumbnail: http://cdn.kunkunzhang.top/vue.jpeg
 ---
@@ -162,7 +164,7 @@ component: resolve=>require(['@/components/home'],resolve)
 
 全局钩子
 
-```vue
+```javascript
 Router.beforeEach((to,from,next)=>{
     next()
 })//to表示即将进入的路由，from表示将要离开的路由，next表示函数
@@ -173,7 +175,7 @@ Router.afterEach((to,from,next)=>{
 
 某个路由的钩子函数
 
-```vue
+```javascript
 beforeEnter:(to,from,next)=>{
 
 },
@@ -184,7 +186,7 @@ beforeleave:(to,from,next)=>{
 
 路由组件内的钩子函数
 
-```vue
+```javascript
 beforeRouteLeave（to,from,next){
 
 },
@@ -198,7 +200,7 @@ beforeRouteUpdate（to,from,next){
 
 ### 路由实例
 
-```js
+```javascript
 //直接添加一个路由，表现为切换路由，往历史纪录里添加一个历史记录
 this.$router.push({'path:'home'})
 //替换路由，历史纪录里没有添加记录
@@ -211,7 +213,7 @@ this.$router.replace({path:'news'})
 
 vue的生命周期函数如下图所示
 
-```js
+```javascript
 beforeCreate(){},//生命周期，创建之前
 created(){},//生命周期，创建之后
 beforeMount(){},//生命周期，挂载之前
@@ -227,7 +229,7 @@ activated(){},//如果这个页面有keep-alive缓存功能，这个函数会触
 
 在beforecreate函数中修改data中的属性
 
-```vue
+```javascript
 //showmodal为data中数据，checkdevice为引入的方法
 beforeCreate(){
    this.$nextTick(function(){
@@ -664,6 +666,98 @@ provide/inject会让组件数据层级关系变的混乱的缘故，但在开发
 </children>
 ```
 
+**具名插槽和普通插槽最大的区别在于，给普通插槽赋予了名字，这就是最大的一点区别，这就有点类似`ES6`中新出的特性，`解构赋值`。现在我们来改写上面的案例，新增加一个明明为`header`的插槽，并且，用`v-slot:header`的方式给传入的`html代码`进行命名，可以看到成功地将名字为header的插槽替换了，所以输出结果为`Header defaultContent`**
+
+#### 作用域插槽
+
+父组件拿子组件中的信息。可以看到我们在插槽上动态绑定了`data`，值为`user对象`，那么，在父组件引用中的`v-slot值.data`就可以访问到子组件中的`user对象`的值了。
+
+```vue
+//Parent.vue
+<Child>
+    <template v-slot="scope">
+        {{scope.data.name}}
+        {{scope.data.age}}
+    </template>
+</Child>
+
+//Child.vue
+<template>
+    <div>
+        <slot :data="user">default</slot>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Child",
+        data(){
+            return{
+                user:{
+                    name:'jack',
+                    age:18
+                }
+            }
+        }
+    }
+</script>
+```
+
+#### 动态名称插槽
+
+**通过`[ ]`将变量名称括起来，可以实现动态名称的插槽，配合条件渲染，选择相应的具名插槽，能让组件的封装更加地灵活，因为`args=other`，所以，输出结果为`default jack`**
+
+```vue
+//Parent.vue
+<template>
+    <div>
+        <Child>
+            <template v-slot:[args]="scope">
+                {{scope.data.name}}
+            </template>
+        </Child>
+    </div>
+</template>
+
+<script>
+    import Child from "../components/Child";
+
+    export default {
+        name: "Parent",
+        components:{
+            Child
+        },
+        data(){
+            return{
+                args:'other'
+            }
+        }
+    }
+</script>
+
+//Child.vue
+<template>
+    <div>
+        <slot :data="user">default</slot>
+        <slot name="other" :data="user"></slot>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Child",
+        data(){
+            return{
+                user:{
+                    name:'jack',
+                    age:18
+                },
+            }
+        }
+    }
+</script>
+```
+
 
 
 ### 驼峰命名法
@@ -977,6 +1071,12 @@ filters:{
 </script>
 ```
 
+filterId: 过滤器ID，用来做为你的过滤器的唯一标识；
+
+VueJs允许你链式调用过滤器，简单的来说，就是一个过滤器的输出成为下一个过滤器的输入，然后再次过滤。
+
+
+
 ## ref
 
 尽管存在 prop 和事件，有的时候你仍可能需要在 JavaScript 里直接访问一个子组件的data或者methods。为了达到这个目的，你可以通过 `ref` 调用。子组件也可以通过ref调用父组件的方法，也可以调用组件内部的dom。
@@ -1182,7 +1282,154 @@ store.state.b//moduleB的状态
 
 手撸vuex：https://juejin.im/post/6845166891204345870
 
+### pinia
 
+Pinia 是一个用于 Vue 的状态管理库，类似 Vuex, 是 Vue 的另一种状态管理方案
+Pinia 支持 Vue2 和 Vue3
+
+安装
+
+```shell
+# 使用 npm
+npm install pinia@next
+# 使用 yarn
+yarn add pinia@next
+```
+
+创建pinia实例，挂载到app上
+
+```javascript
+import { createPinia } from 'pinia';
+
+app.use(createPinia());
+```
+
+创建store
+
+```javascript
+// store.js
+import { defineStore } from "pinia";
+
+// defineStore 调用后返回一个函数，调用该函数获得 Store 实体
+export const useStore = defineStore({
+  // id: 必须的，在所有 Store 中唯一
+  id: "myGlobalState",
+  // state: 返回对象的函数
+  state: ()=> ({
+    count: 1
+  }),
+});
+```
+
+使用store
+
+```vue
+// xxx.vue
+<template>
+  <div>
+    {{store.count}}
+  </div>
+</template>
+<script>
+  // 导入 Store， 使用自己的路径
+  import { useStore } from "@/store/store.js";
+  export default {
+    setup() {
+      // 调用函数 获得Store
+      const store = useStore();
+      return {
+        store
+      }
+    }
+  }
+</script>
+```
+
+getter
+
+Getter 第一个参数是 state，是当前的状态，也可以使用 this.xx 获取状态
+
+```javascript
+// 修改 store.js
+import { defineStore } from "pinia";
+
+import { otherState } from "@/store/otherState.js";
+
+export const useStore = defineStore({
+  id: "myGlobalState",
+  state: ()=> ({
+    count: 2
+  }),
+  getters: {
+    // 一个基本的 Getter： 计算 count 的平方
+    // 使用参数
+    countPow2(state) {
+      return state.count ** 2;
+    },
+    // 使用 this
+    /* 
+    countPow2() {
+      return this.count ** 2;
+    }, 
+    */
+    // 简单的 Getter 直接使用箭头函数
+    // countPow2: state=> state.count ** 2
+
+    // 获取其它 Getter， 直接通过 this
+    countPow2Getter() {
+      return this.countPow2;
+    }
+
+    // 使用其它 Store
+    otherStoreCount(state) {
+      // 这里是其他的 Store，调用获取 Store，就和在 setup 中一样
+      const otherStore = useOtherStore();
+      return otherStore.count;
+    },
+  }
+});
+
+// otherState.js
+import { defineStore } from "pinia";
+
+export const useStore = defineStore({
+  id: "otherState",
+  state: ()=> ({
+    count: 5
+  }),
+});
+```
+
+action
+
+Pinia 没有 Mutations，统一在 actions 中操作 state，通过this.xx 访问相应状态
+虽然可以直接操作 Store，但还是推荐在 actions 中操作，保证状态不被意外改变
+action 和普通的函数一样
+
+```javascript
+// store.js
+export const useStore({
+  state: ()=> ({
+    count: 2,
+    // ...
+  })
+  // ...
+  actinos: {
+    countPlusOne() {
+      this.count++;
+    },
+    countPlus(num) {
+      this.count += num;
+    }
+  }
+})
+```
+
+
+
+### hami-vuex
+
+Hami-Vuex 是一个 Vue 状态管理的库，基于 Vuex 实现，提供了更「香甜」的使用方式
 
 
 
@@ -1236,9 +1483,7 @@ https://cn.vuejs.org/v2/cookbook/client-side-storage.html
 npm install vue vue-server-renderer --save
 ```
 
-Nust
 
-Nust是基于vue生态的
 
 ## vue.config.js
 

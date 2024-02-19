@@ -2,9 +2,10 @@
 title: Vue.js前端框架(三)
 date: 2020-10-02 21:40:33
 categories: IT
-tags: IT，Web,Vue
+tags:
+    - IT，Web,Vue
 toc: true
-thumbnail: https://s1.ax1x.com/2020/03/27/G9XCuD.th.jpg
+thumbnail: https://cdn.kunkunzhang.top/vue3.png
 ---
 
 　　vue新版本解析，代号”one-piece“
@@ -13,9 +14,117 @@ thumbnail: https://s1.ax1x.com/2020/03/27/G9XCuD.th.jpg
 
 ## 其他组件
 
-
-
 clipboard-polyfill xgplayer qrcode
+
+### vue-i18n-next
+
+https://github.com/intlify/vue-i18n-next
+
+Vue i18n解决方案
+
+
+
+### 拖动组件
+
+vue-draggable-resizable-gorkys
+
+vue-draggable-resizable
+
+
+
+### vue-echarts
+
+安装
+
+```shell
+npm install echarts vue-echarts
+```
+
+在vue2中使用还需要安装compostion包
+
+```shell
+npm i -D @vue/composition-api
+```
+
+如果在NuxtJS中使用还需要安装另外一个包
+
+```shell
+npm i -D @nuxtjs/composition-api
+```
+
+并且在nuxt.config.js中添加配置
+
+```javascript
+@nuxtjs/composition-api/module
+```
+
+在vue3中使用
+
+```javascript
+import { createApp } from 'vue'
+import ECharts from 'vue-echarts'
+import { use } from "echarts/core"
+
+// import ECharts modules manually to reduce bundle size
+import {
+  CanvasRenderer
+} from 'echarts/renderers'
+import {
+  BarChart
+} from 'echarts/charts'
+import {
+  GridComponent,
+  TooltipComponent
+} from 'echarts/components'
+
+use([
+  CanvasRenderer,
+  BarChart,
+  GridComponent,
+  TooltipComponent
+])
+
+const app = createApp(...)
+
+// register globally (or you can do it locally)
+app.component('v-chart', ECharts)
+
+app.mount(...)
+```
+
+在vue2中使用
+
+```javascript
+import Vue from 'vue'
+import ECharts from 'vue-echarts'
+import { use } from 'echarts/core'
+
+// import ECharts modules manually to reduce bundle size
+import {
+  CanvasRenderer
+} from 'echarts/renderers'
+import {
+  BarChart
+} from 'echarts/charts'
+import {
+  GridComponent,
+  TooltipComponent
+} from 'echarts/components'
+
+use([
+  CanvasRenderer,
+  BarChart,
+  GridComponent,
+  TooltipComponent
+]);
+
+// register globally (or you can do it locally)
+Vue.component('v-chart', ECharts)
+
+new Vue(...)
+```
+
+
 
 ### 轮播图
 
@@ -46,6 +155,38 @@ import {Swiper,swiperSlide} from 'vue-awesome-swiper'
 ```js
 
 ```
+
+### vue-starport
+
+提供页面与页面/组件与组件之间切换的动画
+
+安装
+
+```shell
+npm i vue-starport
+```
+
+使用
+
+```vue
+<script setup>
+import { StarportCarrier } from 'vue-starport'
+</script>
+
+<template>
+  <StarportCarrier> <!-- here -->
+    <RouterView />
+  </StarportCarrier>
+</template>
+```
+
+
+
+### volar
+
+https://github.com/johnsoncodehk/volar
+
+
 
 ### 验证码
 
@@ -440,545 +581,416 @@ npm install -S vue-amap // 可在package.json查看是否安装
 </style>
 ```
 
+百度地图
 
+安装
 
-
-
-
-
-## 与vue2相比重大变化
-
-### 全局变量
-
-Vue 2.x 有许多全局 API 和配置，这些 API 和配置可以全局改变 Vue 的行为，比如说创建全局组件、声明全局指令。
-
-虽然这种声明方式很方便，但它也会导致一些问题。从技术上讲，Vue 2 没有“app”的概念，我们定义的应用只是通过 `new Vue()` 创建的根 Vue 实例。从同一个 Vue 构造函数**创建的每个根实例共享相同的全局配置**，
-
-Vue3中新的api
-
-createapp
-
-调用 `createApp` 返回一个应用实例，进行挂载
-
-```javascript
-import { createApp } from 'vue'
-import MyApp from './MyApp.vue'
-
-const app = createApp(MyApp)
-app.mount('#app')
+```node
+npm i --save vue-baidu-map
 ```
 
-其他全局api变化
+初始化
 
-| 2.x 全局 API               | 3.x 实例 API (`app`)                                         |
-| -------------------------- | ------------------------------------------------------------ |
-| Vue.config                 | app.config                                                   |
-| Vue.config.productionTip   | *removed* ([见下方](https://vue3js.cn/docs/zh/guide/migration/global-api.html#config-productiontip-removed)) |
-| Vue.config.ignoredElements | app.config.isCustomElement ([见下方](https://vue3js.cn/docs/zh/guide/migration/global-api.html#config-ignoredelements-is-now-config-iscustomelement)) |
-| Vue.component              | app.component                                                |
-| Vue.directive              | app.directive                                                |
-| Vue.mixin                  | app.mixin                                                    |
-| Vue.use                    | app.use ([见下方](https://vue3js.cn/docs/zh/guide/migration/global-api.html#a-note-for-plugin-authors)) |
+```js
+import Vue from 'vue'
+import BaiduMap from 'vue-baidu-map'
 
-利用这种方式，可以在应用之间共享全局组件和指令
+Vue.use(BaiduMap, {
+  /* Visit http://lbsyun.baidu.com/apiconsole/key for details about app key. */
+  ak: 'YOUR_APP_KEY'
+})
+```
 
-```javascript
-import { createApp } from 'vue'
-import Foo from './Foo.vue'
-import Bar from './Bar.vue'
 
-const createMyApp = options => {
-  const app = createApp(options)
-  app.directive('focus' /* ... */)
 
-  return app
+```vue
+<template>
+  <baidu-map class="map">
+  </baidu-map>
+</template>
+
+<style>
+/* The container of BaiduMap must be set width & height. */
+.map {
+  width: 100%;
+  height: 300px;
 }
-
-createMyApp(Foo).mount('#foo')
-createMyApp(Bar).mount('#bar')
-```
-
-上面代码中，createMyApp(Bar).mount('#bar')Foo 和 Bar 实例及其后代中都可以使用 focus 指令
-
-### 模版语法变化(Fragment片段)
-
-在 2.x 中，不支持多根组件，当用户意外创建多根组件时会发出警告，因此，为了修复此错误，许多组件被包装在一个 `<div>` 中。
-
-在 3.x 中，组件现在可以有多个根节点！但是，这确实要求开发者明确定义属性应该分布在哪里。
-
-```vue
-//vue2
-<template>
-  <div>
-    <header>...</header>
-    <main>...</main>
-    <footer>...</footer>
-  </div>
-</template>
-//vue3
-<template>
-  <header>...</header>
-  <main v-bind="$attrs">...</main>
-  <footer>...</footer>
-</template>
+</style>
 ```
 
 
 
-### 生命周期函数变化
+### 导航
 
-filter将不再被继续允许使用，鼓励使用computed或mothod替代filter功能
+使用ip定位，需要在head标签里面引入js
 
-其他生命周期函数：
+```html
+<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+```
 
-被弃用/替换：
-
-1. beforeCreate -> setup()
-2. created -> setup()
-
-重命名的生命周期：
-
-beforeMount -> onBeforeMount
-
-mounted -> onMounted
-
-beforeUpdate -> onBeforeUpdate
-
-updated -> onUpdated
-
-beforeDestroy -> onBeforeUnmount
-
-destroyed -> onUnmounted
-
-errorCaptured -> onErrorCaptured
-
-
-
-### 组合式API/composition
-
-组合式API是vue中类似于react hook类似的功能，尤雨溪在关于此部分功能的考虑和征求意见稿的全文如下
-
-https://vue3js.cn/vue-composition/
-
-简言之，vue在两种情况下不太友好：
-
-1.随着功能的增长，复杂组件的代码变得越来越难以阅读和理解。这种情况在开发人员阅读他人编写的代码时尤为常见。根本原因是 Vue 现有的 API 迫使我们通过**选项组织代码**，但是有的时候通过**逻辑关系**组织代码更有意义。
-
-目前vue缺少一种简洁且低成本的机制来提取和重用多个组件之间的逻辑。
-
-2.来自大型项目开发者的常见需求是更好的 TypeScript 支持，不支持typescript意味着意味推断不够好。Vue 当前的 API 在集成 TypeScript 时遇到了不小的麻烦，其主要原因是 Vue 依靠一个简单的 `this` 上下文来暴露 property，我们现在使用 `this` 的方式是比较微妙的。
-
-3.缺少一种比较「干净」的在多个组件之间提取和复用逻辑的机制。
-
-Vue 现有的 API 在设计之初没有照顾到类型推导，这使适配 TypeScript 变得复杂。
-
-**composition核心函数：**
-
-1.setup函数
-
-- `setup` 就是将 Vue2.x 中的 `beforeCreate` 和 `created` 代替了，以一个 `setup` 函数的形式，可以灵活组织代码了。
-- `setup` 还可以 return 数据或者 template，相当于把 `data` 和 `render` 也一并代替了！
-
-实例：
+在vue中使用
 
 ```vue
-<template>
-  <div>{{ count }} {{ object.foo }}</div>
-</template>
-
 <script>
-import { ref, reactive } from 'vue'
+  mounted () {
+    this.loadBaiduMapAsync()
+  },
+  methods: {
+    /**
+     * 初始化百度地图并定位用户当前位置
+     */
+    loadBaiduMapAsync() {
+      // 加载百度地图js
+      let script = document.createElement('script')
+      script.src = 'https://api.map.baidu.com/api?v=2.0&ak=申请的key&callback=initMap'
+      document.body.appendChild(script)
+      script.onload = (data) => { // 地图js加载成功
+        console.log('百度地图JS加载成功，开始定位')
+        window.initMap = this.startLocate
+      }
+      script.onerror = (data) => { // 地图js加载失败
+        console.log('百度地图JS加载失败，无法定位')
+        common.showConfirm('温馨提示','地图加载出错，请重试！', () => { this.loadBaiduMapAsync() }, null, '重新加载')
+      }
+    },
+    /**
+     * 获取用户当前定位 -- APP端端
+     */
+    startLocate() {
+      if (this.isApp) { // APP端
+          this.getPositionByAPP().then(point => {
+            console.log('APP定位成功--位置:', point);
+            this.currPos = point
+            this.showMapAndGuide() // 展示地图及导航
+          }).catch(msg => {
+            this.status = 0
+            console.log(msg);
+            // common.showToast(msg, CONSTANTS.ERR_TOAST_TIME)
+            this.showDestination() // 展示地图和目的地
+          })
+      } else { // 浏览器端
+        this.getPositionByH5().then(point => {
+          console.log('浏览器定位成功--位置:', point);
+          this.currPos = point
+          this.showMapAndGuide() // 展示地图及导航
+        }).catch(msg => {
+          this.status = 0
+          console.log(msg);
+          // common.showToast(msg, CONSTANTS.ERR_TOAST_TIME)
+          this.showDestination() // 展示地图和目的地
+        })
+      }
+    },
+    /**
+     * 获取用户当前定位 -- APP端端
+     */
+    getPositionByAPP() {
+      return new Promise(function(resolve, reject) {
+        const cb = (err, data) => {
+          if (err) {
+            if (err.code === '001') { // 未开启定位服务
+              reject('请检查您的定位服务是否开启')
+            } else if (err.code === '002') { // 未授权应用访问定位功能
+              reject('请授权APP访问您的位置信息')
+            } else {
+              console.warn(err);
+              reject('定位失败,位置信息不可用')
+            }
+          } else { // app定位成功
+            let point = {
+              longitude: data.Longitude,
+              latitude: data.Latitude
+            }
+            if (this.isiOS) { // IOS坐标转换
+              console.log('IOS坐标转换')
+              const convertor = new BMap.Convertor()
+              convertor.translate([new BMap.Point(point.longitude, point.latitude)], 1, 5, res => { // 经纬度转换，否则会定位不准
+                if (res.status === 0) {
+                  point.latitude = res.points[0].lat
+                  point.longitude = res.points[0].lng
+                  resolve(point)
+                }
+              })
+            } else { // Andorid坐标
+              resolve(point)
+            }
+          }
+        }
+        app.getCurrentLocation(cb)
+      })
+    },
+    /**
+     * 获取用户当前定位 -- 浏览器端
+     */
+    getPositionByH5() {
+      return new Promise(function(resolve, reject) {
+        const locateByIP = function () {
+          if (window.returnCitySN && window.returnCitySN.cip) { // 根据IP，通过百度api获得经纬度
+            console.log('returnCitySN:', window.returnCitySN);
+            $.getJSON("https://api.map.baidu.com/location/ip?callback=?", {
+              'ak' : '申请的百度地图key',
+              'coor' : 'bd09ll', // 百度经纬度坐标
+              'ip' : window.returnCitySN.cip // {cip: "116.77.145.35", cid: "440300", cname: "广东省深圳市"}
+            }, function(data) {
+              if (data && data.content) {
+                resolve({
+                  longitude: data.content.point.x,
+                  latitude: data.content.point.y
+                })
+              } else {
+                reject('定位失败,位置信息不可用')
+              }
+            })
+          }
+        }
 
-export default {
-  setup() {
-    const count = ref(0)
-    const object = reactive({ foo: 'bar' })
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(pos) {
+            resolve({
+              longitude: pos.coords.longitude,
+              latitude: pos.coords.latitude
+            })
+          }, function(error) {
+            let msg = ''
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    msg="用户拒绝对获取地理位置的请求。"
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    msg="位置信息是不可用的。"
+                    break;
+                case error.TIMEOUT:
+                    msg="请求用户地理位置超时。"
+                    break;
+                case error.UNKNOWN_ERROR:
+                    msg="未知错误。"
+                    break;
+            }
+            reject(msg)
+            // console.warn('浏览器端(geolocation定位失败)-根据IP定位');
+            // locateByIP()
+          }, {
+            enableHighAccuracy: true, // 指示浏览器获取高精度的位置，默认为false
+            timeout: 5000, // 指定获取地理位置的超时时间，默认不限时，单位为毫秒
+            maximumAge: 2000 // 最长有效期，在重复获取地理位置时，此参数指定多久再次获取位置。
+          })
+        } else {
+          reject('定位失败,当前浏览器不支持定位！')
+          // console.warn('浏览器端(geolocation定位不支持)-根据IP定位');
+          // locateByIP()
+        }
+      })
 
-    // expose to template
-    return {
-      count,
-      object
+    },
+    /**
+     * 展示目标位置
+     */
+    showDestination() {
+      if (Number.isNaN(this.lng)|| Number.isNaN(this.lat)) {
+        common.showAlert('地址参数错误！', CONSTANTS.ERR_TOAST_TIME)
+        return
+      }
+      // 展示地图
+      const map = new BMap.Map("allmap")
+      const endPos = new BMap.Point(this.urlParams.lng, this.urlParams.lat)
+      // 展示目标位置
+      this.status = 2
+      map.centerAndZoom(endPos, 16)
+      map.addOverlay(new BMap.Marker(endPos))
+      map.enableScrollWheelZoom(true)
+      // 在右上角添加缩放控件
+      const zoom = new BMap.NavigationControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+        enableGeolocation: true
+      })
+      map.addControl(zoom)
+    },
+    /**
+     * 展示地图并导航
+     */
+    showMapAndGuide() {
+      if (Number.isNaN(this.lng)|| Number.isNaN(this.lat)) {
+        common.showAlert('页面地址参数错误！', CONSTANTS.ERR_TOAST_TIME)
+        return
+      }
+      // 展示地图
+      const map = new BMap.Map("allmap")
+      const startPos = new BMap.Point(this.currPos.longitude, this.currPos.latitude) // {lng: 114.02597366, lat: 22.54605355}
+      const endPos = new BMap.Point(this.lng, this.lat)
+
+      // 逆地址解析用户当前所在地址
+      const geoc = new BMap.Geocoder()
+      geoc.getLocation(startPos, res => {
+        const currCity = res.addressComponents.city // 用户当前定位所在城市
+        console.log(`定位城市：${currCity} -- 球场地址：${this.address}`);
+        if (this.cityName && this.cityName.indexOf(currCity) > -1) { // 用户和目标球场在同一城市
+          this.status = 1
+          map.centerAndZoom(startPos, 16)
+          this.driveRoute(map, startPos, endPos, true)
+        } else { // 用户和目标球场不在同一城市
+          this.status = 2
+          map.centerAndZoom(endPos, 16)
+          map.addOverlay(new BMap.Marker(endPos))
+          // this.driveRoute(map, startPos, endPos, true)
+        }
+      })
+
+      map.enableScrollWheelZoom(true)
+      // 在右上角添加缩放控件
+      const zoom = new BMap.NavigationControl({
+        anchor: BMAP_ANCHOR_TOP_RIGHT,
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+        enableGeolocation: true
+      })
+      map.addControl(zoom)
+    },
+    /**
+     * 计算驾驶路线
+     * @param startPos BMap.Point 起点位置
+     * @param endPos BMap.Point 终点位置
+     * @param show Boolean
+     */
+    driveRoute(map, startPos, endPos, show) {
+      const DRIVE = new BMap.DrivingRoute(map, {
+        renderOptions: {
+          map: map,
+          autoViewport: show,
+        },
+        onSearchComplete: res => {
+          let plan = res.getPlan(0)
+          console.warn('查询驾车方案结果:', plan);
+          if (plan) {
+            this.driveDistance = plan.getDistance(true)
+            this.driveTime = plan.getDuration(true)
+          }
+        },
+        onMarkersSet: routes => {
+          // map.removeOverlay(routes[0].marker)
+          // map.removeOverlay(routes[1].marker)
+          // 解决百度地图起始点图标重叠问题
+          const eles = $('.BMap_Marker img')
+          if (eles.length > 0) {
+            eles.forEach(v => {
+              v.style.maxWidth = 'none'
+              v.style.width = '94px'
+            })
+          }
+        }
+      })
+      DRIVE.search(startPos, endPos)
     }
   }
 }
 </script>
 ```
 
-需要注意的是，setup函数中取消this，取消了 `this`，取而代之的是 `setup` 增加了2个参数：props，组件参数和context，上下文信息
+### vue-tour
 
-2.Reactive方法：
+网站导航包
 
-被 `reactive` 方法包裹后的 `对象` 就变成了一个代理对象，相当于 Vue2.x 中的 `Vue.observable()`。也就可以实现页面和数据之间的双向绑定了。
+使用
 
-这个包裹的方法是 `deep` 的， [vue3.md](vue3.md) 对所有嵌套的属性都生效。
-
-3.ref方法
-
-被 `ref` 方法包裹后的 `元素` 就变成了一个代理对象。一般而言，这里的元素参数指 `基本元素` 或者称之为 `inner value`，如：number, string, boolean,null,undefined 等，object 一般不使用 `ref`，而是使用上文的 `reactive`。
-
-也就是说 `ref` 一般适用于某个元素的；而 `reactive` 适用于一个对象。
-
-4.isRef方法
-
-判断一个对象是否 `ref` 代理对象。
-
-```
-const unwrapped = isRef(foo) ? foo.value : foo
+```shell
+npm install vue-tour
 ```
 
-5.toRefs 方法
-
-将一个 `reactive` 代理对象打平，转换为 `ref` 代理对象，使得对象的属性可以直接在 `template` 上使用。
-
-6.computed函数
-
-与 Vue2.x 中的作用类似，获取一个计算结果。当然功能有所增强，不仅支持取值 `get`（默认），还支持赋值 `set`。
-
-结果是一个 `ref` 代理对象，js中取值需要 `.value`。
-
-当 computed 参数使用 object 对象书写时，使用 get 和 set 属性。set 属性可以将这个对象编程一个可写的对象。
-
-也就是说 `computed` 不仅可以获取一个计算结果，它还可以反过来处理 `ref` 或者 `reactive` 对象
-
-7.readonly函数
-
-使用 `readonly` 函数，可以把 `普通 object 对象`、`reactive 对象`、`ref 对象` 返回一个只读对象。
-
-返回的 readonly 对象，一旦修改就会在 console 有 warning 警告。程序还是会照常运行，不会报错。
-
-8.watch函数
-
-watch 函数用来侦听特定的数据源，并在回调函数中执行副作用。默认情况是惰性的，也就是说仅在侦听的源数据变更时才执行回调。
-
-监听不同的数据
+全局导入
 
 ```javascript
-//侦听reactive的数据
-import { defineComponent, ref, reactive, toRefs, watch } from "vue";
-export default defineComponent({
-  setup() {
-    const state = reactive({ nickname: "xiaofan", age: 20 });
+import Vue from 'vue'
+import App from './App.vue'
+import VueTour from 'vue-tour'
 
-    setTimeout(() => {
-      state.age++;
-    }, 1000);
+require('vue-tour/dist/vue-tour.css')
 
-    // 修改age值时会触发 watch的回调
-    watch(
-      () => state.age,
-      (curAge, preAge) => {
-        console.log("新值:", curAge, "老值:", preAge);
-      }
-    );
+Vue.use(VueTour)
 
-    return {
-      ...toRefs(state),
-    };
-  },
-});
-
-//侦听ref定义的数据
-const year = ref(0);
-
-setTimeout(() => {
-  year.value++;
-}, 1000);
-
-watch(year, (newVal, oldVal) => {
-  console.log("新值:", newVal, "老值:", oldVal);
-});
-
-
-//侦听多个数据时进行合并监听
-watch([() => state.age, year], ([curAge, newVal], [preAge, oldVal]) => {
-console.log("新值:", curAge, "老值:", preAge); console.log("新值:", newVal,
-"老值:", oldVal); });
-
-//侦听复杂数据
-const state = reactive({
-  room: {
-    id: 100,
-    attrs: {
-      size: "140平方米",
-      type: "三室两厅",
-    },
-  },
-});
-watch(
-  () => state.room,
-  (newType, oldType) => {
-    console.log("新值:", newType, "老值:", oldType);
-  },
-  { deep: true }
-);
+new Vue({
+  render: h => h(App)
+}).$mount('#app')
 ```
 
-
-
-停止监听
-
-```javascript
-const stopWatchRoom = watch(() => state.room, (newType, oldType) => {
-    console.log("新值:", newType, "老值:", oldType);
-}, {deep:true});
-
-setTimeout(()=>{
-    // 停止监听
-    stopWatchRoom()
-}, 3000)
-```
-
-9.watcheffect函数
-
-watcheffect与watch的区别：
-
-1. watchEffect 不需要手动传入依赖
-2. watchEffect 会先执行一次用来自动收集依赖
-3. watchEffect 无法获取到变化前的值， 只能获取变化后的值
-
-```javascript
-import { reactive, watchEffect } from 'vue'
-
-const state = reactive({
-  count: 0,
-})
-
-function increment() {
-  state.count++
-}
-
-const renderContext = {
-  state,
-  increment,
-}
-
-watchEffect(() => {
-  // 假设的方法，并不是真实的 API
-  renderTemplate(
-    `<button @click="increment">{{ state.count }}</button>`,
-    renderContext
-  )
-})
-```
-
-#### 自定义hook
-
-约定这些「自定义 Hook」以 use 作为前缀，和普通的函数加以区分
-
-```javascript
-import { ref, Ref, computed } from "vue";
-
-type CountResultProps = {
-  count: Ref<number>;
-  multiple: Ref<number>;
-  increase: (delta?: number) => void;
-  decrease: (delta?: number) => void;
-};
-
-export default function useCount(initValue = 1): CountResultProps {
-  const count = ref(initValue);
-
-  const increase = (delta?: number): void => {
-    if (typeof delta !== "undefined") {
-      count.value += delta;
-    } else {
-      count.value += 1;
-    }
-  };
-  const multiple = computed(() => count.value * 2);
-
-  const decrease = (delta?: number): void => {
-    if (typeof delta !== "undefined") {
-      count.value -= delta;
-    } else {
-      count.value -= 1;
-    }
-  };
-
-  return {
-    count,
-    multiple,
-    increase,
-    decrease,
-  };
-}
-
-```
-
-使用useCount这个hook
+使用
 
 ```vue
 <template>
-  <p>count: {{ count }}</p>
-  <p>倍数： {{ multiple }}</p>
   <div>
-    <button @click="increase()">加1</button>
-    <button @click="decrease()">减一</button>
+    <div id="v-step-0">A DOM element on your page. The first step will pop on this element because its ID is 'v-step-0'.</div>
+    <div class="v-step-1">A DOM element on your page. The second step will pop on this element because its ID is 'v-step-1'.</div>
+    <div data-v-step="2">A DOM element on your page. The third and final step will pop on this element because its ID is 'v-step-2'.</div>
+
+    <v-tour name="myTour" :steps="steps"></v-tour>
   </div>
 </template>
 
-<script lang="ts">
-import useCount from "../hooks/useCount";
- setup() {
-    const { count, multiple, increase, decrease } = useCount(10);
-        return {
-            count,
-            multiple,
-            increase,
-            decrease,
-        };
+<script>
+  export default {
+    name: 'my-tour',
+    data () {
+      return {
+        steps: [
+          {
+            target: '#v-step-0',  // We're using document.querySelector() under the hood
+            header: {
+              title: 'Get Started',
+            },
+            content: `Discover <strong>Vue Tour</strong>!`
+          },
+          {
+            target: '.v-step-1',
+            content: 'An awesome plugin made with Vue.js!'
+          },
+          {
+            target: '[data-v-step="2"]',
+            content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+            params: {
+              placement: 'top' // Any valid Popper.js placement. See https://popper.js.org/popper-documentation.html#Popper.placements
+            }
+          }
+        ]
+      }
     },
+    mounted: function () {
+      this.$tours['myTour'].start()
+    }
+  }
 </script>
 ```
 
-Vue2.x 实现，分散在`data`,`method`,`computed`等， 如果刚接手项目，实在无法快速将`data`字段和`method`关联起来，而 Vue3 的方式可以很明确的看出，将 count 相关的逻辑聚合在一起， 看起来舒服多了， 而且`useCount`还可以扩展更多的功能。 项目开发完之后，后续还会写一篇总结项目中使用到的「自定义 Hooks 的文章」，帮助大家更高效的开发，
 
-### teleport
 
-在子组件`Header`中使用到`Dialog`组件，我们实际开发中经常会在类似的情形下使用到 `Dialog` ，此时`Dialog`就被渲染到一层层子组件内部，处理嵌套组件的定位、`z-index`和样式都变得困难。 `Dialog`从用户感知的层面，应该是一个独立的组件，从 dom 结构应该完全剥离 Vue 顶层组件挂载的 DOM；同时还可以使用到 Vue 组件内的状态（`data`或者`props`）的值。简单来说就是,**即希望继续在组件内部使用`Dialog`, 又希望渲染的 DOM 结构不嵌套在组件的 DOM 中**。 此时就需要 Teleport 上场，我们可以用`<Teleport>`包裹`Dialog`, 此时就建立了一个传送门，可以将`Dialog`渲染的内容传送到任何指定的地方。
+### Element-plus
 
-### Suspense
 
-在前后端交互获取数据时， 是一个异步过程，一般我们都会提供一个加载中的动画，当数据返回时配合`v-if`来控制数据显示。 如果你使用过`vue-async-manager`这个插件来完成上面的需求， 你对`Suspense`可能不会陌生
 
-Vue3.x 新出的内置组件`Suspense`, 它提供两个`template` slot, 刚开始会渲染一个 fallback 状态下的内容， 直到到达某个条件后才会渲染 default 状态的正式内容， 通过使用`Suspense`组件进行展示异步渲染就更加的简单。:::warning 如果使用 `Suspense`, 要返回一个 promise :::`Suspense` 组件的使用
+### petite-vue
+
+轻量级的vue
 
 ```vue
-  <Suspense>
-        <template #default>
-            <async-component></async-component>
-        </template>
-        <template #fallback>
-            <div>
-                Loading...
-            </div>
-        </template>
-  </Suspense>
+<script type="module">
+  import { createApp } from 'https://unpkg.com/petite-vue?module'
 
-<<template>
-<div>
-    <h4>这个是一个异步加载数据</h4>
-    <p>用户名：{{user.nickname}}</p>
-    <p>年龄：{{user.age}}</p>
+  createApp({
+    // exposed to all expressions
+    count: 0,
+    // getters
+    get plusOne() {
+      return this.count + 1
+    },
+    // methods
+    increment() {
+      this.count++
+    }
+  }).mount()
+</script>
+
+<!-- v-scope value can be omitted -->
+<div v-scope>
+  <p>{{ count }}</p>
+  <p>{{ plusOne }}</p>
+  <button @click="increment">increment</button>
 </div>
-</template>
-
-<script>
-import { defineComponent } from "vue"
-import axios from "axios"
-export default defineComponent({
-    setup(){
-        const rawData = await axios.get("http://xxx.xinp.cn/user")
-        return {
-            user: rawData.data
-        }
-    }
-})
-</script>
 ```
-
-
-
-### slot变化
-
-vue2中使用slot插槽
-
-```vue
-<!-- 父组件中使用 -->
-<template slot="content" slot-scope="scoped">
-    <div v-for="item in scoped.data">{{item}}</div>
-<template>
-  
-  // 子组件
-<slot name="content" :data="data"></slot>
-export default {
-    data(){
-        return{
-            data:["走过来人来人往","不喜欢也得欣赏","陪伴是最长情的告白"]
-        }
-    }
-}
-```
-
-Vue3将`slot`和`slot-scope`进行了合并同意使用。 Vue3.0 中`v-slot`：
-
-```vue
-<!-- 父组件中使用 -->
- <template v-slot:content="scoped">
-   <div v-for="item in scoped.data">{{item}}</div>
-</template>
-
-<!-- 也可以简写成： -->
-<template #content="{data}">
-    <div v-for="item in data">{{item}}</div>
-</template>
-```
-
-### 异步组件
-
-Vue3 中 使用 `defineAsyncComponent` 定义异步组件，配置选项 `component` 替换为 `loader` ,Loader 函数本身不再接收 resolve 和 reject 参数，且必须返回一个 Promise，
-
-```vue
-<template>
-  <!-- 异步组件的使用 -->
-  <AsyncPage />
-</tempate>
-
-<script>
-import { defineAsyncComponent } from "vue";
-
-export default {
-  components: {
-    // 无配置项异步组件
-    AsyncPage: defineAsyncComponent(() => import("./NextPage.vue")),
-
-    // 有配置项异步组件
-    AsyncPageWithOptions: defineAsyncComponent({
-   loader: () => import(".NextPage.vue"),
-   delay: 200,
-   timeout: 3000,
-   errorComponent: () => import("./ErrorComponent.vue"),
-   loadingComponent: () => import("./LoadingComponent.vue"),
- })
-  },
-}
-</script>
-
-```
-
-### tree-shaking
-
-Vue3.x 在考虑到 `tree-shaking`的基础上重构了全局和内部 API, 表现结果就是现在的全局 API 需要通过 `ES Module`的引用方式进行具名引用
-
-如vue中使用nextTick()
-
-```javascript
-// vue2.x
-import Vue from "vue"
-
-Vue.nextTick(()=>{
-    ...
-})
-
-import { nextTick } from "vue"
-
-nextTick(() =>{
-    ...
-})
-```
-
-类似的api变化
-
-- `Vue.nextTick`
-- `Vue.observable`（用 `Vue.reactive` 替换）
-- `Vue.version`
-- `Vue.compile`（仅限完整版本时可用）
-- `Vue.set`（仅在 2.x 兼容版本中可用）
-- `Vue.delete`（与上同）
-
-## Element-plus
-
-
-
-
 

@@ -14,6 +14,14 @@ thumbnail: https://cdn.kunkunzhang.top/redux.jpeg
 
 ## react库
 
+### React-filepond
+
+react上传文件组件
+
+https://github.com/pqina/react-filepond
+
+
+
 ### react-datasheet
 
 react中构建像excel一样功能的库
@@ -58,6 +66,63 @@ class App extends React.Component {
   }
 }
 ```
+
+### tinycolor
+
+对color进行操作,类似于moment操作时间
+
+```javascript
+var colors = tinycolor("#f00").analogous();
+
+colors.map(function(t) { return t.toHexString(); }); // [ "#ff0000", "#ff0066", "#ff0033", "#ff0000", "#ff3300", "#ff6600" ]
+```
+
+
+
+### react-chrono
+
+react的时间轴组件
+
+安装
+
+```shell
+## install with yarn
+yarn add react-chrono
+
+## or with npm
+npm install react-chrono
+```
+
+使用
+
+```react
+  import React from "react"
+  import { Chrono } from "react-chrono";
+
+  const Home = () => {
+    const items = [{
+      title: "May 1940",
+      cardTitle: "Dunkirk",
+      url: "http://www.history.com",
+      cardSubtitle:"Men of the British Expeditionary Force (BEF) wade out to..",
+      cardDetailedText: "Men of the British Expeditionary Force (BEF) wade out to..",
+      media: {
+        type: "IMAGE",
+        source: {
+          url: "http://someurl/image.jpg"
+        }
+      }
+    }, ...];
+
+    return (
+      <div style={{ width: "500px", height: "400px" }}>
+        <Chrono items={items} />
+      </div>
+    )
+  }
+```
+
+
 
 ### rrweb
 
@@ -123,6 +188,8 @@ replayer.destroy();
 
 包含比较流行的icons
 
+包含antd icons、bootstrap icons、font awesome icons等图标
+
 安装
 
 ```shell
@@ -142,6 +209,154 @@ class Question extends React.Component {
 ```
 
 https://github.com/react-icons/react-icons
+
+### react-email
+
+放在邮件中的react组件
+
+https://github.com/zenorocha/react-email
+
+安装
+
+```shell
+npm install @react-email/button -E
+```
+
+使用
+
+```react
+import { Button } from '@react-email/button';
+
+const Email = () => {
+  return (
+    <Button href="https://example.com" style={{ color: '#61dafb' }}>
+      Click me
+    </Button>
+  );
+};
+```
+
+
+
+### react-frame-component
+
+在iframe里面渲染react组件
+
+安装
+
+```shell
+npm install --save react-frame-component
+```
+
+使用
+
+```react
+import Frame from 'react-frame-component';
+
+const Header = ({ children }) => (
+  const iframeRef = React.useRef();
+
+  React.useEffect(() => {
+    // Use iframeRef for:
+    // - focus managing
+    // - triggering imperative animations
+    // - integrating with third-party DOM libraries
+    iframeRef.current.focus()
+  }, [])
+
+	return (
+    <Frame>
+      <h1>{children}</h1>
+    </Frame>
+  )
+);
+
+ReactDOM.render(<Header>Hello</Header>, document.body);
+```
+
+
+
+
+
+### lru-cache
+
+js的lru缓存
+
+```shell
+npm install lru-cache --save
+```
+
+使用
+
+```javascript
+// hybrid module, either works
+import { LRUCache } from 'lru-cache'
+// or:
+const { LRUCache } = require('lru-cache')
+// or in minified form for web browsers:
+import { LRUCache } from 'http://unpkg.com/lru-cache@9/dist/mjs/index.min.mjs'
+
+// At least one of 'max', 'ttl', or 'maxSize' is required, to prevent
+// unsafe unbounded storage.
+//
+// In most cases, it's best to specify a max for performance, so all
+// the required memory allocation is done up-front.
+//
+// All the other options are optional, see the sections below for
+// documentation on what each one does.  Most of them can be
+// overridden for specific items in get()/set()
+const options = {
+  max: 500,
+
+  // for use with tracking overall storage size
+  maxSize: 5000,
+  sizeCalculation: (value, key) => {
+    return 1
+  },
+
+  // for use when you need to clean up something when objects
+  // are evicted from the cache
+  dispose: (value, key) => {
+    freeFromMemoryOrWhatever(value)
+  },
+
+  // how long to live in ms
+  ttl: 1000 * 60 * 5,
+
+  // return stale items before removing from cache?
+  allowStale: false,
+
+  updateAgeOnGet: false,
+  updateAgeOnHas: false,
+
+  // async method to use for cache.fetch(), for
+  // stale-while-revalidate type of behavior
+  fetchMethod: async (
+    key,
+    staleValue,
+    { options, signal, context }
+  ) => {},
+}
+
+const cache = new LRUCache(options)
+
+cache.set('key', 'value')
+cache.get('key') // "value"
+
+// non-string keys ARE fully supported
+// but note that it must be THE SAME object, not
+// just a JSON-equivalent object.
+var someObject = { a: 1 }
+cache.set(someObject, 'a value')
+// Object keys are not toString()-ed
+cache.set('[object Object]', 'a different value')
+assert.equal(cache.get(someObject), 'a value')
+// A similar object with same keys/values won't work,
+// because it's a different object identity
+assert.equal(cache.get({ a: 1 }), undefined)
+
+cache.clear() // empty the cache
+```
 
 
 
@@ -543,58 +758,58 @@ class IntlExample extends React.Component{
 }
 ```
 
+### react-i18next
 
-
-### uuid
-
-uuid是通用唯一识别码(Universally Unique Identifier)的缩写。是一种软件建构辨准，亦为开发软件基金会组织在分布式计算环境领域的一部分。其目的是让分布式系统中的所有元素具有唯一的辨识信息，而不需要通过中央控制端来做辨识信息的指定。
-
-UUID由一组32位数的16进制数字构成。对于UUID，就算每纳秒产生一百万个UUID，要花100亿年才会将所有UUID用完。
-
-格式
-
-uuid32个16进制数字用连字号分成五组来显示，所以共有36个字符
-
-UUID版本通过M表示，当前规范有5个版本，可选值为1、2、3、4、5，这5个版本使用不同的算法，利用不同的信息产生UUID，各版本有各版本的优势，具体来说：
-
-uuid.v1()：创建版本1(时间戳)UUID
-
-uuid.v3()：创建版本3(md5命名空间)UUID
-
-uuid.v4()：创建版本4(随机)UUID
-
-uuid.v5()：创建版本5(带SHA-1的命名空间)IIOD
+react国际化包
 
 安装
 
 ```shell
-npm install uuid 
+npm install react-i18next
+```
+
+使用
+
+```react
+import { useTranslation } from 'react-i18next';
+
+const { i18n, t } = useTranslation();
+
+i18n.changeLanguage(language).catch(() => {});
+<html>{t('a')}</html>
+```
+
+与react-intl对比
+
+React-i18next初始化的时候需要将初始化配置放置在初始化文件（i18n.js）中，然后将初始化文件(i18n.js)通过import的方式引入到入口文件中即可。当然也可以通过I18nextProvider将i18n往下传递到各子组件。React-intl提供的是context api初始化方案，需要将初始化配置放在IntlProvider组件中，并且将入口文件的组件（如<App />)作为IntlProvider的子组件来使用；
+
+React-i18next提供了切换语言的接口(i18n.changeLanguage)，react-intl则需要对切换做一些封装的工作；
+
+React-i18next提供了三种方式进行国际化操作（render props、hook和hoc)， react-intl提供了api（intl.formatMessage()）和组件(<FormattedMessage />)两种方式进行国际化；
+
+React-i18next的语言资源文件为json格式，react-intl为js格式，同时支持变量传值；
+
+React-i18next有很多插件可以使用比如检测当前系统语言，从后端获取数据等；
+
+React-intl除文本翻译外还提供日期、时间和金额的国际化支持；
+
+### i18next-browser-languargeDetecter
+
+检测浏览器的语言
+
+安装
+
+```shell
+npm install i18next-browser-languagedetector
 ```
 
 使用
 
 ```javascript
-import { v4 as uuidv4} from 'uuid'
+import i18next from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
-uuidv4()
-```
-
-可以使用uuid进行验证登陆,未登陆状态下生产uuid
-
-```javascript
-let uuid = sessionStorage.getItem('uuid')
-if(!uuid){
-  sessionStorage.setItem('uuid')
-}
-
-if(getToken()){
-  sessionStorage.removeItem('uuid');
-}else {
-  let uuid = sessionStorage.getItem('uuid');
-  if(!uuid){
-    sessionStorage.setItem('uuid',uuidv4());
-  }
-}
+i18next.use(LanguageDetector).init(i18nextOptions);
 ```
 
 
@@ -1016,6 +1231,8 @@ class App extends Component {
 
 
 
+
+
 ### js-cookie
 
 cookie插件
@@ -1229,6 +1446,84 @@ class MyComponent extends React.Component {
 }
 ```
 
+### react-cool-dimensions
+
+react中响应式显示宽高的组件
+
+```react
+import useDimensions from "react-cool-dimensions";
+
+const Card = () => {
+  const { observe, currentBreakpoint } = useDimensions({
+    // The "currentBreakpoint" will be the object key based on the target's width
+    // for instance, 0px - 319px (currentBreakpoint = XS), 320px - 479px (currentBreakpoint = SM) and so on
+    breakpoints: { XS: 0, SM: 320, MD: 480, LG: 640 },
+    // Will only update the state on breakpoint changed, default is false
+    updateOnBreakpointChange: true,
+    onResize: ({ currentBreakpoint }) => {
+      // Now the event callback will be triggered when breakpoint is changed
+      // we can also access the "currentBreakpoint" here
+    },
+  });
+
+  return (
+    <div class={`card ${currentBreakpoint}`} ref={observe}>
+      <div class="card-header">I'm 😎</div>
+      <div class="card-body">I'm 👕</div>
+      <div class="card-footer">I'm 👟</div>
+    </div>
+  );
+};
+```
+
+也可以使用polyfill的resize-observer包
+
+```react
+import { ResizeObserver, ResizeObserverEntry } from "@juggle/resize-observer";
+
+if (!("ResizeObserver" in window)) {
+  window.ResizeObserver = ResizeObserver;
+  // Only use it when you have this trouble: https://github.com/wellyshen/react-cool-dimensions/issues/45
+  // window.ResizeObserverEntry = ResizeObserverEntry;
+}
+```
+
+### react-wrap-balancer
+
+文本对齐组件
+
+安装
+
+```shell
+npm install react-wrap-balancer
+```
+
+使用
+
+```react
+import Balancer from 'react-wrap-balancer'
+
+// ...
+
+<h1>
+  <Balancer>My Title</Balancer>
+</h1>
+```
+
+也可以使用Provider包裹所有的组建
+
+```react
+import { Provider } from 'react-wrap-balancer'
+
+// ...
+
+<Provider>
+  <App/>
+</Provider>
+```
+
+
+
 ### HyperFormula
 
 像excel一样操作数据，适合特殊场景下
@@ -1262,15 +1557,7 @@ const mySum = hfInstance.getCellValue({ col: 3, row: 0, sheet: 0 });
 console.log(mySum);
 ```
 
-### unimported
 
-检查当前代码系统中没有被引用的文件
-
-```shell
-$ npx unimported
-```
-
-https://www.npmjs.com/package/unimported
 
 ### why-did-you-render
 
@@ -1436,6 +1723,39 @@ https://github.com/ljharb/qs
 ### redoc
 
 生成react swagger文档
+
+
+
+### quickLink
+
+react中做prefetch的组件库
+
+```shell
+npm install quicklink webpack-route-manifest --save-dev
+```
+
+使用
+
+```javascript
+import { withQuicklink } from 'quicklink/dist/react/hoc.js';
+
+const options = {
+  origins: []
+};
+
+<Suspense fallback={<div>Loading...</div>}>
+  <Route path="/" exact component={withQuicklink(Home, options)} />
+  <Route path="/blog" exact component={withQuicklink(Blog, options)} />
+  <Route path="/blog/:title" component={withQuicklink(Article, options)} />
+  <Route path="/about" exact component={withQuicklink(About, options)} />
+</Suspense>
+```
+
+
+
+### Guess.js
+
+
 
 
 
