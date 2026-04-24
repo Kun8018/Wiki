@@ -1,0 +1,272 @@
+---
+title: 经典论文工作导读
+date: 2020-03-06 21:40:33
+categories: 技术博客
+tags:
+  - IT,Web，
+toc: true
+thumbnail: 
+---
+
+<!--more-->
+
+## RNN 循环神经网络
+
+递归输入，将以前的信息递归传输到当前的输入
+
+
+
+### FNN 前馈神经网络
+
+
+
+### MLP
+
+
+
+
+
+### 编码器和解码器
+
+解决输入和输出不对等问题
+
+### LSTM
+
+特殊的RNN
+
+1.长序列遗忘问题，当输入步骤过多时，RNN无法学习过长的输入
+
+2.不同时间步对当前输出的重要性问题
+
+3.只能串行计算
+
+LSTM 是用GRU门控单元，有三个单元，输入门，遗忘门和输出门。记忆细胞和隐藏状态
+
+
+
+### 残差连接
+
+
+
+## Attention is all your need
+
+Transformer由论文[《Attention is All You Need》](https://zhida.zhihu.com/search?content_id=163422979&content_type=Article&match_order=1&q=《Attention+is+All+You+Need》&zhida_source=entity)提出，现在是谷歌云TPU推荐的参考模型。论文相关的[Tensorflow](https://zhida.zhihu.com/search?content_id=163422979&content_type=Article&match_order=1&q=Tensorflow&zhida_source=entity)的代码可以从GitHub获取，其作为Tensor2Tensor包的一部分。哈佛的NLP团队也实现了一个基于[PyTorch](https://zhida.zhihu.com/search?content_id=163422979&content_type=Article&match_order=1&q=PyTorch&zhida_source=entity)的版本，并注释该论文
+
+https://www.bilibili.com/video/BV1xoJwzDESD/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=e898668a475e6de0272851f4a5fc6328
+
+https://zhuanlan.zhihu.com/p/338817680
+
+编码器和解码器
+
+**Transformer 由 Encoder 和 Decoder 两个部分组成**，Encoder 和 Decoder 都包含 6 个 block。Transformer 的工作流程大体如下：
+
+**第一步：**获取输入句子的每一个单词的表示向量 **X**，**X**由单词的 Embedding（Embedding就是从原始数据提取出来的Feature） 和单词位置的 Embedding 相加得到
+
+**第二步：**将得到的单词表示向量矩阵 (如上图所示，每一行是一个单词的表示 **x**) 传入 Encoder 中，经过 6 个 Encoder block 后可以得到句子所有单词的编码信息矩阵 **C**，如下图。单词向量矩阵用 表示， n 是句子中单词个数，d 是表示向量的维度 (论文中 d=512)。每一个 Encoder block 输出的矩阵维度与输入完全一致
+
+**第三步**：将 Encoder 输出的编码信息矩阵 **C**传递到 Decoder 中，Decoder 依次会根据当前翻译过的单词 1~ i 翻译下一个单词 i+1，如下图所示。在使用的过程中，翻译到单词 i+1 的时候需要通过 **Mask (掩盖)** 操作遮盖住 i+1 之后的单词
+
+Transformer 中单词的输入表示 **x**由**单词 Embedding** 和**位置 Embedding** （Positional Encoding）相加得到
+
+Transformer 中除了单词的 Embedding，还需要使用位置 Embedding 表示单词出现在句子中的位置。**因为 Transformer 不采用 RNN 的结构，而是使用全局信息，不能利用单词的顺序信息，而这部分信息对于 NLP 来说非常重要。**所以 Transformer 中使用位置 Embedding 保存单词在序列中的相对或绝对位置。
+
+位置 Embedding 用 **PE**表示，**PE** 的维度与单词 Embedding 是一样的。PE 可以通过训练得到，也可以使用某种公式计算得到。在 Transformer 中采用了后者
+
+其中，pos 表示单词在句子中的位置，d 表示 PE的维度 (与词 Embedding 一样)，2i 表示偶数的维度，2i+1 表示奇数维度 (即 2i≤d, 2i+1≤d)。使用这种公式计算 PE 有以下的好处：
+
+- 使 PE 能够适应比训练集里面所有句子更长的句子，假设训练集里面最长的句子是有 20 个单词，突然来了一个长度为 21 的句子，则使用公式计算的方法可以计算出第 21 位的 Embedding。
+- 可以让模型容易地计算出相对位置，对于固定长度的间距 k，**PE(pos+k)** 可以用 **PE(pos)** 计算得到。因为 Sin(A+B) = Sin(A)Cos(B) + Cos(A)Sin(B), Cos(A+B) = Cos(A)Cos(B) - Sin(A)Sin(B)
+
+注意力机制
+
+在计算的时候需要用到矩阵**Q(查询),K(键值),V(值)**。在实际中，Self-Attention 接收的是输入(单词的表示向量x组成的矩阵X) 或者上一个 Encoder block 的输出。而**Q,K,V**正是通过 Self-Attention 的输入进行线性变换得到的
+
+Self-Attention 的输入用矩阵X进行表示，则可以使用线性变阵矩阵**WQ,WK,WV**计算得到**Q,K,V**。计算如下图所示，**注意 X, Q, K, V 的每一行都表示一个单词**
+
+**WQ,WK,WV** 是通过训练得到的 也就是非常非常重要的参数！！！！！！！！
+
+得到矩阵 Q, K, V之后就可以计算出 Self-Attention 的输出了，计算的公式如下
+
+Q表示水在不同语境下的某种意思，比如说附近有名词吗 K表示 键值 yes或者no。 V表示值本身 也就是 水本身。
+
+计算矩阵**Q**和**K**每一行向量的内积，为了防止内积过大，因此除以 的平方根。**Q**乘以**K**的转置后，得到的矩阵行列数都为 n，n 为句子单词数，这个矩阵可以表示单词之间的 attention 注意力强度。下图为**Q**乘以 ，1234 表示的是句子中的单词
+
+等到注意力矩阵，也就是权重
+
+多头注意力机制
+
+分解问题，降维控制算力
+
+
+
+**Add**指 **X**+MultiHeadAttention(**X**)，是一种残差连接，通常用于解决多层网络训练的问题，可以让网络只关注当前差异的部分，在 ResNet 中经常用到
+
+**Norm**指 Layer Normalization，通常用于 RNN 结构，Layer Normalization 会将每一层神经元的输入都转成均值方差都一样的，这样可以加快收敛
+
+
+
+Feed Forward 层比较简单，是一个两层的全连接层，第一层的激活函数为 Relu，第二层不使用激活函数
+
+### Look-ahead Mask
+
+**[填充掩码](https://zhida.zhihu.com/search?content_id=245703330&content_type=Article&match_order=1&q=填充掩码&zhida_source=entity) Padding Mask**
+
+在深度学习中，特别是在处理序列数据时，"填充掩码"（Padding Mask）是一个重要概念。当序列数据的长度不一致时，通常需要对短的序列进行填充（padding），以确保所有序列的长度相同，这样才能进行批处理。这些填充的部分实际上是没有任何意义的，不应该对模型的学习产生影响。
+
+填充掩码就是用来指示哪些数据是真实的，哪些是填充的。在模型处理这些数据时，掩码会用来避免在计算损失或者梯度时考虑填充的部分，确保模型的学习只关注于有效的数据。在使用诸如Transformer这样的模型时，填充掩码特别重要，因为它们可以帮助模型在进行自注意力计算时忽略掉填充的位置
+
+```python
+import torch
+
+def create_padding_mask(seq, pad_token=0):
+    mask = (seq == pad_token).unsqueeze(1).unsqueeze(2)
+ return mask  # (batch_size, 1, 1, seq_len)
+
+# Example usage
+seq = torch.tensor([[7, 6, 0, 0], [1, 2, 3, 0]])
+padding_mask = create_padding_mask(seq)
+print(padding_mask)
+```
+
+- **目的**：确保模型在处理填充的输入数据时不会将这些无关的数据当作有效信息处理。
+- **应用**：主要用于处理因数据长度不一致而进行的填充操作，在模型的输入层或注意力机制中忽略这些填充数据。
+- **功能**：帮助模型集中于实际的、有效的输入数据，避免因为处理无意义的填充数据而导致的性能下降
+
+**[序列掩码](https://zhida.zhihu.com/search?content_id=245703330&content_type=Article&match_order=1&q=序列掩码&zhida_source=entity) Sequence Mask**
+
+序列掩码用于隐藏输入序列的某些部分。比如在双向模型中，想要根据特定标准忽略序列的某些部分。
+
+在使用如Transformer模型时，序列掩码用于避免在计算注意力分数时考虑到填充位置的影响。这确保了模型的注意力是集中在实际有意义的数据上，而不是无关的填充数据。
+
+RNNs本身可以处理不同长度的序列，但在批处理和某些架构中，仍然需要固定长度的输入。序列掩码在这里可以帮助RNN忽略掉序列中的填充部分，特别是在计算最终序列输出或状态时。
+
+在训练模型时，序列掩码也可以用来确保在计算损失函数时，不会将填充部分的预测误差纳入总损失中，从而提高模型训练的准确性和效率。
+
+序列掩码通常表示为一个与序列数据维度相同的二进制矩阵或向量，其中1表示实际数据，0表示填充数据
+
+```python
+def create_sequence_mask(seq):
+    seq_len = seq.size(1)
+    mask = torch.triu(torch.ones((seq_len, seq_len)), diagonal=1)
+    return mask  # (seq_len, seq_len)
+
+# Example usage
+seq_len = 4
+sequence_mask = create_sequence_mask(torch.zeros(seq_len, seq_len))
+print(sequence_mask)
+```
+
+- **目的**：更广泛地控制模型应该关注的数据部分，包括但不限于填充数据。
+- **应用**：用于各种需要精确控制信息流的场景，例如在递归神经网络和Transformer模型中管理有效数据和填充数据。
+- **功能**：通过指示哪些数据是有效的，哪些是填充的，帮助模型更有效地学习和生成预测
+
+**前瞻掩码 Look-ahead Mask**
+
+前瞻掩码，也称为因果掩码或未来掩码，用于自回归模型中，以防止模型在生成序列时窥视未来的符号。这确保了给定位置的预测仅依赖于该位置之前的符号
+
+前瞻掩码通过在自注意力机制中屏蔽（即设置为一个非常小的负值，如负无穷大）未来时间步的信息来工作。这确保了在计算每个元素的输出时，模型只能使用到当前和之前的信息，而不能使用后面的信息。这种机制对于保持自回归属性（即一次生成一个输出，且依赖于前面的输出）是必要的。
+
+在实现时，前瞻掩码通常表示为一个上三角矩阵，其中对角线及对角线以下的元素为0（表示这些位置的信息是可见的），对角线以上的元素为1（表示这些位置的信息是不可见的）。在计算注意力时，这些为1的位置会被设置为一个非常小的负数（通常是负无穷），这样经过softmax函数后，这些位置的权重接近于0，从而不会对输出产生影响
+
+```python
+def create_look_ahead_mask(size):
+    mask = torch.triu(torch.ones(size, size), diagonal=1)
+    return mask  # (seq_len, seq_len)
+
+# Example usage
+look_ahead_mask = create_look_ahead_mask(4)
+print(look_ahead_mask)
+```
+
+- **目的**：防止模型在生成序列的过程中“看到”未来的信息。
+- **应用**：主要用在自回归模型如Transformer的解码器中，确保生成的每个元素只能依赖于之前的元素。
+- **功能**：保证模型生成信息的时序正确性，防止在生成任务中出现信息泄露，从而维持生成过程的自然和准确性
+
+
+
+### softmax 函数
+
+概率映射
+
+## CNN 卷积神经网络
+
+图像问题
+
+
+
+
+
+## VIT
+
+https://www.bilibili.com/video/BV1gnWdzSEzY/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=e898668a475e6de0272851f4a5fc6328
+
+ViT是2020年Google团队提出的将Transformer应用在图像分类的模型，虽然不是第一篇将transformer应用在视觉任务的论文，但是因为其模型“简单”且效果好，可扩展性强（scalable，模型越大效果越好），成为了transformer在CV领域应用的里程碑著作，也引爆了后续相关研究
+
+把最重要的说在最前面，ViT原论文中最核心的结论是，当拥有足够多的数据进行预训练的时候，ViT的表现就会超过CNN，突破transformer缺少归纳偏置的限制，可以在下游任务中获得较好的迁移效果
+
+但是当训练数据集不够大的时候，ViT的表现通常比同等大小的ResNets要差一些，因为Transformer和CNN相比缺少归纳偏置（inductive bias），即一种先验知识，提前做好的假设。CNN具有两种归纳偏置，一种是局部性（locality/two-dimensional neighborhood structure），即图片上相邻的区域具有相似的特征；一种是平移不变形（translation equivariance）， ，其中g代表卷积操作，f代表平移操作。当CNN具有以上两种归纳偏置，就有了很多先验信息，需要相对少的数据就可以学习一个比较好的模型
+
+ViT将输入图片分为多个patch（16x16），再将每个patch投影为固定长度的向量送入Transformer，后续encoder的操作和原始Transformer中完全相同。但是因为对图片分类，因此在输入序列中加入一个特殊的token，该token对应的输出即为最后的类别预测
+
+按照上面的流程图，一个ViT block可以分为以下几个步骤
+
+(1) patch embedding：例如输入图片大小为224x224，将图片分为固定大小的patch，patch大小为16x16，则每张图像会生成224x224/16x16=196个patch，即输入序列长度为**196**，每个patch维度16x16x3=**768**，线性投射层的维度为768xN (N=768)，因此输入通过线性投射层之后的维度依然为196x768，即一共有196个token，每个token的维度是768。这里还需要加上一个特殊字符cls，因此最终的维度是**197x768**。到目前为止，已经通过patch embedding将一个视觉问题转化为了一个seq2seq问题
+
+(2) positional encoding（standard learnable 1D position embeddings）：ViT同样需要加入位置编码，位置编码可以理解为一张表，表一共有N行，N的大小和输入序列长度相同，每一行代表一个向量，向量的维度和输入序列embedding的维度相同（768）。注意位置编码的操作是sum，而不是concat。加入位置编码信息之后，维度依然是**197x768**
+
+(3) LN/multi-head attention/LN：LN输出维度依然是197x768。多头自注意力时，先将输入映射到q，k，v，如果只有一个头，qkv的维度都是197x768，如果有12个头（768/12=64），则qkv的维度是197x64，一共有12组qkv，最后再将12组qkv的输出拼接起来，输出维度是197x768，然后在过一层LN，维度依然是**197x768**
+
+(4) MLP：将维度放大再缩小回去，197x768放大为197x3072，再缩小变为**197x768**
+
+是否可以直接使用average pooling得到最终的image presentation，而不加特殊字符cls，通过实验表明，同样可以使用average pooling，原文ViT是为了尽可能是模型结构接近原始的Transformer，所以采用了类似于BERT的做法，加入特殊字符
+
+为了探究模型的可扩展性（to explore model scalability），预训练阶段使用了ImageNet-1K（1.3million）、ImageNet-21K（14million），[JFT-18K](https://zhida.zhihu.com/search?content_id=187046120&content_type=Article&match_order=1&q=JFT-18K&zhida_source=entity)（303million）三个数据集。同时参考BiT，删除预训练数据集中和下游任务测试集中重复的数据（de-duplicate the pre-training datasets w.r.t. the test sets of the downstream）
+
+下游数据集包括：ImageNet（on the original validation labels），ImageNet （on the cleaned-up ReaL labels ），CIFAR-10/100，Oxford-IIIT Pets，Oxford Flowers-102，VTAB (19 tasks)
+
+ImageNet ReaL参考*2020-Are we done with imagenet?* VTAB参考*2019-A large-scale study of representation learning with the visual task adaptation benchmark*，所有数据集的预处理参考BiT
+
+（1）ViT：参考BERT，共设置了三种模型变体（增加了Huge变体）如下图所示。例如ViT-L/16，代表Large变体，输入patch size为16x16。（2）CNN：baseline CNNs选择ResNet，同时用Group Normalization替代Batch Normalization，使用standardized convolutions，以提升模型迁移性能。（3）Hybrid：混合模型就是使用ResNet50输出的特征图，不同stage会得到不同大小的特征图，即生成不同长度序列
+
+结论：这里当在更小的数据集上预训练时（ImageNet），优化三个超参数以提升模型性能，分别是weight decay, dropout 和 label smoothing。可以看到当在小数据集上预训练时（ImageNet-1k，1.3million），ViT微调后的效果远远比不上ResNet；在中等数据集上预训练时（ImageNet-21K，14million），两者效果相当；当在很大的数据集上（JFT-300M, 300million）预训练时，ViT的效果要更好。所以当我们只有较小的数据集时，更适合使用ResNet（并不是所有数据集都适合硬套transformer）
+
+### MLPs
+
+arXiv:2105.01601
+
+ViT作者团队出品，在CNN和Transformer大火的背景下，舍弃了卷积和注意力机制，提出了MLP-Mixer，一个完全基于MLPs的结构，其MLPs有两种类型，分别是**channel-mixing MLPs**和**token-mixing MLPs**，前者独立作用于image patches（融合通道信息），后者跨image patches作用（融合空间信息）。实验结果表明该结构和SOTA方法同样出色，证明了convolution和attention不是必要操作，如果将其替换为简单的MLP，模型依然可以完美work
+
+> MLP-Mixer contains two types of layers: one with MLPs applied independently to image patches (i.e. “mixing” the per-location features), and one with MLPs applied across patches (i.e. “mixing” spatial information) / MLP-Mixer's architecture is based entirely on multi-layer perceptrons (MLPs) that are repeatedly applied across either spatial locations or feature channels / Mixer makes use of two types of MLP layers: channel-mixing MLPs and token-mixing MLPs
+
+类似于ViT，首先进行patch embedding操作，一个Mixer Layer中包含了channel-mixing MLPs和token-mixing MLPs，但是Mixer不适用positional encoding，因为token-mixing MLPs对输入tokens的顺序非常敏感
+
+token-mixing MLPs：允许信息在空间维度交互，独立作用于每一个channel，作用于列，融合不同token的特征
+
+channel-mixing MLPs：允许信息在通道交互，独立作用于每一个token，作用于行，融合不同channel的特征
+
+输入image的分辨率为 ，patch的分辨率为 ，则patch的数量 ，所有的patch拉直后线性投影到维度 ，则得到Mixer Layer的输入 。token-mixing MLPs作用于 的列，特征维度不发生变化（ ），channel-mixing MLPs作用于 的行，特征维度同样不发生变化（ ）。每一个MLP包含两个全连接层和一个非线性激活（GELU），一个Mixer layers的公式如下，计算复杂度和输入patches的数量成线性关系（ViT是平方关系）
+
+arXiv:2106.01548
+
+ViTs和MLPs的相关研究目前大多都非常依赖海量数据，在大规模数据集上的预训练以及强数据增广都是基本操作，但是在模型实际优化过程中依然存在诸多困难，比如对初始化和学习率非常敏感。因此作者从损失几何（loss geometry/loss landscape geometry）的角度探究ViTs和MLP-Mixers（从损失几何的角度说白了就是用[SAM](https://zhida.zhihu.com/search?content_id=187046120&content_type=Article&match_order=1&q=SAM&zhida_source=entity)方法对loss做平滑），**旨在让模型摆脱对大规模预训练以及强数据增广的依赖**，提升模型在训练阶段对数据的利用效率，以及推理阶段的泛华能力（intending to improve the models' data efficiency at training and generalization at inference）
+
+通过可视化和 [Hessian](https://zhida.zhihu.com/search?content_id=187046120&content_type=Article&match_order=1&q=Hessian&zhida_source=entity) 发现了收敛模型极其尖锐的局部最小值（sharp local minima of the converged models），因此使用最近提出的锐度感知优化器（sharpness-aware optimizer/sharpness-aware minimizer，**SAM**）提高平滑度（promote smoothness），得到更加平滑的损失函数（much flatter loss landspace/ smoothed loss landspace），大大提升了ViTs和MLPs在多个任务上的准确度和鲁棒性，包括监督、对抗、对比、迁移学习等（使用简单的 Inception 式预处理，ViT-B/16 和 Mixer-B/16 在 ImageNet 上的top-1准确率分别提升了5.3% 和11.0%）
+
+改进的平滑度归因于前几层中较稀疏的激活神经元（the improved smoothness attributes to sparser active/activated neurons in the first few layers）。在没有大规模预训练或强数据增强的情况下，在 ImageNet 上从头开始训练时，所得 ViT 的性能优于类似大小和吞吐量（throughput）的 ResNet。还拥有更敏锐的注意力图（more perceptive attention maps）
+
+arXiv:2106.10270
+
+和ViT和Mixer一样，还是熟悉的Google团队，还包括timm作者Ross Wightman
+
+ViT在很多视觉任务上都展现了相当优秀的性能，但是和CNN相比，缺少归纳偏置让ViT应用于小数据集时非常依赖模型正则化（model regularization）和数据增广（data augmentation）（把模型正则化和数据增广合起来简称AugReg）
+
+作者使用系统性的实证研究方法（systematic empirical study），探究训练数据量、AugReg、模型大小、计算成本的interpaly（相互影响/影响），说白了就是做了大量实验，用实验结果说明问题，总共训练了超过50000个ViT模型，结果发布在了 [https://github.com/rwightman/pytorch-image-models](https://link.zhihu.com/?target=https%3A//github.com/rwightman/pytorch-image-models) 和 [https://github.com/google-research/vision_ transformer](https://link.zhihu.com/?target=https%3A//github.com/google-research/vision_)
+
+实验表明，当增加计算成本（Improved compute/Increased compute budget），即让模型训练更长时间已达到一定的性能，同时使用AugReg会带来意想不到的效果：在ImageNet-21k（14million）上训练的ViT模型，和在JFT-300M上训练的ViT模型相比拥有更好的性能。同时大量实验也揭示了各类techniques的对模型性能的影响，以及什么时候AugReg对模型性能有益/什么时候无益
+
+作者还对ViT迁移学习进行了深入分析。结论是**即使下游数据似乎与预训练数据只有微弱的关联，迁移学习仍然是最佳选择。**作者分析还表明，对于迁移学习来说，训练数据更多的模型和数据增强更多的模型相比较（among similarly performing pre-trained models），前者可能是更好的选择，下游任务性能表现更好。该研究的意义在哪，当我们的计算成本有限时，可以通过本研究的结论选择一种方式，更高效的优化ViT模型
+
+
+
+
+
