@@ -1,0 +1,508 @@
+---
+title: 机器人研究(二)
+date: 2020-03-06 21:40:33
+categories: 技术博客
+tags:
+    - IT,Web，
+toc: true
+thumbnail:
+---
+
+<!--more-->
+
+## 具身智能
+
+具身智能指南：https://github.com/TianxingChen/Embodied-AI-Guide
+
+### VLA
+
+**Vision-Language-Action Models for Robotics: A Review Towards Real-World Applications**
+
+#### 前夜
+
+近年来，各类LLM和VLM的研发取得了显著成功，极大地推动了自然语言处理和计算机视觉领域的发展，从根本上改变了这两个领域的格局。这些技术进步也延伸到了机器人领域，研究者们利用LLMs和VLMs来解读多模态输入、进行任务推理以及执行情境感知动作，为构建更具泛化性和可扩展性的机器人系统奠定了基础。
+
+早期研究中，LLMs和VLMs与负责生成动作的底层机器人策略是相互分离的。尽管这类系统在处理有限的预定义任务时具有一定效果，但它们通常依赖于从固定的运动基元中进行选择，或者依赖通过模仿学习得到的策略，这使得它们在泛化到更广泛任务时能力受限。如何让策略能够根据当前的观测信息和指令，实现对未见过任务的泛化，仍是一个亟待解决的重要挑战。
+
+为克服这些局限，越来越多的研究开始关注VLA模型。VLA模型通过端到端框架联合学习视觉、语言和动作模态，旨在使机器人能够完成更广泛的任务。研究人员期望通过这种方式得到的通用策略，能够实现跨不同任务的泛化，并有效实现跨不同机器人实体的迁移。这种方法减少了对大量任务特定数据收集和训练的需求，大幅降低了实际部署的成本。因此，VLA模型为构建更具可扩展性和易用性的机器人系统提供了一条颇具前景的路径
+
+https://zhuanlan.zhihu.com/p/1959635527834801717  非常非常好的综述
+
+![img](https://picx.zhimg.com/v2-6b80cd04f927912441d0b139f369d457_1440w.jpg)
+
+
+
+#### 历史
+
+[VLA模型](https://zhida.zhihu.com/search?content_id=252116478&content_type=Article&match_order=1&q=VLA模型&zhida_source=entity)最早见于机器人行业。2023年7月28日，谷歌DeepMind发布了全球首个控制机器人的视觉语言动作（VLA）模型[RT-2](https://zhida.zhihu.com/search?content_id=252116478&content_type=Article&match_order=1&q=RT-2&zhida_source=entity)。其后，这个模型概念快速扩散到智驾领域
+
+VLA模型是在[视觉语言模型](https://zhida.zhihu.com/search?content_id=252116478&content_type=Article&match_order=1&q=视觉语言模型&zhida_source=entity)（VLM）的基础上发展而来的。VLM是一种能够处理图像和自然语言文本的机器学习模型，它可以将一张或多张图片作为输入，并生成一系列标记来表示自然语言。然而，VLA不仅限于此，它还利用了机器人或汽车运动轨迹的数据，进一步训练这些现有的VLM，以输出可用于机器人或汽车控制的动作序列。通过这种方式，VLA可以解释复杂的指令并在物理世界中执行相应的动作
+
+端到端大模型2.0 - VLA (Vision Language Action) 是一种先进的多模态机器学习模型，它结合了视觉、语言和动作三种能力，旨在实现从感知输入直接映射到机器人控制动作的完整闭环能力。这一技术的发展标志着自动驾驶和其他智能系统向更加自主化迈进的重要一步。VLA模型被开发用于解决[具身智能](https://zhida.zhihu.com/search?content_id=252116478&content_type=Article&match_order=1&q=具身智能&zhida_source=entity)中的指令跟随任务。与以ChatGPT为代表的聊天AI不同，具身智能需要控制物理实体并与环境交互。机器人是具身智能最突出的领域。在语言为条件的机器人任务中，策略必须具备理解语言指令、视觉感知环境并生成适当动作的能力，这就需要VLA的多模态能力
+
+1. 端到端架构
+
+首先，VLA是一个端到端的大模型，这意味着它可以简化传统上需要多个独立模块才能完成的任务流程。例如，在自动驾驶领域，传统的做法是将感知、预测、规划等步骤分开处理，而VLA则试图用一个统一的框架来替代这种分立的方法。这不仅可以提高系统的效率，还能增强其灵活性和适应性。
+
+2. 泛化能力
+
+其次，VLA具有强大的泛化能力。以谷歌DeepMind推出的RT-2为例，该模型可以在新的物体、背景和环境中表现出显著改善的性能。它可以理解并响应那些在训练数据集中未曾出现过的命令，并基于底层语言模型提供的思路链进行推理，从而做出合理的决策。比如，当被要求选择一块石头作为临时锤子时，或者推荐给疲惫的人一杯能量饮料，这些都是RT-2所展示出的能力。
+
+4. 通用性
+
+再者，VLA具备高度的通用性。由于它是建立在一个通用的大规模预训练基础上，因此理论上几乎所有的“智能机器设备”都可以使用这套算法。无论是汽车、飞行器还是其他类型的机器人，只需要经过适当的微调就能满足特定应用场景的需求。这也解释了为什么近年来许多企业都在积极探索如何将通用AI应用于不同的机械设备上，以实现所谓的“具身智能”
+
+VLA模型旨在整合视觉、语言和动作三种模态的信息，以实现从感知到决策再到执行的端到端学习。
+
+多模态输入处理：VLA接受来自不同来源的数据作为输入，包括但不限于图像/视频（视觉）、文本描述（语言）以及环境中的物理运动数据（动作）。这些信息被预处理后送入相应的编码器中。
+
+编码器模块视觉编码器：使用深度卷积神经网络（CNNs）或Transformers等先进技术来提取图像特征。例如，DinoV2 或 SigLIP 可用于生成高质量的视觉表示。
+
+语言编码器：基于Transformer架构的语言模型，如[Llama-2](https://zhida.zhihu.com/search?content_id=252116478&content_type=Article&match_order=1&q=Llama-2&zhida_source=entity)，负责理解和解析自然语言指令，将其转化为机器可以理解的形式。
+
+动作编码器：专门设计的动作编码器将历史轨迹或者其他形式的动作序列转换成低维向量空间内的表示。
+
+跨模态融合层：为了使视觉、语言和动作信息能够有效地交互并相互补充，VLA采用了多种方法来进行跨模态融合。这可能涉及注意力机制（Attention Mechanism）、门控循环单元（GRUs）、长短期记忆网络（LSTMs）等技术，确保不同类型的输入能够在共同的空间内进行对比和关联分析
+
+解码器模块：
+
+动作解码器：根据融合后的多模态信息预测下一步应该采取的动作。这一步骤可能会用到策略梯度强化学习算法（Policy Gradient RL Algorithms），通过不断试错优化行动方案。
+
+反馈回路：某些高级版本的VLA还包含一个反馈机制，允许系统根据实际执行结果调整未来的行为，形成闭环控制系统。
+
+训练与优化：VLA模型通常是通过大规模的真实世界机器人演示数据集进行监督式学习或者半监督学习。此外，还可以结合模拟环境下的强化学习来进一步提升模型的表现力。在训练过程中，研究人员会采用各种正则化技术和优化算法（如Adam优化器）以防止过拟合，并加速收敛速度。
+
+部署与推理：一旦训练完成，VLA模型就可以部署到目标平台上，比如自动驾驶车辆、服务机器人等。对于实时性要求较高的应用场景，需要特别注意模型大小、计算效率等方面的优化，确保可以在边缘设备上高效运行
+
+
+
+感知运动模型目前主要有七种架构变体。
+
+（1）**Transformer + 离散动作Token**：这种架构将图像和语言都表示为token，输入到Transformer中以预测下一个动作，动作通常以离散token的形式呈现（如图4（1）所示）。这类模型还包括使用CLS token并通过MLP生成连续动作的模型。VIMA和Gato是典型示例，它们利用语言tokenizer、视觉Transformer、MLP等组件对多种模态进行token化处理，并输出离散动作（如分箱值）。VIMA采用以多种任务模态为条件的编码-解码结构Transformer，而Gato则使用仅解码器结构的Transformer，以自回归方式处理所有token序列。
+
+与VIMA和Gato采用自回归方式生成动作token不同，RT-1采用了另一种方法：通过TokenLearner对输入进行压缩，并利用仅解码器结构的Transformer以非自回归方式预测所有动作token。在实际应用中，将48个token输入到Transformer中，提取最后11个token作为动作输出。这种架构已被MOO、RT-Sketch和RT-Trajectory等多种方法采用，同时也成为了Robocat、RoboFlamingo等众多VLA模型的常用设计选择，这得益于其简洁性和可扩展性。
+
+（2）**Transformer + 扩散动作头部**：这种架构在（1）的结构基础上，在Transformer之后加入了一个扩散策略作为动作头部。离散动作token通常缺乏实时响应性和平滑性，而这类模型利用扩散模型实现了连续且稳定的动作输出。Octo和NoMAD是典型示例。Octo将图像和语言token作为单个序列通过Transformer处理，然后以读取token为条件，应用扩散动作头部。与之不同的是，NoMAD用目标图像替代了语言输入，通过平均池化对Transformer输出进行压缩，并利用得到的向量对扩散模型进行条件约束。TinyVLA、RoboBERT和VidBot也采用了这种架构。
+
+（3）**扩散Transformer**：如图4（3）所示，扩散Transformer模型将Transformer和扩散动作头部整合在一起，在Transformer内部直接执行扩散过程。这使得模型能够在图像和语言token的直接条件约束下执行扩散过程。例如，基于这种架构构建的RDT-1B，通过与视觉和语言查询的交叉注意力生成动作token序列，然后通过MLP将这些token映射为可执行的机器人动作。此外，大型行为模型（LBMs）也采用了扩散Transformer架构，并强调大规模多样化预训练的重要性。另外，StructDiffusion、MDT、DexGraspVLA、UVA、FP3、PPL、PPI和Dita等也采用了这种架构。
+
+（4）**VLM + 离散动作Token**：如图4（4）所示，VLM + 离散动作Token模型通过用在大规模互联网数据上预训练的视觉-语言模型（VLM）替代（1）中的Transformer，提升了模型的泛化能力。利用VLM能够使这些模型融入人类常识知识，并具备上下文学习能力。例如，RT-2以PaLM-E或PaLI-X等大规模VLM为骨干网络，该骨干网络以图像和语言token为输入，输出下一个动作的离散token。此外，LEO、GR-1、RTH、RoboMamba、QUAR-VLA、OpenVLA、LLARA、ECoT、3D-VLA、RoboUniView和CoVLA等也采用了这种架构。
+
+（5）**VLM + 扩散动作头部**：如图4（5）所示，VLM + 扩散动作头部模型在（2）的基础上，用VLM替代了Transformer。这种架构将能够实现更好泛化的VLM与能够生成平滑连续机器人动作指令的扩散模型相结合。例如，Diffusion-VLA、DexVLA、ChatVLA、ObjectVLA、GO-1（AgiBot World Colosseo）、PointVLA、MoLe-VLA、Fis-VLA和CronusVLA等都采用了这种架构。HybridVLA进一步结合了（4）和（5）的特点，在单个模型中既能够自回归生成离散token，又能够利用扩散动作头部生成连续动作。
+
+（6）**VLM + 流匹配动作头部**：如图4（6）所示，VLM + 流匹配动作头部模型用流匹配动作头部替代了（5）中的扩散模型，在保持平滑连续控制的同时，提升了实时响应性。是典型示例，它以PaliGemma为基础，实现了高达50Hz的控制速率。此外，GraspVLA、OneTwoVLA、Hume和SwitchVLA等也采用了这种架构。整合了（4）和（6）的架构，在一个统一框架中同时支持离散token和流匹配。
+
+（7）**VLM + 扩散Transformer**：如图4（7）所示，VLM + 扩散Transformer模型将VLM与（3）中描述的扩散Transformer相结合。通常，VLM作为高层策略（系统2），而扩散Transformer作为低层策略（系统1）。扩散Transformer既可以采用扩散技术，也可以采用流匹配技术实现。GR00T N1是典型示例，它通过扩散Transformer对VLM token进行交叉注意力处理，并利用流匹配生成连续动作。CogACT、TrackVLA、SmolVLA和MinD等也采用了这种设计。
+
+
+
+#### CLIPort
+
+https://cliport.github.io/
+
+https://github.com/cliport/cliport
+
+CLIPort的关键设计是将两个互补的模块结合到一个端到端的网络中：
+
+- **语义流 (What)**：利用预训练的**CLIP模型**（互联网图文数据训练），理解自然语言指令（如“粉色积木”）和识别图像中的语义概念。
+- **空间流 (Where)**：基于**Transporter网络**，通过“拾取-放置”的动作基元进行精确的**空间推理**，擅长处理需要高精度操作的任务（如堆叠、折叠）
+
+论文通过模拟和真实机器人实验展示了CLIPort的以下能力：
+
+1. **少样本学习与泛化能力**：仅需**10次**演示就能学习新任务，100次演示即可在多数任务上达到**86%** 以上的成功率。它能泛化到训练中**未见过的颜色、形状和物体**（如粉色积木）。
+2. **多任务模型**：令人惊讶的是，一个**单一的多任务模型**在10个模拟任务上的表现，**优于或相当于**为每个任务单独训练的模型。这表明语言能有效帮助模型在不同任务间迁移概念。
+3. **真实机器人验证**：在Franka Panda机械臂上，一个用**179个**图像-动作对训练的模型，能成功完成包括**叠块、折布、读文本、挑豆子**等9个真实任务。
+
+
+
+
+
+#### tokenizers
+
+http://github.com/huggingface/tokenizers
+
+```python
+from tokenizers import Tokenizer
+from tokenizers.models import BPE
+
+tokenizer = Tokenizer(BPE())
+```
+
+在语言token化方面，VLA模型通常采用其底层LLM骨干网络的tokenizer，如T5 tokenizer或LLaMA tokenizer。当基础模型不是预训练LLM时，通常采用子词算法（如字节对编码（BPE））或SentencePiece等工具进行token化处理，SentencePiece不仅实现了BPE，还支持其他算法。在语言编码方面，VLA模型采用多种文本编码器，将自然语言指令嵌入为向量表征，包括通用句子编码器（USE）、CLIP文本编码器、Sentence-BERT和DistilBERT。这些语言嵌入常通过FiLM调节等技术用于对视觉特征进行条件约束。在以VLMs为骨干网络的架构中，视觉信息直接整合到LLM组件中，常用的LLM包括LLaMA 2、Vicuna、Gemma、Qwen2、Phi-2、SmolLM2、GPT-NeoX和Pythia
+
+
+
+#### Octo
+
+https://octo-models.github.io/ RSS 2024
+
+在RT系列之后提出的Octo，是首个利用Diffusion Policy的VLA模型，其完全开源的实现方式也受到了广泛关注。Octo支持灵活的目标指定方式，目标可以是语言指令和目标图像的组合，分别通过T5编码器和CNN进行处理。对于输入观测信息，Octo同样使用CNN对图像进行编码，并利用轻量级多层感知器（MLP）对本体感知信号进行嵌入处理。所有token会被拼接成一个序列，并添加特定于模态的可学习token，然后输入到Transformer中。最后，扩散策略会根据输出的读取token生成连续动作
+
+主要贡献与特点
+
+1. **大规模预训练**：Octo 是目前**最大的开源机器人操作通用策略**之一。它基于 **Open X-Embodiment 数据集**中的 **80万条机器人轨迹**（约2.5万个任务演示）进行预训练，这是迄今为止最大的机器人操作数据集。
+2. **灵活的架构设计**：
+   - **多模态输入**：支持通过**自然语言指令**或**目标图像**来指定任务。
+   - **模块化与可扩展**：模型采用Transformer架构，将任务和观测数据（如不同角度的摄像头图像）统一处理为“令牌”。这种设计使其在微调时可以**轻松添加或移除输入（如新的传感器）和输出（如新的动作空间）**，而无需修改大部分预训练好的参数。
+3. **强大的微调能力**：这是Octo最关键的亮点。它可以在**单个消费级GPU上，仅用约100条目标领域演示数据和几小时**，就高效地微调适配到：
+   - **新的机器人平台**（如单臂、双臂机器人）。
+   - **新的观测输入**（如力-触觉反馈）。
+   - **新的动作空间**（如关节位置控制）。
+4. **完全开源**：论文团队开源了**模型检查点**（2700万和9300万参数版本）、**完整的训练和微调代码**以及**数据处理工具**，旨在为机器人社区提供一个可直接使用和扩展的基础平台
+
+特点
+
+- **零样本（开箱即用）控制**：在不经微调的情况下，Octo 在控制多个不同机器人执行拾取、放置、擦拭等任务时，成功率比当时最好的开源通用模型 **RT-1-X 高出29%**，性能与规模巨大的 **RT-2-X (550亿参数)** 模型相当。
+- **高效微调**：在6个新的、未见过的机器人设置（包括新任务、新观测、新动作空间）上进行测试，使用约100条演示数据微调后，Octo 的平均成功率达到 **72%**，远高于从头训练的基线模型（20%）和利用预训练视觉表征的模型（15%）。
+- **设计决策分析**：通过大量消融实验发现，**Transformer架构、扩散策略（Diffusion Policy）的动作解码方式**以及**多样化的训练数据组合**是Octo取得成功的关键因素。模型性能会随模型规模和数据规模的增大而提升
+
+#### openVLA
+
+https://github.com/openvla/openvla
+
+[OpenVLA](https://zhida.zhihu.com/search?content_id=247528728&content_type=Article&match_order=1&q=OpenVLA&zhida_source=entity): An Open-Source Vision-Language-Action Model
+
+https://openvla.github.io/
+
+https://zhuanlan.zhihu.com/p/717294861
+
+OpenVLA就是一个基于[Prismatic-7B](https://zhida.zhihu.com/search?content_id=252537637&content_type=Article&match_order=1&q=Prismatic-7B&zhida_source=entity)视觉语言模型的70亿参数开源VLA，它结合了视觉编码器和[Llama-2 7B](https://zhida.zhihu.com/search?content_id=252537637&content_type=Article&match_order=1&q=Llama-2+7B&zhida_source=entity)语言模型。此外，还有其他研究探索了不同的机制，比如[FiLM](https://zhida.zhihu.com/search?content_id=252537637&content_type=Article&match_order=1&q=FiLM&zhida_source=entity)用于调整特征映射，[交叉注意机制](https://zhida.zhihu.com/search?content_id=252537637&content_type=Article&match_order=1&q=交叉注意机制&zhida_source=entity)促进跨模态信息交流
+
+Prismatic-7B 使用 SigLIP 和 [Dino V2](https://zhida.zhihu.com/search?content_id=252537637&content_type=Article&match_order=1&q=Dino+V2&zhida_source=entity) 作为其视觉编码器的两个组成部分，这两个模型的主要任务是从输入的图片中提取特征，并将这些特征转换为可以被后续处理层理解的形式。具体来说：
+
+输入图片：Prismatic-7B 的视觉编码器接收的是图像数据作为输入。这些图像可以是来自机器人摄像头的实时捕获，也可以是预先存储好的用于训练或测试的数据集中的图片。
+
+SigLIP 和 Dino V2 的输出：当图像进入 Prismatic-7B 后，它首先会被分割成多个小块（patches），然后分别通过 SigLIP 和 Dino V2 编码器进行处理。每个编码器都会生成一组特征向量，这些向量捕捉了图像的不同方面信息。例如，**Dino V2 主要增强了空间推理能力，这对于理解物体的位置关系非常重要；而 SigLIP 则擅长于识别和描述图像的内容**。最终，这两个编码器产生的**特征向量会按照通道维度连接在一起，形成一个综合性的视觉表示**。这种双编码器结构的好处在于它可以充分利用两种不同类型预训练模型的优势，从而提供更加丰富和准确的视觉特征表示。这有助于提高模型在执行复杂任务时的表现，比如根据自然语言指令来指导机器人完成特定动作
+
+Prismatic-7B 是一个视觉语言模型（Visually-Conditioned Language Model, VLM），它结合了视觉编码器与语言处理能力。前边讲过：
+
+视觉编码器：Prismatic-7B 使用 SigLIP 和 Dino V2 预训练特征的两部分视觉编码器来从输入图像中提取特征。这些视觉编码器能够捕捉到图像中的空间关系和其他重要细节，这对于机器人执行精确动作至关重要。
+
+语言处理：基于 Llama-2 7B 参数的语言模型主干，**Prismatic-7B 可以理解和生成自然语言文本**。**当与视觉信息相结合时，它可以解释复杂的语言指令，并指导机器人完成相应的任务**。
+
+因此，在 OpenVLA 中，**Prismatic-7B 主要负责将视觉数据转换为可用于决策的信息，并且根据人类提供的语言指令生成适当的响应或行动方案**
+
+相比之下，LLaMA 更多地作为一个独立的语言模型而存在，它的主要职责是处理纯文本数据。LLaMA 系列模型由 Meta 开发，经过大规模语料库训练后，可以在多种自然语言处理任务上表现出色，例如文本分类、问答、摘要生成等。然而，在 OpenVLA 的上下文中，LLaMA 并不是直接参与视觉-语言融合过程的一部分；相反，它是作为 Prismatic-7B 的基础架构之一被采用的
+
+https://github.com/xiaomi-mlab/Orion 小米VLA 框架
+
+
+
+#### VLA与VLM
+
+https://github.com/JiuTian-VL/Large-VLM-based-VLA-for-Robotic-Manipulation?tab=readme-ov-file
+
+过去，机器人操作的研究总在 “模块化陷阱” 里打转：视觉识别、语言解析、动作控制各成一派，像被割裂的齿轮，很难协同运转。直到大型 VLMs 的出现 —— 这些在海量图文数据上 “吃透” 视觉与语言关联的模型，不仅能看懂图片里的细节、理解人类指令的深意，还能把这种 “理解” 转化为机器人能执行的动作逻辑。于是，基于大型 VLM 的 [VLA 模型](https://zhida.zhihu.com/search?content_id=262266538&content_type=Article&match_order=1&q=VLA+模型&zhida_source=entity)应运而生：它像给机器人装了 “通感大脑”，既能通过视觉捕捉环境动态，又能通过语言锚定任务目标，最终生成连贯、灵活的操作动作。比如让它 “把红色马克杯放到笔记本旁的书架上”，它能自动完成 “找杯子 - 判断位置 - 规划移动路径” 的全流程，甚至应对杯子被书本挡住的突发情况
+
+不过，这个快速发展的领域也藏着不少 “迷雾”：有人把 VLA 模型拆成多个模块，有人追求 “端到端” 的统一架构；数据集要么是模拟环境的 “理想数据”，要么是真实世界的 “零散样本”；更别提大家对 “如何让机器人记住过往动作、完成长期任务”“怎样让模型在不同机器人上通用” 这些问题，还没形成统一答案。
+
+为了理清这些脉络，哈尔滨工业大学（深圳）的研究者们撰写了这篇《Large VLM-based Vision-Language-Action Models for Robotic Manipulation: A Survey》。它不仅是首个系统梳理 “大型 VLM + 机器人操作” 的综述，更像一张 “领域地图”—— 从 VLA 模型的定义、两种核心架构（单体式 / 分层式），到如何结合强化学习、从人类视频里学技能，再到未来要突破的 4D 感知、记忆机制等方向，都被清晰地呈现出来
+
+传统方法依赖分离的视觉编码器、语言模块与规划器（如CLIPort用CLIP做语义接地、RT-1用CNN+独立语言嵌入），泛化性差，难以处理未知物体或模糊指令
+
+以RT-2为代表，将机器人动作离散化为文本token，与VLM（PaLM-E/PaLI-X）共训练，实现“视觉-语言-动作”统一建模；后续OpenVLA（7B参数开源模型）、π₀（流匹配架构）进一步提升泛化性与可访问性。
+
+**现有综述的不足**
+
+- 多单独聚焦VLMs或机器人操作，缺乏对“VLMs与机器人操作交叉领域”的深入分析
+- 未聚焦“预训练VLM作为基础组件”的主流范式
+- 因覆盖自动驾驶、农业等多领域，稀释了机器人操作特有的实时控制、传感器噪声鲁棒性等挑战
+- 仅关注文本LLM的任务规划，未解决VLM在视觉感知与动作接地的核心问题
+
+VLA模型的定义与分类
+
+**定义**：满足两个核心条件的模型：① 利用大型VLM理解视觉观测与自然语言指令；② 执行直接/间接服务于机器人动作生成的推理过程。
+
+**核心分类**：根据“系统整合粒度”与“认知分解显式性”，分为两大类：
+
+- **单体模型（Monolithic）**：将感知、语言理解、动作生成整合于单一/双系统架构，无显式中间表示；
+- **分层模型（Hierarchical）**：显式分离“规划”与“执行”，通过人类可解释的中间表示（如子任务、关键点、程序）连接规划器与策略器。
+
+基于VLM的两大类大型VLA模型的比较。单体模型在单系统或双系统架构中集成了感知、语言理解和动作生成，后者包含了一个额外的动作专家。相反，分层模型通过可解释的中间输出（例如，子任务、关键点、程序、功能支持）将规划与策略执行解耦
+
+单体模型（Monolithic Models）
+
+单系统模型（Single-system Models）
+
+**核心思想**：视觉感知、语言指令、机器人状态输入统一模型，通过自回归/并行解码输出动作，架构简洁且无复杂模块通信
+
+**三大研究方向**：
+
+- **经典范式：自回归解码**
+
+**方法：**将连续动作空间离散化为token序列，VLM 自回归生成动作token，再通过解令牌器转换为可执行动作。
+
+**代表技术：**
+
+RT-2 ：以PaLM-E/PaLI-X为VLM骨干，训练互联网视觉语言数据与机器人轨迹，将动作视为语言任务，显著提升语义理解与泛化性；
+
+RT-2-X ：在RT-2基础上，用Open X-Embodiment（OXE）跨机器人数据集微调，提升技能迁移能力；
+
+OpenVLA ：用DINOv2+SigLIP替代大参数视觉编码器，基于LLaMA2-7B，在真实机器人演示数据上微调，开源且性能优异。
+
+- **模型性能增强**
+
+**感知模态扩展**：加入3D（Leo Agent 用PointNet++处理点云、SpatialVLA通过深度估计生成3D坐标）、4D（TraceVLA叠加运动轨迹、4D-VLA 整合3D坐标与历史关键帧）、触觉/听觉（VTLA融合触觉、VLAS 用Whisper提取语音）；
+
+**推理能力提升**：引入思维链（ECoT生成推理链、CoT-VLA 预测像素级子目标观测）、分层闭环控制（LoHoVLA 处理长程任务）
+
+**泛化性优化**：统一动作空间（UniAct定义通用动作码本）、可逆训练（ReVLA恢复视觉编码器预训练状态以减少灾难性遗忘）、多模态融合（FuSe 用自然语言对齐触觉/听觉）。
+
+**代表技术**：Leo Agent 、TraceVLA、CoT-VLA、UniAct、VTLA 。
+
+- **推理效率优化**
+
+**方法：**从架构、参数、解码策略三方面降低推理开销。
+
+**架构优化**：动态层跳过（MoLe-VLA用STAR路由器选择关键LLM层）、早期退出（DeeR-VLA 通过输出一致性判断是否终止推理）、Mamba架构（RoboMamba 实现Transformer的推理速度的三倍）；
+
+**参数优化**：模型压缩（BitVLA 用‘1-bit’权重、NORA 设计小参数模型）；
+
+**解码加速**：并行解码（PD-VLA 将自回归转为不动点迭代、RoboFlamingo 用独立MLP动作头）、投机解码（Spec-VLA速度提升1.42倍）、动作复用（FlashVLA稳定场景下跳过推理）。
+
+**代表技术**：RoboMamba、DeeR-VLA 、BitVLA 、PD-VLA 、FlashVLA
+
+双系统模型（Dual-system Models）
+
+**核心思想**：分离“高层推理（System 2：VLM骨干）”与“低层动作生成（System 1：动作专家）”，平衡推理精度与实时性，无显式中间表示（区别于分层模型）。
+
+**两大研究方向**：
+
+- **级联式（Cascade-based）**
+
+**方法：**System 2处理多模态输入生成 latent 认知表示，再传递给System 1解码为动作，串行执行。
+
+**代表技术**：
+
+DP-VLA ：用OpenVLA为System 2，Behavioral Cloning Transformer为System 1，兼顾效率与性能；
+
+HiRT：System 2低频运行（理解场景），轻量级System 1高频控制，适配动态环境；
+
+TriVLA ：新增“世界动态感知模块”（System 3），补充静态感知的不足
+
+- **并行式（Parallel-based）**
+
+**方法：**System 2与System 1并行运行，通过共享注意力/交叉注意力交互信息。
+
+**代表技术：**
+
+π₀ ：以PaliGemma为预训练VLM（System 2），训练流匹配（Flow Matching）动作专家（System 1），支持零样本泛化；
+
+SmolVLA ：冻结轻量级SmolVLM-2（System 2），仅训练下游流匹配Transformer（System 1），提升效率；
+
+ForceVLA ：在π₀基础上加入MoE结构的力感知模块，优化接触密集型操纵
+
+#### 流匹配
+
+最近，受到Transfusion的启发，以PaliGemma为基础，引入了一个定制的动作输出模块——动作专家（action expert），该模块使多模态模型能够同时处理离散数据和连续数据。动作专家利用流匹配（flow-matching）技术，实现了高达50Hz的动作生成速率。它接收来自机器人的本体感知输入和来自Transformer的读取token，通过反向扩散过程生成动作。该模型并非以自回归方式生成token，而是并行输出完整的动作块，从而实现平滑且连贯的实时控制
+
+
+
+#### 分层架构
+
+最新一代的VLA模型采用分层策略，以连接高层语言理解和低层运动执行。RT-H是这种设计的典型代表，它引入了一个高层控制器用于预测中间的“语言运动”规划，然后由低层控制器将其细化为具体的动作。该系统能够动态切换生成符号化动作和执行详细控制序列的模式，从而在长周期、多步骤任务中提升性能。
+
+对这一设计进行了扩展，它将高层动作token生成（使用FAST token）与通过流匹配训练的低层控制器相结合。通过预训练使符号化动作与语言对齐，再通过后训练确保通过连续动作解码实现平滑执行。[GR00T N1](https://zhida.zhihu.com/search?content_id=263956764&content_type=Article&match_order=1&q=GR00T+N1&zhida_source=entity)整合了多种元素：来自LAPA的潜在动作、来自RDT-1B的基于扩散的生成方法以及来自的流匹配控制器，并将它们统一到一个多阶段策略中，实现了跨机器人和跨任务的泛化。目前，分层架构已成为实现可扩展且适应性强的VLA模型的最先进方法，它在语言关联的抽象性和运动控制的精确性之间取得了平衡
+
+
+
+#### 其他先进领域
+
+代表性的VLA方法分为四个高级类别：基于强化学习、无训练、从人类视频中学习和基于世界模型的方法
+
+1.基于强化学习（RL-based Methods）
+
+**核心思想**：通过在线交互（实时优化）或离线轨迹（预收集数据）优化VLA策略，解决奖励稀疏、样本效率低问题。
+
+**代表技术：**
+
+奖励设计：VLA-RL 训练机器人过程奖励模型（RPRM）、ReWiND 以“目标进度”为奖励、Grape用VLM生成反馈奖励；
+
+训练范式：ReWiND（离线IQL+在线SAC）、HIL-SERL（人类在环干预）、ConRFT （离线Cal-ConRFT+在线HIL-ConRFT）；
+
+数据引擎：RLDG （训练专家策略后蒸馏到基础模型）、iRe-VLA（在线RL收集轨迹+SFT迭代优化）
+
+2.无训练方法（Training-Free Methods）
+
+**核心思想**：通过架构/计算优化提升VLA效率，无需重新训练，保留原模型能力。
+
+**代表技术：**
+
+令牌优化：FlashVLA （稳定场景跳过解码）、EfficientVLA （剪枝冗余语言层+过滤视觉令牌）；
+
+解码加速：PD-VLA （并行不动点迭代）、FAST（DCT+字节对编码压缩动作序列）；
+
+调度优化：RTC （监控任务进度调整控制频率）
+
+3.从人类视频学习（Learning from Human Videos）
+
+**核心思想**：利用人类-物体交互与机器人-物体交互的结构相似性，从人类视频中迁移任务知识，缩小embodiment gap。
+
+**代表技术：**
+
+Human-Robot Semantic Alignment ：用人类-机器人配对视频对齐视觉编码器；
+
+UniVLA ：从无标注人类/机器人视频学习任务中心 latent 动作；
+
+LAPA ：VQ-VAE量化 latent 动作，在大规模视频-语言数据上预训练；
+
+3D-VLA ：融合人类交互视频与机器人演示，提升3D推理；
+
+Humanoid-VLA ：从在线视频恢复姿态轨迹，增强运动多样性
+
+4.基于世界模型（World Model-based VLA）
+
+**核心思想**：整合世界模型（预测环境动态的紧凑表示），通过模拟未来状态优化动作规划，提升长程任务能力。
+
+**代表技术：**
+
+WorldVLA ：自回归动作-世界模型，联合预测视觉结果与生成动作；
+
+World4Omni ：大规模世界模型生成子目标图像，指导低层级策略；
+
+3D-VLA ：生成式世界模型预测未来目标图像与点云；
+
+V-JEPA 2-AC ：基于互联网规模视频训练的动作条件世界模型，通过模拟未来 latent 状态做规划
+
+VLA 模型区别于传统机器人操作模型的核心能力：
+
+**多模态融合**：通过统一嵌入与动态整合打破模态壁垒。一是构建 “共享嵌入空间”，依托预训练 VLM 生成视觉与语言的联合嵌入，减少模块间语义偏移；二是实现 “令牌级整合”，将视觉、语言、动作等连续模态离散为令牌，由单个 Transformer 处理以捕捉跨模态依赖；三是具备 “全面模态兼容性”，可无缝整合点云（如 PointVLA）、触觉（如 VTLA）、音频（如 VLAS）等新模态，无需修改核心架构或全量重训。
+
+**指令遵循**：依托语义理解与推理实现灵活指令响应。一是 “语义指令定位”，利用 VLM 世界知识动态解读模糊指令，如 ChatVLA-2 可理解白板上的数学问题并选择数字卡片；二是 “任务分解与协作”，将长期任务拆分为子目标，如 LoHoVLA 生成自然语言子任务指导动作；三是 “思维链推理”，通过预测未来视觉状态（如 CoT-VLA）缓解短视幻觉，提升复杂任务可靠性。
+
+**多维度泛化**：实现跨任务、跨领域、跨载体的广泛适配。一是 “跨任务泛化”，如 DexVLA 无需任务调优即可完成多样操作，性能超越 OpenVLA；二是 “跨领域泛化”，如 π₀ 通过异构数据联合训练，在家庭环境中分布外任务成功率超 90%；三是 “跨载体与模拟到现实泛化”，如 HAMSTER 依托分层架构，在七个泛化维度上成功率比 OpenVLA 高 20%
+
+**真实世界机器人数据集**：
+
+**特点：**捕捉真实环境复杂性，支持语言与动作对齐。但开放世界物体、场景、技能的长尾分布仍未充分覆盖。
+
+**典型案例：**
+
+ OXE（整合 22 个机器人平台的 100 万 + 多模态演示）
+
+ RH20T（支持 147 项任务单样本学习）
+
+ DROID（含 564 项 “自然场景” 远程操作演示）
+
+**模拟数据集与基准测试**：
+
+**特点：**提供可扩展、安全的训练环境，降低真实数据采集成本。但存在物理模拟不完美、视觉伪影等局限。
+
+**典型案例：**
+
+ BEHAVIOR（支持杂乱家庭环境多步骤控制）
+
+ CALVIN（支持无约束语言指令下的长期操作）
+
+ SIMPLER（通过校准环境减少模拟到现实差距）
+
+**人类行为数据集**：
+
+**特点：**提供语义丰富的人类交互先验，辅助 VLA 理解操作逻辑；可帮助 VLA 学习目标识别、动作序列与任务分解。
+
+**典型案例：**
+
+ Ego4D（3000 小时第一视角视频）
+
+ EPIC-Kitchens（细粒度烹饪任务视频）
+
+ EgoDex（829 小时含 3D 手部追踪的第一视角视频）
+
+**具身数据集与基准测试**：
+
+**特点：**聚焦 VLA 的规划与推理能力评估，推动从 “操作” 向 “认知 + 操作” 升级。为高层语义规划提供严格评估标准。
+
+**典型案例：**
+
+ OpenEQA（评估功能与常识推理）
+
+ LoTa-Bench（验证 LLM 生成规划的可执行性）
+
+ MT-EQA（支持多目标推理）
+
+未来方向
+
+1. **数据集与基准测试优化**：需结合大规模真实世界数据采集与复杂任务套件（如长期规划、移动操作），引入子任务成功率、时间效率、抗干扰性等多维度评估指标，解决现有数据 “现实差距” 与基准 “任务单一” 问题。
+2. **记忆机制与长期规划**：设计具备情景感知的记忆架构，让 VLA 可利用历史观测信息，从 “逐帧反应” 转向 “目标驱动的长期连贯动作”，解决当前模型短视行为问题。
+3. **3D 与 4D 感知升级**：突破静态 2D 视觉输入局限，整合深度、点云数据实现 3D 空间理解，结合时间动态信息构建 4D 感知，提升复杂环境操作稳健性。
+4. **移动操作整合**：打破 “移动” 与 “操作” 的阶段分离，学习自适应优先的整合策略，实现机器人同时完成 locomotion 与交互操作，适配真实世界动态场景需求。
+5. **多智能体协作**：构建共享世界模型与涌现式对话协议，让多个 VLA 智能体可协商意图、分配子任务（如联合搬运物体、协作使用工具），解决单智能体在复杂协作任务中的能力局限。
+6. **开放世界终身学习**：设计增量知识积累机制与抗遗忘记忆结构，让 VLA 可在开放环境中通过探索与反馈持续学习新技能、适应未知物体与交互方式，突破静态数据集训练的局限。
+7. **模型效率提升**：通过任务感知动态令牌修剪、异步推理、硬件友好量化，平衡模型容量与实时推理需求，适配资源受限的机器人平台。
+
+
+
+#### lingbotVLA
+
+https://technology.robbyant.com/lingbot-vla
+
+
+
+### 相关论文
+
+https://mp.weixin.qq.com/s/1XK9A5chRFuI2BxxftsiTA 来自东京大学、牛津大学和德克萨斯大学奥斯汀分校的研究人员对机器人领域的视觉-语言-动作 (VLA) 模型进行了全面、全栈式的综述，系统化了它们的演变、架构、训练策略以及实际应用挑战。该综述旨在标准化理解并指导通用机器人系统的发展。https://vla-survey.github.io/
+
+RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control》（Google DeepMind, 2023
+
+这篇应该是 VLA 的 “开山标杆” 了，Google DeepMind 首次把 PaLM-E 这种大模型的语义优势，和机器人动作结合起来，核心是将 VLM 的图文表征与机器人关节角度动作做对齐微调，实现了 “指令→动作” 的端到端映射。最让我印象深的是，它能跨物体泛化，比如没见过的杯子，也能根据指令拿起来，真正实现了具身智能从 0 到 1 的突破
+
+但短板也很明显，看完实验细节才发现，它只懂 “什么是什么”，不懂 “世界怎么动”—— 比如让它叠衣服、用陌生工具，就彻底 “罢工” 了，核心原因是它没有建模物理因果关系，无法捕捉物体接触、变形的动态规律，这也为后来 WAM 的出现，埋下了伏笔
+
+**《pi0: A vision-language-action model with open-world generalization》（Physical Intelligence, 2025）**
+
+这篇是 VLA 规模化训练的代表，Anthropic 团队用了海量互联网图文 + 机器人轨迹数据，采用 “图文预训练 + 机器人数据微调” 的两阶段训练策略，按理说性能应该大幅提升，但实验数据却很真实：在没见过的多样化任务中，它的任务进度只有 27.4%，过拟合特别严重；而且换个机器人本体，就得重新采集海量数据训练，核心问题是它的动作表征和特定机器人强绑定，缺乏通用的物理先验
+
+这两篇文献看下来，让人直观感受是：VLA 解决了 “机器人能听懂、能认出” 的基础问题，但 “物理理解缺失” 这个天花板，它始终没能突破，也让行业开始思考：这条路，或许不是最优解。就像我们想让机器人做饭，它能认出锅碗瓢盆，却不知道怎么开火、怎么翻炒，这就是 VLA 的尴尬之处
+
+https://serl-robot.github.io/ uc 伯克利 icra论文
+
+https://shengliangd.github.io/StereoVLA-Webpage/
+
+
+
+transporternets
+
+https://zhuanlan.zhihu.com/p/356505708
+
+https://transporternets.github.io/
+
+https://github.com/google-research/ravens
+
+Transporter Nets为视觉操纵带来了一种新的方法，在取得成功的同时也存在一系列局限性。例如，它们可能容易受到3D数据中噪声的影响，实验中仅仅描述了稀疏路点进行[运动控制](https://zhida.zhihu.com/search?content_id=167352966&content_type=Article&match_order=1&q=运动控制&zhida_source=entity)的情况，而对于空间外基于力或基于[力矩](https://zhida.zhihu.com/search?content_id=167352966&content_type=Article&match_order=1&q=力矩&zhida_source=entity)的控制行为还有待研究。
+
+
+
+### Franka
+
+#### 控制
+
+https://github.com/facebookresearch/polymetis
+
+https://github.com/iamlab-cmu/frankapy
+
+https://github.com/frankarobotics/franka_ros
+
+https://github.com/frankarobotics/libfranka
+
+https://github.com/TimSchneider42/franky. https://timschneider42.github.io/franky/
+
+
+
+数据集：
+
+RSS 2024: https://droid-dataset.github.io/
+
+ https://huggingface.co/KarlP/droid
+
+
+
+社区：https://franka.de/community
+
+https://github.com/franzesegiovanni
+
+
+
+人机控制franka： https://github.com/franzesegiovanni/franka_human_friendly_controllers?tab=readme-ov-file
+
+
+
