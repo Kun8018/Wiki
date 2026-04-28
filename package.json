@@ -4,16 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vuepress dev docs --temp .temp",
-    "build": "vuepress build docs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "rspress dev",
+    "build": "rspress build",
+    "preview": "rspress preview"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "less": "^4.1.1",
-    "less-loader": "^10.0.0",
-    "vuepress": "^1.8.2",
-    "vuepress-plugin-autobar": "^0.1.7"
+    "rspress": "^1.47.1"
   }
 }
