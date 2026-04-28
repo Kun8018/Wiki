@@ -1,0 +1,46 @@
+[
+  {
+    "text": "关于",
+    "link": "/关于/",
+    "activeMatch": "^/关于/"
+  },
+  {
+    "text": "技术",
+    "link": "/tech/",
+    "activeMatch": "^/tech/"
+  },
+  {
+    "text": "科学研究",
+    "link": "/科学研究/",
+    "activeMatch": "^/科学研究/"
+  },
+  {
+    "text": "业余研究",
+    "link": "/业余研究/",
+    "activeMatch": "^/业余研究/"
+  },
+  {
+    "text": "其他",
+    "link": "/其他/",
+    "activeMatch": "^/其他/"
+  },
+  {
+    "text": "英语",
+    "link": "/英语/",
+    "activeMatch": "^/英语/"
+  },
+  {
+    "text": "年终总结",
+    "link": "/年终总结/",
+    "activeMatch": "^/年终总结/"
+  },
+  {
+    "text": "年终总结",
+    "link": "/",
+    "activeMatch": "^/"
+  },
+  {
+    "text": "Github",
+    "link": "https://www.github.com/kun8018"
+  }
+]

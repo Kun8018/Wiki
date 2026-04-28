@@ -1,2 +1,6 @@
 node_modules
-.histroy
+.history
+.temp
+.vuepress
+dist
+.rspress

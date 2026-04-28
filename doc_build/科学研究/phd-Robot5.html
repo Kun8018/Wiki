@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content="Rspress v1.47.1">
+    <title data-rh="true">机器人研究(二) - Kun&#x27;s Wiki</title><meta data-rh="true" name="description" content="meta的描述内容"/>
+  <script>{;const saved = localStorage.getItem('rspress-theme-appearance');const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;const isDark = !saved || saved === 'auto' ? preferDark : saved === 'dark';document.documentElement.classList.toggle('dark', isDark);document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';}</script><script defer src="/static/js/styles.ec9aa835.js"></script><script defer src="/static/js/lib-react.53899b0f.js"></script><script defer src="/static/js/lib-router.1583a447.js"></script><script defer src="/static/js/4134.c77c0ceb.js"></script><script defer src="/static/js/index.d5f3bee3.js"></script><link href="/static/css/styles.56b59350.css" rel="stylesheet"></head>
+
+  <body >
+    <div id="root"><div class="navContainer_d18b1 rspress-nav px-6  sticky_ddfa7"><div class="container_e4235 flex justify-between items-center h-full"><div class="navBarTitle_c5f07"><a href="/index.html" class="link_a7cea flex items-center w-full h-full text-base font-semibold transition-opacity duration-300 hover:opacity-60"><span>Kun&#x27;s Wiki</span></a></div><div class="flex flex-1 justify-end items-center"><div class="rightNav_a2fea"><div class="flex sm:flex-1 items-center sm:pl-4 sm:pr-2"><div class="rspress-nav-search-button navSearchButton_df1fb"><button><svg width="18" height="18" viewBox="0 0 32 32"><path fill="var(--rp-c-gray)" d="m29 27.586-7.552-7.552a11.018 11.018 0 1 0-1.414 1.414L27.586 29ZM4 13a9 9 0 1 1 9 9 9.01 9.01 0 0 1-9-9"></path></svg><p class="searchWord_af2c1">Search</p><div style="opacity:0"><span></span><span>K</span></div></button></div><div class="mobileNavSearchButton_d85a9"><svg width="24" height="24" viewBox="0 0 32 32"><path fill="var(--rp-c-gray)" d="m29 27.586-7.552-7.552a11.018 11.018 0 1 0-1.414 1.414L27.586 29ZM4 13a9 9 0 1 1 9 9 9.01 9.01 0 0 1-9-9"></path></svg></div></div><div class="rspress-nav-menu menu h-14"><a href="/关于/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">关于</div></a><a href="/tech/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">技术</div></a><a href="/科学研究/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154 activeItem_a28b5 text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">科学研究</div></a><a href="/业余研究/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">业余研究</div></a><a href="/其他/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">其他</div></a><a href="/英语/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">英语</div></a><a href="/年终总结/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">年终总结</div></a><a href="https://www.github.com/kun8018" target="_blank" rel="noopener noreferrer" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-0.5 px-3 py-2 flex items-center break-keep">Github</div></a></div><div class="flex-center flex-row"><div class="mx-2"><div class="md:mr-2 rspress-nav-appearance"><div class="p-1 border border-solid border-gray-300 text-gray-400  cursor-pointer rounded-md hover:border-gray-600 hover:text-gray-600 dark:hover:border-gray-200 dark:hover:text-gray-200 transition-all duration-300 w-7 h-7"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 24 24" class="dark:hidden" width="18" height="18" fill="currentColor"><path d="M12 18c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6m0-10c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4M12 4c-.6 0-1-.4-1-1V1c0-.6.4-1 1-1s1 .4 1 1v2c0 .6-.4 1-1 1M12 24c-.6 0-1-.4-1-1v-2c0-.6.4-1 1-1s1 .4 1 1v2c0 .6-.4 1-1 1M5.6 6.6c-.3 0-.5-.1-.7-.3L3.5 4.9c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l1.4 1.4c.4.4.4 1 0 1.4-.1.2-.4.3-.7.3M19.8 20.8c-.3 0-.5-.1-.7-.3l-1.4-1.4c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l1.4 1.4c.4.4.4 1 0 1.4-.2.2-.5.3-.7.3M3 13H1c-.6 0-1-.4-1-1s.4-1 1-1h2c.6 0 1 .4 1 1s-.4 1-1 1M23 13h-2c-.6 0-1-.4-1-1s.4-1 1-1h2c.6 0 1 .4 1 1s-.4 1-1 1M4.2 20.8c-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l1.4-1.4c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-1.4 1.4c-.2.2-.4.3-.7.3M18.4 6.6c-.3 0-.5-.1-.7-.3-.4-.4-.4-1 0-1.4l1.4-1.4c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-1.4 1.4c-.2.2-.5.3-.7.3"></path></svg><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 24 24" class="hidden dark:block" width="18" height="18" fill="currentColor"><path d="M12.1 22h-.9c-5.5-.5-9.5-5.4-9-10.9.4-4.8 4.2-8.6 9-9 .4 0 .8.2 1 .5s.2.8-.1 1.1c-2 2.7-1.4 6.4 1.3 8.4 2.1 1.6 5 1.6 7.1 0 .3-.2.7-.3 1.1-.1.3.2.5.6.5 1-.2 2.7-1.5 5.1-3.6 6.8-1.9 1.4-4.1 2.2-6.4 2.2M9.3 4.4c-2.9 1-5 3.6-5.2 6.8-.4 4.4 2.8 8.3 7.2 8.7 2.1.2 4.2-.4 5.8-1.8 1.1-.9 1.9-2.1 2.4-3.4-2.5.9-5.3.5-7.5-1.1-2.8-2.2-3.9-5.9-2.7-9.2"></path></svg></div></div></div></div></div><div class="mobileNavMenu_e7045"><div class="navScreen_ec30c  rspress-nav-screen" id="navScreen"><div class="container_c935d"><div class="navMenu_b887b"><div class="navMenuItem_e7978 w-full"><a href="/关于/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">关于</div></a></div><div class="navMenuItem_e7978 w-full"><a href="/tech/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">技术</div></a></div><div class="navMenuItem_e7978 w-full"><a href="/科学研究/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154 activeItem_a28b5 text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">科学研究</div></a></div><div class="navMenuItem_e7978 w-full"><a href="/业余研究/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">业余研究</div></a></div><div class="navMenuItem_e7978 w-full"><a href="/其他/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">其他</div></a></div><div class="navMenuItem_e7978 w-full"><a href="/英语/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">英语</div></a></div><div class="navMenuItem_e7978 w-full"><a href="/年终总结/index.html" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">年终总结</div></a></div><div class="navMenuItem_e7978 w-full"><a href="https://www.github.com/kun8018" target="_blank" rel="noopener noreferrer" class="link_a7cea "><div class="rspress-nav-menu-item singleItem_c1154  text-sm font-medium mx-1.5 px-3 py-2 flex items-center break-keep">Github</div></a></div></div><div class="flex-center flex-col gap-2"><div class="mt-2 navAppearance_bf893 flex justify-center"></div></div></div></div><button aria-label="mobile hamburger" class=" rspress-mobile-hamburger navHamburger_ac64c text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="currentColor"><circle cx="8" cy="16" r="2" fill="currentColor"></circle><circle cx="16" cy="16" r="2" fill="currentColor"></circle><circle cx="24" cy="16" r="2" fill="currentColor"></circle></svg></button></div></div></div></div><section><div class="docLayout_af141 pt-0"><aside class="sidebar_dd719 rspress-sidebar "><div class="navTitleMask_fb17c"><div class="navBarTitle_c5f07"><a href="/index.html" class="link_a7cea flex items-center w-full h-full text-base font-semibold transition-opacity duration-300 hover:opacity-60"><span>Kun&#x27;s Wiki</span></a></div></div><div class="rspress-scrollbar sidebarContent_da296"><nav class="pb-2"><section class="rspress-sidebar-section mt-0.5 block" style="margin-left:0"><div class="rspress-sidebar-collapse flex justify-between items-center menuItem_ac22e" style="border-radius:0 var(--rp-radius) var(--rp-radius) 0;cursor:pointer"><h2 class="py-2 px-3 text-sm font-medium flex" style="font-size:14px;padding-left:24px;font-weight:bold"><span class="flex-center" style="font-size:14px">科学研究</span></h2><div class="collapseContainer_d6e4e p-2 rounded-xl"><div style="cursor:pointer;transition:transform 0.2s ease-out;transform:rotate(90deg)"><svg width="1em" height="1em" viewBox="0 0 32 32"><path fill="currentColor" d="M22 16 12 26l-1.4-1.4 8.6-8.6-8.6-8.6L12 6z"></path></svg></div></div></div><div class="transition-all duration-300 ease-in-out" style="overflow:hidden"><div class="rspress-sidebar-group transition-opacity duration-500 ease-in-out" style="opacity:1;margin-left:12px"><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot2.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot2</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot3.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot3</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot4.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot4</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot5.html" class="link_a7cea menuLink_bb039"><div class="menuItemActive_de63c mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot5</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot6.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot6</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot-classic.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot-classic</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot-classic2.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot-classic2</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot-classic3.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot-classic3</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot14.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot14</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot15.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot15</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot16.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot16</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot17.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot17</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot18.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot18</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot19.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot19</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot20.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot20</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot21.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot21</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot-2024.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot-2024</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot-2025.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot-2025</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-Robot-2026.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-Robot-2026</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-ROS.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-ROS</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-ROS2.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-ROS2</span></div></a></div><div class="rspress-sidebar-item"><a href="/科学研究/phd-HCI.html" class="link_a7cea menuLink_bb039"><div class="menuItem_ac22e mt-0.5 py-2 px-3 font-medium flex" style="font-size:13px;margin-left:18px;border-radius:0 var(--rp-radius) var(--rp-radius) 0"><span>phd-HCI</span></div></a></div></div></div></section></nav></div></aside><div class="flex-1 relative min-w-0"><div class="rspress-sidebar-menu-container "><div class="rspress-sidebar-menu"><button type="button" class="flex-center mr-auto"><div class="text-md mr-2"><svg width="1em" height="1em" viewBox="0 0 32 32"><path fill="currentColor" d="M4 6h24v2H4zm0 18h24v2H4zm0-12h24v2H4zm0 6h24v2H4z"></path></svg></div><span class="text-sm">Menu</span></button><button type="button" class="flex-center ml-auto"><span class="text-sm">ON THIS PAGE</span><div class="text-md mr-2" style="transform:rotate(0deg);transition:transform 0.2s ease-out;margin-top:2px"><svg width="1em" height="1em" viewBox="0 0 32 32"><path fill="currentColor" d="M22 16 12 26l-1.4-1.4 8.6-8.6-8.6-8.6L12 6z"></path></svg></div></button><div class="rspress-local-toc-container "><ul><li><a href="#具身智能" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:0"><span class="rspress-toc-link-text block">具身智能</span></a></li><li><a href="#tensorflow" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:12px"><span class="rspress-toc-link-text block">tensorflow</span></a></li><li><a href="#初始化" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:24px"><span class="rspress-toc-link-text block">初始化</span></a></li><li><a href="#layer" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:24px"><span class="rspress-toc-link-text block">layer</span></a></li><li><a href="#pytorch" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:12px"><span class="rspress-toc-link-text block">pytorch</span></a></li><li><a href="#fsdp" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:24px"><span class="rspress-toc-link-text block">fsdp</span></a></li><li><a href="#多gpu推理" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:24px"><span class="rspress-toc-link-text block">多GPU推理</span></a></li><li><a href="#ddp" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:24px"><span class="rspress-toc-link-text block">DDP</span></a></li><li><a href="#版本" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:24px"><span class="rspress-toc-link-text block">版本</span></a></li><li><a href="#diffusers" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:12px"><span class="rspress-toc-link-text block">diffusers</span></a></li><li><a href="#transformers" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:12px"><span class="rspress-toc-link-text block">transformers</span></a></li><li><a href="#hugging-face" class="link_a7cea rspress-toc-link sm:text-normal text-sm" style="margin-left:12px"><span class="rspress-toc-link-text block">hugging face</span></a></li></ul></div></div></div><div class="content_ff766 rspress-doc-container flex"><div class="flex-1 overflow-x-auto"><div class="rspress-doc"><h1 id="机器人研究二" class="rspress-doc-title text-3xl mb-10 leading-10 tracking-tight title_fb7eb">机器人研究(二)<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" href="#机器人研究二" aria-hidden="true">#</a></h1><!--$--><h2 id="具身智能" class="mt-12 mb-6 pt-8 text-2xl tracking-tight border-t-[1px] border-divider-light title_fb7eb">具身智能<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#具身智能">#</a></h2>
+<h3 id="tensorflow" class="mt-10 mb-2 leading-7 text-xl title_fb7eb">tensorflow<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#tensorflow">#</a></h3>
+<h4 id="初始化" class="mt-8 leading-6 text-lg title_fb7eb">初始化<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#初始化">#</a></h4>
+<p class="my-4 leading-7">tf.compat.v1 里“初始化”相关的东西主要分两类：会话中一次性执行的初始化器（返回一个 op，需要 sess.run），以及为变量提供初始值的“初始器”（传给 get_variable/Variable 的 initializer 参数）</p>
+<p class="my-4 leading-7">会话级初始化器（运行一次以初始化图中的对象）</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">global_variables_initializer() / initializers.global_variables()
+初始化所有“全局变量”（模型参数等，Variable 被加入 GLOBAL_VARIABLES 集合）。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">local_variables_initializer() / initializers.local_variables()
+初始化所有“局部变量”（常用于指标、临时计数等，加入 LOCAL_VARIABLES 集合）。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">variables_initializer(var_list) / initializers.variables(var_list)
+按需初始化指定变量列表。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">tables_initializer() / initializers.tables()
+初始化查找表（tf.lookup 等），不初始化变量。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">兼容别名（已弃用，但在 compat.v1 仍可用）</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">initialize_all_variables() ≡ global_variables_initializer()</li>
+<li class="[&amp;:not(:first-child)]:mt-2">initialize_local_variables() ≡ local_variables_initializer()</li>
+<li class="[&amp;:not(:first-child)]:mt-2">initialize_variables(var_list) ≡ variables_initializer(var_list)</li>
+<li class="[&amp;:not(:first-child)]:mt-2">initialize_all_tables() ≡ tables_initializer()</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">辅助检查</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">report_uninitialized_variables(var_list=None)
+返回未初始化变量的名字（sess.run 后得到字符串列表），用于排查。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">assert_variables_initialized(var_list=None)
+断言变量已初始化，未初始化则抛错</p>
+<p class="my-4 leading-7">sess.run(tf.compat.v1.global_variables_initializer())</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">sess.run([tf.compat.v1.local_variables_initializer(), tf.compat.v1.tables_initializer()])</p>
+</li>
+</ul>
+</li>
+</ul>
+<p class="my-4 leading-7">变量初始值“初始器”（传给变量创建时的 initializer）</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">constant_initializer(value=0)
+常量初值。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">zeros_initializer() / ones_initializer()
+全 0 / 全 1。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">random_uniform_initializer(minval=0.0, maxval=1.0, seed=None, dtype=None)
+区间均匀分布。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">random_normal_initializer(mean=0.0, stddev=1.0, seed=None, dtype=None)
+正态分布。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">truncated_normal_initializer(mean=0.0, stddev=1.0, seed=None, dtype=None)
+截断正态（去除远离均值的尾部）。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">orthogonal_initializer(gain=1.0, seed=None)
+正交矩阵初始化（常用于线性层/卷积核）。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">identity_initializer(gain=1.0)
+单位矩阵（仅适用于方阵形状）。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">uniform_unit_scaling_initializer(factor=1.0, seed=None, dtype=tf.float32)
+单位尺度均匀分布（v1 经典初始化器）</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">方差缩放初始化，把权重按 fan_in/fan_out 计算出尺度，再用均匀或正态分布采样。它们的等价关系与公式如下（fan_in=输入通道数，fan_out=输出通道数；Dense 的 [in, out]，Conv2D 的 [kh, kw, inC, outC] 则 fan_in=kh<em>kw</em>inC，fan_out=kh<em>kw</em>outC）</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">tf.compat.v1.glorot_normal_initializer()（Xavier/Glorot Normal）<!-- -->
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">分布：截断正态（truncated normal）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">标准差：stddev = sqrt(2 / (fan_in + fan_out))</li>
+<li class="[&amp;:not(:first-child)]:mt-2">适用：tanh、sigmoid、线性等非 ReLU 激活常用</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">tf.compat.v1.glorot_uniform_initializer()（Xavier/Glorot Uniform）<!-- -->
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">分布：均匀</li>
+<li class="[&amp;:not(:first-child)]:mt-2">范围：[-limit, limit]，limit = sqrt(6 / (fan_in + fan_out))</li>
+<li class="[&amp;:not(:first-child)]:mt-2">适用：同上</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">tf.compat.v1.keras.initializers.he_normal()（Kaiming/He Normal）<!-- -->
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">分布：正态（Keras实现为未截断的 normal）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">标准差：stddev = sqrt(2 / fan_in)</li>
+<li class="[&amp;:not(:first-child)]:mt-2">适用：ReLU/LeakyReLU/ELU 等 ReLU 系列激活</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">tf.compat.v1.keras.initializers.he_uniform()（Kaiming/He Uniform）<!-- -->
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">分布：均匀</li>
+<li class="[&amp;:not(:first-child)]:mt-2">范围：[-limit, limit]，limit = sqrt(6 / fan_in)</li>
+<li class="[&amp;:not(:first-child)]:mt-2">适用：同上</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">tf.compat.v1.keras.initializers.lecun_normal()<!-- -->
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">分布：正态</li>
+<li class="[&amp;:not(:first-child)]:mt-2">标准差：stddev = sqrt(1 / fan_in)</li>
+<li class="[&amp;:not(:first-child)]:mt-2">适用：SELU（自归一化网络）推荐；也可用于线性/softsign 等</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">tf.compat.v1.keras.initializers.lecun_uniform()<!-- -->
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">分布：均匀</li>
+<li class="[&amp;:not(:first-child)]:mt-2">范围：[-limit, limit]，limit = sqrt(3 / fan_in)</li>
+<li class="[&amp;:not(:first-child)]:mt-2">适用：同上</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">“xavier_<em>”就是“glorot_</em>”的别称；TF 提供的是 glorot_*。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">TF v1 的 glorot_normal 使用截断正态（更稳一些）；Keras 的 he/lecun normal 用未截断正态。</p>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">
+<p class="my-4 leading-7">选择建议：</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">ReLU 系列：he_normal / he_uniform</li>
+<li class="[&amp;:not(:first-child)]:mt-2">tanh/sigmoid/线性：glorot_normal / glorot_uniform</li>
+<li class="[&amp;:not(:first-child)]:mt-2">SELU：lecun_normal（配合 AlphaDropout）</li>
+</ul>
+</li>
+</ul>
+<h4 id="layer" class="mt-8 leading-6 text-lg title_fb7eb">layer<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#layer">#</a></h4>
+<p class="my-4 leading-7">tf.compat.v1.layers 是 TF1 的“简易层”API（已弃用，TF2 请用 tf.keras.layers）。里面主要是两类：函数式层（返回张量）和对应的层类</p>
+<p class="my-4 leading-7">tf.keras.layers</p>
+<p class="my-4 leading-7">核心与形状</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">Input/InputLayer：定义输入张量</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Dense：全连接</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Activation：独立激活</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Lambda：自定义运算</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Flatten、Reshape、Permute、RepeatVector</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Dropout、SpatialDropout1D/2D/3D、GaussianDropout、GaussianNoise、AlphaDropout</li>
+<li class="[&amp;:not(:first-child)]:mt-2">ActivityRegularization</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Masking（基于掩码的序列填充忽略）</li>
+</ul>
+<p class="my-4 leading-7">卷积与转置卷积</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">Conv1D/2D/3D</li>
+<li class="[&amp;:not(:first-child)]:mt-2">SeparableConv2D（深度可分离卷积）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">DepthwiseConv2D（纯深度卷积）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Conv2DTranspose/Conv3DTranspose（反卷积/上采样）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Conv1DTranspose（部分 TF2 版本提供，2.9+）</li>
+</ul>
+<p class="my-4 leading-7">池化</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">MaxPooling1D/2D/3D、AveragePooling1D/2D/3D</li>
+<li class="[&amp;:not(:first-child)]:mt-2">GlobalMaxPooling1D/2D/3D、GlobalAveragePooling1D/2D/3D</li>
+</ul>
+<p class="my-4 leading-7">归一化与标准化</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">BatchNormalization</li>
+<li class="[&amp;:not(:first-child)]:mt-2">LayerNormalization</li>
+<li class="[&amp;:not(:first-child)]:mt-2">说明：Group/Instance Norm 不在核心 Keras，通常用 tensorflow_addons.layers.GroupNormalization/InstanceNormalization</li>
+</ul>
+<p class="my-4 leading-7">嵌入与注意力</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">Embedding</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Attention、AdditiveAttention</li>
+<li class="[&amp;:not(:first-child)]:mt-2">MultiHeadAttention（Transformer 常用）</li>
+</ul>
+<p class="my-4 leading-7">序列与循环网络</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">RNN（通用容器）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">SimpleRNN、GRU、LSTM</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Bidirectional、TimeDistributed（包装器）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">ConvLSTM2D（时空卷积 LSTM）</li>
+</ul>
+<p class="my-4 leading-7">合并/运算层</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">Add、Subtract、Multiply、Average、Maximum、Minimum、Concatenate、Dot</li>
+</ul>
+<p class="my-4 leading-7">采样/几何变换/边界</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">UpSampling1D/2D/3D</li>
+<li class="[&amp;:not(:first-child)]:mt-2">ZeroPadding1D/2D/3D、Cropping1D/2D/3D</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Resizing（尺寸缩放，插值）、Rescaling（数值缩放）</li>
+</ul>
+<p class="my-4 leading-7">预处理（可在模型内端到端使用）</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">Numeric: Normalization、Discretization、CategoryEncoding</li>
+<li class="[&amp;:not(:first-child)]:mt-2">Lookup: StringLookup、IntegerLookup、Hashing</li>
+<li class="[&amp;:not(:first-child)]:mt-2">图像: Rescaling、Resizing、CenterCrop、RandomFlip、RandomRotation、RandomZoom、RandomTranslation、RandomContrast</li>
+<li class="[&amp;:not(:first-child)]:mt-2">文本: TextVectorization</li>
+</ul>
+<h3 id="pytorch" class="mt-10 mb-2 leading-7 text-xl title_fb7eb">pytorch<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#pytorch">#</a></h3>
+<p class="my-4 leading-7"><a href="https://datawhalechina.github.io/thorough-pytorch/%E7%AC%AC%E4%BA%8C%E7%AB%A0/2.1%20%E5%BC%A0%E9%87%8F.html" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">https://datawhalechina.github.io/thorough-pytorch/%E7%AC%AC%E4%BA%8C%E7%AB%A0/2.1%20%E5%BC%A0%E9%87%8F.html</a></p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">torch：张量与基础运算、设备管理（CPU/GPU）、随机数、保存/加载</li>
+<li class="[&amp;:not(:first-child)]:mt-2">torch.nn：模型构建（Module、层、Loss）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">torch.nn.functional：函数式 API（无状态的激活/卷积/损失等）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">torch.optim：优化器（SGD、Adam 等）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">torch.utils.data：Dataset、DataLoader</li>
+<li class="[&amp;:not(:first-child)]:mt-2">torch.cuda：CUDA 相关（设备查询、显存等）</li>
+</ul>
+<h4 id="fsdp" class="mt-8 leading-6 text-lg title_fb7eb">fsdp<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#fsdp">#</a></h4>
+<p class="my-4 leading-7"><a href="https://huggingface.co/docs/transformers/zh/performance" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">https://huggingface.co/docs/transformers/zh/performance</a></p>
+<p class="my-4 leading-7"><a href="https://pytorch.org/blog/introducing-pytorch-fully-sharded-data-parallel-api/" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">完全分片数据并行（FSDP）</a>是一种数据并行方法， 它将模型的参数、梯度和优化器状态在可用 GPU（也称为 Worker 或 <em>rank</em>）的数量上进行分片。 与<a href="https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">分布式数据并行（DDP）</a>不同， FSDP 减少了内存使用量，因为模型在每个 GPU 上都被复制了一次。这就提高了 GPU 内存效率， 使您能够用较少的 GPU 训练更大的模型。FSDP 已经集成到 Accelerate 中， 这是一个用于在分布式环境中轻松管理训练的库，这意味着可以从 <code>Trainer</code> 类中调用这个库。</p>
+<p class="my-4 leading-7">在开始之前，请确保已安装 Accelerate，并且至少使用 PyTorch 2.1.0 或更高版本</p>
+<div class="language-shell"><div class="rspress-code-content rspress-scrollbar"><div><pre class="code" style="background-color:inherit"><code class="language-shell" style="white-space:pre"><span style="display:block;padding:0 1.25rem"><span>pip </span><span class="token" style="color:var(--code-token-function)">install</span><span> accelerate</span></span></code></pre></div><div class="code-button-group_fb445"><button title="Toggle code wrap"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrapped_fb89b"><path fill="#22a041" d="M21 5H3v2h18zM3 19h7v-2H3zm0-6h15c1 0 2 .43 2 2s-1 2-2 2h-2v-2l-4 3 4 3v-2h2c2.95 0 4-1.27 4-4 0-2.72-1-4-4-4H3z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrap_ccd3d"><path fill="currentColor" d="M16 7H3V5h13zM3 19h13v-2H3zm19-7-4-3v2H3v2h15v2z"></path></svg></button><button class="code-copy-button_c5089" title="Copy code"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30" class="icon-copy_ef942"><path fill="currentColor" d="M28 10v18H10V10zm0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2"></path><path fill="currentColor" d="M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z"></path></svg><svg width="32" height="32" viewBox="0 0 30 30" class="icon-success_d5ec0"><path fill="#49cd37" d="m13 24-9-9 1.414-1.414L13 21.171 26.586 7.586 28 9z"></path></svg></button></div></div></div>
+<p class="my-4 leading-7">FSDP 提供了多种可选择的分片策略：</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2"><code>FULL_SHARD</code> - 将模型参数、梯度和优化器状态跨 Worker 进行分片；为此选项选择 <code>1</code></li>
+<li class="[&amp;:not(:first-child)]:mt-2"><code>SHARD_GRAD_OP</code>- 将梯度和优化器状态跨 Worker 进行分片；为此选项选择 <code>2</code></li>
+<li class="[&amp;:not(:first-child)]:mt-2"><code>NO_SHARD</code> - 不分片任何内容（这等同于 DDP）；为此选项选择 <code>3</code></li>
+<li class="[&amp;:not(:first-child)]:mt-2"><code>HYBRID_SHARD</code> - 在每个 Worker 中分片模型参数、梯度和优化器状态，其中每个 Worker 也有完整副本；为此选项选择 <code>4</code></li>
+<li class="[&amp;:not(:first-child)]:mt-2"><code>HYBRID_SHARD_ZERO2</code> - 在每个 Worker 中分片梯度和优化器状态，其中每个 Worker 也有完整副本；为此选项选择 <code>5</code></li>
+</ul>
+<p class="my-4 leading-7">这由 <code>fsdp_sharding_strategy</code> 标志启用</p>
+<p class="my-4 leading-7">当参数和梯度在不使用时可以卸载到 CPU 上，以节省更多 GPU 内存并帮助您适应即使 FSDP 也不足以容纳大型模型的情况。 在运行 <code>accelerate config</code> 时，通过设置 <code>fsdp_offload_params: true</code> 来启用此功能</p>
+<p class="my-4 leading-7">FSDP 是通过包装网络中的每个层来应用的。通常，包装是以嵌套方式应用的，其中完整的权重在每次前向传递后被丢弃， 以便在下一层使用内存。<strong class="font-semibold">自动包装</strong>策略是实现这一点的最简单方法，您不需要更改任何代码。 您应该选择 <code>fsdp_auto_wrap_policy: TRANSFORMER_BASED_WRAP</code> 来包装一个 Transformer 层， 并且 <code>fsdp_transformer_layer_cls_to_wrap</code> 来指定要包装的层（例如 <code>BertLayer</code>）。</p>
+<p class="my-4 leading-7">否则，您可以选择基于大小的包装策略，其中如果一层的参数超过一定数量，则应用 FSDP。通过设置 <code>fsdp_wrap_policy: SIZE_BASED_WRAP</code> 和 <code>min_num_param</code> 来启用此功能，将参数设置为所需的大小阈值。</p>
+<h4 id="多gpu推理" class="mt-8 leading-6 text-lg title_fb7eb">多GPU推理<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#多gpu推理">#</a></h4>
+<p class="my-4 leading-7">某些模型现已支持内置的<strong class="font-semibold">张量并行</strong>（Tensor Parallelism, TP），并通过 PyTorch 实现。张量并行技术将模型切分到多个 GPU 上，从而支持更大的模型尺寸，并对诸如矩阵乘法等计算任务进行并行化。</p>
+<p class="my-4 leading-7">要启用张量并行，只需在调用 <code>from_pretrained()</code> 时传递参数 <code>tp_plan=&quot;auto&quot;</code></p>
+<div class="language-python"><div class="rspress-code-content rspress-scrollbar"><div><pre class="code" style="background-color:inherit"><code class="language-python" style="white-space:pre"></code></pre></div><div class="code-button-group_fb445"><button title="Toggle code wrap"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrapped_fb89b"><path fill="#22a041" d="M21 5H3v2h18zM3 19h7v-2H3zm0-6h15c1 0 2 .43 2 2s-1 2-2 2h-2v-2l-4 3 4 3v-2h2c2.95 0 4-1.27 4-4 0-2.72-1-4-4-4H3z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrap_ccd3d"><path fill="currentColor" d="M16 7H3V5h13zM3 19h13v-2H3zm19-7-4-3v2H3v2h15v2z"></path></svg></button><button class="code-copy-button_c5089" title="Copy code"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30" class="icon-copy_ef942"><path fill="currentColor" d="M28 10v18H10V10zm0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2"></path><path fill="currentColor" d="M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z"></path></svg><svg width="32" height="32" viewBox="0 0 30 30" class="icon-success_d5ec0"><path fill="#49cd37" d="m13 24-9-9 1.414-1.414L13 21.171 26.586 7.586 28 9z"></path></svg></button></div></div></div>
+<p class="my-4 leading-7">减少批量大小</p>
+<div class="language-bash"><div class="rspress-code-content rspress-scrollbar"><div><pre class="code" style="background-color:inherit"><code class="language-bash" style="white-space:pre"><span style="display:block;padding:0 1.25rem"><span>--batch_size </span><span class="token number">16</span></span></code></pre></div><div class="code-button-group_fb445"><button title="Toggle code wrap"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrapped_fb89b"><path fill="#22a041" d="M21 5H3v2h18zM3 19h7v-2H3zm0-6h15c1 0 2 .43 2 2s-1 2-2 2h-2v-2l-4 3 4 3v-2h2c2.95 0 4-1.27 4-4 0-2.72-1-4-4-4H3z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrap_ccd3d"><path fill="currentColor" d="M16 7H3V5h13zM3 19h13v-2H3zm19-7-4-3v2H3v2h15v2z"></path></svg></button><button class="code-copy-button_c5089" title="Copy code"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30" class="icon-copy_ef942"><path fill="currentColor" d="M28 10v18H10V10zm0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2"></path><path fill="currentColor" d="M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z"></path></svg><svg width="32" height="32" viewBox="0 0 30 30" class="icon-success_d5ec0"><path fill="#49cd37" d="m13 24-9-9 1.414-1.414L13 21.171 26.586 7.586 28 9z"></path></svg></button></div></div></div>
+<h4 id="ddp" class="mt-8 leading-6 text-lg title_fb7eb">DDP<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#ddp">#</a></h4>
+<p class="my-4 leading-7">模型与变量必须存在于同一个设备上（CPU or GPU） pytorch使用to函数实现变量或模型的存储转移，to函数的对象要么是数据Tensor，要么是模型Module 张量<strong class="font-semibold">不执行inplace</strong>(即 执行之后重新构建一个新的张量)，模型<strong class="font-semibold">执行inplace</strong>(执行之后不重新构建一个新的模型)</p>
+<p class="my-4 leading-7">原理：当给定model时，主要实现功能是将<strong class="font-semibold">input</strong>数据依据<strong class="font-semibold">batch</strong>的这个维度，将数据划分到指定的设备上。其他的对象(objects)复制到每个设备上。在前向传播的过程中，module被复制到每个设备上，每个复制的副本处理一部分输入数据。在反向传播过程中，每个副本module的梯度被汇聚到原始的module上计算(一般为第0块GPU)</p>
+<p class="my-4 leading-7">DP在每个训练批次（batch）中，因为模型的权重都是在 一个进程上先算出来 然后再把他们分发到每个GPU上，所以<strong class="font-semibold">网络通信</strong>就成为了一个瓶颈，而GPU使用率也通常很低。
+2、因为它在每一次的前向传播的时候把模型也复制了（即每次更新都复制一遍模型），并且单进程多线程会造成<a href="https://link.zhihu.com/?target=https%3A//wiki.python.org/moin/GlobalInterpreterLock" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">GIL contention</a> （全局解释器锁争用） 这里<strong class="font-semibold">进程计算权重使通信成为瓶颈</strong>造成了大量的时间浪费，因此引入了DDP。</p>
+<p class="my-4 leading-7">DDP采用<strong class="font-semibold">多进程控制</strong>多GPU，共同训练模型，一份代码会被pytorch自动分配到n个进程并在n个GPU上运行。 DDP运用<a href="https://zhida.zhihu.com/search?content_id=196800777&amp;content_type=Article&amp;match_order=1&amp;q=Ring-Reduce&amp;zhida_source=entity" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">Ring-Reduce</a>通信算法在每个GPU间对梯度进行通讯，交换彼此的梯度，从而获得所有GPU的梯度。对比DP，不需要在进行模型本体的通信，因此可以加速训练。</p>
+<p class="my-4 leading-7">需要注意以下几点：
+1、设置DistributedSampler来打乱数据，因为一个batch被分配到了好几个进程中，要确保不同的GPU拿到的不是同一份数据。
+2、要告诉每个进程自己的id，即使用哪一块GPU。
+3、如果需要做BatchNormalization，需要对数据进行同步</p>
+<p class="my-4 leading-7">TorchRun</p>
+<p class="my-4 leading-7"><a href="https://docs.pytorch.ac.cn/docs/stable/elastic/run.html" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">https://docs.pytorch.ac.cn/docs/stable/elastic/run.html</a></p>
+<p class="my-4 leading-7">Torchrun 使用 <a href="https://docs.pytorch.org/docs/2.7/notes/ddp.html#internal-design" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">DistributedDataParallel</a> 模块来管理分布式训练。使用 Torchrun 在多个 GPU 上训练时，会出现以下情况:</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">每个 GPU 运行独立的进程。</li>
+<li class="[&amp;:not(:first-child)]:mt-2">每个进程执行完整训练脚本</li>
+<li class="[&amp;:not(:first-child)]:mt-2">每个进程都保持自己的:<!-- -->
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">Isaac Lab 环境实例（具有 <em>n</em> 个并行环境）</li>
+<li class="[&amp;:not(:first-child)]:mt-2">策略网络复制</li>
+<li class="[&amp;:not(:first-child)]:mt-2">用于rollout收集的经验缓冲区</li>
+</ul>
+</li>
+<li class="[&amp;:not(:first-child)]:mt-2">所有进程仅在梯度更新时进行同步</li>
+</ul>
+<p class="my-4 leading-7">模块 <code>torch.distributed.run</code>。</p>
+<p class="my-4 leading-7"><code>torch.distributed.run</code> 是一个在每个训练节点上启动多个分布式训练进程的模块。</p>
+<p class="my-4 leading-7"><code>torchrun</code> 是一个指向主模块 <a href="https://github.com/pytorch/pytorch/blob/master/torch/distributed/run.py" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">torch.distributed.run</a> 的 Python <a href="https://packaging.pythonlang.cn/en/latest/specifications/entry-points/#use-for-scripts" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">控制台脚本</a>，该脚本在 <a href="https://github.com/pytorch/pytorch/blob/master/setup.py" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">setup.py</a> 的 <code>entry_points</code> 配置中声明。它等同于调用 <code>python -m torch.distributed.run</code>。</p>
+<p class="my-4 leading-7"><code>torchrun</code> 可用于单节点分布式训练，其中每个节点将启动一个或多个进程。它既可以用于 CPU 训练，也可以用于 GPU 训练。如果用于 GPU 训练，每个分布式进程将运行在单个 GPU 上。这可以显著提高单节点训练性能。<code>torchrun</code> 也可用于多节点分布式训练，通过在每个节点上启动多个进程，同样可以大幅提升多节点分布式训练的性能。这对于具有多个支持直接 GPU 访问的 Infiniband 接口的系统尤其有利，因为所有接口都可以被利用来获得聚合通信带宽。</p>
+<p class="my-4 leading-7">无论是单节点分布式训练还是多节点分布式训练，<code>torchrun</code> 都会在每个节点上启动给定数量的进程 (<code>--nproc-per-node</code>)。如果用于 GPU 训练，该数量需要小于或等于当前系统上的 GPU 数量 (<code>nproc_per_node</code>)，且每个进程将在从 <em>GPU 0 到 GPU (nproc_per_node - 1)</em> 的单个 GPU 上运行</p>
+<h4 id="版本" class="mt-8 leading-6 text-lg title_fb7eb">版本<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#版本">#</a></h4>
+<p class="my-4 leading-7">2.8开始支持12.8</p>
+<h3 id="diffusers" class="mt-10 mb-2 leading-7 text-xl title_fb7eb">diffusers<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#diffusers">#</a></h3>
+<p class="my-4 leading-7"><a href="https://github.com/huggingface/diffusers" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">https://github.com/huggingface/diffusers</a></p>
+<h3 id="transformers" class="mt-10 mb-2 leading-7 text-xl title_fb7eb">transformers<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#transformers">#</a></h3>
+<p class="my-4 leading-7">目前各种Pretraining的Transformer模型层出不穷，虽然这些模型都有开源代码，但是它们的实现各不相同，我们在对比不同模型时也会很麻烦。<a href="https://huggingface.co/transformers/" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">Huggingface Transformer</a>能够帮我们跟踪流行的新模型，并且提供统一的代码风格来使用BERT、XLNet和GPT等等各种不同的模型。而且它有一个<a href="https://huggingface.co/models" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">模型仓库</a>，所有常见的预训练模型和不同任务上fine-tuning的模型都可以在这里方便的下载。截止目前，最新的版本是4.5.0</p>
+<p class="my-4 leading-7">Huggingface Transformer 4.5.0需要安装Tensorflow 2.0+ <strong class="font-semibold">或者</strong> PyTorch 1.1.0+</p>
+<p class="my-4 leading-7">Transformers的目的是为了：</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">帮助NLP研究者进行大规模的transformer模型</li>
+<li class="[&amp;:not(:first-child)]:mt-2">帮助工业界的使用者微调模型并且不是到生产环境</li>
+<li class="[&amp;:not(:first-child)]:mt-2">帮助工程师下载预训练模型并且解决实际问题</li>
+</ul>
+<p class="my-4 leading-7">使用预训练模型最简单的方法就是使用pipeline函数，它支持如下的任务：</p>
+<ul class="list-disc pl-5 my-4 leading-7">
+<li class="[&amp;:not(:first-child)]:mt-2">情感分析(Sentiment analysis)：一段文本是正面还是负面的情感倾向</li>
+<li class="[&amp;:not(:first-child)]:mt-2">文本生成(Text generation)：给定一段文本，让模型补充后面的内容</li>
+<li class="[&amp;:not(:first-child)]:mt-2">命名实体识别(Name entity recognition)：识别文字中出现的人名地名的命名实体</li>
+<li class="[&amp;:not(:first-child)]:mt-2">问答(Question answering)：给定一段文本以及针对它的一个问题，从文本中抽取答案</li>
+<li class="[&amp;:not(:first-child)]:mt-2">填词(Filling masked text)：把一段文字的某些部分mask住，然后让模型填空</li>
+<li class="[&amp;:not(:first-child)]:mt-2">摘要(Summarization)：根据一段长文本中生成简短的摘要</li>
+<li class="[&amp;:not(:first-child)]:mt-2">翻译(Translation)：把一种语言的文字翻译成另一种语言</li>
+<li class="[&amp;:not(:first-child)]:mt-2">特征提取(Feature extraction)：把一段文字用一个向量来表示</li>
+</ul>
+<p class="my-4 leading-7"><a href="https://fancyerii.github.io/2021/05/11/huggingface-transformers-1/" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">https://fancyerii.github.io/2021/05/11/huggingface-transformers-1/</a></p>
+<h3 id="hugging-face" class="mt-10 mb-2 leading-7 text-xl title_fb7eb">hugging face<a class="link_a7cea header-anchor link_a9ef4 inline-link_f855c" aria-hidden="true" href="#hugging-face">#</a></h3>
+<p class="my-4 leading-7"><a href="https://hf-mirror.com/docs/huggingface_hub/guides/download#download-from-the-cli" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c"><code>huggingface-cli</code> </a>是 Hugging Face 官方提供的命令行工具，自带完善的下载功能。使用方法如下</p>
+<div class="language-bash"><div class="rspress-code-content rspress-scrollbar"><div><pre class="code" style="background-color:inherit"><code class="language-bash" style="white-space:pre"><span style="display:block;padding:0 1.25rem"><span>pip </span><span class="token" style="color:var(--code-token-function)">install</span><span> -U huggingface_hub
+</span></span><span style="display:block;padding:0 1.25rem">
+</span><span style="display:block;padding:0 1.25rem"><span></span><span class="token class-name" style="color:var(--code-token-symbol)">export</span><span> </span><span class="token assign-left" style="color:var(--code-token-variable)">HF_ENDPOINT</span><span class="token operator">=</span><span>https://hf-mirror.com
+</span></span><span style="display:block;padding:0 1.25rem">
+</span><span style="display:block;padding:0 1.25rem">huggingface-cli download --resume-download gpt2 --local-dir gpt2
+</span><span style="display:block;padding:0 1.25rem">
+</span><span style="display:block;padding:0 1.25rem">huggingface-cli download --repo-type dataset --resume-download wikitext --local-dir wikitext</span></code></pre></div><div class="code-button-group_fb445"><button title="Toggle code wrap"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrapped_fb89b"><path fill="#22a041" d="M21 5H3v2h18zM3 19h7v-2H3zm0-6h15c1 0 2 .43 2 2s-1 2-2 2h-2v-2l-4 3 4 3v-2h2c2.95 0 4-1.27 4-4 0-2.72-1-4-4-4H3z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrap_ccd3d"><path fill="currentColor" d="M16 7H3V5h13zM3 19h13v-2H3zm19-7-4-3v2H3v2h15v2z"></path></svg></button><button class="code-copy-button_c5089" title="Copy code"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30" class="icon-copy_ef942"><path fill="currentColor" d="M28 10v18H10V10zm0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2"></path><path fill="currentColor" d="M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z"></path></svg><svg width="32" height="32" viewBox="0 0 30 30" class="icon-success_d5ec0"><path fill="#49cd37" d="m13 24-9-9 1.414-1.414L13 21.171 26.586 7.586 28 9z"></path></svg></button></div></div></div>
+<p class="my-4 leading-7">以添加 <code>--local-dir-use-symlinks False</code> 参数禁用文件软链接，这样下载路径下所见即所得</p>
+<p class="my-4 leading-7"><strong class="font-semibold"><a href="https://gist.github.com/padeoe/697678ab8e528b85a2a7bddafea1fa4f" target="_blank" rel="noopener noreferrer" class="link_a7cea  link_a9ef4 inline-link_f855c">hfd</a></strong> 是本站开发的 huggingface 专用下载工具，基于成熟工具 <code>aria2</code>，可以做到稳定高速下载不断线</p>
+<div class="language-shell"><div class="rspress-code-content rspress-scrollbar"><div><pre class="code" style="background-color:inherit"><code class="language-shell" style="white-space:pre"><span style="display:block;padding:0 1.25rem"><span class="token" style="color:var(--code-token-function)">wget</span><span> https://hf-mirror.com/hfd/hfd.sh
+</span></span><span style="display:block;padding:0 1.25rem"><span></span><span class="token" style="color:var(--code-token-function)">chmod</span><span> a+x hfd.sh
+</span></span><span style="display:block;padding:0 1.25rem">
+</span><span style="display:block;padding:0 1.25rem"><span></span><span class="token class-name" style="color:var(--code-token-symbol)">export</span><span> </span><span class="token assign-left" style="color:var(--code-token-variable)">HF_ENDPOINT</span><span class="token operator">=</span><span>https://hf-mirror.com
+</span></span><span style="display:block;padding:0 1.25rem">
+</span><span style="display:block;padding:0 1.25rem"><span></span><span class="token" style="color:var(--code-token-variable)">$env</span><span>:HF_ENDPOINT </span><span class="token operator">=</span><span> </span><span class="token" style="color:var(--code-token-string)">&quot;https://hf-mirror.com&quot;</span><span>
+</span></span><span style="display:block;padding:0 1.25rem">
+</span><span style="display:block;padding:0 1.25rem">./hfd.sh gpt2</span></code></pre></div><div class="code-button-group_fb445"><button title="Toggle code wrap"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrapped_fb89b"><path fill="#22a041" d="M21 5H3v2h18zM3 19h7v-2H3zm0-6h15c1 0 2 .43 2 2s-1 2-2 2h-2v-2l-4 3 4 3v-2h2c2.95 0 4-1.27 4-4 0-2.72-1-4-4-4H3z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrap_ccd3d"><path fill="currentColor" d="M16 7H3V5h13zM3 19h13v-2H3zm19-7-4-3v2H3v2h15v2z"></path></svg></button><button class="code-copy-button_c5089" title="Copy code"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30" class="icon-copy_ef942"><path fill="currentColor" d="M28 10v18H10V10zm0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2"></path><path fill="currentColor" d="M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z"></path></svg><svg width="32" height="32" viewBox="0 0 30 30" class="icon-success_d5ec0"><path fill="#49cd37" d="m13 24-9-9 1.414-1.414L13 21.171 26.586 7.586 28 9z"></path></svg></button></div></div></div>
+<div class="language-shell"><div class="rspress-code-content rspress-scrollbar"><div><pre class="code" style="background-color:inherit"><code class="language-shell" style="white-space:pre"><span style="display:block;padding:0 1.25rem"><span class="token assign-left" style="color:var(--code-token-variable)">HF_ENDPOINT</span><span class="token operator">=</span><span>https://hf-mirror.com python your_script.py</span></span></code></pre></div><div class="code-button-group_fb445"><button title="Toggle code wrap"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrapped_fb89b"><path fill="#22a041" d="M21 5H3v2h18zM3 19h7v-2H3zm0-6h15c1 0 2 .43 2 2s-1 2-2 2h-2v-2l-4 3 4 3v-2h2c2.95 0 4-1.27 4-4 0-2.72-1-4-4-4H3z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" class="icon-wrap_ccd3d"><path fill="currentColor" d="M16 7H3V5h13zM3 19h13v-2H3zm19-7-4-3v2H3v2h15v2z"></path></svg></button><button class="code-copy-button_c5089" title="Copy code"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 30 30" class="icon-copy_ef942"><path fill="currentColor" d="M28 10v18H10V10zm0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2"></path><path fill="currentColor" d="M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z"></path></svg><svg width="32" height="32" viewBox="0 0 30 30" class="icon-success_d5ec0"><path fill="#49cd37" d="m13 24-9-9 1.414-1.414L13 21.171 26.586 7.586 28 9z"></path></svg></button></div></div></div><!--/$--></div><div class="rspress-doc-footer"><footer class="mt-8"><div class="xs:flex pb-5 px-2 justify-end items-center"></div><div class="flex flex-col"></div><div class="flex flex-col sm:flex-row sm:justify-around gap-4 pt-6"><div class="prev_c92d1 flex flex-col"><a href="/科学研究/phd-Robot4.html" class="link_a7cea pager-link_e0d2d"><span class="desc_dcc01">Previous Page</span><span class="title_a3acb">phd-Robot4</span></a></div><div class="next_c11be flex flex-col"><a href="/科学研究/phd-Robot6.html" class="link_a7cea pager-link_e0d2d next_ad355"><span class="desc_dcc01">Next Page</span><span class="title_a3acb">phd-Robot6</span></a></div></div></footer></div></div><div class="aside-container_bc5fa"><div class="flex flex-col"><div id="aside-container" class="relative text-sm font-medium"><div class="leading-7 block text-sm font-semibold pl-3">ON THIS PAGE</div><nav class="mt-1"><ul class="relative"><li><a href="#具身智能" title="具身智能" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:0;font-weight:semibold"><span class="aside-link-text block">具身智能</span></a></li><li><a href="#tensorflow" title="tensorflow" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:12px;font-weight:semibold"><span class="aside-link-text block">tensorflow</span></a></li><li><a href="#初始化" title="初始化" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:24px;font-weight:semibold"><span class="aside-link-text block">初始化</span></a></li><li><a href="#layer" title="layer" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:24px;font-weight:semibold"><span class="aside-link-text block">layer</span></a></li><li><a href="#pytorch" title="pytorch" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:12px;font-weight:semibold"><span class="aside-link-text block">pytorch</span></a></li><li><a href="#fsdp" title="fsdp" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:24px;font-weight:semibold"><span class="aside-link-text block">fsdp</span></a></li><li><a href="#多gpu推理" title="多GPU推理" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:24px;font-weight:semibold"><span class="aside-link-text block">多GPU推理</span></a></li><li><a href="#ddp" title="DDP" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:24px;font-weight:semibold"><span class="aside-link-text block">DDP</span></a></li><li><a href="#版本" title="版本" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:24px;font-weight:semibold"><span class="aside-link-text block">版本</span></a></li><li><a href="#diffusers" title="diffusers" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:12px;font-weight:semibold"><span class="aside-link-text block">diffusers</span></a></li><li><a href="#transformers" title="transformers" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:12px;font-weight:semibold"><span class="aside-link-text block">transformers</span></a></li><li><a href="#hugging-face" title="hugging face" class="aside-link transition-all duration-300 hover:text-text-1 text-text-2 block" style="margin-left:12px;font-weight:semibold"><span class="aside-link-text block">hugging face</span></a></li></ul></nav></div></div></div></div></div></div></section></div>
+    <div id="search-container"></div>
+  </body>
+</html>
