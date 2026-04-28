@@ -387,7 +387,7 @@ rollout:
 
 model:
    model_path: "/path/to/model"
-   precision: ${actor.model.precision}
+   precision: \${actor.model.precision}
    num_q_heads: 10 # 集成的 Q 网络数量
 ```
 
